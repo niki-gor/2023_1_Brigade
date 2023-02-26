@@ -1,0 +1,7 @@
+mixin authRegBottom(buttonText)
+    .auth-reg-bottom
+        button.auth-reg-bottom__button= buttonText
+        if buttonText=='Login'
+            a.auth-reg-bottom__question(href='#') Don't have an account yet? Register
+        else
+            a.auth-reg-bottom__question(href='#') Do already have an account? Login

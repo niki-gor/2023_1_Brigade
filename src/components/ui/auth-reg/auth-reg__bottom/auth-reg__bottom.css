@@ -1,0 +1,31 @@
+.auth-reg-bottom {
+    display: flex;
+    flex-direction: column;
+    width: 332px;
+}
+
+.auth-reg-bottom__button {
+    width: 332px;
+    height: 42px;
+    background-color: #0182C8;
+    border: 0px;
+    border-radius: 6px;
+
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    color: #FFFFFF;
+    margin-bottom: 9px;
+}
+
+.auth-reg-bottom__question {
+    text-align: center;
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 16px;
+    color: #5B5B5B;
+}
