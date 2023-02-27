@@ -5,9 +5,9 @@ html(lang="en")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Technogram
-        include ./components/ui/auth-reg/auth-reg__bottom/auth-reg__bottom.pug
+        include ./components/ui/auth-reg/auth-reg__top/auth-reg__top.pug
         style
             include ./components/ui/font.css
-            include ./components/ui/auth-reg/auth-reg__bottom/auth-reg__bottom.css
+            include ./components/ui/auth-reg/auth-reg__top/auth-reg__top.css
     body 
-        +authRegBottom('Sign Up')
+        +authRegTop('Get started now!')

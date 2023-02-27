@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Technogram</title>
-    <style>
-      @import url('https://fonts.cdnfonts.com/css/sf-pro-display');
-      .auth-reg__top {
+.auth-reg__top {
     height: 207px;
     width: 250px;
     display: flex;
@@ -49,13 +40,3 @@
 
     color: #FFFFFF;
 }
-
-    </style>
-  </head>
-  <body> 
-        <div class="auth-reg__top"><img class="auth-reg__top_photo" src="./components/ui/auth-reg/auth-reg__top/sticker.png" alt="Welcome">
-          <snap class="auth-reg__top_welcome">Welcome, </snap>
-          <snap class="auth-reg__top_message">Get started now!</snap>
-        </div>
-  </body>
-</html>
