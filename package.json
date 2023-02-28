@@ -1,10 +1,8 @@
 {
-  "dependencies": {
-    "pug": "^3.0.2"
-  },
   "devDependencies": {
     "eslint": "^8.35.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.27.5"
+    "eslint-plugin-import": "^2.27.5",
+    "pug": "^3.0.2"
   }
 }
