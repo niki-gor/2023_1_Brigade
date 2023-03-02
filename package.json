@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/frontend-park-mail-ru/2023_1_Brigade/issues"
   },
-  "homepage": "https://github.com/frontend-park-mail-ru/2023_1_Brigade#readme"
+  "homepage": "https://github.com/frontend-park-mail-ru/2023_1_Brigade#readme",
+  "dependencies": {
+    "mkdirp": "^2.1.4"
+  }
 }

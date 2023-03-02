@@ -20,6 +20,8 @@
 .auth__password__eye {
     margin-top: 14px;
     margin-left: 10px;
+    width: 19px;
+    height: 11px;
 }
 
 .auth__password__password-recovery {
@@ -32,4 +34,8 @@
     font-size: 13px;
     line-height: 16px;
     color: #5B5B5B;
+}
+
+.auth__password__password-recovery:hover {
+    color: #a0a0a0;
 }
