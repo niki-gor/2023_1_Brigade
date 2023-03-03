@@ -1,6 +1,6 @@
 mixin authRegTop(welcomeMessage)
     .auth-reg__top
         img(src="./components/ui/auth-reg/auth-reg__top/sticker.png", alt="Welcome").auth-reg__top_photo 
-        snap.auth-reg__top_welcome Welcome, 
-        snap.auth-reg__top_message=welcomeMessage 
+        span.auth-reg__top_welcome Welcome, 
+        span.auth-reg__top_message !{welcomeMessage} 
     

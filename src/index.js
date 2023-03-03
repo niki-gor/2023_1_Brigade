@@ -1,7 +1,9 @@
-import * as auth from './templates/auth.js';
+import auth from './templates/auth.js';
+import reg from './templates/reg.js';
+import validate from './validate.js'
 
 const rootAppObject = document.querySelector('#root');
 
-rootAppObject.innerHTML = auth.template();
+rootAppObject.innerHTML = reg();
 
-console.log(auth.template());
+validate();

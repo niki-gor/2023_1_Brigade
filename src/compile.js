@@ -15,7 +15,7 @@ for (const path of PATHS) {
 
           const templateFunction = pug.compileFile(path + fileName, options);
 
-          fs.writeFile(PATH_OUT + name + '.js', 'export ' + templateFunction);
+          fs.writeFile(PATH_OUT + name + '.js', 'export default ' + templateFunction);
         }
       }
     });

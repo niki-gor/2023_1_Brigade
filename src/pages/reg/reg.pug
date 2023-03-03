@@ -2,11 +2,10 @@ include ../../components/ui/auth-reg/auth-reg__top/auth-reg__top.pug
 include ../../components/ui/auth-reg/auth-reg__bottom/auth-reg__bottom.pug
 include ../../components/ui/auth-reg/auth-reg__input/auth-reg__input.pug
 
-mixin reg()
-    .reg
-        +authRegTop('Get started now!')
-        +authRegInput('email')
-        +authRegInput('nick')
-        +authRegInput('password')
-        +authRegInput('confirm password')
-        +authRegBottom('Sign Up')
+.reg
+    +authRegTop('Get started now!')
+    +authRegInput('email')
+    +authRegInput('nick')
+    +authRegInput('password')
+    +authRegInput('confirm password')
+    +authRegBottom('Sign Up')
