@@ -3,7 +3,7 @@ include ../../components/ui/auth-reg/auth-reg__bottom/auth-reg__bottom.pug
 include ../../components/ui/auth-reg/auth-reg__input/auth-reg__input.pug
 
 .auth
-    +authRegTop('Glad to see you!')
+    +authRegTop('auth')
     +authRegInput('email')
     .auth__password 
         .auth__password__input-eye
@@ -11,4 +11,4 @@ include ../../components/ui/auth-reg/auth-reg__input/auth-reg__input.pug
             .auth__password__eye
                 include eye.svg
         a.auth__password__password-recovery(href='#') Forgot password?
-    +authRegBottom('Login')
+    +authRegBottom('auth')

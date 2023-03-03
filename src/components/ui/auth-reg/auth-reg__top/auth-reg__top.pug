@@ -1,6 +1,8 @@
-mixin authRegTop(welcomeMessage)
+mixin authRegTop(type)
     .auth-reg__top
         img(src="./components/ui/auth-reg/auth-reg__top/sticker.png", alt="Welcome").auth-reg__top_photo 
-        span.auth-reg__top_welcome Welcome, 
-        span.auth-reg__top_message !{welcomeMessage} 
-    
+        span.auth-reg__top_welcome Welcome,
+        if type === 'auth' 
+            span.auth-reg__top_message Glad to see you!
+        if type === 'reg'
+            span.auth-reg__top_message 'Get started now!'

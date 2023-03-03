@@ -1,9 +1,9 @@
-mixin authRegInput(inputType)
-    if inputType=='email'
+mixin authRegInput(type)
+    if type=='email'
         input(type='email', placeholder='Email address').auth-reg__input#email
-    else if inputType=='password'
+    else if type=='password'
         input(type='password', placeholder='Password').auth-reg__input#password
-    else if inputType=='nick'
+    else if type=='nick'
         input(type='text', placeholder='Your nick').auth-reg__input#nick
-    else if inputType=='confirm password'
+    else if type=='confirm password'
         input(type='password', placeholder='Confirm password').auth-reg__input#confirmPassword
