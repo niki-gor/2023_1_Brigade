@@ -1,8 +1,9 @@
 const pug = require('pug');
 const fs = require('node:fs/promises');
 
-const PATHS = ['./pages/Chat/'];
-const PATH_OUT = './templates/';
+
+const PATHS = ['./src/pages/Chat/'];
+const PATH_OUT = './src/templates/';
 
 for (const path of PATHS) {
   fs.readdir(path)
@@ -11,9 +12,7 @@ for (const path of PATHS) {
         if (fileName.split('.')[1] === 'pug') {
           const name = fileName.replace('.pug', '');
 
-          const options = { name: name };
-
-          const templateFunction = pug.compileFile(path + fileName, options);
+          const templateFunction = pug.compileFile(path + fileName);
 
           fs.writeFile(PATH_OUT + name + '.js', 'export default ' + templateFunction);
         }
