@@ -1,9 +1,17 @@
 mixin authRegInput(type)
-    if type=='email'
-        input(type='email', placeholder='Email address').auth-reg__input#email
-    else if type=='password'
-        input(type='password', placeholder='Password').auth-reg__input#password
-    else if type=='nick'
-        input(type='text', placeholder='Your nick').auth-reg__input#nick
-    else if type=='confirm password'
-        input(type='password', placeholder='Confirm password').auth-reg__input#confirmPassword
+    .input
+        if type=='email'
+            input(type='email', placeholder='Email address').auth-reg__input.email
+            span.empty-email.error.invisible email not filled
+            span.invalid-email.error.invisible email not correct
+        else if type=='password'
+            input(type='password', placeholder='Password').auth-reg__input.password
+            span.empty-password.error.invisible password not filled
+            span.invalid-password.error.invisible password not correct
+        else if type=='nick'
+            input(type='text', placeholder='Your nick').auth-reg__input.nick
+            span.empty-nick.error.invisible nick not filled
+        else if type=='confirm password'
+            input(type='password', placeholder='Confirm password').auth-reg__input.confirm-password
+            span.empty-confirm-password.error.invisible confirm password not filled
+            span.invalid-confirm-password.error.invisible confirm password not correct

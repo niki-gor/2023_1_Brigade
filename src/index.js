@@ -1,7 +1,7 @@
 import auth from './templates/auth.js';
 import reg from './templates/reg.js';
 
-const root = document.querySelector('#root');
+const root = document.querySelector('.root');
 
 const config = {
   auth: {
@@ -19,11 +19,11 @@ const config = {
 function renderAuth(parent) {
   parent.innerHTML = auth();
 
-  document.querySelector('#auth-but').addEventListener('click', (e) => {
+  document.querySelector('.auth-but').addEventListener('click', (e) => {
     e.preventDefault();
 
-    const inputEmail = document.querySelector('#email');
-    const inputPassword = document.querySelector('#password');
+    const inputEmail = document.querySelector('.email');
+    const inputPassword = document.querySelector('.password');
 
     const valEmail = Validator.validateEmail(inputEmail);
     const valPassword = Validator.validatePassword(inputPassword);
@@ -45,7 +45,7 @@ function renderAuth(parent) {
     console.log(valPassword.message);
   });
 
-  document.querySelector('#auth-ques').addEventListener('click', (e) => {
+  document.querySelector('.auth-ques').addEventListener('click', (e) => {
     e.preventDefault();
 
     goToPage(root, config.reg);
@@ -55,13 +55,13 @@ function renderAuth(parent) {
 function renderReg(parent) {
   parent.innerHTML = reg();
 
-  document.querySelector('#reg-but').addEventListener('click', (e) => {
+  document.querySelector('.reg-but').addEventListener('click', (e) => {
     e.preventDefault();
 
-    const inputEmail = document.querySelector('#email');
-    const inputPassword = document.querySelector('#password');
-    const inputNick = document.querySelector('#nick');
-    const inputConfirmPassword = document.querySelector('#confirmPassword');
+    const inputEmail = document.querySelector('.email');
+    const inputPassword = document.querySelector('.password');
+    const inputNick = document.querySelector('.nick');
+    const inputConfirmPassword = document.querySelector('.confirm-password');
 
     const valEmail = Validator.validateEmail(inputEmail);
     const valPassword = Validator.validatePassword(inputPassword);
@@ -88,7 +88,7 @@ function renderReg(parent) {
     console.log(valConfirmPassword.message);
   });
 
-  document.querySelector('#reg-ques').addEventListener('click', (e) => {
+  document.querySelector('.reg-ques').addEventListener('click', (e) => {
     e.preventDefault();
 
     goToPage(root, config.auth);
