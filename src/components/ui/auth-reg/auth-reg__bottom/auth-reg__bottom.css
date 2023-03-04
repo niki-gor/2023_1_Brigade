@@ -1,12 +1,16 @@
+:root {
+    --bot-width: 332px;
+}
+
 .auth-reg-bottom {
     display: flex;
     flex-direction: column;
-    width: 332px;
+    width: var(--bot-width);
     margin-top: 17px;
 }
 
 .auth-reg-bottom__button {
-    width: 332px;
+    width: var(--bot-width);
     height: 42px;
     background: linear-gradient(281.98deg, #667DB6 -35.95%, #0082C8 22.49%, #0082C8 80.94%, #667DB6 139.38%);
     border: 0px;
