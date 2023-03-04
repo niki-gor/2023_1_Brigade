@@ -28,7 +28,7 @@ function renderAuth(parent) {
     const valEmail = Validator.validateEmail(inputEmail);
     const valPassword = Validator.validatePassword(inputPassword);
 
-    if (valEmail.isCorrect && valPassword.isCorrect) {
+    if (valEmail && valPassword) {
       Ajax.post({
         url: '/auth',
         body: { email: inputEmail.value, password: inputPassword.value },
@@ -40,9 +40,6 @@ function renderAuth(parent) {
         },
       });
     }
-
-    console.log(valEmail.message);
-    console.log(valPassword.message);
   });
 
   document.querySelector('.auth-ques').addEventListener('click', (e) => {
@@ -68,8 +65,8 @@ function renderReg(parent) {
     const valNick = Validator.validateNick(inputNick);
     const valConfirmPassword = Validator.validateConfirmPassword(inputPassword, inputConfirmPassword);
 
-    if (valEmail.isCorrect && valPassword.isCorrect
-        && valNick.isCorrect && valConfirmPassword.isCorrect) {
+    if (valEmail && valPassword
+        && valNick && valConfirmPassword) {
       Ajax.post({
         url: '/reg',
         body: { email: inputEmail.value, password: inputPassword.value, nick: inputNick.value },
@@ -81,11 +78,6 @@ function renderReg(parent) {
         },
       });
     }
-
-    console.log(valEmail.message);
-    console.log(valNick.message);
-    console.log(valPassword.message);
-    console.log(valConfirmPassword.message);
   });
 
   document.querySelector('.reg-ques').addEventListener('click', (e) => {

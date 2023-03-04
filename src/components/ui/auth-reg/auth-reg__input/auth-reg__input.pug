@@ -7,7 +7,7 @@ mixin authRegInput(type)
         else if type=='password'
             input(type='password', placeholder='Password').auth-reg__input.password
             span.empty-password.error.invisible password not filled
-            span.invalid-password.error.invisible password not correct
+            span.invalid-password.error.invisible password too short
         else if type=='nick'
             input(type='text', placeholder='Your nick').auth-reg__input.nick
             span.empty-nick.error.invisible nick not filled
