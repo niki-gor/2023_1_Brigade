@@ -1,6 +1,6 @@
-include ../ui/Navitem/navitem.pug
+include ../List/list.pug
 
-- const navbarConfig = {navbarType: ["chatPage"], svgMessage: "message", svgCalls: "calls",  svgSettings: "settings"}
+- const navbarConfig = {navbarType: ["chatPage"]}
 
 mixin navLink(link, count)
     li.nav__item
@@ -15,7 +15,4 @@ mixin navLink(link, count)
 mixin navbar(type)
     - console.log(type)
     nav.nav.header__nav.flex
-        ul.nav__list.flex
-            +navitem("+48", navbarConfig.svgMessage)
-            +navitem("+2", navbarConfig.svgCalls)
-            +navitem("", navbarConfig.svgSettings)
+        +getList("nav__list")
