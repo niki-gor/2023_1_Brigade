@@ -28,6 +28,7 @@ ul {
 body {
     margin: 0px;
     padding: 0px;
+    background-color: #131318;
 }
 
 h2 {
@@ -46,6 +47,11 @@ hr {
 }
 
 h4 {
+    margin: 0px;
+    padding: 0px;
+}
+
+section {
     margin: 0px;
     padding: 0px;
 }
@@ -94,6 +100,6 @@ h4 {
 }
 
 .section-offset {
-    margin: 0 auto;
+    margin: 0px;
     padding: 0px;
 }
