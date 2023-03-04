@@ -1,5 +1,7 @@
+include ../../components/Header/header.pug
+
 header.header.flex
-    include ../../components/Header/header.pug
+    +getHeader("chatHeader")
 main
     div#main.flex
         section.section-offset.chat-list.flex

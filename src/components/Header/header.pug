@@ -1,13 +1,15 @@
-//- include ../Profile/profile.pug
-//- include ../Navbar/navbar.pug
-//- include ../ui/Button/button.pug
+include ../Profile/profile.pug
+include ../Navbar/navbar.pug
+include ../ui/Button/button.pug
 
-//- - var buttonType = 'change-theme';
+- const pages = {chatPage: 0}
+//- TODO: как разместить это на нескольких строках
+- const headerConfig = {headerType: ["chatHeader"], buttonListTypes: ["change-theme"], imagePaths: ["./assets/img/geva.png"]}
 
-//- mixin header()
-//-     //- +profile(username)
-div.header__img.flex
-    img(src="../assets/img/logo.png", alt="Our logo").header__logo
-    img(src="../assets/img/geva.png", alt="User avatar").header__user-photo
-    //- +navbar(chat)
-    //- +button(buttonType)
+mixin getHeader(headerType)
+    - console.log(headerType)
+    case headerType
+        when headerConfig.headerType[pages.chatPage]
+            +profile(headerConfig.imagePaths[pages.chatPage])
+            +navbar("navbar")
+            +buttonList(headerConfig.buttonListTypes[pages.chatPage])
