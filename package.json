@@ -11,7 +11,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile": "node ./compile.js"
+    "compile": "node compile.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/frontend-park-mail-ru/2023_1_Brigade#readme",
   "dependencies": {
+    "pug-cli": "^1.0.0-alpha6",
     "mkdirp": "^2.1.4"
   }
 }
