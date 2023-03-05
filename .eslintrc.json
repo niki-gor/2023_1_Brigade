@@ -10,7 +10,7 @@
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
-    "rules": {      
-        "arraysInObjects": false
+    "rules": {
+        "import/extensions": "never" // чтобы не ругалось на расширение .js в импортах
     }
 }

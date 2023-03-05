@@ -11,6 +11,7 @@ mixin authRegInput(type)
         else if type=='nick'
             input(type='text', placeholder='Your nick').auth-reg__input.nick
             span.empty-nick.error.invisible nick not filled
+            span.invalid-nick.error.invisible nick too short            
         else if type=='confirm password'
             input(type='password', placeholder='Confirm password').auth-reg__input.confirm-password
             span.empty-confirm-password.error.invisible confirm password not filled
