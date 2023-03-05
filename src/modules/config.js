@@ -21,7 +21,7 @@ export default {
     key: 'signup',
   },
   chat: {
-    href: '/chat',
+    href: '/users',
     render: renderChat,
     key: 'chat',
   },

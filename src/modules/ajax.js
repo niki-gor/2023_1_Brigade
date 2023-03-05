@@ -4,6 +4,8 @@ const AJAX_METHODS = {
   DELETE: 'DELETE',
 };
 
+const BACKEND_URL = 'http://95.163.249.116:8081/'
+
 function ajax({ method, url, body = null }) {
   return fetch(url, {
     method,
@@ -18,24 +20,27 @@ function ajax({ method, url, body = null }) {
 }
 
 function get({ url }) {
+  let origin = "".concat(BACKEND_URL, url)
   ajax({
     method: AJAX_METHODS.GET,
-    url,
+    origin,
   });
 }
 
 function post({ url, body }) {
+  let origin = "".concat(BACKEND_URL, url)
   ajax({
     method: AJAX_METHODS.POST,
-    url,
+    origin,
     body,
   });
 }
 
 function deleteSession({ url, body }) {
+  let origin = "".concat(BACKEND_URL, url)
   ajax({
     method: AJAX_METHODS.DELETE,
-    url,
+    origin,
     body,
   });
 }

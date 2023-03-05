@@ -7,7 +7,6 @@ export default (parent, config, prevPage, {name, descr}) => {
     document.querySelector('.header-error__descr').textContent = descr
 
     document.querySelector('.error-back-button').addEventListener('click', (e) => {
-        console.log("ggggg***ghggggb")
         e.preventDefault();
         switch(prevPage) {
             case 'login':
