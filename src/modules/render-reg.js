@@ -35,16 +35,14 @@ export default (parent, config) => {
               config.chat.render(parent, config, cookiesConfig[parsedBody.id]);
               break;
             case 400:
-              // todo: Invalid username
+              config.error.render(parent, config, config.reg.key, {name: "400", descr: "Invalid username"})
               break;
             case 409:
               inputEmail.classList.add('auth-reg__input_error');
               document.querySelector('.occupied-email').classList.remove('invisible');
               break;
             case 500:
-              // todo: Internal error
-              break;
-            default:
+              config.error.render(parent, config, config.reg.key, {name: "500", descr: "Internal error"})
           }
         });
     }

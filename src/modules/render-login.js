@@ -32,10 +32,10 @@ export default (parent, config) => {
               document.querySelector('.invalid-email').classList.remove('invisible');
               break;
             case 409:
-              // todo: The session is already registered
+              config.error.render(parent, config, config.login.key, {name: "409", descr: "The session is already registered"})
               break;
             case 500:
-              // todo: Internal error
+              config.error.render(parent, config, config.login.key, {name: "500", descr: "Internal error"})
               break;
             default:
           }
