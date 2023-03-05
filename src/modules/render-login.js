@@ -22,10 +22,10 @@ export default (parent, config) => {
         url: '/login',
         body: { email: inputEmail.value, password: inputPassword.value },
         callback: (status) => {
-            switch (status, responseBody) {
+            switch (status) {
               case 200:
                 // let id = JSON.parse(responseBody.id)
-                config.chat.render(parent, config, cookiesConfig.user1); // cookiesConfig.user1 = id
+                // config.chat.render(parent, config, cookiesConfig.user1); // cookiesConfig.user1 = id
                 // todo: config.chat.render(parent, config);
                 break;
               case 404:
@@ -37,10 +37,10 @@ export default (parent, config) => {
               case 500:
                 // todo: Internal error
             }
+            // пока что тут
+          config.chat.render(parent, config, cookiesConfig.user1); // cookiesConfig.user1 = id
         },
       });
-
-      
     }
   });
 
