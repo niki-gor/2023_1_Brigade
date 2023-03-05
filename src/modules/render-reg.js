@@ -27,7 +27,7 @@ export default (parent, config) => {
         && valNick && valConfirmPassword) {
       post({
         url: '/reg',
-        body: { email: inputEmail.value, password: inputPassword.value, nick: inputNick.value },
+        body: JSON.stringify({ email: inputEmail.value, password: inputPassword.value, nick: inputNick.value }),
       })
         .then(({ status, parsedBody }) => {
           switch (status) {

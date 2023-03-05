@@ -20,7 +20,7 @@ export default (parent, config) => {
     if (valEmail && valPassword) {
       post({
         url: '/login',
-        body: { email: inputEmail.value, password: inputPassword.value },
+        body: JSON.stringify({ email: inputEmail.value, password: inputPassword.value }),
       })
         .then(({ status, parsedBody }) => {
           switch (status) {
