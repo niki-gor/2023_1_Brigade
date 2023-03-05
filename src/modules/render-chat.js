@@ -1,14 +1,34 @@
 import chat from '../templates/chat.js';
-import { post } from './ajax.js';
+import { deleteSession, post } from './ajax.js';
 
-export default (parent, config) => {
+export default (parent, config, userId) => {
 	parent.innerHTML = '';
 	parent.innerHTML = chat();
-
+	if (userId) {
+		document.querySelector(".header__user-photo").src=userId
+	}
+		
 	document.querySelector(".logout").addEventListener('click', (e) => {
 		e.preventDefault();
 
-		// TODO: POST
+		deleteSession({
+			url: '/logout',
+			callback: (status) => {
+				switch (status) {
+				  case 204: // The user successfully logged out
+					// todo: config.auth.render(parent, config);
+					break;
+				  case 401:
+					// todo: Cookie not found
+					break;
+				  case 404:
+					// todo: User session not found
+					break;                  
+				  case 500:
+					// todo: Internal error
+				}
+			},
+		});
 
 		config.auth.render(parent, config);
 	});

@@ -2,6 +2,8 @@ import auth from '../templates/auth.js';
 import { validateEmail, validatePassword } from './validator.js';
 import { post } from './ajax.js';
 
+const cookiesConfig = {user1: "./assets/img/geva.png", user2: "./assets/img/iii.png"}
+
 export default (parent, config) => {
   parent.innerHTML = '';
   parent.innerHTML = auth();
@@ -16,7 +18,7 @@ export default (parent, config) => {
     const valPassword = validatePassword(inputPassword);
 
     if (valEmail && valPassword) {
-      post({
+      let id = post({
         url: '/login',
         body: { email: inputEmail.value, password: inputPassword.value },
         callback: (status) => {
@@ -33,9 +35,10 @@ export default (parent, config) => {
               case 500:
                 // todo: Internal error
             }
-            config.chat.render(parent, config);
         },
       });
+
+      config.chat.render(parent, config, cookiesConfig.user1); // cookiesConfig.user1 = id
     }
   });
 

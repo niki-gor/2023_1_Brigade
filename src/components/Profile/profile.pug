@@ -1,8 +1,8 @@
-- const storeUsers = ["./assets/img/geva.png", "./assets/img/danya.png"]
+- const storeUsers = {user1: "./assets/img/geva.png", user2: "./assets/img/danya.png"}
 
 mixin profile(pathToUserAvatar)
     - console.log(pathToUserAvatar)
     div.header__img.flex
         img(src="./assets/img/logo.png", alt="Our logo").header__logo
-        if pathToUserAvatar == storeUsers[0]
-            img(src="./assets/img/geva.png", alt="User avatar").header__user-photo
+        if pathToUserAvatar == storeUsers.user1
+            img(src="./assets/img/iii.png", alt="User avatar").header__user-photo
