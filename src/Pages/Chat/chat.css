@@ -329,7 +329,7 @@ main {
     justify-content: flex-start;
     padding: 21px 68px 21px 27px;
     background: rgba(25, 26, 31, 0.5);
-    /* margin-bottom: 915px; */
+    min-width: 100%;
 }
 
 .view-chat__header__companion {
