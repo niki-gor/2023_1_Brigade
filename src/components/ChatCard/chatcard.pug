@@ -1,6 +1,6 @@
 - const imagePathsConfig = {PIN: "../../../src/assets/img/pinChatsAva.png", GROUPS: "../../../src/assets/img/groupAva.png"}
 
-mixin chatCard(cardType, cardImage)
+mixin chatCard(cardType, cardImage, username, textMessage, missedMess, messTime)
     - console.log(cardType)
     case cardType
         when "chatCard"
@@ -10,8 +10,8 @@ mixin chatCard(cardType, cardImage)
                 if cardImage == imagePathsConfig.GROUPS
                     img(src="../../../src/assets/img/groupAva.png" alt="Ava").messages-type__item__logo
                 div.message-type__item__text.flex
-                    h4.message-type__item__username Akaza
-                    span.message-type__item__description Hi, i'm akaza
+                    h4.message-type__item__username !{username}
+                    span.message-type__item__description !{textMessage}
                 div.message-type__item__info-field.flex
-                    span.info-field__status 1
-                    span.info-field__time 12:00
+                    span.info-field__status !{missedMess}
+                    span.info-field__time !{messTime}
