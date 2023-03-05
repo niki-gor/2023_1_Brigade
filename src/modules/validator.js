@@ -2,6 +2,7 @@ function validateEmail(email) {
   email.classList.remove('auth-reg__input_error');
   document.querySelector('.empty-email').classList.add('invisible');
   document.querySelector('.invalid-email').classList.add('invisible');
+  document.querySelector('.occupied-email').classList.add('invisible');
 
   const regular = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 

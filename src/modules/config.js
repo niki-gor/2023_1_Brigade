@@ -19,15 +19,15 @@ export default {
     render: renderReg,
     key: 'signup',
   },
-	chat: {
-		href: '/chat',
-		render: renderChat,
-		key: 'chat',
-	},
+  chat: {
+    href: '/chat',
+    render: renderChat,
+    key: 'chat',
+  },
   // TODO errorPage
   // error: {
   //   href: '/error',
-	// 	render: renderErorr,
-	// 	key: 'error',
+  //   render: renderError,
+  //   key: 'error',
   // },
 };

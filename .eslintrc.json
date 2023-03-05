@@ -11,6 +11,6 @@
         "sourceType": "module"
     },
     "rules": {
-        "import/extensions": "never" // чтобы не ругалось на расширение .js в импортах
+        // "import/extensions": "never" // чтобы не ругалось на расширение .js в импортах
     }
 }

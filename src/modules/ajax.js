@@ -4,51 +4,39 @@ const AJAX_METHODS = {
   DELETE: 'DELETE',
 };
 
-function ajax({
-  method, url, body = null, callback = () => undefined,
-}) {
-  const xhr = new XMLHttpRequest();
-  xhr.open(method, url, true);
-  xhr.withCredentials = true;
-
-  xhr.addEventListener('readystatechange', () => {
-    if (xhr.readyState !== XMLHttpRequest.DONE) return;
-
-    callback(xhr.status, xhr.responseText);
-  });
-
-  if (body) {
-    xhr.setRequestHeader('Content-type', 'application/json; charset=utf8');
-    xhr.send(JSON.stringify(body));
-    return;
-  }
-
-  xhr.send();
+function ajax({ method, url, body = null }) {
+  return fetch(url, {
+    method,
+    headers: { Accept: 'application/json' },
+    body,
+  })
+    .then((response) => {
+      const { status } = response;
+      const parsedBody = response.json();
+      return { status, parsedBody };
+    });
 }
 
-function get({ url, callback }) {
+function get({ url }) {
   ajax({
     method: AJAX_METHODS.GET,
     url,
-    callback,
   });
 }
 
-function post({ url, body, callback }) {
+function post({ url, body }) {
   ajax({
     method: AJAX_METHODS.POST,
     url,
     body,
-    callback,
   });
 }
 
-function deleteSession({ url, body, callback }) {
+function deleteSession({ url, body }) {
   ajax({
     method: AJAX_METHODS.DELETE,
     url,
     body,
-    callback,
   });
 }
 

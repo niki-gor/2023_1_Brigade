@@ -2,7 +2,7 @@ import auth from '../templates/auth.js';
 import { validateEmail, validatePassword } from './validator.js';
 import { post } from './ajax.js';
 
-const cookiesConfig = {user1: "./assets/img/geva.png", user2: "./assets/img/iii.png"}
+const cookiesConfig = { 1: './assets/img/geva.png', 2: './assets/img/iii.png' };
 
 export default (parent, config) => {
   parent.innerHTML = '';
@@ -21,26 +21,27 @@ export default (parent, config) => {
       post({
         url: '/login',
         body: { email: inputEmail.value, password: inputPassword.value },
-        callback: (status) => {
-            switch (status) {
-              case 200:
-                // let id = JSON.parse(responseBody.id)
-                // config.chat.render(parent, config, cookiesConfig.user1); // cookiesConfig.user1 = id
-                // todo: config.chat.render(parent, config);
-                break;
-              case 404:
-                // todo: Incorrect email
-                break;
-              case 409:
-                // todo: The session is already registered
-                break;                  
-              case 500:
-                // todo: Internal error
-            }
-            // пока что тут
-          config.chat.render(parent, config, cookiesConfig.user1); // cookiesConfig.user1 = id
-        },
-      });
+      })
+        .then(({ status, parsedBody }) => {
+          switch (status) {
+            case 200:
+              // let id = JSON.parse(responseBody.id)
+              config.chat.render(parent, config, cookiesConfig[parsedBody.id]);
+              break;
+            case 404:
+              inputEmail.classList.add('auth-reg__input_error');
+              document.querySelector('.invalid-email').classList.remove('invisible');
+              break;
+            case 409:
+              inputEmail.classList.add('auth-reg__input_error');
+              document.querySelector('.occupied-email').classList.remove('invisible');
+              break;
+            case 500:
+              // todo: Internal error
+              break;
+            default:
+          }
+        });
     }
   });
 
