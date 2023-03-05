@@ -1,7 +1,7 @@
 import renderAuth from './render-auth.js';
 import renderReg from './render-reg.js';
 import renderLogin from './render-login.js';
-import renderChat from './config.js'
+import renderChat from './render-chat.js';
 
 export default {
   auth: {

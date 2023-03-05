@@ -33,6 +33,7 @@ export default (parent, config) => {
               case 500:
                 // todo: Internal error
             }
+            config.chat.render(parent, config);
         },
       });
     }
