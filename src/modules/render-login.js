@@ -18,12 +18,14 @@ export default (parent, config) => {
     const valPassword = validatePassword(inputPassword);
 
     if (valEmail && valPassword) {
-      let id = post({
+      post({
         url: '/login',
         body: { email: inputEmail.value, password: inputPassword.value },
         callback: (status) => {
-            switch (status) {
+            switch (status, responseBody) {
               case 200:
+                // let id = JSON.parse(responseBody.id)
+                config.chat.render(parent, config, cookiesConfig.user1); // cookiesConfig.user1 = id
                 // todo: config.chat.render(parent, config);
                 break;
               case 404:
@@ -38,7 +40,7 @@ export default (parent, config) => {
         },
       });
 
-      config.chat.render(parent, config, cookiesConfig.user1); // cookiesConfig.user1 = id
+      
     }
   });
 
