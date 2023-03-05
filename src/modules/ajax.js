@@ -4,13 +4,13 @@ const AJAX_METHODS = {
   DELETE: 'DELETE',
 };
 
-function ajax({
+async function ajax({
   method, url, body = null, callback = () => undefined,
 }) {
   const xhr = new XMLHttpRequest();
   xhr.open(method, url, true);
   xhr.withCredentials = true;
-
+  
   xhr.addEventListener('readystatechange', () => {
     if (xhr.readyState !== XMLHttpRequest.DONE) return;
 
