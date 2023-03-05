@@ -213,11 +213,11 @@ main {
 }
 
 /* svg икнонка */
-.pin-chats__header__icon {
+.chats__header__icon {
     
 }
 
-.pin-chats__header__title {
+.message-type__header__title {
     font-family: 'SF Pro Display';
     font-style: normal;
     font-weight: 700;
@@ -227,7 +227,7 @@ main {
 }
 
 /* svg икнонка */
-.pin-chats__header__arrow {
+.chats__header__arrow {
 
 }
 

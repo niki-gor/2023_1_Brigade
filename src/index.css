@@ -56,7 +56,7 @@ section {
     padding: 0px;
 }
 
-#root {
+#chat-page {
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
     background: #131318;
@@ -90,7 +90,8 @@ section {
 }
 
 .vertical-container {
-    min-height: 1080px;
+    /* min-height: 1080px; */
+    min-width: 1920px;
     margin: 0px;
     padding: 0px;
 }
