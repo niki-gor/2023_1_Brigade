@@ -4,6 +4,7 @@ mixin authRegInput(type)
             input(type='email', placeholder='Email address').auth-reg__input.email
             span.empty-email.error.invisible email not filled
             span.invalid-email.error.invisible email not correct
+            span.occupied-email.error.invisible already have an account with this email
         else if type=='password'
             input(type='password', placeholder='Password').auth-reg__input.password
             span.empty-password.error.invisible password not filled
