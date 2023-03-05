@@ -2,6 +2,8 @@ import auth from '../templates/auth.js';
 import { validateEmail, validatePassword } from './validator.js';
 import { post } from './ajax.js';
 
+const cookiesConfig = {user1: "./assets/img/geva.png", user2: "./assets/img/iii.png"}
+
 export default (parent, config) => {
   parent.innerHTML = '';
   parent.innerHTML = auth();
@@ -22,6 +24,8 @@ export default (parent, config) => {
         callback: (status) => {
             switch (status) {
               case 200:
+                // let id = JSON.parse(responseBody.id)
+                // config.chat.render(parent, config, cookiesConfig.user1); // cookiesConfig.user1 = id
                 // todo: config.chat.render(parent, config);
                 break;
               case 404:
@@ -33,7 +37,8 @@ export default (parent, config) => {
               case 500:
                 // todo: Internal error
             }
-            config.chat.render(parent, config);
+            // пока что тут
+          config.chat.render(parent, config, cookiesConfig.user1); // cookiesConfig.user1 = id
         },
       });
     }

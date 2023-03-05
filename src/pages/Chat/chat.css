@@ -58,6 +58,15 @@
     fill: #26A5E4;
 }
 
+.logout {
+    fill: #4A4E50;
+}
+
+
+.logout:hover {
+    fill: #26A5E4;
+}
+
 .nav__item__counter {
     background-color: #FC3F1D;
     border-radius: 11px;

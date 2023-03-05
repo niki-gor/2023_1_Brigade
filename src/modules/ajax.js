@@ -1,6 +1,7 @@
 const AJAX_METHODS = {
   GET: 'GET',
   POST: 'POST',
+  DELETE: 'DELETE',
 };
 
 function ajax({
@@ -42,6 +43,15 @@ function post({ url, body, callback }) {
   });
 }
 
+function deleteSession({ url, body, callback }) {
+  ajax({
+    method: AJAX_METHODS.DELETE,
+    url,
+    body,
+    callback,
+  });
+}
+
 export {
-  get, post,
+  get, post, deleteSession,
 };

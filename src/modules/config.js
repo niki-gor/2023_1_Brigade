@@ -24,4 +24,10 @@ export default {
 		render: renderChat,
 		key: 'chat',
 	},
+  // TODO errorPage
+  // error: {
+  //   href: '/error',
+	// 	render: renderErorr,
+	// 	key: 'error',
+  // },
 };
