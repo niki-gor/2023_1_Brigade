@@ -6,7 +6,7 @@ include ../ui/Button/button.pug
 - const headers = {viewHeader: 1, errorHeader: 2}
 - const headerConfig = {headerType: ["chatHeader", "viewHeader", "errorHeader"], buttonListTypes: ["change-theme"], imagePaths: ["./assets/img/geva.png"]}
 
-mixin getHeader(headerType, error)
+mixin getHeader(headerType)
     case headerType
         when headerConfig.headerType[pages.chatPage]
             +profile(headerConfig.imagePaths[pages.chatPage])

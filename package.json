@@ -11,7 +11,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prestart": "npm run compile",
+    "prestart": "mkdir ./src/templates && npm run compile",
     "compile": "node compile.js"
   },
   "repository": {
