@@ -1,6 +1,6 @@
 include ../ui/Navitem/navitem.pug
 
-- const listConfig = {navList: "nav__list", svgMessage: "message", svgCalls: "calls",  svgSettings: "settings"}
+- const listConfig = {navList: "nav__list", svgMessage: "message", svgCalls: "calls",  svgSettings: "settings", svgLogout: "logout"}
 
 mixin getList(typeList)
     case typeList
@@ -9,3 +9,4 @@ mixin getList(typeList)
                 +navitem("+48", listConfig.svgMessage)
                 +navitem("+2", listConfig.svgCalls)
                 +navitem("", listConfig.svgSettings)
+                +navitem("", listConfig.svgLogout)
