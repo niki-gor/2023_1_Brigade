@@ -15,8 +15,8 @@ export default (parent, config, userId) => {
       url: '/logout',
       callback: (status) => {
         switch (status) {
-          case 204: // The user successfully logged out
-            // todo: config.auth.render(parent, config);
+          case 204:
+            config.auth.render(parent, config);
             break;
           case 401:
             // todo: Cookie not found

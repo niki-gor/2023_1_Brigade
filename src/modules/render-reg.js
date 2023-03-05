@@ -4,6 +4,8 @@ import {
 } from './validator.js';
 import { post } from './ajax.js';
 
+const cookiesConfig = ['./assets/img/geva.png', './assets/img/iii.png'];
+
 export default (parent, config) => {
   parent.innerHTML = '';
   parent.innerHTML = reg();
@@ -26,22 +28,25 @@ export default (parent, config) => {
       post({
         url: '/reg',
         body: { email: inputEmail.value, password: inputPassword.value, nick: inputNick.value },
-        callback: (status) => {
+      })
+        .then(({ status, parsedBody }) => {
           switch (status) {
             case 201:
-              // todo: config.chat.render(parent, config);
+              config.chat.render(parent, config, cookiesConfig[parsedBody.id]);
               break;
             case 400:
               // todo: Invalid username
               break;
             case 409:
-              // todo: The email is already registered
-              break;                  
+              inputEmail.classList.add('auth-reg__input_error');
+              document.querySelector('.occupied-email').classList.remove('invisible');
+              break;
             case 500:
               // todo: Internal error
+              break;
+            default:
           }
-        },
-      });
+        });
     }
   });
 

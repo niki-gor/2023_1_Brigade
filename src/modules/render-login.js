@@ -2,7 +2,7 @@ import auth from '../templates/auth.js';
 import { validateEmail, validatePassword } from './validator.js';
 import { post } from './ajax.js';
 
-const cookiesConfig = { 1: './assets/img/geva.png', 2: './assets/img/iii.png' };
+const cookiesConfig = ['./assets/img/geva.png', './assets/img/iii.png'];
 
 export default (parent, config) => {
   parent.innerHTML = '';
@@ -25,7 +25,6 @@ export default (parent, config) => {
         .then(({ status, parsedBody }) => {
           switch (status) {
             case 200:
-              // let id = JSON.parse(responseBody.id)
               config.chat.render(parent, config, cookiesConfig[parsedBody.id]);
               break;
             case 404:
@@ -33,8 +32,7 @@ export default (parent, config) => {
               document.querySelector('.invalid-email').classList.remove('invisible');
               break;
             case 409:
-              inputEmail.classList.add('auth-reg__input_error');
-              document.querySelector('.occupied-email').classList.remove('invisible');
+              // todo: The session is already registered
               break;
             case 500:
               // todo: Internal error
