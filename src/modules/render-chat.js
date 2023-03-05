@@ -13,25 +13,20 @@ export default (parent, config, userId) => {
 
     deleteSession({
       url: '/logout',
-      callback: (status) => {
+    }).then(({status}) => {
         switch (status) {
           case 204:
             config.auth.render(parent, config);
             break;
           case 401:
-            // todo: Cookie not found
+            config.error.render(parent, config, config.chat.key, {name: "401", descr: "Cookie not found"})
             break;
           case 404:
-            // todo: User session not found
-            break;
+            config.error.render(parent, config, config.chat.key, {name: "404", descr: "User session not found"})
+            break;                  
           case 500:
-            // todo: Internal error
-            break;
-          default:
+            config.error.render(parent, config, config.chat.key, {name: "500", descr: "Internal error"})
         }
-      },
-    });
-
-    config.auth.render(parent, config);
+    })
   });
 };

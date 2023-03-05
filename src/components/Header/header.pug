@@ -3,10 +3,10 @@ include ../Navbar/navbar.pug
 include ../ui/Button/button.pug
 
 - const pages = {chatPage: 0}
-- const headers = {viewHeader: 1}
-- const headerConfig = {headerType: ["chatHeader", "viewHeader"], buttonListTypes: ["change-theme"], imagePaths: ["./assets/img/geva.png"]}
+- const headers = {viewHeader: 1, errorHeader: 2}
+- const headerConfig = {headerType: ["chatHeader", "viewHeader", "errorHeader"], buttonListTypes: ["change-theme"], imagePaths: ["./assets/img/geva.png"]}
 
-mixin getHeader(headerType)
+mixin getHeader(headerType, error)
     case headerType
         when headerConfig.headerType[pages.chatPage]
             +profile(headerConfig.imagePaths[pages.chatPage])
@@ -39,3 +39,8 @@ mixin getHeader(headerType)
                                 <circle cx="2.5" cy="2.5" r="2.5" fill="#48494E"/>
                                 <circle cx="2.5" cy="11.5" r="2.5" fill="#48494E"/>
                                 <circle cx="2.5" cy="20.5" r="2.5" fill="#48494E"/>
+                                </svg>
+        when headerConfig.headerType[headers.errorHeader]
+            h1.header-error
+            p.header-error__descr
+                    

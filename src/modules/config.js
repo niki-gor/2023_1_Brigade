@@ -2,6 +2,7 @@ import renderAuth from './render-auth.js';
 import renderReg from './render-reg.js';
 import renderLogin from './render-login.js';
 import renderChat from './render-chat.js';
+import renderError from './render-error.js';
 
 export default {
   auth: {
@@ -24,10 +25,9 @@ export default {
     render: renderChat,
     key: 'chat',
   },
-  // TODO errorPage
-  // error: {
-  //   href: '/error',
-  //   render: renderError,
-  //   key: 'error',
-  // },
+  error: {
+    href: '/error',
+    render: renderError,
+    key: 'error',
+  },
 };
