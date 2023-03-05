@@ -40,7 +40,7 @@ export default (parent, config) => {
             default:
           }
         });
-    }
+      }
   });
 
   document.querySelector('.auth-ques').addEventListener('click', (e) => {

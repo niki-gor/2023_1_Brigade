@@ -4,12 +4,15 @@ const AJAX_METHODS = {
   DELETE: 'DELETE',
 };
 
-const BACKEND_URL = 'http://95.163.249.116:8081/'
+const BACKEND_URL = 'http://95.163.249.116:8081/login'
+const BACKEND_URL__LOGIN = 'http://95.163.249.116:8081/login'
+const BACKEND_URL__REG = 'http://95.163.249.116:8081/reg'
+const BACKEND_URL__USERS = 'http://95.163.249.116:8081/users'
 
-function ajax({ method, url, body = null }) {
+function ajax(url, { method, body = null }) {
   return fetch(url, {
     method,
-    headers: { Accept: 'application/json' },
+    headers: { Accept: 'application/json', Host: 'http://95.163.249.116:8081/login', method: 'post', mode: 'cors'},
     body,
   })
     .then((response) => {
@@ -20,27 +23,21 @@ function ajax({ method, url, body = null }) {
 }
 
 function get({ url }) {
-  let origin = "".concat(BACKEND_URL, url)
-  ajax({
+  return ajax(BACKEND_URL, {
     method: AJAX_METHODS.GET,
-    origin,
   });
 }
 
 function post({ url, body }) {
-  let origin = "".concat(BACKEND_URL, url)
-  ajax({
+  return ajax(BACKEND_URL__LOGIN, {
     method: AJAX_METHODS.POST,
-    origin,
     body,
   });
 }
 
 function deleteSession({ url, body }) {
-  let origin = "".concat(BACKEND_URL, url)
-  ajax({
+  ajax(BACKEND_URL__USERS, {
     method: AJAX_METHODS.DELETE,
-    origin,
     body,
   });
 }
