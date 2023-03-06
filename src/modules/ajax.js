@@ -5,11 +5,15 @@ const AJAX_METHODS = {
 };
 
 const BACKEND_URL = 'http://95.163.249.116:8081'
+const BACKEND_URL_LOCAL = '127.0.0.1:8081'
 
+/**
+ * method implementing request work
+ */
 function ajax(url, { method, body = null }) {
   return fetch(url, {
     method,
-    headers: { "Accept": "application/json", "Host": "http://95.163.249.116:8081", "Origin": "", 'Content-Type': 'application/json', "Cookie": ""},
+    headers: { "Accept": "application/json", "Host": BACKEND_URL, "Origin": "", 'Content-Type': 'application/json', "Cookie": ""},
     credentials: "include",
     mode: "cors",
     body,
