@@ -6,27 +6,27 @@ import renderError from './render-error.js';
 
 export default {
   auth: {
-    href: '/auth',
+    href: '/auth/',
     render: renderAuth,
     key: 'auth',
   },
   login: {
-    href: '/login',
+    href: '/login/',
     render: renderLogin,
     key: 'login',
   },
   reg: {
-    href: '/reg',
+    href: '/signup/',
     render: renderReg,
     key: 'signup',
   },
   chat: {
-    href: '/users',
+    href: '/users/',
     render: renderChat,
     key: 'chat',
   },
   error: {
-    href: '/error',
+    href: '/error/',
     render: renderError,
     key: 'error',
   },

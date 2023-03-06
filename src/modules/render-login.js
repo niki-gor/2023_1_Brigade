@@ -1,12 +1,13 @@
 import auth from '../templates/auth.js';
 import { validateEmail, validatePassword } from './validator.js';
+import checkAuth from './render-auth.js';
 import { post } from './ajax.js';
-
-const cookiesConfig = ['./assets/img/geva.png', './assets/img/iii.png'];
 
 export default (parent, config) => {
   parent.innerHTML = '';
-  parent.innerHTML = auth();
+  parent.innerHTML = auth(); // TODO: лучше переименовать в login
+
+  checkAuth(parent, config); // проверили куки
 
   document.querySelector('.auth-but').addEventListener('click', (e) => {
     e.preventDefault();
@@ -19,13 +20,15 @@ export default (parent, config) => {
 
     if (valEmail && valPassword) {
       post({
-        url: '/login',
+        url: '/login/',
         body: JSON.stringify({ email: inputEmail.value, password: inputPassword.value }),
       })
         .then(({ status, parsedBody }) => {
           switch (status) {
             case 200:
-              config.chat.render(parent, config, cookiesConfig[parsedBody.id]);
+              parsedBody.then((res) => {
+                config.chat.render(parent, config, res.id);
+              })
               break;
             case 404:
               inputEmail.classList.add('auth-reg__input_error');

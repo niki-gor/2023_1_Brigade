@@ -7,7 +7,9 @@ export default (parent, config) => {
     .then(({ status, parsedBody }) => {
       switch (status) {
         case 200:
-          config.chat.render(parent, config, parsedBody.id);
+          parsedBody.then((res) => {
+            config.chat.render(parent, config, res.id);
+          })
           break;
         case 404:
           config.login.render(parent, config);

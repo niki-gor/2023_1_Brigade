@@ -1,11 +1,13 @@
 import chat from '../templates/chat.js';
 import { deleteSession } from './ajax.js';
 
+const imagesConfig = ['./assets/img/iii.png', './assets/img/geva.png'];
+
 export default (parent, config, userId) => {
   parent.innerHTML = '';
   parent.innerHTML = chat();
   if (userId) {
-    document.querySelector('.header__user-photo').src = userId;
+    document.querySelector('.header__user-photo').src = './assets/img/geva.png';
   }
 
   document.querySelector('.logout').addEventListener('click', (e) => {

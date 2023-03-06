@@ -26,7 +26,7 @@ export default (parent, config) => {
     if (valEmail && valPassword
         && valNick && valConfirmPassword) {
       post({
-        url: '/reg',
+        url: '/signup',
         body: JSON.stringify({ email: inputEmail.value, password: inputPassword.value, nick: inputNick.value }),
       })
         .then(({ status, parsedBody }) => {
