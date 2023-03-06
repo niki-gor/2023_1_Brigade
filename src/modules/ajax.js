@@ -9,14 +9,17 @@ const BACKEND_URL = 'http://95.163.249.116:8081'
 function ajax(url, { method, body = null }) {
   return fetch(url, {
     method,
-    headers: { "Accept": "application/json", "Host": "http://95.163.249.116:8081", "Origin": "", 'Content-Type': 'application/json'},
+    headers: { "Accept": "application/json", "Host": "http://95.163.249.116:8081", "Origin": "", 'Content-Type': 'application/json', "Cookie": ""},
     credentials: "include",
     mode: "cors",
     body,
   })
     .then((response) => {
       const { status } = response;
-      const parsedBody = response.json();
+      let parsedBody;
+      if (status != 204) {
+        parsedBody = response.json();
+      }
       return { status, parsedBody };
     });
 }
@@ -28,16 +31,16 @@ function get({ url }) {
 }
 
 function post({ url, body }) {
+  console.log("post method: ", url)
   return ajax(BACKEND_URL + url, {
     method: AJAX_METHODS.POST,
     body,
   });
 }
 
-function deleteSession({ url, body }) {
+function deleteSession({ url}) {
   return ajax(BACKEND_URL + url, {
-    method: AJAX_METHODS.DELETE,
-    body,
+    method: AJAX_METHODS.DELETE
   });
 }
 

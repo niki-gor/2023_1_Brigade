@@ -26,13 +26,15 @@ export default (parent, config) => {
     if (valEmail && valPassword
         && valNick && valConfirmPassword) {
       post({
-        url: '/signup',
+        url: '/signup/',
         body: JSON.stringify({ email: inputEmail.value, password: inputPassword.value, nick: inputNick.value }),
       })
         .then(({ status, parsedBody }) => {
           switch (status) {
             case 201:
-              config.chat.render(parent, config, cookiesConfig[parsedBody.id]);
+              parsedBody.then((res) => {
+                config.chat.render(parent, config, res.id);
+              })
               break;
             case 400:
               config.error.render(parent, config, config.reg.key, {name: "400", descr: "Invalid username"})

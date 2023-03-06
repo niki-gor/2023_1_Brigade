@@ -14,11 +14,11 @@ export default (parent, config, userId) => {
     e.preventDefault();
 
     deleteSession({
-      url: '/logout',
+      url: '/logout/',
     }).then(({status}) => {
         switch (status) {
           case 204:
-            config.auth.render(parent, config);
+            config.login.render(parent, config);
             break;
           case 401:
             config.error.render(parent, config, config.chat.key, {name: "401", descr: "Cookie not found"})

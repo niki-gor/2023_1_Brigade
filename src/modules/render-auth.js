@@ -2,7 +2,7 @@ import { get } from './ajax.js';
 
 export default (parent, config) => {
   get({
-    url: '/auth',
+    url: '/auth/',
   })
     .then(({ status, parsedBody }) => {
       switch (status) {
