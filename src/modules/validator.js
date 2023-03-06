@@ -1,3 +1,7 @@
+/**
+ * implementation email validation
+ * @param {string} email - the email
+ */
 function validateEmail(email) {
   email.classList.remove('auth-reg__input_error');
   document.querySelector('.empty-email').classList.add('invisible');
@@ -24,6 +28,11 @@ function validateEmail(email) {
   return isCorrect;
 }
 
+/**
+ * implementation email validation
+ * @param {string} password - the password
+ * @param {string} confirmPassword - the confirm password
+ */
 function validateConfirmPassword(password, confirmPassword) {
   confirmPassword.classList.remove('auth-reg__input_error');
   document.querySelector('.empty-confirm-password').classList.add('invisible');
@@ -47,6 +56,10 @@ function validateConfirmPassword(password, confirmPassword) {
   return isCorrect;
 }
 
+/**
+ * implementation email validation
+ * @param {string} password - the password
+ */
 function validatePassword(password) {
   password.classList.remove('auth-reg__input_error');
   document.querySelector('.empty-password').classList.add('invisible');
@@ -70,6 +83,10 @@ function validatePassword(password) {
   return isCorrect;
 }
 
+/**
+ * implementation email validation
+ * @param {string} nick - the nickname
+ */
 function validateNick(nick) {
   nick.classList.remove('auth-reg__input_error');
   document.querySelector('.empty-nick').classList.add('invisible');

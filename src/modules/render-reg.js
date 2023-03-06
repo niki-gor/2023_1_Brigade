@@ -6,6 +6,11 @@ import { post } from './ajax.js';
 
 const cookiesConfig = ['./assets/img/geva.png', './assets/img/iii.png'];
 
+/**
+ * implementation rendering of registration page
+ * @param {htmlElement} parent - parent element
+ * @param {json} config - Configuration
+ */
 export default (parent, config) => {
   parent.innerHTML = '';
   parent.innerHTML = reg();
@@ -27,24 +32,30 @@ export default (parent, config) => {
         && valNick && valConfirmPassword) {
       post({
         url: '/signup/',
-        body: JSON.stringify({ email: inputEmail.value, password: inputPassword.value, nick: inputNick.value }),
+        body: JSON.stringify({
+          email: inputEmail.value,
+          password: inputPassword.value,
+          nick: inputNick.value,
+        }),
       })
         .then(({ status, parsedBody }) => {
           switch (status) {
             case 201:
               parsedBody.then((res) => {
                 config.chat.render(parent, config, res.id);
-              })
+              });
               break;
             case 400:
-              config.error.render(parent, config, config.reg.key, {name: "400", descr: "Invalid username"})
+              config.error.render(parent, config, config.reg.key, { name: '400', descr: 'Invalid username' });
               break;
             case 409:
               inputEmail.classList.add('auth-reg__input_error');
               document.querySelector('.occupied-email').classList.remove('invisible');
               break;
             case 500:
-              config.error.render(parent, config, config.reg.key, {name: "500", descr: "Internal error"})
+              config.error.render(parent, config, config.reg.key, { name: '500', descr: 'Internal error' });
+              break;
+            default:
           }
         });
     }

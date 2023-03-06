@@ -3,6 +3,11 @@ import { validateEmail, validatePassword } from './validator.js';
 import checkAuth from './render-auth.js';
 import { post } from './ajax.js';
 
+/**
+ * implementation rendering of login page
+ * @param {htmlElement} parent - parent element
+ * @param {json} config - configuration
+ */
 export default (parent, config) => {
   parent.innerHTML = '';
   parent.innerHTML = auth(); // TODO: лучше переименовать в login
@@ -28,22 +33,22 @@ export default (parent, config) => {
             case 200:
               parsedBody.then((res) => {
                 config.chat.render(parent, config, res.id);
-              })
+              });
               break;
             case 404:
               inputEmail.classList.add('auth-reg__input_error');
               document.querySelector('.invalid-email').classList.remove('invisible');
               break;
             case 409:
-              config.error.render(parent, config, config.login.key, {name: "409", descr: "The session is already registered"})
+              config.error.render(parent, config, config.login.key, { name: '409', descr: 'The session is already registered' });
               break;
             case 500:
-              config.error.render(parent, config, config.login.key, {name: "500", descr: "Internal error"})
+              config.error.render(parent, config, config.login.key, { name: '500', descr: 'Internal error' });
               break;
             default:
           }
         });
-      }
+    }
   });
 
   document.querySelector('.auth-ques').addEventListener('click', (e) => {
