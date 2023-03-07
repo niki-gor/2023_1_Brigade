@@ -1,5 +1,5 @@
-import loadError from '../templates/error.js';
-import getParentElement from './getParentElement.js';
+import loadError from '../../templates/error.js';
+import getParentElement from '../getParentElement.js';
 /**
  * implementation rendering of error page
  * @param {htmlElement} parent - parent element

@@ -1,13 +1,5 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-templates/
-
 # ignore template function
 templates/
-
-# Compiled output
-/dist
-/tmp
-/out-tsc
 
 # Node
 node_modules/

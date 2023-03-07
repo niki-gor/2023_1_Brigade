@@ -1,4 +1,4 @@
-import config from './modules/config.js';
+import config from './modules/renders/config.js';
 
 const root = document.querySelector('.root');
 

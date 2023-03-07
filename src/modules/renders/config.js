@@ -30,4 +30,9 @@ export default {
         render: renderError,
         key: 'error',
     },
+    logout: {
+        href: '/logout/',
+        render: renderChat,
+        key: 'logout',
+    },
 };
