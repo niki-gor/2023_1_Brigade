@@ -13,7 +13,8 @@ export default (parent, config) => {
 
   document.querySelector('.auth-but').addEventListener('click', (e) => {
     e.preventDefault();
-
+    
+    checkAuth(parent, config); 
     const inputEmail = document.querySelector('.email');
     const inputPassword = document.querySelector('.password');
 
@@ -30,7 +31,7 @@ export default (parent, config) => {
             case 200:
               parsedBody.then((res) => {
                 config.chat.render(parent, config, res.id);
-              });
+              })
               break;
             case 404:
               inputEmail.classList.add('auth-reg__input_error');
