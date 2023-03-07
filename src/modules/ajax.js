@@ -4,7 +4,7 @@ const AJAX_METHODS = {
   DELETE: 'DELETE',
 };
 
-const BACKEND_URL = 'http://95.163.249.116:80';
+const BACKEND_URL = 'http://95.163.249.116:8081';
 // const BACKEND_URL_LOCAL = '127.0.0.1:8081'
 
 /**
