@@ -1,0 +1,43 @@
+/* errors */
+.error {
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 30px;
+}
+
+.error-back {
+    fill:white;
+}
+
+.error-back:hover {
+    fill:#3E3F43;
+}
+
+.error-back-button {
+    align-self: flex-start;
+    margin-top: 30px;
+    margin-left: 20px;
+    fill:#3E3F43;
+}
+
+.header-error {
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 100px;
+    line-height: 119px;
+    color: #3E3F43;
+    /* margin-bottom: 20px;
+    margin-left: 40px;
+    margin-top: 40px; */
+}
+
+.header-error__descr {
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 80px;
+    line-height: 95px;
+    color: #FFFFFF;
+}
