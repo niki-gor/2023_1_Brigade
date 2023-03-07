@@ -1,6 +1,6 @@
-include ../Profile/profile.pug
-include ../Navbar/navbar.pug
-include ../ui/Button/button.pug
+include ../profile/profile.pug
+include ../navbar/navbar.pug
+include ../ui/button/button.pug
 
 - const pages = {chatPage: 0}
 - const headers = {viewHeader: 1, errorHeader: 2}
@@ -42,5 +42,5 @@ mixin getHeader(headerType)
                                 </svg>
         when headerConfig.headerType[headers.errorHeader]
             h1.header-error
-            p.header-error__descr
+            p.header-error__description
                     

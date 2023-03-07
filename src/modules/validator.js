@@ -3,18 +3,20 @@
  * @param {string} email - the email
  */
 function validateEmail(email) {
-    email.classList.remove('auth-reg__input_error');
+    email.classList.remove('login-reg__input_error');
     document.querySelector('.empty-email').classList.add('invisible');
     document.querySelector('.invalid-email').classList.add('invisible');
     document.querySelector('.occupied-email').classList.add('invisible');
 
+    // TODO: validate function for email
+    // eslint-disable-next-line no-useless-escape
     const regular = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     let isCorrect = (email.value !== '');
 
     if (!isCorrect) {
         document.querySelector('.empty-email').classList.remove('invisible');
-        email.classList.add('auth-reg__input_error');
+        email.classList.add('login-reg__input_error');
         return isCorrect;
     }
 
@@ -22,7 +24,7 @@ function validateEmail(email) {
 
     if (!isCorrect) {
         document.querySelector('.invalid-email').classList.remove('invisible');
-        email.classList.add('auth-reg__input_error');
+        email.classList.add('login-reg__input_error');
     }
 
     return isCorrect;
@@ -34,7 +36,7 @@ function validateEmail(email) {
  * @param {string} confirmPassword - the confirm password
  */
 function validateConfirmPassword(password, confirmPassword) {
-    confirmPassword.classList.remove('auth-reg__input_error');
+    confirmPassword.classList.remove('login-reg__input_error');
     document.querySelector('.empty-confirm-password').classList.add('invisible');
     document.querySelector('.invalid-confirm-password').classList.add('invisible');
 
@@ -42,7 +44,7 @@ function validateConfirmPassword(password, confirmPassword) {
 
     if (!isCorrect) {
         document.querySelector('.empty-confirm-password').classList.remove('invisible');
-        confirmPassword.classList.add('auth-reg__input_error');
+        confirmPassword.classList.add('login-reg__input_error');
         return isCorrect;
     }
 
@@ -50,7 +52,7 @@ function validateConfirmPassword(password, confirmPassword) {
 
     if (!isCorrect) {
         document.querySelector('.invalid-confirm-password').classList.remove('invisible');
-        confirmPassword.classList.add('auth-reg__input_error');
+        confirmPassword.classList.add('login-reg__input_error');
     }
 
     return isCorrect;
@@ -61,7 +63,7 @@ function validateConfirmPassword(password, confirmPassword) {
  * @param {string} password - the password
  */
 function validatePassword(password) {
-    password.classList.remove('auth-reg__input_error');
+    password.classList.remove('login-reg__input_error');
     document.querySelector('.empty-password').classList.add('invisible');
     document.querySelector('.invalid-password').classList.add('invisible');
 
@@ -69,7 +71,7 @@ function validatePassword(password) {
 
     if (!isCorrect) {
         document.querySelector('.empty-password').classList.remove('invisible');
-        password.classList.add('auth-reg__input_error');
+        password.classList.add('login-reg__input_error');
         return isCorrect;
     }
 
@@ -77,7 +79,7 @@ function validatePassword(password) {
 
     if (!isCorrect) {
         document.querySelector('.invalid-password').classList.remove('invisible');
-        password.classList.add('auth-reg__input_error');
+        password.classList.add('login-reg__input_error');
     }
 
     return isCorrect;
@@ -88,14 +90,14 @@ function validatePassword(password) {
  * @param {string} nick - the nickname
  */
 function validateNick(nick) {
-    nick.classList.remove('auth-reg__input_error');
+    nick.classList.remove('login-reg__input_error');
     document.querySelector('.empty-nick').classList.add('invisible');
 
     let isCorrect = (nick.value !== '');
 
     if (!isCorrect) {
         document.querySelector('.empty-nick').classList.remove('invisible');
-        nick.classList.add('auth-reg__input_error');
+        nick.classList.add('login-reg__input_error');
         return isCorrect;
     }
 
@@ -103,7 +105,7 @@ function validateNick(nick) {
 
     if (!isCorrect) {
         document.querySelector('.invalid-nick').classList.remove('invisible');
-        nick.classList.add('auth-reg__input_error');
+        nick.classList.add('login-reg__input_error');
     }
 
     return isCorrect;

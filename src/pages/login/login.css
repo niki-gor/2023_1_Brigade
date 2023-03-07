@@ -1,30 +1,30 @@
-.auth {
+.login {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 80px;
 }
 
-.auth__password {
+.login__password {
     display: flex;
     flex-direction: column;
     margin-bottom: 30px;
 }
 
-.auth__password__input-eye {
+.login__password__input-eye {
     margin-left: 29px;
     display: flex;
     flex-direction: row;
 }
 
-.auth__password__eye {
+.login__password__eye {
     margin-top: 14px;
     margin-left: 10px;
     width: 19px;
     height: 11px;
 }
 
-.auth__password__password-recovery {
+.login__password__password-recovery {
     margin-right: 29px;
     margin-top: -24px;
     text-align: right;
@@ -36,6 +36,6 @@
     color: #5B5B5B;
 }
 
-.auth__password__password-recovery:hover {
+.login__password__password-recovery:hover {
     color: #a0a0a0;
 }

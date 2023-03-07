@@ -18,7 +18,7 @@
     display: none;
 }
 
-.auth-reg__input {
+.login-reg__input {
     width: 332px;
     height: 42px;
     background: #181B23;
@@ -35,6 +35,6 @@
     color: #FFFFFF;
 }
 
-.auth-reg__input_error {
+.login-reg__input_error {
     filter: drop-shadow(0px 4px 20px #FF0000);
 }

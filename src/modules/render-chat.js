@@ -1,8 +1,6 @@
 import chat from '../templates/chat.js';
-import checkAuth from './render-auth.js';
 import { deleteSession } from './ajax.js';
-
-// const imagesConfig = ['./assets/img/iii.png', './assets/img/geva.png'];
+import getParentElement from './getParentElement.js';
 
 /**
  * implementation rendering of main page
@@ -11,7 +9,7 @@ import { deleteSession } from './ajax.js';
  * @param {int} userId - User identifier
  */
 export default (parent, config, userId) => {
-    parent.innerHTML = chat();
+    getParentElement().innerHTML = chat();
 
     if (userId) {
         document.querySelector('.header__user-photo').src = './assets/img/geva.png';
@@ -19,8 +17,6 @@ export default (parent, config, userId) => {
 
     document.querySelector('.logout').addEventListener('click', (e) => {
         e.preventDefault();
-
-        checkAuth(parent, config);
 
         deleteSession({
             url: '/logout/',
@@ -30,13 +26,13 @@ export default (parent, config, userId) => {
                 config.login.render(parent, config);
                 break;
             case 401:
-                config.error.render(parent, config, config.chat.key, { name: '401', descr: 'Cookie not found' });
+                config.error.render(parent, config, config.chat.key, { name: '401', description: 'Cookie not found' });
                 break;
             case 404:
-                config.error.render(parent, config, config.chat.key, { name: '404', descr: 'User session not found' });
+                config.error.render(parent, config, config.chat.key, { name: '404', description: 'User session not found' });
                 break;
             case 500:
-                config.error.render(parent, config, config.chat.key, { name: '500', descr: 'Internal error' });
+                config.error.render(parent, config, config.chat.key, { name: '500', description: 'Internal error' });
                 break;
             default:
             }

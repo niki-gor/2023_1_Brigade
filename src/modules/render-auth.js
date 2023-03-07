@@ -20,7 +20,7 @@ export default (parent, config) => {
                 config.login.render(parent, config);
                 break;
             case 500:
-                config.error.render(parent, config, config.login.key, { name: '500', descr: 'Internal error' });
+                config.error.render(parent, config, config.login.key, { name: '500', description: 'Internal error' });
                 break;
             default:
             }

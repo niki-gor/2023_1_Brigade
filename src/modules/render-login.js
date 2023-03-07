@@ -1,7 +1,7 @@
-import auth from '../templates/auth.js';
+import login from '../templates/login.js';
 import { validateEmail, validatePassword } from './validator.js';
-import checkAuth from './render-auth.js';
 import { post } from './ajax.js';
+import getParentElement from './getParentElement.js';
 
 /**
  * implementation rendering of login page
@@ -9,12 +9,11 @@ import { post } from './ajax.js';
  * @param {json} config - configuration
  */
 export default (parent, config) => {
-    parent.innerHTML = auth(); // TODO: лучше переименовать в login
+    getParentElement().innerHTML = login();
 
-    document.querySelector('.auth-but').addEventListener('click', (e) => {
+    document.querySelector('.login-but').addEventListener('click', (e) => {
         e.preventDefault();
 
-        checkAuth(parent, config);
         const inputEmail = document.querySelector('.email');
         const inputPassword = document.querySelector('.password');
 
@@ -34,14 +33,14 @@ export default (parent, config) => {
                         });
                         break;
                     case 404:
-                        inputEmail.classList.add('auth-reg__input_error');
+                        inputEmail.classList.add('login-reg__input_error');
                         document.querySelector('.invalid-email').classList.remove('invisible');
                         break;
                     case 409:
-                        config.error.render(parent, config, config.login.key, { name: '409', descr: 'The session is already registered' });
+                        config.error.render(parent, config, config.login.key, { name: '409', description: 'The session is already registered' });
                         break;
                     case 500:
-                        config.error.render(parent, config, config.login.key, { name: '500', descr: 'Internal error' });
+                        config.error.render(parent, config, config.login.key, { name: '500', description: 'Internal error' });
                         break;
                     default:
                     }
@@ -49,7 +48,7 @@ export default (parent, config) => {
         }
     });
 
-    document.querySelector('.auth-ques').addEventListener('click', (e) => {
+    document.querySelector('.login-ques').addEventListener('click', (e) => {
         e.preventDefault();
 
         config.reg.render(parent, config);

@@ -1,8 +1,0 @@
-mixin authRegBottom(type)
-    .auth-reg-bottom
-        if type === 'auth'
-            button.auth-reg-bottom__button.auth-but Login
-            a.auth-reg-bottom__question.auth-ques(href='/reg') Don't have an account yet? Register
-        else if type === 'reg'
-            button.auth-reg-bottom__button.reg-but Sign Up
-            a.auth-reg-bottom__question.reg-ques(href='/auth') Do already have an account? Login

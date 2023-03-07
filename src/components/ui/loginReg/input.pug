@@ -1,19 +1,19 @@
-mixin authRegInput(type)
+mixin loginRegInput(type)
     .input
         if type=='email'
-            input(type='email', placeholder='Email address').auth-reg__input.email
+            input(type='email', placeholder='Email address').login-reg__input.email
             span.empty-email.error.invisible email not filled
             span.invalid-email.error.invisible email not correct
             span.occupied-email.error.invisible already have an account with this email
         else if type=='password'
-            input(type='password', placeholder='Password').auth-reg__input.password
+            input(type='password', placeholder='Password').login-reg__input.password
             span.empty-password.error.invisible password not filled
             span.invalid-password.error.invisible password too short
         else if type=='nick'
-            input(type='text', placeholder='Your nick').auth-reg__input.nick
+            input(type='text', placeholder='Your nick').login-reg__input.nick
             span.empty-nick.error.invisible nick not filled
             span.invalid-nick.error.invisible nick too short            
         else if type=='confirm password'
-            input(type='password', placeholder='Confirm password').auth-reg__input.confirm-password
+            input(type='password', placeholder='Confirm password').login-reg__input.confirm-password
             span.empty-confirm-password.error.invisible confirm password not filled
             span.invalid-confirm-password.error.invisible confirm password not correct

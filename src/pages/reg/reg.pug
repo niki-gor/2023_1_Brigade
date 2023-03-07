@@ -1,11 +1,11 @@
-include ../../components/ui/auth-reg/auth-reg__top/auth-reg__top.pug
-include ../../components/ui/auth-reg/auth-reg__bottom/auth-reg__bottom.pug
-include ../../components/ui/auth-reg/auth-reg__input/auth-reg__input.pug
+include ../../components/ui/loginReg/top.pug
+include ../../components/ui/loginReg/bottom.pug
+include ../../components/ui/loginReg/input.pug
 
 .reg
-    +authRegTop('reg')
-    +authRegInput('email')
-    +authRegInput('nick')
-    +authRegInput('password')
-    +authRegInput('confirm password')
-    +authRegBottom('reg')
+    +loginRegTop('reg')
+    +loginRegInput('email')
+    +loginRegInput('nick')
+    +loginRegInput('password')
+    +loginRegInput('confirm password')
+    +loginRegBottom('reg')

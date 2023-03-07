@@ -1,4 +1,4 @@
-.auth-reg__top {
+.login-reg__top {
     height: 207px;
     width: 250px;
     display: flex;
@@ -7,7 +7,7 @@
     margin-bottom: 43px;
 }
 
-.auth-reg__top_photo {
+.login-reg__top_photo {
     align-self: center;
     width: 130px;
     height: 130px;
@@ -15,7 +15,7 @@
     background: #112235;
 }
 
-.auth-reg__top_welcome {
+.login-reg__top_welcome {
     width: 243px;
 
     font-family: 'SF Pro Display';
@@ -28,7 +28,7 @@
     color: #FFFFFF;
 }
 
-.auth-reg__top_message {
+.login-reg__top_message {
     width: 250px;
 
     font-family: 'SF Pro Display';
