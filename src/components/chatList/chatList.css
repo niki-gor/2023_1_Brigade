@@ -18,86 +18,40 @@
     width: 100%;
 }
 
-.message-type__header__title {
-    font-family: 'SF Pro Display';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 19px;
-    color: #59585D;
+.chat-list__header {
+    padding: 0px 10px;
+    margin-bottom: 20px;
+}
+
+.chat-list__header__title__left-side {
+    min-width: 142px;
+    margin-right: 177px;
+}
+
+.chat-list__search-field {
+    position: relative;
+    min-width: 100%;
+    min-height: 60px;
+    margin-bottom: 20px;
     padding: 0px 10px;
 }
 
-/* svg икнонка */
-.chats__header__icon {
-    
-}
-
-/* svg икнонка */
-.chats__header__arrow {
-
-}
-
-.messages-type__list {
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
-    width: 100%;
-    overflow: auto;
-    min-height: 120px;
-}
-
-.messages-type__item {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    transition: 0.4s ease-in-out all;
-    width: 100%;
-    padding: 0px 10px;
-    cursor: pointer;
-}
-
-.messages-type__item:hover {
-    background-color: #1B262C;
-}
-
-.messages-type__item:not(:last-child) {
-    margin-bottom: 5px;
-}
-
-/* group-info section */
-.group-info{
-    background: #18171D;
+.chat-list__messages-type {
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    padding: 38px 25px 0px 27px;
-    /* min-width: 100%; */
+    overflow: hidden;
 }
 
-.group-info__header {
-    flex-direction: row;
-    align-items: center;
+.messeges-type {
+    flex-direction: column;
+    align-items: flex-start;
     justify-content: flex-start;
+    overflow: hidden;
+    width: 100%;
+    /* flex-shrink: 0; */
 }
 
-.group-info__header__arrow {
-    min-width: 28px;
-    min-height: 28px;
-    border-radius: 14px;
-    background-color: #112235;
-    margin-right: 61px;
-}
-
-.group-info__header__logo {
-    margin-right: 10px;
-}
-
-.group-info__header__text {
-    font-family: 'SF Pro Display';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 24px;
-    color: #FFFFFF;
+.messeges-type:not(:last-child) {
+    margin-bottom: 20px;
 }

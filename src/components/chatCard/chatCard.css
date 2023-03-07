@@ -1,3 +1,11 @@
+.messages-type__item:hover {
+    background-color: #1B262C;
+}
+
+.messages-type__item:not(:last-child) {
+    margin-bottom: 5px;
+}
+
 .messages-type__item__logo {
     border-radius: 15px;
     margin-right: 17px;   

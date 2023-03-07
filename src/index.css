@@ -94,7 +94,6 @@ button {
 }
 
 .vertical-container {
-    /* min-height: 1080px; */
     min-width: 1920px;
     margin: 0px;
     padding: 0px;
@@ -107,4 +106,12 @@ button {
 .section-offset {
     margin: 0px;
     padding: 0px;
+}
+
+main {
+    width: 100%;
+}
+
+#main {
+    height: 100vh;
 }

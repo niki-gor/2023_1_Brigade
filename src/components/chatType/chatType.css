@@ -1,31 +1,25 @@
-.chat-list__messages-type {
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    overflow: hidden;
+.title__left-side__text {
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 25px;
+    line-height: 30px;
+    color: #FFFFFF;
+    margin-right: 8px;
 }
 
-.messeges-type {
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    overflow: hidden;
-    width: 100%;
-    /* flex-shrink: 0; */
-}
-
-.messeges-type:not(:last-child) {
-    margin-bottom: 20px;
-}
-
-.messages-type__header {
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
+.title__left-side__text__count {
+    justify-content: center;
+    min-width: 25px;
+    min-height: 12px;
+    border-radius: 5px;
+    background-color: #FC3F1D;
+    /* align-self: flex-start; */
     margin-bottom: 15px;
-    padding: 0px 10px;
-}
-
-.header-item:not(:last-child) {
-    margin-right: 10px;
+    font-family: 'SF Pro Display';
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 15px;
+    min-width: 25px;
+    padding: 2px;
 }

@@ -1,5 +1,4 @@
 mixin getInput(inputType)
-    - console.log(inputType)
     case inputType
         when "chat-list__search-field"
             span.chat-list__search-field.chat-list__child
@@ -9,7 +8,7 @@ mixin getInput(inputType)
                 </svg>
         when "input-message__text-field"
             div.view-chat__input-message.flex
-                img(src="../../../src/assets/img/geva.png").input-message__user-avatar
+                img(src="../src/assets/img/geva.png").input-message__user-avatar
                 span.input-message__text-field
                     input.input-message__text-field__in(type="text" placeholder="Type Something...")
                     <svg class="message-field__svg" width="22" height="24" viewBox="0 0 22 24" fill="none" xmlns="http://www.w3.org/2000/svg">

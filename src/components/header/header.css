@@ -1,4 +1,3 @@
-/* header */
 .header {
     flex-direction: column;
     align-items: flex-start;
@@ -41,48 +40,24 @@
     margin-bottom: 32px;
 }
 
-.companion__info__time {
-    font-family: 'SF Pro Display';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 10px;
-    line-height: 12px;
-    color: #CDCDCD;
-}
-
-.view-chat__header__icons {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.header__icons__item:not(:last-child) {
-    margin-right: 20px;
-}
-
-.header__icons__item__color {
-    fill: none;
-}
-
-.header__companion__ava {
-    border-radius: 25px;
-    min-width: 50px;
-    min-height: 50px;
+.header-item:not(:last-child) {
     margin-right: 10px;
 }
 
-.header__companion__info {
-    flex-direction: column;
-    align-items: flex-start;
+.messages-type__header {
+    flex-direction: row;
+    align-items: center;
     justify-content: flex-start;
+    margin-bottom: 15px;
+    padding: 0px 10px;
 }
 
-.companion__info__title {
+.message-type__header__title {
     font-family: 'SF Pro Display';
     font-style: normal;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 16px;
     line-height: 19px;
-    color: #FFFFFF;
-    margin-bottom: 5px;
+    color: #59585D;
+    padding: 0px 10px;
 }
