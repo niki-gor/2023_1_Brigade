@@ -10,8 +10,9 @@
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
+    "ignorePatterns": ["src/templates/*.js"],
     "rules": {
-        "no-console": "off",
-        "import/extensions": "never"
+        "import/extensions": "off",
+        "indent": ["error", 4]
     }
 }
