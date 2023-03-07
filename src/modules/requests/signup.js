@@ -15,7 +15,7 @@ export default (parent, renderConfig, inputEmail, inputPassword, inputNick) => {
         body: JSON.stringify({
             email: inputEmail.value,
             password: inputPassword.value,
-            nick: inputNick.value,
+            username: inputNick.value,
         }),
     })
         .then(({ status, parsedBody }) => {
