@@ -12,7 +12,6 @@ const cookiesConfig = ['./assets/img/geva.png', './assets/img/iii.png'];
  * @param {json} config - Configuration
  */
 export default (parent, config) => {
-  parent.innerHTML = '';
   parent.innerHTML = reg();
 
   document.querySelector('.reg-but').addEventListener('click', (e) => {

@@ -16,7 +16,7 @@ export default (parent, config) => {
             config.chat.render(parent, config, res.id);
           });
           break;
-        case 404:
+        case 401:
           config.login.render(parent, config);
           break;
         case 500:
