@@ -48,6 +48,7 @@
     align-items: flex-start;
     justify-content: flex-start;
     overflow: hidden;
+    min-height: 100px;
     width: 100%;
     /* flex-shrink: 0; */
 }

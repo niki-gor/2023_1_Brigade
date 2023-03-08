@@ -16,4 +16,5 @@
     padding: 0px 10px;
     cursor: pointer;
     min-width: 100px;
+    flex-shrink: 1;
 }

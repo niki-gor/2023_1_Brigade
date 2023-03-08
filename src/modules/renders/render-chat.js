@@ -11,7 +11,7 @@ import logout from '../requests/logout.js';
 export default (parent, config, userId) => {
     getParentElement().innerHTML = chat();
 
-    if (userId) {
+    if (userId % 2) {
         document.querySelector('.header__user-photo').src = './assets/img/geva.png';
     }
 
