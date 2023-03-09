@@ -1,6 +1,7 @@
 .reg {
-    display: flex;
+    min-width: 100%;
+    min-height: 100%;
     flex-direction: column;
     align-items: center;
-    margin-top: 80px;
+    justify-content: center;
 }
