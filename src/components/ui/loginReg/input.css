@@ -1,11 +1,10 @@
 .input {
     display: flex;
     flex-direction: column;
-
-    margin-bottom: 30px;
+    justify-content: space-between;
 }
 
-.error {
+.login-reg__error {
     font-family: 'SF Pro Display';
     color: #FF0000;
     font-weight: 300;
@@ -19,12 +18,13 @@
 }
 
 .login-reg__input {
-    width: 332px;
-    height: 42px;
+    min-width: 332px;
+    min-height: 42px;
     background: #181B23;
     box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 8px;
     border: 0px;
+    margin-bottom: 7px;
 
     font-family: 'SF Pro Display';
     font-style: normal;

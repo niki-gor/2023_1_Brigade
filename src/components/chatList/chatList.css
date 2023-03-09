@@ -50,7 +50,6 @@
     overflow: hidden;
     min-height: 100px;
     width: 100%;
-    /* flex-shrink: 0; */
 }
 
 .messeges-type:not(:last-child) {
