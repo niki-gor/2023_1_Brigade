@@ -5,7 +5,13 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* margin-top: 80px; */
+}
+
+.login__item {
+    position: relative;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 15px;
 }
 
 .login__item:not(:last-child) {
@@ -15,11 +21,9 @@
 .login__password {
     flex-direction: column;
     align-items: flex-end;
-    /* margin-bottom: 30px; */
 }
 
 .login__password__input-eye {
-    /* margin-left: 29px; */
     display: flex;
     flex-direction: row;
 }
