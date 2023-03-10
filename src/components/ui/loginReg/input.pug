@@ -2,9 +2,11 @@ mixin loginRegInput(type)
     .login__item.input
         if type=='email'
             input(type='email', placeholder='Email address').login-reg__input.email
-            span.empty-email.login-reg__error.invisible email not filled
-            span.invalid-email.login-reg__error.invisible email not correct
-            span.occupied-email.login-reg__error.invisible already have an account with this email
+            div.input__errors.flex
+                span.empty-email.login-reg__error.invisible Email not filled
+                span.missdog-email.login-reg__error.invisible '@' character is required
+                span.invalid-email.login-reg__error.invisible Email not correct
+                span.occupied-email.login-reg__error.invisible Already have an account with this email
         else if type=='password'
             input(type='password', placeholder='Password').login-reg__input.password
             span.empty-password.login-reg__error.invisible password not filled

@@ -11,14 +11,14 @@ import login from '../requests/login.js';
 export default (parent, config) => {
     getParentElement().innerHTML = log();
 
+    const inputEmail = document.querySelector('.email');
+    const inputPassword = document.querySelector('.password');
+
+    const valEmail = validateEmail(inputEmail);
+    const valPassword = validatePassword(inputPassword);
+
     document.querySelector('.login-but').addEventListener('click', (e) => {
         e.preventDefault();
-
-        const inputEmail = document.querySelector('.email');
-        const inputPassword = document.querySelector('.password');
-
-        const valEmail = validateEmail(inputEmail);
-        const valPassword = validatePassword(inputPassword);
 
         if (valEmail && valPassword) {
             login(parent, config, inputEmail, inputPassword);

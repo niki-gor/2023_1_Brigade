@@ -1,31 +1,50 @@
+const forbiddenCharacters = {
+    email: ' ;:/?!',
+    nickname: '',
+    password: '',
+};
+
+// TODO: сделать класс валидации
+// class ValidationError extends Error {
+//     constructor(message) {
+//         super(message);
+//         this.name = 'ValidationError';
+//     }
+// }
+
 /**
  * implementation email validation
  * @param {string} email - the email
  */
 function validateEmail(email) {
-    email.classList.remove('login-reg__input_error');
-    document.querySelector('.empty-email').classList.add('invisible');
-    document.querySelector('.invalid-email').classList.add('invisible');
-    document.querySelector('.occupied-email').classList.add('invisible');
+    let isCorrect;
 
-    // TODO: validate function for email
-    // eslint-disable-next-line no-useless-escape
-    const regular = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    email.addEventListener('input', () => {
+        email.classList.remove('login-reg__input_error');
+        document.querySelector('.empty-email').classList.add('invisible');
+        document.querySelector('.missdog-email').classList.add('invisible');
+        document.querySelector('.invalid-email').classList.add('invisible');
+        document.querySelector('.occupied-email').classList.add('invisible');
+        isCorrect = (email.value !== '');
 
-    let isCorrect = (email.value !== '');
+        if (!isCorrect) {
+            document.querySelector('.empty-email').classList.remove('invisible');
+            email.classList.add('login-reg__input_error');
+        }
 
-    if (!isCorrect) {
-        document.querySelector('.empty-email').classList.remove('invisible');
-        email.classList.add('login-reg__input_error');
-        return isCorrect;
-    }
+        isCorrect = email.value.includes('@');
+        if (!isCorrect) {
+            document.querySelector('.missdog-email').classList.remove('invisible');
+            email.classList.add('login-reg__input_error');
+        }
 
-    isCorrect = regular.test(String(email.value).toLowerCase());
+        isCorrect = String(email.value).split('').every((curSymbol) => !forbiddenCharacters.email.split('').includes(curSymbol));
 
-    if (!isCorrect) {
-        document.querySelector('.invalid-email').classList.remove('invisible');
-        email.classList.add('login-reg__input_error');
-    }
+        if (!isCorrect) {
+            document.querySelector('.invalid-email').classList.remove('invisible');
+            email.classList.add('login-reg__input_error');
+        }
+    });
 
     return isCorrect;
 }
