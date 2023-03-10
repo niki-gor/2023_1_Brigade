@@ -1,7 +1,7 @@
 import log from '../../templates/login.js';
-import { validateEmail, validatePassword } from '../validator.js';
 import getParentElement from '../getParentElement.js';
 import login from '../requests/login.js';
+import Validator from '../validator.js';
 
 /**
  * implementation rendering of login page
@@ -10,20 +10,18 @@ import login from '../requests/login.js';
  */
 export default (parent, config) => {
     getParentElement().innerHTML = log();
+    const loginPageValidator = new Validator('', document.querySelector('.email'), document.querySelector('.password'));
 
-    const inputEmail = document.querySelector('.email');
-    const inputPassword = document.querySelector('.password');
+    const validEmail = loginPageValidator.validateEmail();
+    const validatePassword = loginPageValidator.validatePassword();
 
-    const valEmail = validateEmail(inputEmail);
-    const valPassword = validatePassword(inputPassword);
+    if (validEmail && validatePassword) {
+        document.querySelector('.login-but').addEventListener('click', (e) => {
+            e.preventDefault();
 
-    document.querySelector('.login-but').addEventListener('click', (e) => {
-        e.preventDefault();
-
-        if (valEmail && valPassword) {
-            login(parent, config, inputEmail, inputPassword);
-        }
-    });
+            login(parent, config, loginPageValidator.getMail(), loginPageValidator.getPassword());
+        });
+    }
 
     document.querySelector('.login-ques').addEventListener('click', (e) => {
         e.preventDefault();

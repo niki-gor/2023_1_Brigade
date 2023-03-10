@@ -1,7 +1,5 @@
 import reg from '../../templates/reg.js';
-import {
-    validateEmail, validatePassword, validateNick, validateConfirmPassword,
-} from '../validator.js';
+import Validator from '../validator.js';
 import getParentElement from '../getParentElement.js';
 import signup from '../requests/signup.js';
 
@@ -12,25 +10,32 @@ import signup from '../requests/signup.js';
  */
 export default (parent, config) => {
     getParentElement().innerHTML = reg();
+    const regPageValidator = new Validator(
+        '',
+        document.querySelector('.email'),
+        document.querySelector('.password'),
+        document.querySelector('.confirm-password'),
+        document.querySelector('.nick'),
+    );
 
-    document.querySelector('.reg-but').addEventListener('click', (e) => {
-        e.preventDefault();
+    const validEmail = regPageValidator.validateEmail();
+    const validPassword = regPageValidator.validatePassword();
+    const validConfirmPassword = regPageValidator.validateConfirmPassword();
+    const validUsername = regPageValidator.validateNick();
 
-        const inputEmail = document.querySelector('.email');
-        const inputPassword = document.querySelector('.password');
-        const inputNick = document.querySelector('.nick');
-        const inputConfirmPassword = document.querySelector('.confirm-password');
-
-        const valEmail = validateEmail(inputEmail);
-        const valPassword = validatePassword(inputPassword);
-        const valNick = validateNick(inputNick);
-        const valConfirmPassword = validateConfirmPassword(inputPassword, inputConfirmPassword);
-
-        if (valEmail && valPassword
-        && valNick && valConfirmPassword) {
-            signup(parent, config, inputEmail, inputPassword, inputNick, inputConfirmPassword);
-        }
-    });
+    if (validEmail && validPassword && validConfirmPassword && validUsername) {
+        document.querySelector('.reg-but').addEventListener('click', (e) => {
+            e.preventDefault();
+            signup(
+                parent,
+                config,
+                regPageValidator.getMail(),
+                regPageValidator.getPassword(),
+                regPageValidator.getUsername(),
+                regPageValidator.getConfirmPassword(),
+            );
+        });
+    }
 
     document.querySelector('.reg-ques').addEventListener('click', (e) => {
         e.preventDefault();

@@ -1,135 +1,180 @@
 const forbiddenCharacters = {
-    email: ' ;:/?!',
+    email: ' ;\\":/?!\'',
     nickname: '',
     password: '',
 };
 
-// TODO: сделать класс валидации
-// class ValidationError extends Error {
-//     constructor(message) {
-//         super(message);
-//         this.name = 'ValidationError';
-//     }
-// }
+export default class ValidationError extends Error {
+    #email;
 
-/**
- * implementation email validation
- * @param {string} email - the email
- */
-function validateEmail(email) {
-    let isCorrect;
+    #password;
 
-    email.addEventListener('input', () => {
-        email.classList.remove('login-reg__input_error');
-        document.querySelector('.empty-email').classList.add('invisible');
-        document.querySelector('.missdog-email').classList.add('invisible');
-        document.querySelector('.invalid-email').classList.add('invisible');
-        document.querySelector('.occupied-email').classList.add('invisible');
-        isCorrect = (email.value !== '');
+    #cofirmPassword;
 
-        if (!isCorrect) {
-            document.querySelector('.empty-email').classList.remove('invisible');
-            email.classList.add('login-reg__input_error');
-        }
+    #username;
 
-        isCorrect = email.value.includes('@');
-        if (!isCorrect) {
-            document.querySelector('.missdog-email').classList.remove('invisible');
-            email.classList.add('login-reg__input_error');
-        }
+    // eslint-disable-next-line class-methods-use-this
+    #addError(erorrClass, deletedClasses) {
+        deletedClasses.forEach((curClass) => {
+            document.querySelector(curClass).classList.add('invisible');
+        });
+        if (erorrClass) document.querySelector(erorrClass).classList.remove('invisible');
+    }
 
-        isCorrect = String(email.value).split('').every((curSymbol) => !forbiddenCharacters.email.split('').includes(curSymbol));
+    constructor(message, ...props) {
+        super(message);
+        this.name = 'ValidationError';
+        [this.email, this.password, this.confirmPassword, this.username] = props;
+    }
 
-        if (!isCorrect) {
-            document.querySelector('.invalid-email').classList.remove('invisible');
-            email.classList.add('login-reg__input_error');
-        }
-    });
+    getMail() {
+        return this.#email;
+    }
 
-    return isCorrect;
-}
+    getUsername() {
+        return this.#username;
+    }
 
-/**
- * implementation email validation
- * @param {string} password - the password
- * @param {string} confirmPassword - the confirm password
- */
-function validateConfirmPassword(password, confirmPassword) {
-    confirmPassword.classList.remove('login-reg__input_error');
-    document.querySelector('.empty-confirm-password').classList.add('invisible');
-    document.querySelector('.invalid-confirm-password').classList.add('invisible');
+    getPassword() {
+        return this.#password;
+    }
 
-    let isCorrect = (confirmPassword.value !== '');
+    getConfirmPassword() {
+        return this.#cofirmPassword;
+    }
 
-    if (!isCorrect) {
-        document.querySelector('.empty-confirm-password').classList.remove('invisible');
-        confirmPassword.classList.add('login-reg__input_error');
+    /**
+     * implementation email validation
+     * @param {string} email - the email
+     */
+    validateEmail() {
+        let isCorrect;
+        const errorTypes = ['.empty-email', '.missdog-email', '.invalid-email', '.occupied-email'];
+
+        this.email.addEventListener('input', () => {
+            this.email.classList.remove('login-reg__input_error');
+            this.#addError('', errorTypes);
+
+            isCorrect = (this.email.value !== '');
+
+            if (!isCorrect) {
+                this.#addError('.empty-email', errorTypes);
+                this.email.classList.add('login-reg__input_error');
+                return;
+            }
+
+            const inputValue = String(this.email.value);
+
+            if (!isCorrect || !(inputValue.includes('@mail.ru') || inputValue.includes('@yandex.ru') || inputValue.includes('@gmail.com'))) {
+                this.#addError('.missdog-email', errorTypes);
+                this.email.classList.add('login-reg__input_error');
+            }
+
+            isCorrect = String(this.email.value).split('').every((curSymbol) => !forbiddenCharacters.email.split('').includes(curSymbol));
+
+            if (!isCorrect) {
+                this.#addError('.invalid-email', errorTypes);
+                this.email.classList.add('login-reg__input_error');
+            }
+        });
+
         return isCorrect;
     }
 
-    isCorrect = (password.value === confirmPassword.value);
+    /**
+     * implementation email validation
+     * @param {Object} password - the password html element
+     */
+    validatePassword() {
+        let isCorrect;
 
-    if (!isCorrect) {
-        document.querySelector('.invalid-confirm-password').classList.remove('invisible');
-        confirmPassword.classList.add('login-reg__input_error');
-    }
+        const errorTypes = ['.empty-password', '.invalid-password'];
 
-    return isCorrect;
-}
+        this.password.addEventListener('input', () => {
+            this.password.classList.remove('login-reg__input_error');
+            this.#addError('', errorTypes);
 
-/**
- * implementation email validation
- * @param {string} password - the password
- */
-function validatePassword(password) {
-    password.classList.remove('login-reg__input_error');
-    document.querySelector('.empty-password').classList.add('invisible');
-    document.querySelector('.invalid-password').classList.add('invisible');
+            isCorrect = (this.password.value !== '');
 
-    let isCorrect = (password.value !== '');
+            if (!isCorrect) {
+                this.#addError('.empty-password', errorTypes);
+                this.password.classList.add('login-reg__input_error');
+                return;
+            }
 
-    if (!isCorrect) {
-        document.querySelector('.empty-password').classList.remove('invisible');
-        password.classList.add('login-reg__input_error');
+            isCorrect = (this.password.value.length > 8);
+
+            if (!isCorrect) {
+                this.#addError('.invalid-password', errorTypes);
+                this.password.classList.add('login-reg__input_error');
+            }
+        });
+
         return isCorrect;
     }
 
-    isCorrect = (password.value.length > 8);
+    /**
+     * implementation email validation
+     * @param {Object} password - the password
+     * @param {Object} confirmPassword - the confirm password
+     */
+    validateConfirmPassword() {
+        let isCorrect;
 
-    if (!isCorrect) {
-        document.querySelector('.invalid-password').classList.remove('invisible');
-        password.classList.add('login-reg__input_error');
-    }
+        const errorTypes = ['.empty-confirm-password', '.invalid-confirm-password'];
 
-    return isCorrect;
-}
+        this.confirmPassword.addEventListener('input', () => {
+            this.confirmPassword.classList.remove('login-reg__input_error');
+            this.#addError('', errorTypes);
 
-/**
- * implementation email validation
- * @param {string} nick - the nickname
- */
-function validateNick(nick) {
-    nick.classList.remove('login-reg__input_error');
-    document.querySelector('.empty-nick').classList.add('invisible');
+            isCorrect = (this.confirmPassword.value !== '');
 
-    let isCorrect = (nick.value !== '');
+            if (!isCorrect) {
+                this.#addError('.empty-confirm-password', errorTypes);
+                this.confirmPassword.classList.add('login-reg__input_error');
+                return;
+            }
 
-    if (!isCorrect) {
-        document.querySelector('.empty-nick').classList.remove('invisible');
-        nick.classList.add('login-reg__input_error');
+            isCorrect = (String(this.password.value) === String(this.confirmPassword.value));
+
+            if (!isCorrect) {
+                this.#addError('.invalid-confirm-password', errorTypes);
+                this.confirmPassword.classList.add('login-reg__input_error');
+            }
+        });
+
         return isCorrect;
     }
 
-    isCorrect = (nick.value.length > 1);
+    /**
+     * implementation email validation
+     * @param {Object} nick - the nickname
+     */
+    validateNick() {
+        let isCorrect;
 
-    if (!isCorrect) {
-        document.querySelector('.invalid-nick').classList.remove('invisible');
-        nick.classList.add('login-reg__input_error');
+        const errorTypes = ['.empty-nick', '.invalid-nick'];
+
+        this.username.addEventListener('input', () => {
+            this.username.classList.remove('login-reg__input_error');
+            this.#addError('', errorTypes);
+
+            isCorrect = (this.username.value !== '');
+
+            if (!isCorrect) {
+                this.#addError('.empty-nick', errorTypes);
+                this.username.classList.add('login-reg__input_error');
+                return;
+            }
+
+            isCorrect = (this.username.value.length > 1);
+
+            if (!isCorrect) {
+                this.#addError('.invalid-nick', errorTypes);
+                this.username.classList.add('login-reg__input_error');
+            }
+        });
+
+        return isCorrect;
     }
-
-    return isCorrect;
 }
-
-export {
-    validateEmail, validateNick, validatePassword, validateConfirmPassword,
-};
