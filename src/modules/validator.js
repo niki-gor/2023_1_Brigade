@@ -4,14 +4,16 @@ const forbiddenCharacters = {
     password: '',
 };
 
-export default class ValidationError extends Error {
+export default class ValidationError {
     #email;
 
     #password;
 
-    #cofirmPassword;
+    #confirmPassword;
 
     #username;
+
+    #validStatus;
 
     // eslint-disable-next-line class-methods-use-this
     #addError(erorrClass, deletedClasses) {
@@ -21,10 +23,9 @@ export default class ValidationError extends Error {
         if (erorrClass) document.querySelector(erorrClass).classList.remove('invisible');
     }
 
-    constructor(message, ...props) {
-        super(message);
+    constructor(...props) {
         this.name = 'ValidationError';
-        [this.email, this.password, this.confirmPassword, this.username] = props;
+        [this.#email, this.#password, this.#confirmPassword, this.#username] = props;
     }
 
     getMail() {
@@ -40,77 +41,89 @@ export default class ValidationError extends Error {
     }
 
     getConfirmPassword() {
-        return this.#cofirmPassword;
+        return this.#confirmPassword;
+    }
+
+    validate() {
+        this.#validateEmail();
+        this.#validatePassword();
+        this.#validateConfirmPassword();
+        this.#validateNick();
+    }
+
+    isValid() {
+        return this.#validStatus;
     }
 
     /**
      * implementation email validation
      * @param {string} email - the email
      */
-    validateEmail() {
-        let isCorrect;
+    #validateEmail() {
         const errorTypes = ['.empty-email', '.missdog-email', '.invalid-email', '.occupied-email'];
 
-        this.email.addEventListener('input', () => {
-            this.email.classList.remove('login-reg__input_error');
+        this.#email.addEventListener('input', () => {
+            this.#email.classList.remove('login-reg__input_error');
             this.#addError('', errorTypes);
 
-            isCorrect = (this.email.value !== '');
+            this.#validStatus = (this.#email.value !== '');
 
-            if (!isCorrect) {
+            if (!this.#validStatus) {
                 this.#addError('.empty-email', errorTypes);
-                this.email.classList.add('login-reg__input_error');
+                this.#email.classList.add('login-reg__input_error');
                 return;
             }
 
-            const inputValue = String(this.email.value);
+            const inputValue = String(this.#email.value);
 
-            if (!isCorrect || !(inputValue.includes('@mail.ru') || inputValue.includes('@yandex.ru') || inputValue.includes('@gmail.com'))) {
+            if (!(inputValue.includes('@mail.ru') || inputValue.includes('@yandex.ru') || inputValue.includes('@gmail.com'))) {
                 this.#addError('.missdog-email', errorTypes);
-                this.email.classList.add('login-reg__input_error');
+                this.#email.classList.add('login-reg__input_error');
+                this.#validStatus = false;
+                return;
             }
 
-            isCorrect = String(this.email.value).split('').every((curSymbol) => !forbiddenCharacters.email.split('').includes(curSymbol));
+            this.#validStatus = String(this.#email.value).split('').every((curSymbol) => !forbiddenCharacters.email.split('').includes(curSymbol));
 
-            if (!isCorrect) {
+            if (!this.#validStatus) {
                 this.#addError('.invalid-email', errorTypes);
-                this.email.classList.add('login-reg__input_error');
+                this.#email.classList.add('login-reg__input_error');
+                return;
             }
-        });
 
-        return isCorrect;
+            this.#validStatus = true;
+        });
     }
 
     /**
      * implementation email validation
      * @param {Object} password - the password html element
      */
-    validatePassword() {
-        let isCorrect;
-
+    #validatePassword() {
         const errorTypes = ['.empty-password', '.invalid-password'];
 
-        this.password.addEventListener('input', () => {
-            this.password.classList.remove('login-reg__input_error');
+        this.#password.addEventListener('input', () => {
+            this.#password.classList.remove('login-reg__input_error');
             this.#addError('', errorTypes);
 
-            isCorrect = (this.password.value !== '');
+            this.#validStatus = (this.#password.value !== '');
 
-            if (!isCorrect) {
+            if (!this.#validStatus) {
                 this.#addError('.empty-password', errorTypes);
-                this.password.classList.add('login-reg__input_error');
+                this.#password.classList.add('login-reg__input_error');
                 return;
             }
 
-            isCorrect = (this.password.value.length > 8);
+            this.#validStatus = (this.#password.value.length > 8);
 
-            if (!isCorrect) {
+            if (!this.#validStatus) {
                 this.#addError('.invalid-password', errorTypes);
-                this.password.classList.add('login-reg__input_error');
+                this.#password.classList.add('login-reg__input_error');
+                return;
             }
-        });
 
-        return isCorrect;
+            this.#validStatus = true;
+        });
     }
 
     /**
@@ -118,63 +131,63 @@ export default class ValidationError extends Error {
      * @param {Object} password - the password
      * @param {Object} confirmPassword - the confirm password
      */
-    validateConfirmPassword() {
-        let isCorrect;
-
+    #validateConfirmPassword() {
         const errorTypes = ['.empty-confirm-password', '.invalid-confirm-password'];
 
-        this.confirmPassword.addEventListener('input', () => {
-            this.confirmPassword.classList.remove('login-reg__input_error');
+        this.confirmPassword?.addEventListener('input', () => {
+            this.#confirmPassword.classList.remove('login-reg__input_error');
             this.#addError('', errorTypes);
 
-            isCorrect = (this.confirmPassword.value !== '');
+            this.#validStatus = (this.#confirmPassword.value !== '');
 
-            if (!isCorrect) {
+            if (!this.#validStatus) {
                 this.#addError('.empty-confirm-password', errorTypes);
-                this.confirmPassword.classList.add('login-reg__input_error');
+                this.#confirmPassword.classList.add('login-reg__input_error');
                 return;
             }
 
-            isCorrect = (String(this.password.value) === String(this.confirmPassword.value));
+            this.#validStatus = (
+                String(this.password.value) === String(this.#confirmPassword.value)
+            );
 
-            if (!isCorrect) {
+            if (!this.#validStatus) {
                 this.#addError('.invalid-confirm-password', errorTypes);
-                this.confirmPassword.classList.add('login-reg__input_error');
+                this.#confirmPassword.classList.add('login-reg__input_error');
+                return;
             }
-        });
 
-        return isCorrect;
+            this.#validStatus = true;
+        });
     }
 
     /**
      * implementation email validation
      * @param {Object} nick - the nickname
      */
-    validateNick() {
-        let isCorrect;
-
+    #validateNick() {
         const errorTypes = ['.empty-nick', '.invalid-nick'];
 
-        this.username.addEventListener('input', () => {
-            this.username.classList.remove('login-reg__input_error');
+        this.#username?.addEventListener('input', () => {
+            this.#username.classList.remove('login-reg__input_error');
             this.#addError('', errorTypes);
 
-            isCorrect = (this.username.value !== '');
+            this.#validStatus = (this.#username.value !== '');
 
-            if (!isCorrect) {
+            if (!this.#validStatus) {
                 this.#addError('.empty-nick', errorTypes);
-                this.username.classList.add('login-reg__input_error');
+                this.#username.classList.add('login-reg__input_error');
                 return;
             }
 
-            isCorrect = (this.username.value.length > 1);
+            this.#validStatus = (this.#username.value.length > 1);
 
-            if (!isCorrect) {
+            if (!this.#validStatus) {
                 this.#addError('.invalid-nick', errorTypes);
-                this.username.classList.add('login-reg__input_error');
+                this.#username.classList.add('login-reg__input_error');
+                return;
             }
-        });
 
-        return isCorrect;
+            this.#validStatus = true;
+        });
     }
 }

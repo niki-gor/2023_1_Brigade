@@ -11,21 +11,17 @@ import signup from '../requests/signup.js';
 export default (config) => {
     getParentElement().innerHTML = reg();
     const regPageValidator = new Validator(
-        '',
         document.querySelector('.email'),
         document.querySelector('.password'),
         document.querySelector('.confirm-password'),
         document.querySelector('.nick'),
     );
 
-    const validEmail = regPageValidator.validateEmail();
-    const validPassword = regPageValidator.validatePassword();
-    const validConfirmPassword = regPageValidator.validateConfirmPassword();
-    const validUsername = regPageValidator.validateNick();
+    regPageValidator.validate();
 
-    if (validEmail && validPassword && validConfirmPassword && validUsername) {
-        document.querySelector('.reg-but').addEventListener('click', (e) => {
-            e.preventDefault();
+    document.querySelector('.reg-but').addEventListener('click', (e) => {
+        e.preventDefault();
+        if (regPageValidator.isValid()) {
             signup(
                 config,
                 regPageValidator.getMail(),
@@ -33,8 +29,8 @@ export default (config) => {
                 regPageValidator.getUsername(),
                 regPageValidator.getConfirmPassword(),
             );
-        });
-    }
+        }
+    });
 
     document.querySelector('.reg-ques').addEventListener('click', (e) => {
         e.preventDefault();

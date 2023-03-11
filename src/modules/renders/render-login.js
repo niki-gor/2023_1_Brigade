@@ -10,18 +10,19 @@ import Validator from '../validator.js';
  */
 export default (config) => {
     getParentElement().innerHTML = log();
-    const loginPageValidator = new Validator('', document.querySelector('.email'), document.querySelector('.password'));
 
-    const validEmail = loginPageValidator.validateEmail();
-    const validatePassword = loginPageValidator.validatePassword();
+    const loginPageValidator = new Validator(document.querySelector('.email'), document.querySelector('.password'));
 
-    if (validEmail && validatePassword) {
-        document.querySelector('.login-but').addEventListener('click', (e) => {
-            e.preventDefault();
+    loginPageValidator.validate();
 
+    document.querySelector('.login-but').addEventListener('click', (e) => {
+        e.preventDefault();
+
+        if (loginPageValidator.isValid()) {
+            // console.log(loginPageValidator.getMail().value);
             login(config, loginPageValidator.getMail(), loginPageValidator.getPassword());
-        });
-    }
+        }
+    });
 
     document.querySelector('.login-ques').addEventListener('click', (e) => {
         e.preventDefault();
