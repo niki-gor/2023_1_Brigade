@@ -8,7 +8,7 @@ import signup from '../requests/signup.js';
  * @param {htmlElement} parent - parent element
  * @param {json} config - Configuration
  */
-export default (parent, config) => {
+export default (config) => {
     getParentElement().innerHTML = reg();
     const regPageValidator = new Validator(
         '',
@@ -27,7 +27,6 @@ export default (parent, config) => {
         document.querySelector('.reg-but').addEventListener('click', (e) => {
             e.preventDefault();
             signup(
-                parent,
                 config,
                 regPageValidator.getMail(),
                 regPageValidator.getPassword(),
@@ -40,6 +39,6 @@ export default (parent, config) => {
     document.querySelector('.reg-ques').addEventListener('click', (e) => {
         e.preventDefault();
 
-        config.login.render(parent, config);
+        config.login.render(config);
     });
 };

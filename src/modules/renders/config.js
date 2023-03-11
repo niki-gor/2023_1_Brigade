@@ -1,15 +1,9 @@
 import renderChat from './render-chat.js';
-import renderAuth from './render-auth.js';
 import renderReg from './render-reg.js';
 import renderLogin from './render-login.js';
 import renderError from './render-error.js';
 
 export default {
-    auth: {
-        href: '/auth/',
-        render: renderAuth,
-        key: 'auth',
-    },
     login: {
         href: '/login/',
         render: renderLogin,

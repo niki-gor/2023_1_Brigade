@@ -1,7 +1,6 @@
 - const imagePathsConfig = {PIN: "../../../src/assets/img/pinChatsAva.png", GROUPS: "../../../src/assets/img/groupAva.png"}
 
 mixin chatCard(cardType, cardImage, username, textMessage, missedMess, messTime)
-    - console.log(cardType)
     case cardType
         when "chatCard"
             li.messages-type__item.flex

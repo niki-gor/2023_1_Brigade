@@ -8,7 +8,7 @@ import getParentElement from '../getParentElement.js';
  * @param {string} name - error name
  * @param {string} description - error description
  */
-export default (parent, config, prevPage, { name, description }) => {
+export default (config, prevPage, { name, description }) => {
     getParentElement().innerHTML = loadError();
     document.querySelector('.header-error').textContent = name;
     document.querySelector('.header-error__description').textContent = description;
@@ -17,13 +17,13 @@ export default (parent, config, prevPage, { name, description }) => {
         e.preventDefault();
         switch (prevPage) {
         case 'login':
-            config.login.render(parent, config);
+            config.login.render(config);
             break;
         case 'reg':
-            config.reg.render(parent, config);
+            config.reg.render(config);
             break;
         case 'chat':
-            config.chat.render(parent, config);
+            config.chat.render(config);
             break;
         default:
         }

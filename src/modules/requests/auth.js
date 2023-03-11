@@ -6,7 +6,7 @@ import config from './config.js';
  * @param {htmlElement} parent - parent element for rendering
  * @param {json} renderConfig - configuration for rendering
  */
-export default (parent, renderConfig) => {
+export default (renderConfig) => {
     get({
         url: config.auth,
     })
@@ -14,14 +14,14 @@ export default (parent, renderConfig) => {
             switch (status) {
             case 200:
                 parsedBody.then((res) => {
-                    renderConfig.chat.render(parent, renderConfig, res.id);
+                    renderConfig.chat.render(renderConfig, res.id);
                 });
                 break;
             case 401:
-                renderConfig.login.render(parent, renderConfig);
+                renderConfig.login.render(renderConfig);
                 break;
             case 500:
-                renderConfig.error.render(parent, renderConfig, renderConfig.login.key, { name: '500', description: 'Internal error' });
+                renderConfig.error.render(renderConfig, renderConfig.login.key, { name: '500', description: 'Internal error' });
                 break;
             default:
             }

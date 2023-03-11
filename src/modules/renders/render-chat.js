@@ -8,7 +8,7 @@ import logout from '../requests/logout.js';
  * @param {json} config - configuration
  * @param {int} userId - User identifier
  */
-export default (parent, config, userId) => {
+export default (config, userId) => {
     getParentElement().innerHTML = chat();
 
     if (userId % 2) {
@@ -18,6 +18,6 @@ export default (parent, config, userId) => {
     document.querySelector('.logout').addEventListener('click', (e) => {
         e.preventDefault();
 
-        logout(parent, config);
+        logout(config);
     });
 };

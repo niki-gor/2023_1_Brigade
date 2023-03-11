@@ -8,7 +8,7 @@ import config from './config.js';
  * @param {htmlElement} inputEmail - input email
  * @param {htmlElement} inputPassword - input password
  */
-export default (parent, renderConfig, inputEmail, inputPassword) => {
+export default (renderConfig, inputEmail, inputPassword) => {
     post({
         url: config.login,
         body: JSON.stringify({ email: inputEmail.value, password: inputPassword.value }),
@@ -17,7 +17,7 @@ export default (parent, renderConfig, inputEmail, inputPassword) => {
             switch (status) {
             case 200:
                 parsedBody.then((res) => {
-                    renderConfig.chat.render(parent, renderConfig, res.id);
+                    renderConfig.chat.render(renderConfig, res.id);
                 });
                 break;
             case 404:
@@ -25,10 +25,10 @@ export default (parent, renderConfig, inputEmail, inputPassword) => {
                 document.querySelector('.invalid-email').classList.remove('invisible');
                 break;
             case 409:
-                renderConfig.error.render(parent, renderConfig, renderConfig.login.key, { name: '409', description: 'The session is already registered' });
+                renderConfig.error.render(renderConfig, renderConfig.login.key, { name: '409', description: 'The session is already registered' });
                 break;
             case 500:
-                renderConfig.error.render(parent, renderConfig, renderConfig.login.key, { name: '500', description: 'Internal error' });
+                renderConfig.error.render(renderConfig, renderConfig.login.key, { name: '500', description: 'Internal error' });
                 break;
             default:
             }

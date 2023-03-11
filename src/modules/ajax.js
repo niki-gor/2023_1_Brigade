@@ -15,10 +15,11 @@ const BACKEND_URL = 'http://95.163.249.116:8081';
  * @returns {Promise} - request promise
  */
 function ajax(url, { method, body = null }) {
-    return fetch(url, {
+    JSON.stringify(body);
+    return fetch(BACKEND_URL + url, {
         method,
         headers: {
-            Accept: 'application/json', Host: BACKEND_URL, Origin: '', 'Content-Type': 'application/json', Cookie: '',
+            Accept: 'application/json', Host: BACKEND_URL, 'Content-Type': 'application/json',
         },
         credentials: 'include',
         mode: 'cors',
@@ -40,7 +41,7 @@ function ajax(url, { method, body = null }) {
  * @returns {Promise} - request promise
  */
 function get({ url }) {
-    return ajax(BACKEND_URL + url, {
+    return ajax(url, {
         method: AJAX_METHODS.GET,
     });
 }
@@ -53,7 +54,7 @@ function get({ url }) {
  */
 function post({ url, body }) {
     // console.log('post method: ', url);
-    return ajax(BACKEND_URL + url, {
+    return ajax(url, {
         method: AJAX_METHODS.POST,
         body,
     });
@@ -65,7 +66,7 @@ function post({ url, body }) {
  * @returns {Promise} - request promise
  */
 function deleteSession({ url }) {
-    return ajax(BACKEND_URL + url, {
+    return ajax(url, {
         method: AJAX_METHODS.DELETE,
     });
 }

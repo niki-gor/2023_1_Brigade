@@ -1,6 +1,5 @@
 import config from './modules/renders/config.js';
+// import auth from './modules/requests/auth.js';
 
-const root = document.querySelector('.root');
-
-// config.auth.render(root, config);
-config.login.render(root, config);
+// auth(root, config);
+config.chat.render(config);

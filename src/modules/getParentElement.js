@@ -1,1 +1,1 @@
-export default (content, css = '.root') => document.querySelector(css);
+export default (content, css = '#root') => document.querySelector(css);
