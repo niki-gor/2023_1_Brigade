@@ -15,7 +15,6 @@ const BACKEND_URL = 'http://95.163.249.116:8081';
  * @returns {Promise} - request promise
  */
 function ajax(url, { method, body = null }) {
-    if (body) JSON.stringify(body);
     return fetch(BACKEND_URL + url, {
         method,
         headers: {

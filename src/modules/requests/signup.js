@@ -12,11 +12,11 @@ import config from './config.js';
 export default (renderConfig, inputEmail, inputPassword, inputNick) => {
     post({
         url: config.signup,
-        body: {
+        body: JSON.stringify({
             email: inputEmail.value,
             password: inputPassword.value,
             username: inputNick.value,
-        },
+        }),
     })
         .then(({ status, parsedBody }) => {
             switch (status) {
