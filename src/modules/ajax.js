@@ -15,6 +15,7 @@ const BACKEND_URL = 'http://95.163.249.116:8081';
  * @returns {Promise} - request promise
  */
 function ajax(url, { method, body = null }) {
+    const jsonBody = JSON.stringify(body);
     return fetch(BACKEND_URL + url, {
         method,
         headers: {
@@ -22,7 +23,7 @@ function ajax(url, { method, body = null }) {
         },
         credentials: 'include',
         mode: 'cors',
-        body,
+        jsonBody,
     })
         .then((response) => {
             const { status } = response;

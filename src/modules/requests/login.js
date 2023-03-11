@@ -11,7 +11,7 @@ import config from './config.js';
 export default (renderConfig, inputEmail, inputPassword) => {
     post({
         url: config.login,
-        body: JSON.stringify({ email: inputEmail.value, password: inputPassword.value }),
+        body: { email: inputEmail.value, password: inputPassword.value },
     })
         .then(({ status, parsedBody }) => {
             switch (status) {
