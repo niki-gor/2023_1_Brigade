@@ -10,7 +10,6 @@ import config from './config.js';
  * @param {htmlElement} inputNick - input nickname
  */
 export default (renderConfig, inputEmail, inputPassword, inputNick) => {
-    console.log(inputEmail.value);
     post({
         url: config.signup,
         body: {

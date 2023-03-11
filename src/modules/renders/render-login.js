@@ -19,7 +19,6 @@ export default (config) => {
         e.preventDefault();
 
         if (loginPageValidator.isValid()) {
-            // console.log(loginPageValidator.getMail().value);
             login(config, loginPageValidator.getMail(), loginPageValidator.getPassword());
         }
     });
