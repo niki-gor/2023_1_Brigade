@@ -12,7 +12,7 @@ interface componentProps extends anyObject {
 };
 
 interface Action extends anyObject { 
-    type: string, 
+    type: string,
     payload: anyObject | null | undefined,
 }
 

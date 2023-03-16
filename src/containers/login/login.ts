@@ -114,9 +114,6 @@ export class SmartLogin extends Container {
      */
     componentDidMount() {
         if (!this.state.isSubscribed) {
-            // this.unsubscribe.push(store.subscribe(constantsOfActions.setUser, this.render));
-            // this.unsubscribe.push(store.subscribe(constantsOfActions.invalidEmail, this.invalidEmail));
-            
             this.unsubscribe.push(store.subscribe(this.name, (pr: componentProps) => {
                 this.props = pr;
 
