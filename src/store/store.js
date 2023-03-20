@@ -1,4 +1,4 @@
-import createInitAction from './actions/createInitAction.js';
+import createInitAction from './actions/initAction.js';
 
 const createStore = (reducer) => {
     let state = reducer(undefined, createInitAction());
