@@ -26,8 +26,12 @@
   },
   "homepage": "https://github.com/frontend-park-mail-ru/2023_1_Brigade#readme",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "express": "^4.18.2",
     "mkdirp": "^2.1.4",
-    "pug-cli": "^1.0.0-alpha6"
+    "morgan": "^1.10.0",
+    "pug-cli": "^1.0.0-alpha6",
+    "uuid": "^9.0.0"
   }
 }
