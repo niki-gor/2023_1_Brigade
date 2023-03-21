@@ -1,4 +1,6 @@
 import createInitAction from './actions/initAction.js';
+import config from '../modules/requests/config.js';
+import reducer from './combineReducers.js';
 
 const createStore = (reducer) => {
     let state = reducer(undefined, createInitAction());
@@ -8,18 +10,23 @@ const createStore = (reducer) => {
         getState: () => state,
         dispatch: (action) => {
             state = reducer(state, action);
-            subscribers.forEach((cb) => cb());
+            console.log(state);
+            Object.entries(subscribers).forEach(([, cb]) => {
+                cb(config, state.user ?? 0);
+            });
         },
-        subscribe: (cb) => { subscribers[cb.name] = cb; },
-        unsubscribe: (cb) => { delete subscribers[cb.name]; },
+        subscribe: (cb) => { subscribers[cb.toString()] = cb; },
+        unsubscribe: (cb) => { delete subscribers[cb.toString()]; },
     };
 };
 
 const applyMiddleware = (middleware) => (createStoreFunc) => (reducer) => {
     const store = createStoreFunc(reducer);
     return {
-        dispatch: (action) => middleware(store)(store.dispatch)(action),
         getState: store.getState,
+        dispatch: (action) => middleware(store)(store.dispatch)(action),
+        subscribe: store.subscribe,
+        unsubscribe: store.unsubscribe,
     };
 };
 
@@ -31,4 +38,4 @@ const thunk = (store) => (dispatch) => (action) => {
     return dispatch(action);
 };
 
-export default applyMiddleware(thunk)(createStore);
+export default applyMiddleware(thunk)(createStore)(reducer);

@@ -1,5 +1,7 @@
 import { get } from '../ajax.js';
 import config from './config.js';
+import { createAuthAction, createLoginAction } from '../../store/actions/userActions.js';
+import store from '../../store/store.js';
 
 /**
  * implementation request authorization
@@ -14,11 +16,15 @@ export default (renderConfig) => {
             switch (status) {
             case 200:
                 parsedBody.then((res) => {
-                    renderConfig.chat.render(renderConfig, res.id);
+                    store.subscribe(renderConfig.chat.render);
+                    store.dispatch(createAuthAction(res));
+                    // renderConfig.chat.render(renderConfig, res.id);
                 });
                 break;
             case 401:
-                renderConfig.login.render(renderConfig);
+                store.subscribe(renderConfig.login.render);
+                store.dispatch(createLoginAction());
+                // renderConfig.login.render(renderConfig);
                 break;
             case 500:
                 renderConfig.error.render(renderConfig, renderConfig.login.key, { name: '500', description: 'Internal error' });

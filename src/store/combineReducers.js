@@ -1,4 +1,14 @@
-export default (reducersMap) => (state, action) => {
+import initReducer from './reducers/initReducer.js';
+import { reduceAuth, reduceLogin, reduceSignUp } from './reducers/userReducers.js';
+
+const reducers = {
+    initReducer,
+    reduceAuth,
+    reduceLogin,
+    reduceSignUp,
+};
+
+const combineReducers = (reducersMap) => (state, action) => {
     const nextState = {};
 
     Object.entries(reducersMap).forEach(([key, reducer]) => {
@@ -7,3 +17,5 @@ export default (reducersMap) => (state, action) => {
 
     return nextState;
 };
+
+export default combineReducers(reducers);

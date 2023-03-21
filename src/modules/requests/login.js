@@ -1,5 +1,7 @@
 import { post } from '../ajax.js';
 import config from './config.js';
+import store from '../../store/store.js';
+import { createAuthAction, createLoginAction } from '../../store/actions/userActions.js';
 
 /**
  * implementation request login
@@ -17,7 +19,9 @@ export default (renderConfig, inputEmail, inputPassword) => {
             switch (status) {
             case 200:
                 parsedBody.then((res) => {
-                    renderConfig.chat.render(renderConfig, res.id);
+                    store.subscribe(renderConfig.chat.render);
+                    store.dispatch(createLoginAction(res));
+                    // renderConfig.chat.render(renderConfig, res.id);
                 });
                 break;
             case 404:
