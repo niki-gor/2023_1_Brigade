@@ -1,6 +1,6 @@
-import { get } from '../ajax.js';
+import { get } from '../../services/api.js';
 import config from './config.js';
-import { createAuthAction, createLoginAction } from '../../store/actions/userActions.js';
+import { createAuthAction, createLoginAction } from '../../actions/userActions.js';
 import store from '../../store/store.js';
 
 /**

@@ -1,6 +1,5 @@
 import reg from '../../templates/reg.js';
 import Validator from '../validator.js';
-import getParentElement from '../getParentElement.js';
 import signup from '../requests/signup.js';
 
 /**
@@ -9,7 +8,7 @@ import signup from '../requests/signup.js';
  * @param {json} config - Configuration
  */
 export default (config) => {
-    getParentElement().innerHTML = reg();
+    document.querySelector('#root').innerHTML = reg();
     const regPageValidator = new Validator(
         document.querySelector('.email'),
         document.querySelector('.password'),

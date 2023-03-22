@@ -1,5 +1,4 @@
 import chat from '../../templates/chat.js';
-import getParentElement from '../getParentElement.js';
 import logout from '../requests/logout.js';
 
 /**
@@ -9,7 +8,7 @@ import logout from '../requests/logout.js';
  * @param {int} userId - User identifier
  */
 export default (config, userId) => {
-    getParentElement().innerHTML = chat();
+    document.querySelector('#root').innerHTML = chat();
 
     if (userId % 2) {
         document.querySelector('.header__user-photo').src = './assets/img/geva.png';

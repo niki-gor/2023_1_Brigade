@@ -1,5 +1,4 @@
 import log from '../../templates/login.js';
-import getParentElement from '../getParentElement.js';
 import login from '../requests/login.js';
 import Validator from '../validator.js';
 
@@ -9,7 +8,7 @@ import Validator from '../validator.js';
  * @param {json} config - configuration
  */
 export default (config) => {
-    getParentElement().innerHTML = log();
+    document.querySelector('#root').innerHTML = log();
 
     const loginPageValidator = new Validator(document.querySelector('.email'), document.querySelector('.password'));
 

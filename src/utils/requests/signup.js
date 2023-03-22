@@ -1,4 +1,4 @@
-import { post } from '../ajax.js';
+import { post } from '../../services/api.js';
 import config from './config.js';
 
 /**

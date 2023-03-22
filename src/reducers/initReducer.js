@@ -1,4 +1,4 @@
-export default (state, action) => {
+export const reduceInit = (state, action) => {
     switch (action.type) {
     case 'INIT':
         return { };

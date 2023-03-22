@@ -1,19 +1,14 @@
-import createInitAction from './actions/initAction.js';
-import config from '../modules/requests/config.js';
-import reducer from './combineReducers.js';
+import reducers from '../reducers/combineReducers.js';
 
 const createStore = (reducer) => {
-    let state = reducer(undefined, createInitAction());
+    let state = {};
     const subscribers = {};
 
     return {
         getState: () => state,
         dispatch: (action) => {
             state = reducer(state, action);
-            console.log(state);
-            Object.entries(subscribers).forEach(([, cb]) => {
-                cb(config, state.user ?? 0);
-            });
+            Object.entries(subscribers).forEach(([, cb]) => cb());
         },
         subscribe: (cb) => { subscribers[cb.toString()] = cb; },
         unsubscribe: (cb) => { delete subscribers[cb.toString()]; },
@@ -38,4 +33,4 @@ const thunk = (store) => (dispatch) => (action) => {
     return dispatch(action);
 };
 
-export default applyMiddleware(thunk)(createStore)(reducer);
+export default applyMiddleware(thunk)(createStore)(reducers);

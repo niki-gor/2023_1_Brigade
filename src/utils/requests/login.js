@@ -1,7 +1,7 @@
-import { post } from '../ajax.js';
+import { post } from '../../services/api.js';
 import config from './config.js';
 import store from '../../store/store.js';
-import { createAuthAction, createLoginAction } from '../../store/actions/userActions.js';
+import { createAuthAction, createLoginAction } from '../../actions/userActions.js';
 
 /**
  * implementation request login

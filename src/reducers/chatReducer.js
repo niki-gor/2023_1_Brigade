@@ -1,4 +1,4 @@
-export default (state, action) => {
+export const reduceChat = (state, action) => {
     switch (action.type) {
     case 'AUTH' || 'LOGIN' || 'SIGNUP':
         return {
