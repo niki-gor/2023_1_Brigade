@@ -16,11 +16,11 @@ export default class ValidationError {
     #validStatus;
 
     // eslint-disable-next-line class-methods-use-this
-    #addError(erorrClass, deletedClasses) {
+    #addError(errorClass, deletedClasses) {
         deletedClasses.forEach((curClass) => {
             document.querySelector(curClass).classList.add('invisible');
         });
-        if (erorrClass) document.querySelector(erorrClass).classList.remove('invisible');
+        if (errorClass) document.querySelector(errorClass).classList.remove('invisible');
     }
 
     constructor(...props) {
