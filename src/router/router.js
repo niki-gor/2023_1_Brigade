@@ -36,13 +36,13 @@ class Router {
     // Функция для добавления маршрута в историю браузера
     navigateTo(path) {
         window.history.pushState(null, null, path);
-        // this.handleUrlChange();
+        this.handleUrlChange();
     }
 
     // Функция для замены текущего маршрута в истории браузера
     replacePath(path) {
         window.history.replaceState(null, null, path);
-        // this.handleUrlChange();
+        this.handleUrlChange();
     }
 
     // Инициализация приложения

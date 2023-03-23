@@ -15,7 +15,7 @@ app.use(express.static(path.resolve(__dirname, 'images')));
 app.use(body.json());
 app.use(cookie());
 app.use(cors({
-    origin: ['http://127.0.0.1:5500'],
+    origin: ['http://localhost:9000', 'http://127.0.0.1:5500'],
     credentials: true,
 }));
 

@@ -3,6 +3,7 @@ templates/
 
 # Node
 node_modules/
+dist/
 
 # IDEs and editors
 .idea/
