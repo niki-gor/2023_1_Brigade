@@ -1,5 +1,5 @@
-import chat from '../../templates/chat.js';
-import logout from '../requests/logout.js';
+import chat from '@templates/chat.js';
+import logout from '@utils/requests/logout';
 
 /**
  * implementation rendering of main page

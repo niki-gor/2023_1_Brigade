@@ -1,5 +1,5 @@
-import { reduceInit } from './initReducer.js';
-import { reduceAuth, reduceLogin, reduceSignUp } from './userReducers.js';
+import { reduceInit } from '@reducers/initReducer';
+import { reduceAuth, reduceLogin, reduceSignUp } from '@reducers/userReducers';
 
 const reducers = {
     reduceInit,

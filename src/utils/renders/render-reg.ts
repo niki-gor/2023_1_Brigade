@@ -1,6 +1,6 @@
-import reg from '../../templates/reg.js';
-import Validator from '../validator.js';
-import signup from '../requests/signup.js';
+import reg from '@templates/reg.js';
+import Validator from '@utils/validator';
+import signup from '@utils/requests/signup';
 
 /**
  * implementation rendering of registration page

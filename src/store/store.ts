@@ -1,4 +1,4 @@
-import reducers from '../reducers/combineReducers.js';
+import reducers from '@reducers/combineReducers';
 
 const createStore = (reducer) => {
     let state = {};

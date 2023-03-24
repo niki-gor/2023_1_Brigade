@@ -1,7 +1,7 @@
-import { post } from '../../services/api.js';
-import config from './config.js';
-import store from '../../store/store.js';
-import { createAuthAction, createLoginAction } from '../../actions/userActions.js';
+import { post } from '@services/api';
+import config from '@utils/requests/config';
+import store from '@store/store';
+import { createAuthAction, createLoginAction } from '@actions/userActions';
 
 /**
  * implementation request login

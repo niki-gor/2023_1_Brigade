@@ -1,6 +1,6 @@
-import log from '../../templates/login.js';
-import login from '../requests/login.js';
-import Validator from '../validator.js';
+import log from '@templates/login.js';
+import login from '@utils/requests/login';
+import Validator from '@utils/validator';
 
 /**
  * implementation rendering of login page

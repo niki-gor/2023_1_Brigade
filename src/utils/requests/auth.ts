@@ -1,7 +1,7 @@
-import { get } from '../../services/api.js';
-import config from './config.js';
-import { createAuthAction, createLoginAction } from '../../actions/userActions.js';
-import store from '../../store/store.js';
+import { get } from '@services/api';
+import config from '@utils/requests/config';
+import { createAuthAction, createLoginAction } from '@actions/userActions';
+import store from '@store/store';
 
 /**
  * implementation request authorization

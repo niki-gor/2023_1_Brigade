@@ -1,5 +1,5 @@
-import { post } from '../../services/api.js';
-import config from './config.js';
+import { post } from '@services/api';
+import config from '@utils/requests/config';
 
 /**
  * implementation request registration

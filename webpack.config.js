@@ -3,53 +3,66 @@ const path = require('path');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = {
-    entry: path.join(__dirname, 'src', 'index.js'),
+    entry: {
+        app: ['./src/index.ts'],
+    },
     output: {
-        path: path.join(__dirname, 'dist'),
         filename: 'index.[contenthash].js',
-        assetModuleFilename: path.join('images', '[name].[contenthash][ext]'),
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: '/',
+    },
+    resolve: {
+        extensions: ['.js', '.json', '.ts'],
+        plugins: [new TsconfigPathsPlugin()],
     },
     module: {
         rules: [
-            {
-                test: /\.js$/,
-                use: 'babel-loader',
-                exclude: /node_modules/,
-            },
-            {
-                test: /\.ts$/,
-                use: ['babel-loader', 'ts-loader'],
-                exclude: /node_modules/,
-            },
             {
                 test: /\.pug$/,
                 loader: 'pug-loader',
             },
             {
-                test: /\.(scss|css|)$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    'css-loader',
-                    'postcss-loader',
-                    'sass-loader',
-                ],
-            },
-            {
-                test: /\.(png|jpg|jpeg|gif)$/i,
-                type: 'asset/resource',
-            },
-            {
                 test: /\.svg$/,
                 type: 'asset/resource',
-                generator: {
-                    filename: path.join('icons', '[name].[contenthash][ext]'),
+            },
+            {
+                test: /\.css$/,
+                use: [MiniCssExtractPlugin.loader, 'css-loader'],
+            },
+            {
+                test: /\.(png|jpg|jpeg)$/,
+                type: 'asset/resource',
+            },
+            {
+                test: /\.(ttf|woff|woff2|eot)$/,
+                type: 'asset/resource',
+            },
+            {
+                test: /\.s[ac]ss$/,
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+            },
+            {
+                test: /\.less$/,
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'less-loader'],
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env'],
+                    },
                 },
             },
             {
-                test: /\.(woff2?|eot|ttf|otf)$/i,
-                type: 'asset/resource',
+                test: /\.ts$/,
+                exclude: /node_modules/,
+                use: ['babel-loader', 'ts-loader'],
             },
         ],
     },
@@ -63,15 +76,27 @@ module.exports = {
                 onStart: {
                     delete: ['dist'],
                 },
-                onEnd: {
-                    copy: [
-                        {
-                            source: path.join('src', 'assets'),
-                            destination: 'dist',
-                        },
-                    ],
-                },
+                // onEnd: {
+                //     copy: [
+                //         {
+                //             source: path.join('src', 'assets'),
+                //             destination: 'dist',
+                //         },
+                //     ],
+                // },
             },
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: path.resolve(__dirname, 'src/assets/img'),
+                    to: path.resolve(__dirname, 'dist/assets/img'),
+                },
+                {
+                    from: path.resolve(__dirname, 'src/assets/fonts'),
+                    to: path.resolve(__dirname, 'dist/assets/fonts'),
+                },
+            ],
         }),
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css',

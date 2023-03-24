@@ -1,7 +1,7 @@
-import renderChat from './render-chat.js';
-import renderReg from './render-reg.js';
-import renderLogin from './render-login.js';
-import renderError from './render-error.js';
+import renderChat from '@utils/renders/render-chat';
+import renderReg from '@utils/renders/render-reg';
+import renderLogin from '@utils/renders/render-login';
+import renderError from '@utils/renders/render-error';
 
 export default {
     login: {

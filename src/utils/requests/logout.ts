@@ -1,5 +1,5 @@
-import { deleteSession } from '../../services/api.js';
-import config from './config.js';
+import { deleteSession } from '@services/api';
+import config from '@utils/requests/config';
 
 /**
  * implementation request logout
