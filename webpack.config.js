@@ -16,7 +16,7 @@ module.exports = {
         publicPath: '/',
     },
     resolve: {
-        extensions: ['.js', '.json', '.ts'],
+        extensions: ['.js', '.json', '.ts', '.pug'],
         plugins: [new TsconfigPathsPlugin()],
     },
     module: {
@@ -24,6 +24,7 @@ module.exports = {
             {
                 test: /\.pug$/,
                 loader: 'pug-loader',
+                exclude: /node_modules/,
             },
             {
                 test: /\.svg$/,
@@ -44,10 +45,6 @@ module.exports = {
             {
                 test: /\.s[ac]ss$/,
                 use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
-            },
-            {
-                test: /\.less$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', 'less-loader'],
             },
             {
                 test: /\.js$/,
@@ -76,14 +73,6 @@ module.exports = {
                 onStart: {
                     delete: ['dist'],
                 },
-                // onEnd: {
-                //     copy: [
-                //         {
-                //             source: path.join('src', 'assets'),
-                //             destination: 'dist',
-                //         },
-                //     ],
-                // },
             },
         }),
         new CopyWebpackPlugin({

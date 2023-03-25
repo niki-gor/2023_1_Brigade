@@ -1,4 +1,4 @@
-import log from '@templates/login.js';
+import template from '@pages/login/login.pug';
 import login from '@utils/requests/login';
 import Validator from '@utils/validator';
 
@@ -8,7 +8,7 @@ import Validator from '@utils/validator';
  * @param {json} config - configuration
  */
 export default (config) => {
-    document.querySelector('#root').innerHTML = log();
+    document.querySelector('#root').innerHTML = template();
 
     const loginPageValidator = new Validator(document.querySelector('.email'), document.querySelector('.password'));
 

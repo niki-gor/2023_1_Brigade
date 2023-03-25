@@ -1,4 +1,5 @@
-import loadError from '@templates/error.js';
+import template from '@pages/error/error.pug';
+
 /**
  * implementation rendering of error page
  * @param {htmlElement} parent - parent element
@@ -8,7 +9,7 @@ import loadError from '@templates/error.js';
  * @param {string} description - error description
  */
 export default (config, prevPage, { name, description }) => {
-    document.querySelector('#root').innerHTML = loadError();
+    document.querySelector('#root').innerHTML = template();
     document.querySelector('.header-error').textContent = name;
     document.querySelector('.header-error__description').textContent = description;
 

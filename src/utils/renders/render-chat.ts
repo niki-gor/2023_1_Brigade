@@ -1,4 +1,4 @@
-import chat from '@templates/chat.js';
+import template from '@pages/chat/chat.pug';
 import logout from '@utils/requests/logout';
 
 /**
@@ -8,7 +8,7 @@ import logout from '@utils/requests/logout';
  * @param {int} userId - User identifier
  */
 export default (config, userId) => {
-    document.querySelector('#root').innerHTML = chat();
+    document.querySelector('#root').innerHTML = template();
 
     if (userId % 2) {
         document.querySelector('.header__user-photo').src = './assets/img/geva.png';

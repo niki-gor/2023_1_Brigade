@@ -1,4 +1,4 @@
-import reg from '@templates/reg.js';
+import template from '@pages/reg/reg.pug';
 import Validator from '@utils/validator';
 import signup from '@utils/requests/signup';
 
@@ -8,7 +8,7 @@ import signup from '@utils/requests/signup';
  * @param {json} config - Configuration
  */
 export default (config) => {
-    document.querySelector('#root').innerHTML = reg();
+    document.querySelector('#root').innerHTML = template();
     const regPageValidator = new Validator(
         document.querySelector('.email'),
         document.querySelector('.password'),
