@@ -40,11 +40,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "serve": "webpack serve --open --mode development",
+    "start": "webpack serve --open --mode development",
     "dev": "webpack --mode development",
     "build": "webpack --mode production",
-    "prestart": "mkdir ./src/templates && npm run compile",
-    "compile": "node compile.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
