@@ -3,4 +3,3 @@ import auth from '@utils/requests/auth';
 import '@/index.css';
 
 auth(config);
-// config.login.render(config);

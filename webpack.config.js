@@ -23,7 +23,7 @@ module.exports = {
         rules: [
             {
                 test: /\.pug$/,
-                loader: 'pug-loader',
+                loader: 'pug3-loader',
                 exclude: /node_modules/,
             },
             {

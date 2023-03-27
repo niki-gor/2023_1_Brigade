@@ -127,9 +127,6 @@ main {
 @import "./components/chatCard/chatCard.css";
 @import "./pages/reg/reg.css";
 @import "./pages/login/login.css";
-@import "./components/ui/loginReg/bottom.css";
-@import "./components/ui/loginReg/top.css";
-@import "./components/ui/loginReg/input.css";
 @import "./pages/chat/chat.css";
 @import "./pages/error/error.css";
 @import "./components/header/header.css";
