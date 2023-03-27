@@ -4,7 +4,7 @@ const forbiddenCharacters = {
     password: '',
 };
 
-export default class ValidationError {
+export class ValidationError {
     #email;
 
     #password;

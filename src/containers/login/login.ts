@@ -1,4 +1,7 @@
 import { Container } from "@containers/container";
+import { DumbLogin } from "@/pages/login/login";
+import { ValidationError } from "@/utils/validator";
+import { store } from "@/store/store";
 
 export interface Login {
     state: {
@@ -29,33 +32,49 @@ export class Login extends Container {
 
     /**
      * Обрабатывает статус ответа
-     * @param {number} userStatus - статус логина
      */
-    handlerStatus(userStatus :number) {
+    handleStatus() {
+
+    }
+
+    /**
+     * Обрабатывает нажатие кнопки логина
+     */
+    handleClickLogin() {
+
+    }
+
+    /**
+     * Обрабатывает нажатие кнопки перехода на страничку регистрации
+     */
+    handleClickMoveToSignUp() {
+
     }
 
     /**
      * Рендерит логин
      */
     render() {
-        // tik tak
-        this.componentDidMount();
+        const LoginUI = new DumbLogin({ 
+            ...this.props, 
+            onClickLogin: this.handleClickLogin,
+            onClickMoveToSignUp: this.handleClickMoveToSignUp,
+            validate: this.validate,
+            destroy: this.destroy,
+        }); 
+
+        this.rootNode.innerHTML = LoginUI.render();
+        
+        LoginUI.componentDidMount();
     }
 
     /**
      * Проверяет пользовательский ввод
-     * @param {Element} form - форма логина
-     * @param {Bool} keyup - режим проверки полей: true - по одному, false все
      */
-    validateLogin(form :HTMLElement, keyup = false) {}
-
-    /**
-     * Навешивает обработчики на валидацию и на выход
-     */
-    componentDidMount() {}
+    validate() {}
 
     /**
      * Удаляет все подписки
      */
-    componentWillUnmount() {}
+    destroy() {}
 }

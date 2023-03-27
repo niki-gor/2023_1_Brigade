@@ -1,7 +1,7 @@
 import { get } from '@services/api';
 import config from '@utils/requests/config';
 import { createAuthAction, createLoginAction } from '@actions/userActions';
-import store from '@store/store';
+import { store } from '@store/store';
 
 /**
  * implementation request authorization

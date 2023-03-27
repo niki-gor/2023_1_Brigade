@@ -1,6 +1,6 @@
-import { Login } from '@pages/login/login';
+import { DumbLogin } from '@pages/login/login';
 import login from '@utils/requests/login';
-import Validator from '@utils/validator';
+import { ValidationError } from '@utils/validator';
 
 /**
  * implementation rendering of login page
@@ -8,13 +8,15 @@ import Validator from '@utils/validator';
  * @param {json} config - configuration
  */
 export default (config) => {
-    document.querySelector('#root').innerHTML = Login.render();
+    const page = DumbLogin.render();
+    console.log(page);
+    document.querySelector('#root')?.innerHTML = DumbLogin.render();
 
-    const loginPageValidator = new Validator(document.querySelector('.email'), document.querySelector('.password'));
+    const loginPageValidator = new ValidationError(document.querySelector('.email'), document.querySelector('.password'));
 
     loginPageValidator.validate();
 
-    document.querySelector('.login-but').addEventListener('click', (e) => {
+    document.querySelector('.login-but')?.addEventListener('click', (e) => {
         e.preventDefault();
 
         if (loginPageValidator.isValid()) {
@@ -22,7 +24,7 @@ export default (config) => {
         }
     });
 
-    document.querySelector('.login-ques').addEventListener('click', (e) => {
+    document.querySelector('.login-ques')?.addEventListener('click', (e) => {
         e.preventDefault();
 
         config.reg.render(config);

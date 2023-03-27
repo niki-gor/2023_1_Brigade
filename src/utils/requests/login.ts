@@ -1,6 +1,6 @@
 import { post } from '@services/api';
 import config from '@utils/requests/config';
-import store from '@store/store';
+import { store } from '@store/store';
 import { createAuthAction, createLoginAction } from '@actions/userActions';
 
 /**
