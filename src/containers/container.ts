@@ -1,11 +1,11 @@
 import { ROOT } from '@config/config';
 
-export interface Component extends anyObject {
+export interface Container extends anyObject {
     props: componentProps;
     rootNode: HTMLElement;
 }
 
-export class Component {
+export class Container {
     /**
      * Cохраняет переданные параметры props.
      * @param {Object} props - необходимые для работы класса свойства

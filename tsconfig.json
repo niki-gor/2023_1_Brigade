@@ -16,6 +16,7 @@
         "@reducers/*":  ["src/reducers/*"],
         "@actions/*":  ["src/actions/*"],
         "@config/*": ["src/config/*"],
+        "@containers/*": ["src/containers/*"],
       },
       "strict": true,
       "module": "commonjs",

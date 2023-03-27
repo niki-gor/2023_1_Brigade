@@ -1,8 +1,8 @@
 import { Container } from "@containers/container";
 
-export interface Login {
+export interface SignUp {
     state: {
-        statusLogin: number,
+        statusSignUp: number,
         isSubscribed: boolean,
     }
 }
@@ -14,7 +14,7 @@ export interface Login {
 * для корректного рендера ошибки
 *
 */
-export class Login extends Container {
+export class SignUp extends Container {
     /**
      * Cохраняет props
      * @param {Object} props - параметры компонента
@@ -22,7 +22,7 @@ export class Login extends Container {
     constructor(props :componentProps) {
         super(props);
         this.state = {
-            statusLogin: 0,
+            statusSignUp: 0,
             isSubscribed: false,
         };
     }
@@ -44,10 +44,9 @@ export class Login extends Container {
 
     /**
      * Проверяет пользовательский ввод
-     * @param {Element} form - форма логина
-     * @param {Bool} keyup - режим проверки полей: true - по одному, false все
+     * @param {Object} user - форма логина
      */
-    validateLogin(form :HTMLElement, keyup = false) {}
+    validateSignUp(user : {}) {}
 
     /**
      * Навешивает обработчики на валидацию и на выход
