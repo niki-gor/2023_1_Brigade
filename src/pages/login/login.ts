@@ -25,15 +25,25 @@ export class DumbLogin extends Page {
         document.querySelector('.login-but')?.addEventListener('click', (e) => {
             e.preventDefault();
 
-            if (!this.state.isSubscribed) {
-                
-            }
+            this.props.onClickLogin();
         });
 
         document.querySelector('.login-ques')?.addEventListener('click', (e) => {
             e.preventDefault();
 
-            // dispatch
+            this.props.onClickMoveToSignUp();
+        });
+
+        document.querySelector('.email')?.addEventListener('input', (e) => {
+            e.preventDefault();
+
+            this.props.validateEmail();
+        });
+
+        document.querySelector('.password')?.addEventListener('input', (e) => {
+            e.preventDefault();
+
+            this.props.validatePassword();
         });
     }
 
@@ -41,6 +51,6 @@ export class DumbLogin extends Page {
      * Вызывает переданную функцию удаления подписки
      */
     componentWillUnmount() {
-
+        this.props.destroy();
     }
 }

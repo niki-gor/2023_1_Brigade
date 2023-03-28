@@ -3,6 +3,7 @@ import { ROOT } from '@config/config';
 export interface Container extends anyObject {
     props: componentProps;
     rootNode: HTMLElement;
+    unsubscribe: () => void;
 }
 
 export class Container {

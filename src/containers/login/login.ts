@@ -1,12 +1,15 @@
 import { Container } from "@containers/container";
 import { DumbLogin } from "@/pages/login/login";
-import { ValidationError } from "@/utils/validator";
+import { checkEmail, checkPassword, addErrorToClass } from "@/utils/validator";
 import { store } from "@/store/store";
+import { emailErrorTypes, passwordErrorTypes } from "@/config/config";
+
 
 export interface Login {
     state: {
         statusLogin: number,
         isSubscribed: boolean,
+        isValid: boolean,
     }
 }
 
@@ -27,6 +30,7 @@ export class Login extends Container {
         this.state = {
             statusLogin: 0,
             isSubscribed: false,
+            isValid: false,
         };
     }
 
@@ -34,32 +38,82 @@ export class Login extends Container {
      * Обрабатывает статус ответа
      */
     handleStatus() {
-
+        // TODO: after handleClickLogin
     }
 
     /**
      * Обрабатывает нажатие кнопки логина
      */
     handleClickLogin() {
-
+        if (this.state.isValid) {
+            // TODO: login request action
+        }
     }
 
     /**
      * Обрабатывает нажатие кнопки перехода на страничку регистрации
      */
     handleClickMoveToSignUp() {
+        // TODO: signup render action
+    }
 
+    /**
+     * Проверяет пользовательский ввод почты
+     */
+    validateEmail() {
+        const email = document.querySelector('.email') as HTMLInputElement;
+
+        email.classList.remove('login-reg__input_error');
+        addErrorToClass('', emailErrorTypes);
+
+        const { isError, errorClass } = checkEmail(email?.value);
+
+        if (isError) {
+            email.classList.add('login-reg__input_error');
+            addErrorToClass(errorClass, emailErrorTypes);
+            this.state.isValid = false;
+            return;
+        }
+
+        this.state.isValid = true;
+    }
+
+    /**
+     * Проверяет пользовательский ввод пароля
+     */
+    validatePassword() {
+        const password = document.querySelector('.password') as HTMLInputElement;
+
+        password.classList.remove('login-reg__input_error');
+        addErrorToClass('', passwordErrorTypes);
+
+        const { isError, errorClass } = checkPassword(password?.value);
+
+        if (isError) {
+            password.classList.add('login-reg__input_error');
+            addErrorToClass(errorClass, passwordErrorTypes);
+            this.state.isValid = false;
+            return;
+        }
+
+        this.state.isValid = true;
     }
 
     /**
      * Рендерит логин
      */
     render() {
+        if (!this.state.isSubscribed) {
+            this.unsubscribe = store.subscribe(this.render());
+            this.state.isSubscribed = true;
+        }
+
         const LoginUI = new DumbLogin({ 
             ...this.props, 
             onClickLogin: this.handleClickLogin,
             onClickMoveToSignUp: this.handleClickMoveToSignUp,
-            validate: this.validate,
+            validateEmail: this.validateEmail,
+            validatePassword: this.validatePassword,
             destroy: this.destroy,
         }); 
 
@@ -69,12 +123,9 @@ export class Login extends Container {
     }
 
     /**
-     * Проверяет пользовательский ввод
-     */
-    validate() {}
-
-    /**
      * Удаляет все подписки
      */
-    destroy() {}
+    destroy() {
+        this.unsubscribe();
+    }
 }
