@@ -8,7 +8,7 @@ import { createSignUpAction } from "@/actions/authActions";
 import { createMoveToLoginAction } from "@/actions/routeActions";
 
 
-export interface Login {
+export interface SmartSignUp {
     state: {
         statusLogin: number,
         isSubscribed: boolean,
@@ -37,7 +37,7 @@ export interface Login {
 * для корректного рендера ошибки
 *
 */
-export class Login extends Container {
+export class SmartSignUp extends Container {
     /**
      * Cохраняет props
      * @param {Object} props - параметры компонента

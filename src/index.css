@@ -125,8 +125,6 @@ main {
 
 @import "./assets/fonts/fonts.css";
 @import "./components/chatCard/chatCard.css";
-@import "./pages/reg/reg.css";
-@import "./pages/login/login.css";
 @import "./pages/chat/chat.css";
 @import "./pages/error/error.css";
 @import "./components/header/header.css";

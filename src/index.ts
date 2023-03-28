@@ -1,5 +1,9 @@
-import config from '@utils/renders/config';
-import auth from '@utils/requests/auth';
 import '@/index.css';
 
-auth(config);
+// TODO: костыли, которые заменятся роутером
+// import { ROOT } from '@config/config';
+// import { store } from '@store/store'
+// import { SmartLogin } from '@containers/login/login';
+
+// const login = new SmartLogin({ ...store.getState(), rootNode: ROOT });
+// login.componentDidMount();
