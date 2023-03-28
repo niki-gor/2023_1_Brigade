@@ -3,6 +3,7 @@ import { DumbLogin } from "@/pages/login/login";
 import { checkEmail, checkPassword, addErrorToClass } from "@/utils/validator";
 import { store } from "@/store/store";
 import { emailErrorTypes, passwordErrorTypes } from "@/config/config";
+import { constantsOfActions } from "@/config/actions";
 
 
 export interface Login {
@@ -69,11 +70,8 @@ export class Login extends Container {
      */
     componentDidMount() {
         if (!this.state.isSubscribed) {
-            // TODO: эта хрень точно не сработает, надо исправить
-            this.unsubscribe = () => { 
-                store.subscribe(this.render);
-                store.subscribe(this.invalidEmail);
-            };
+            this.unsubscribe.push(store.subscribe(constantsOfActions.setState, this.render));
+            this.unsubscribe.push(store.subscribe(constantsOfActions.invalidEmail, this.invalidEmail));
 
             this.state.isSubscribed = true;
         }
@@ -109,7 +107,7 @@ export class Login extends Container {
      * Удаляет все подписки
      */
     componentWillUnmount() {
-        this.unsubscribe();
+        this.unsubscribe.forEach((uns) => uns());
         this.state.isSubscribed = false;
     }
 

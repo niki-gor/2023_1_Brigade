@@ -16,6 +16,10 @@ interface Action extends anyObject {
     payload: anyObject | null | undefined,
 }
 
+interface AsyncAction {
+    (dispatch: (action: Action) => void, state: anyObject) : Promise<void>,
+}
+
 interface Response extends anyObject {
     status: number,
     body: anyObject | null | undefined,
@@ -29,14 +33,14 @@ interface CreateStore {
     (reducers: Map<string, (state: anyObject, action: Action) => anyObject>) : {
         getState: () => anyObject,
         dispatch: (action: Action) => void,
-        subscribe: (cb: () => void) => () => void,
+        subscribe: (key: string, cb: () => void) => () => void,
     }
 }
 
 interface Store {
     getState: () => anyObject,
     dispatch: (action: Action) => void,
-    subscribe: (cb: () => void) => () => void,
+    subscribe: (key: string, cb: () => void) => () => void,
 }
 
 interface Middleware {

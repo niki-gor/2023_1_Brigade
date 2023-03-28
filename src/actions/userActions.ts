@@ -1,20 +1,22 @@
+import { constantsOfActions } from "@/config/actions"
+
 export const createSetStateAction = (state: anyObject) : Action => {
     return {
-        type: 'set',
+        type: constantsOfActions.setState,
         payload: state,
     }
 }
 
 export const createInvalidEmailAction = () : Action => {
     return {
-        type: 'invalidEmail',
+        type: constantsOfActions.invalidEmail,
         payload: null,
     }
 }
 
 export const createOccupiedEmailAction = () : Action => {
     return {
-        type: 'occupiedEmail',
+        type: constantsOfActions.occupiedEmail,
         payload: null,
     }
 }

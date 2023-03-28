@@ -3,6 +3,8 @@ import { DumbSignUp } from "@/pages/signUp/signUp";
 import { checkEmail, checkPassword, checkConfirmPassword, checkUsername, addErrorToClass } from "@/utils/validator";
 import { store } from "@/store/store";
 import { emailErrorTypes, passwordErrorTypes, confirmPasswordErrorTypes, usernameErrorTypes } from "@/config/config";
+import { constantsOfActions } from "@/config/actions";
+import { createSignUpAction } from "@/actions/authActions";
 
 
 export interface Login {
@@ -16,6 +18,14 @@ export interface Login {
             usernameIsValid: boolean,
             isValid: () => boolean,
         },
+        domElements: {
+            email: HTMLInputElement | null,
+            password: HTMLInputElement | null,
+            confirmPassword: HTMLInputElement | null,
+            username: HTMLInputElement | null,
+            loginButton: HTMLButtonElement | null,
+            moveToSignUp: HTMLElement | null,
+        }
     }
 }
 
@@ -48,6 +58,14 @@ export class Login extends Container {
                            this.state.valid.usernameIsValid;
                 }
             },
+            domElements: {
+                email: null,
+                password:  null,
+                confirmPassword: null,
+                username: null,
+                loginButton: null,
+                moveToSignUp: null
+            }
         };
     }
 
@@ -66,7 +84,7 @@ export class Login extends Container {
      * Показывает, что была введа занятая почта
      */
     occupiedEmail() {
-        document.querySelector('.email')?.classList.add('login-reg__input_error');
+        this.state.domElements.email?.classList.add('login-reg__input_error');
         document.querySelector('.occupied-email')?.classList.remove('invisible');
     }
 
@@ -74,60 +92,63 @@ export class Login extends Container {
      * Навешивает переданные обработчики на валидацию и кнопки
      */
     componentDidMount() {
-        if (!this.state.isSubscribed) {
-            // TODO: эта хрень точно не сработает, надо исправить
-            this.unsubscribe = () => { 
-                store.subscribe(this.render);
-                store.subscribe(this.occupiedEmail);
-            };
-
-            this.state.isSubscribed = true;
-        }
-
         this.render();
 
-        document.querySelector('.login-but')?.addEventListener('click', (e) => {
+        this.state.domElements.loginButton = document.querySelector('.login-but');
+        this.state.domElements.loginButton?.addEventListener('click', (e) => {
             e.preventDefault();
 
             this.handleClickSignUp();
         });
 
-        document.querySelector('.login-ques')?.addEventListener('click', (e) => {
+        this.state.domElements.moveToSignUp = document.querySelector('.login-ques');
+        this.state.domElements.moveToSignUp?.addEventListener('click', (e) => {
             e.preventDefault();
 
             this.handleClickMoveToLogin();
         });
 
-        document.querySelector('.email')?.addEventListener('input', (e) => {
+        this.state.domElements.email = document.querySelector('.email');
+        this.state.domElements.email?.addEventListener('input', (e) => {
             e.preventDefault();
 
             this.validateEmail();
         });
 
-        document.querySelector('.password')?.addEventListener('input', (e) => {
+        this.state.domElements.password = document.querySelector('.password');
+        this.state.domElements.password?.addEventListener('input', (e) => {
             e.preventDefault();
 
             this.validatePassword();
         });
 
-        document.querySelector('.confirm-password')?.addEventListener('input', (e) => {
+        this.state.domElements.confirmPassword = document.querySelector('.confirm-password');
+        this.state.domElements.confirmPassword?.addEventListener('input', (e) => {
             e.preventDefault();
 
             this.validateConfirmPassword();
         });
 
-        document.querySelector('.username')?.addEventListener('input', (e) => {
+        this.state.domElements.username = document.querySelector('.username');
+        this.state.domElements.username?.addEventListener('input', (e) => {
             e.preventDefault();
 
             this.validateUsername();
         });
+
+        if (!this.state.isSubscribed) {
+            this.unsubscribe.push(store.subscribe(constantsOfActions.setState, this.render));
+            this.unsubscribe.push(store.subscribe(constantsOfActions.occupiedEmail, this.occupiedEmail));
+
+            this.state.isSubscribed = true;
+        }
     }
 
     /**
      * Удаляет все подписки
      */
     componentWillUnmount() {
-        this.unsubscribe();
+        this.unsubscribe.forEach((uns) => uns());
         this.state.isSubscribed = false;
     }
 
@@ -143,7 +164,15 @@ export class Login extends Container {
      */
     handleClickSignUp() {
         if (this.state.valid.isValid()) {
-            // TODO: signup request action
+            const user = {
+                email: this.state.domElements.email?.value,
+                password: this.state.domElements.password?.value,
+                username: this.state.domElements.username?.value,
+            } as anyObject;
+
+            if (this.state.valid.isValid()) {
+                store.dispatch(createSignUpAction(user))
+            }
         }
     }
 
@@ -151,22 +180,20 @@ export class Login extends Container {
      * Обрабатывает нажатие кнопки перехода на страничку регистрации
      */
     handleClickMoveToLogin() {
-        // TODO: login render action
+        // TODO: по идее вывать экшен, который впоследствии звдействует роутер
     }
 
     /**
      * Проверяет пользовательский ввод почты
      */
     validateEmail() {
-        const email = document.querySelector('.email') as HTMLInputElement;
-
-        email.classList.remove('login-reg__input_error');
+        this.state.domElements.email?.classList.remove('login-reg__input_error');
         addErrorToClass('', emailErrorTypes);
 
-        const { isError, errorClass } = checkEmail(email?.value);
+        const { isError, errorClass } = checkEmail(this.state.domElements.email?.value ?? '');
 
         if (isError) {
-            email.classList.add('login-reg__input_error');
+            this.state.domElements.email?.classList.add('login-reg__input_error');
             addErrorToClass(errorClass, emailErrorTypes);
             this.state.valid.emailIsValid = false;
             return;
@@ -179,15 +206,13 @@ export class Login extends Container {
      * Проверяет пользовательский ввод пароля
      */
     validatePassword() {
-        const password = document.querySelector('.password') as HTMLInputElement;
-
-        password.classList.remove('login-reg__input_error');
+        this.state.domElements.password?.classList.remove('login-reg__input_error');
         addErrorToClass('', passwordErrorTypes);
 
-        const { isError, errorClass } = checkPassword(password?.value);
+        const { isError, errorClass } = checkPassword(this.state.domElements.password?.value ?? '');
 
         if (isError) {
-            password.classList.add('login-reg__input_error');
+            this.state.domElements.password?.classList.add('login-reg__input_error');
             addErrorToClass(errorClass, passwordErrorTypes);
             this.state.valid.passwordIsValid = false;
             return;
@@ -200,16 +225,13 @@ export class Login extends Container {
      * Проверяет пользовательский ввод подтверждения пароля
      */
     validateConfirmPassword() {
-        const password = document.querySelector('.password') as HTMLInputElement;
-        const confirmPassword = document.querySelector('.confirm-password') as HTMLInputElement;
-
-        confirmPassword.classList.remove('login-reg__input_error');
+        this.state.domElements.confirmPassword?.classList.remove('login-reg__input_error');
         addErrorToClass('', confirmPasswordErrorTypes);
 
-        const { isError, errorClass } = checkConfirmPassword(password?.value, confirmPassword?.value);
+        const { isError, errorClass } = checkConfirmPassword(this.state.domElements.password?.value ?? '', this.state.domElements.confirmPassword?.value ?? '');
 
         if (isError) {
-            confirmPassword.classList.add('login-reg__input_error');
+            this.state.domElements.confirmPassword?.classList.add('login-reg__input_error');
             addErrorToClass(errorClass, passwordErrorTypes);
             this.state.valid.confirmPasswordIsValid = false;
             return;
@@ -222,15 +244,13 @@ export class Login extends Container {
      * Проверяет пользовательский ввод имени
      */
     validateUsername() {
-        const username = document.querySelector('.username') as HTMLInputElement;
-
-        username.classList.remove('login-reg__input_error');
+        this.state.domElements.username?.classList.remove('login-reg__input_error');
         addErrorToClass('', passwordErrorTypes);
 
-        const { isError, errorClass } = checkUsername(username?.value);
+        const { isError, errorClass } = checkUsername(this.state.domElements.username?.value ?? '');
 
         if (isError) {
-            username.classList.add('login-reg__input_error');
+            this.state.domElements.username?.classList.add('login-reg__input_error');
             addErrorToClass(errorClass, passwordErrorTypes);
             this.state.valid.usernameIsValid = false;
             return;

@@ -11,10 +11,10 @@ export const createStore = (reducers: Map<string, (state: anyObject, action: Act
             }
             subscribers.forEach((cb) => cb());
         },
-        subscribe: (cb: () => void) => { 
-            subscribers.set(cb.name, cb); 
+        subscribe: (key: string, cb: () => void) => { 
+            subscribers.set(key, cb); 
             return () => {
-                subscribers.delete(cb.name);
+                subscribers.delete(key);
             }
         },
     };
@@ -24,12 +24,12 @@ export const applyMiddleware = (middleware: Middleware) => (createStoreFunc: Cre
     const store = createStoreFunc(reducers);
     return {
         getState: store.getState,
-        dispatch: (action: Action) => middleware(store)(store.dispatch)(action),
+        dispatch: (action: Action | AsyncAction) => middleware(store)(store.dispatch)(action),
         subscribe: store.subscribe,
     };
 };
 
-export const thunk = (store: Store) => (dispatch: Dispatch) => (action: Action | ((dispatch: (action: Action) => void, state: anyObject) => Promise<void>)) => {
+export const thunk = (store: Store) => (dispatch: Dispatch) => (action: Action | AsyncAction) => {
     if (typeof action === 'function') {
         return action(store.dispatch, store.getState);
     }

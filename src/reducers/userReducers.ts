@@ -1,41 +1,14 @@
-export const reduceAuth = (state, action) => {
-    switch (action.type) {
-    case 'AUTH':
-        return {
-            ...state,
-            user: action.user,
-        };
-    default:
-        return {
-            ...state,
-        };
-    }
-};
+import { constantsOfActions } from "@/config/actions";
 
-export const reduceLogin = (state, action) => {
+export const reduceSetState = (state: anyObject, action: Action) => {
     switch (action.type) {
-    case 'LOGIN':
+    case constantsOfActions.setState:
         return {
-            ...state,
-            user: action.user,
+            ...action.payload,
         };
     default:
         return {
             ...state,
-        };
-    }
-};
-
-export const reduceSignUp = (state, action) => {
-    switch (action.type) {
-    case 'SIGNUP':
-        return {
-            ...state,
-            user: action.user,
-        };
-    default:
-        return {
-            ...state,
-        };
+        }
     }
 };
