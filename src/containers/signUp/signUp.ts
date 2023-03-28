@@ -5,6 +5,7 @@ import { store } from "@/store/store";
 import { emailErrorTypes, passwordErrorTypes, confirmPasswordErrorTypes, usernameErrorTypes } from "@/config/config";
 import { constantsOfActions } from "@/config/actions";
 import { createSignUpAction } from "@/actions/authActions";
+import { createMoveToLoginAction } from "@/actions/routeActions";
 
 
 export interface Login {
@@ -23,8 +24,8 @@ export interface Login {
             password: HTMLInputElement | null,
             confirmPassword: HTMLInputElement | null,
             username: HTMLInputElement | null,
-            loginButton: HTMLButtonElement | null,
-            moveToSignUp: HTMLElement | null,
+            signUpButton: HTMLButtonElement | null,
+            moveToLogin: HTMLElement | null,
         }
     }
 }
@@ -63,8 +64,8 @@ export class Login extends Container {
                 password:  null,
                 confirmPassword: null,
                 username: null,
-                loginButton: null,
-                moveToSignUp: null
+                signUpButton: null,
+                moveToLogin: null
             }
         };
     }
@@ -94,15 +95,15 @@ export class Login extends Container {
     componentDidMount() {
         this.render();
 
-        this.state.domElements.loginButton = document.querySelector('.login-but');
-        this.state.domElements.loginButton?.addEventListener('click', (e) => {
+        this.state.domElements.signUpButton = document.querySelector('.reg-but');
+        this.state.domElements.signUpButton?.addEventListener('click', (e) => {
             e.preventDefault();
 
             this.handleClickSignUp();
         });
 
-        this.state.domElements.moveToSignUp = document.querySelector('.login-ques');
-        this.state.domElements.moveToSignUp?.addEventListener('click', (e) => {
+        this.state.domElements.moveToLogin = document.querySelector('.reg-ques');
+        this.state.domElements.moveToLogin?.addEventListener('click', (e) => {
             e.preventDefault();
 
             this.handleClickMoveToLogin();
@@ -153,13 +154,6 @@ export class Login extends Container {
     }
 
     /**
-     * Обрабатывает статус ответа
-     */
-    handleStatus() {
-        // TODO: after handleClickLogin
-    }
-
-    /**
      * Обрабатывает нажатие кнопки логина
      */
     handleClickSignUp() {
@@ -180,7 +174,7 @@ export class Login extends Container {
      * Обрабатывает нажатие кнопки перехода на страничку регистрации
      */
     handleClickMoveToLogin() {
-        // TODO: по идее вывать экшен, который впоследствии звдействует роутер
+        store.dispatch(createMoveToLoginAction());
     }
 
     /**

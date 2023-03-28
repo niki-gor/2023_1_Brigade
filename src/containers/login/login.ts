@@ -4,6 +4,8 @@ import { checkEmail, checkPassword, addErrorToClass } from "@/utils/validator";
 import { store } from "@/store/store";
 import { emailErrorTypes, passwordErrorTypes } from "@/config/config";
 import { constantsOfActions } from "@/config/actions";
+import { createLoginAction } from "@/actions/authActions";
+import { createMoveToSignUpAction } from "@/actions/routeActions";
 
 
 export interface Login {
@@ -15,6 +17,12 @@ export interface Login {
             passwordIsValid: boolean,
             isValid: () => boolean,
         },
+        domElements: {
+            email: HTMLInputElement | null,
+            password: HTMLInputElement | null,
+            loginButton: HTMLButtonElement | null,
+            moveToSignUp: HTMLElement | null,
+        }
     }
 }
 
@@ -43,6 +51,12 @@ export class Login extends Container {
                            this.state.valid.passwordIsValid;
                 }
             },
+            domElements: {
+                email: null,
+                password:  null,
+                loginButton: null,
+                moveToSignUp: null
+            }
         };
     }
 
@@ -61,7 +75,7 @@ export class Login extends Container {
      * Показывает, что была введа незарегистрированная почта
      */
     invalidEmail() {
-        document.querySelector('.email')?.classList.add('login-reg__input_error');
+        this.state.domElements.email?.classList.add('login-reg__input_error');
         document.querySelector('.invalid-email')?.classList.remove('invisible');
     }
 
@@ -69,38 +83,42 @@ export class Login extends Container {
      * Навешивает переданные обработчики на валидацию и кнопки
      */
     componentDidMount() {
+        this.render();
+
+        this.state.domElements.loginButton = document.querySelector('.login-but');
+        this.state.domElements.email?.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            this.handleClickLogin();
+        });
+
+        this.state.domElements.moveToSignUp = document.querySelector('.login-ques');
+        this.state.domElements.moveToSignUp?.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            this.handleClickMoveToSignUp();
+        });
+
+        this.state.domElements.email = document.querySelector('.email');
+        this.state.domElements.email?.addEventListener('input', (e) => {
+            e.preventDefault();
+
+            this.validateEmail();
+        });
+
+        this.state.domElements.password = document.querySelector('.password')
+        this.state.domElements.password?.addEventListener('input', (e) => {
+            e.preventDefault();
+
+            this.validatePassword();
+        });
+
         if (!this.state.isSubscribed) {
             this.unsubscribe.push(store.subscribe(constantsOfActions.setState, this.render));
             this.unsubscribe.push(store.subscribe(constantsOfActions.invalidEmail, this.invalidEmail));
 
             this.state.isSubscribed = true;
         }
-
-        this.render();
-
-        document.querySelector('.login-but')?.addEventListener('click', (e) => {
-            e.preventDefault();
-
-            this.handleClickLogin();
-        });
-
-        document.querySelector('.login-ques')?.addEventListener('click', (e) => {
-            e.preventDefault();
-
-            this.handleClickMoveToSignUp();
-        });
-
-        document.querySelector('.email')?.addEventListener('input', (e) => {
-            e.preventDefault();
-
-            this.validateEmail();
-        });
-
-        document.querySelector('.password')?.addEventListener('input', (e) => {
-            e.preventDefault();
-
-            this.validatePassword();
-        });
     }
 
     /**
@@ -112,18 +130,18 @@ export class Login extends Container {
     }
 
     /**
-     * Обрабатывает статус ответа
-     */
-    handleStatus() {
-        // TODO: after handleClickLogin
-    }
-
-    /**
      * Обрабатывает нажатие кнопки логина
      */
     handleClickLogin() {
         if (this.state.valid.isValid()) {
-            // TODO: login request action
+            const user = {
+                email: this.state.domElements.email?.value,
+                password: this.state.domElements.password?.value,
+            } as anyObject;
+
+            if (this.state.valid.isValid()) {
+                store.dispatch(createLoginAction(user))
+            }
         }
     }
 
@@ -131,22 +149,20 @@ export class Login extends Container {
      * Обрабатывает нажатие кнопки перехода на страничку регистрации
      */
     handleClickMoveToSignUp() {
-        // TODO: signup render action
+        store.dispatch(createMoveToSignUpAction());
     }
 
     /**
      * Проверяет пользовательский ввод почты
      */
     validateEmail() {
-        const email = document.querySelector('.email') as HTMLInputElement;
-
-        email.classList.remove('login-reg__input_error');
+        this.state.domElements.email?.classList.remove('login-reg__input_error');
         addErrorToClass('', emailErrorTypes);
 
-        const { isError, errorClass } = checkEmail(email?.value);
+        const { isError, errorClass } = checkEmail(this.state.domElements.email?.value ?? '');
 
         if (isError) {
-            email.classList.add('login-reg__input_error');
+            this.state.domElements.email?.classList.add('login-reg__input_error');
             addErrorToClass(errorClass, emailErrorTypes);
             this.state.valid.emailIsValid = false;
             return;
@@ -159,15 +175,13 @@ export class Login extends Container {
      * Проверяет пользовательский ввод пароля
      */
     validatePassword() {
-        const password = document.querySelector('.password') as HTMLInputElement;
-
-        password.classList.remove('login-reg__input_error');
+        this.state.domElements.password?.classList.remove('login-reg__input_error');
         addErrorToClass('', passwordErrorTypes);
 
-        const { isError, errorClass } = checkPassword(password?.value);
+        const { isError, errorClass } = checkPassword(this.state.domElements.password?.value ?? '');
 
         if (isError) {
-            password.classList.add('login-reg__input_error');
+            this.state.domElements.password?.classList.add('login-reg__input_error');
             addErrorToClass(errorClass, passwordErrorTypes);
             this.state.valid.passwordIsValid = false;
             return;
