@@ -14,7 +14,11 @@ const BACKEND_URL = 'http://127.0.0.1:8081'; // 'http://95.163.249.116:8081';
  * @param {json} body - request data
  * @returns {Promise} - request promise
  */
-function ajax(url, { method, body = null }) {
+const ajax = (
+    url: string, 
+    method: string, 
+    body: anyObject | null | undefined
+) => {
     return fetch(BACKEND_URL + url, {
         method,
         headers: {
@@ -22,7 +26,7 @@ function ajax(url, { method, body = null }) {
         },
         credentials: 'include',
         mode: 'cors',
-        body,
+        body: JSON.stringify(body),
     })
         .then((response) => {
             const { status } = response;
@@ -39,10 +43,14 @@ function ajax(url, { method, body = null }) {
  * @param {string} url - path url
  * @returns {Promise} - request promise
  */
-function get({ url }) {
-    return ajax(url, {
-        method: AJAX_METHODS.GET,
-    });
+export const get = (
+    url: string
+) => {
+    return ajax(
+        url,
+        AJAX_METHODS.GET,
+        null,
+    );
 }
 
 /**
@@ -51,12 +59,15 @@ function get({ url }) {
  * @param {json} body - request data
  * @returns {Promise} - request promise
  */
-function post({ url, body }) {
-    // console.log('post method: ', url);
-    return ajax(url, {
-        method: AJAX_METHODS.POST,
+export const post = (
+    url: string,
+    body: anyObject | null | undefined,
+) => {
+    return ajax(
+        url, 
+        AJAX_METHODS.POST,
         body,
-    });
+    );
 }
 
 /**
@@ -64,12 +75,12 @@ function post({ url, body }) {
  * @param {string} url - path url
  * @returns {Promise} - request promise
  */
-function deleteSession({ url }) {
-    return ajax(url, {
-        method: AJAX_METHODS.DELETE,
-    });
+export const deleteSession = (
+    url: string,
+) => {
+    return ajax(
+        url,
+        AJAX_METHODS.DELETE,
+        null,
+    );
 }
-
-export {
-    get, post, deleteSession,
-};

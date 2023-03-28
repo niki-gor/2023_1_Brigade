@@ -1,4 +1,4 @@
-export default {
+export const config = {
     auth: '/auth/',
     login: '/login/',
     signup: '/signup/',

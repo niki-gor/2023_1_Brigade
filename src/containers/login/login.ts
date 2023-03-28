@@ -39,7 +39,7 @@ export class Login extends Container {
                 passwordIsValid: false,
                 isValid: () =>  {
                     return this.state.valid.emailIsValid && 
-                           this.state.valid.passwordIsValid
+                           this.state.valid.passwordIsValid;
                 }
             },
         };

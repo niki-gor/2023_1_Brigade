@@ -45,7 +45,7 @@ export class Login extends Container {
                     return this.state.valid.emailIsValid && 
                            this.state.valid.passwordIsValid && 
                            this.state.valid.confirmPasswordIsValid && 
-                           this.state.valid.usernameIsValid
+                           this.state.valid.usernameIsValid;
                 }
             },
         };
