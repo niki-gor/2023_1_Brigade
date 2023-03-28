@@ -1,7 +1,5 @@
 import { get, post, deleteSession } from '@services/ajax';
 import { config } from '@config/api';
-import { createAuthAction, createLoginAction } from '@actions/userActions';
-import { store } from '@store/store';
 
 /**
  * implementation request authorization
@@ -23,7 +21,8 @@ export const auth = () => {
             return {
                 status,
             };
-        case 401 || 500:
+        case 401:
+        case 500:
             return {
                 status,
             };
@@ -56,7 +55,9 @@ export const login = (body: anyObject) => {
             return {
                 status,
             };
-        case 404 || 409 || 500:
+        case 404:
+        case 409:
+        case 500:
             return {
                 status,
             };
@@ -88,7 +89,9 @@ export const signUp = (body: anyObject) => {
             return {
                 status,
             };
-        case 400 || 409 || 500:
+        case 400:
+        case 409:
+        case 500:
             return {
                 status,
             };
@@ -106,7 +109,10 @@ export const logout = () => {
     )
     .then(({ status }) => {
         switch (status) {
-        case 204 || 401 || 404 || 500:
+        case 204:
+        case 401:
+        case 404:
+        case 500:
             return {
                 status,
             };
