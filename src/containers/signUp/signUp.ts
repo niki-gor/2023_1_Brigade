@@ -52,6 +52,73 @@ export class Login extends Container {
     }
 
     /**
+     * Рендерит логин
+     */
+    render() {
+        const LoginUI = new DumbSignUp({ 
+            ...this.props,
+        }); 
+
+        this.rootNode.innerHTML = LoginUI.render();
+    }
+
+    /**
+     * Навешивает переданные обработчики на валидацию и кнопки
+     */
+    componentDidMount() {
+        if (!this.state.isSubscribed) {
+            this.unsubscribe = store.subscribe(this.render());
+            this.state.isSubscribed = true;
+        }
+
+        this.render();
+
+        document.querySelector('.login-but')?.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            this.handleClickSignUp();
+        });
+
+        document.querySelector('.login-ques')?.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            this.handleClickMoveToLogin();
+        });
+
+        document.querySelector('.email')?.addEventListener('input', (e) => {
+            e.preventDefault();
+
+            this.validateEmail();
+        });
+
+        document.querySelector('.password')?.addEventListener('input', (e) => {
+            e.preventDefault();
+
+            this.validatePassword();
+        });
+
+        document.querySelector('.confirm-password')?.addEventListener('input', (e) => {
+            e.preventDefault();
+
+            this.validateConfirmPassword();
+        });
+
+        document.querySelector('.username')?.addEventListener('input', (e) => {
+            e.preventDefault();
+
+            this.validateUsername();
+        });
+    }
+
+    /**
+     * Удаляет все подписки
+     */
+    componentWillUnmount() {
+        this.unsubscribe();
+        this.state.isSubscribed = false;
+    }
+
+    /**
      * Обрабатывает статус ответа
      */
     handleStatus() {
@@ -157,37 +224,5 @@ export class Login extends Container {
         }
 
         this.state.valid.usernameIsValid = true;
-    }
-
-    /**
-     * Рендерит логин
-     */
-    render() {
-        if (!this.state.isSubscribed) {
-            this.unsubscribe = store.subscribe(this.render());
-            this.state.isSubscribed = true;
-        }
-
-        const LoginUI = new DumbSignUp({ 
-            ...this.props, 
-            onClickLogin: this.handleClickLogin,
-            onClickMoveToSignUp: this.handleClickMoveToSignUp,
-            validateEmail: this.validateEmail,
-            validatePassword: this.validatePassword,
-            validateConfirmPassword: this.validateConfirmPassword,
-            validateUsername: this.validateUsername,
-            destroy: this.destroy,
-        }); 
-
-        this.rootNode.innerHTML = LoginUI.render();
-        
-        LoginUI.componentDidMount();
-    }
-
-    /**
-     * Удаляет все подписки
-     */
-    destroy() {
-        this.unsubscribe();
     }
 }

@@ -18,40 +18,4 @@ export class DumbLogin extends Page {
             bottom: loginRegBottomUI.renderTemplate({type: 'login'}),
         });
     }
-
-    /**
-     * Навешивает переданные обработчики на валидацию и кнопки
-     */
-    componentDidMount() {
-        document.querySelector('.login-but')?.addEventListener('click', (e) => {
-            e.preventDefault();
-
-            this.props.onClickLogin();
-        });
-
-        document.querySelector('.login-ques')?.addEventListener('click', (e) => {
-            e.preventDefault();
-
-            this.props.onClickMoveToSignUp();
-        });
-
-        document.querySelector('.email')?.addEventListener('input', (e) => {
-            e.preventDefault();
-
-            this.props.validateEmail();
-        });
-
-        document.querySelector('.password')?.addEventListener('input', (e) => {
-            e.preventDefault();
-
-            this.props.validatePassword();
-        });
-    }
-
-    /**
-     * Вызывает переданную функцию удаления подписки
-     */
-    componentWillUnmount() {
-        this.props.destroy();
-    }
 }
