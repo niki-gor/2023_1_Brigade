@@ -57,11 +57,24 @@ export class Login extends Container {
     }
 
     /**
+     * Показывает, что была введа незарегистрированная почта
+     */
+    invalidEmail() {
+        document.querySelector('.email')?.classList.add('login-reg__input_error');
+        document.querySelector('.invalid-email')?.classList.remove('invisible');
+    }
+
+    /**
      * Навешивает переданные обработчики на валидацию и кнопки
      */
     componentDidMount() {
         if (!this.state.isSubscribed) {
-            this.unsubscribe = store.subscribe(this.render());
+            // TODO: эта хрень точно не сработает, надо исправить
+            this.unsubscribe = () => { 
+                store.subscribe(this.render);
+                store.subscribe(this.invalidEmail);
+            };
+
             this.state.isSubscribed = true;
         }
 

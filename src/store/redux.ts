@@ -1,29 +1,35 @@
-export const createStore = (reducer) => {
-    let state = {};
-    const subscribers = {};
+export const createStore = (reducers: Map<string, (state: anyObject, action: Action) => anyObject>) => {
+    let state: anyObject = {};
+    let subscribers = new Map<string, Function>();
 
     return {
         getState: () => state,
-        dispatch: (action) => {
-            state = reducer(state, action);
-            Object.entries(subscribers).forEach(([, cb]) => cb());
+        dispatch: (action: Action) => {
+            const reducer = reducers.get(action.type);
+            if (reducer) {
+                state = reducer(state, action);
+            }
+            subscribers.forEach((cb) => cb());
         },
-        subscribe: (cb) => { subscribers[cb.toString()] = cb; },
-        unsubscribe: (cb) => { delete subscribers[cb.toString()]; },
+        subscribe: (cb: () => void) => { 
+            subscribers.set(cb.name, cb); 
+            return () => {
+                subscribers.delete(cb.name);
+            }
+        },
     };
 };
 
-export const applyMiddleware = (middleware) => (createStoreFunc) => (reducer) => {
-    const store = createStoreFunc(reducer);
+export const applyMiddleware = (middleware: Middleware) => (createStoreFunc: CreateStore) => (reducers: Map<string, (state: anyObject, action: Action) => anyObject>) => {
+    const store = createStoreFunc(reducers);
     return {
         getState: store.getState,
-        dispatch: (action) => middleware(store)(store.dispatch)(action),
+        dispatch: (action: Action) => middleware(store)(store.dispatch)(action),
         subscribe: store.subscribe,
-        unsubscribe: store.unsubscribe,
     };
 };
 
-export const thunk = (store) => (dispatch) => (action) => {
+export const thunk = (store: Store) => (dispatch: Dispatch) => (action: Action | ((dispatch: (action: Action) => void, state: anyObject) => Promise<void>)) => {
     if (typeof action === 'function') {
         return action(store.dispatch, store.getState);
     }

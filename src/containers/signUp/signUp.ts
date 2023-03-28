@@ -63,11 +63,24 @@ export class Login extends Container {
     }
 
     /**
+     * Показывает, что была введа занятая почта
+     */
+    occupiedEmail() {
+        document.querySelector('.email')?.classList.add('login-reg__input_error');
+        document.querySelector('.occupied-email')?.classList.remove('invisible');
+    }
+
+    /**
      * Навешивает переданные обработчики на валидацию и кнопки
      */
     componentDidMount() {
         if (!this.state.isSubscribed) {
-            this.unsubscribe = store.subscribe(this.render());
+            // TODO: эта хрень точно не сработает, надо исправить
+            this.unsubscribe = () => { 
+                store.subscribe(this.render);
+                store.subscribe(this.occupiedEmail);
+            };
+
             this.state.isSubscribed = true;
         }
 

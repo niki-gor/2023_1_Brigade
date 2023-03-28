@@ -1,13 +1,7 @@
 import { createStore, applyMiddleware, thunk } from '@store/redux';
 import { combineReducers } from '@reducers/combineReducers';
-import { reduceInit } from '@reducers/initReducer';
-import { reduceAuth, reduceLogin, reduceSignUp } from '@reducers/userReducers';
+import { reducers } from '@/config/storeReducers';
 
-const reducers = combineReducers({
-    reduceInit,
-    reduceAuth,
-    reduceLogin,
-    reduceSignUp,
-});
+const reducersMap = combineReducers(reducers);
 
-export const store = applyMiddleware(thunk)(createStore)(reducers);
+export const store = applyMiddleware(thunk)(createStore)(reducersMap);

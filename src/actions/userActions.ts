@@ -1,14 +1,20 @@
-export const createAuthAction = (user = {}) => ({
-    type: 'AUTH',
-    payload: user,
-});
+export const createSetStateAction = (state: anyObject) : Action => {
+    return {
+        type: 'set',
+        payload: state,
+    }
+}
 
-export const createLoginAction = (user = {}) => ({
-    type: 'LOGIN',
-    payload: user,
-});
+export const createInvalidEmailAction = () : Action => {
+    return {
+        type: 'invalidEmail',
+        payload: null,
+    }
+}
 
-export const createSignUpAction = (user = {}) => ({
-    type: 'SIGNUP',
-    payload: user,
-});
+export const createOccupiedEmailAction = () : Action => {
+    return {
+        type: 'occupiedEmail',
+        payload: null,
+    }
+}

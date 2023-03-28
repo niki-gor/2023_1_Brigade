@@ -5,7 +5,7 @@ import { config } from '@config/api';
  * implementation request authorization
  */
 export const auth = () => {
-    get(
+    return get(
         config.auth,
     )
     .then(({ status, parsedBody }) => {
@@ -20,16 +20,25 @@ export const auth = () => {
 
             return {
                 status,
+                body: null,
             };
         case 401:
         case 500:
             return {
                 status,
+                body: null,
             };
         default:
             return {
                 status,
+                body: null,
             };
+        }
+    })
+    .catch((error) => {
+        return {
+            status: 0,
+            body: error,
         }
     });
 };
@@ -38,7 +47,7 @@ export const auth = () => {
  * implementation request login
  */
 export const login = (body: anyObject) => {
-    post(
+    return post(
         config.login,
         body,
     )
@@ -54,26 +63,35 @@ export const login = (body: anyObject) => {
             
             return {
                 status,
+                body: null,
             };
         case 404:
         case 409:
         case 500:
             return {
                 status,
+                body: null,
             };
         default:
             return {
                 status,
+                body: null,
             };
         }
-    });
+    })
+    .catch((error) => {
+        return {
+            status: 0,
+            body: error,
+        }
+    });;
 };
 
 /**
  * implementation request registration
  */
 export const signUp = (body: anyObject) => {
-    post(
+    return post(
         config.signup,
         body,
     )
@@ -88,23 +106,35 @@ export const signUp = (body: anyObject) => {
             });
             return {
                 status,
+                body: null,
             };
         case 400:
         case 409:
         case 500:
             return {
                 status,
+                body: null,
             };
         default:
+            return {
+                status,
+                body: null,
+            };
         }
-    });
+    })
+    .catch((error) => {
+        return {
+            status: 0,
+            body: error,
+        }
+    });;
 };
 
 /**
  * implementation request logout
  */
 export const logout = () => {
-    deleteSession(
+    return deleteSession(
         config.logout,
     )
     .then(({ status }) => {
@@ -115,11 +145,19 @@ export const logout = () => {
         case 500:
             return {
                 status,
+                body: null,
             };
         default:
             return {
                 status,
+                body: null,
             };
         }
-    });
+    })
+    .catch((error) => {
+        return {
+            status: 0,
+            body: error,
+        }
+    });;
 };

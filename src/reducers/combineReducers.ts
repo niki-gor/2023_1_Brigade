@@ -1,9 +1,9 @@
-export const combineReducers = (reducersMap) => (state, action) => {
-    const nextState = {};
+export const combineReducers = (reducers: { type: string, reducer: (state: anyObject, action: Action) => anyObject }[]) => {
+    let reducersMap = new Map<string, (state: anyObject, action: Action) => anyObject>();
 
-    Object.entries(reducersMap).forEach(([key, reducer]) => {
-        nextState[key] = reducer(state ? state[key] : state, action);
-    });
+    for (const { type, reducer } of reducers) {
+        reducersMap.set(type, reducer);
+    }
 
-    return nextState;
+    return reducersMap;
 };
