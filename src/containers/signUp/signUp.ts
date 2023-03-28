@@ -1,9 +1,21 @@
 import { Container } from "@containers/container";
+import { DumbSignUp } from "@/pages/signUp/signUp";
+import { checkEmail, checkPassword, checkConfirmPassword, checkUsername, addErrorToClass } from "@/utils/validator";
+import { store } from "@/store/store";
+import { emailErrorTypes, passwordErrorTypes, confirmPasswordErrorTypes, usernameErrorTypes } from "@/config/config";
 
-export interface SignUp {
+
+export interface Login {
     state: {
-        statusSignUp: number,
+        statusLogin: number,
         isSubscribed: boolean,
+        valid: {
+            emailIsValid: boolean,
+            passwordIsValid: boolean,
+            confirmPasswordIsValid: boolean,
+            usernameIsValid: boolean,
+            isValid: () => boolean,
+        },
     }
 }
 
@@ -14,7 +26,7 @@ export interface SignUp {
 * для корректного рендера ошибки
 *
 */
-export class SignUp extends Container {
+export class Login extends Container {
     /**
      * Cохраняет props
      * @param {Object} props - параметры компонента
@@ -22,39 +34,160 @@ export class SignUp extends Container {
     constructor(props :componentProps) {
         super(props);
         this.state = {
-            statusSignUp: 0,
+            statusLogin: 0,
             isSubscribed: false,
+            valid: {
+                emailIsValid: false,
+                passwordIsValid: false,
+                confirmPasswordIsValid: false,
+                usernameIsValid: false,
+                isValid: () => {
+                    return this.state.valid.emailIsValid && 
+                           this.state.valid.passwordIsValid && 
+                           this.state.valid.confirmPasswordIsValid && 
+                           this.state.valid.usernameIsValid
+                }
+            },
         };
     }
 
     /**
      * Обрабатывает статус ответа
-     * @param {number} userStatus - статус логина
      */
-    handlerStatus(userStatus :number) {
+    handleStatus() {
+        // TODO: after handleClickLogin
+    }
+
+    /**
+     * Обрабатывает нажатие кнопки логина
+     */
+    handleClickSignUp() {
+        if (this.state.valid.isValid()) {
+            // TODO: signup request action
+        }
+    }
+
+    /**
+     * Обрабатывает нажатие кнопки перехода на страничку регистрации
+     */
+    handleClickMoveToLogin() {
+        // TODO: login render action
+    }
+
+    /**
+     * Проверяет пользовательский ввод почты
+     */
+    validateEmail() {
+        const email = document.querySelector('.email') as HTMLInputElement;
+
+        email.classList.remove('login-reg__input_error');
+        addErrorToClass('', emailErrorTypes);
+
+        const { isError, errorClass } = checkEmail(email?.value);
+
+        if (isError) {
+            email.classList.add('login-reg__input_error');
+            addErrorToClass(errorClass, emailErrorTypes);
+            this.state.valid.emailIsValid = false;
+            return;
+        }
+
+        this.state.valid.emailIsValid = true;
+    }
+
+    /**
+     * Проверяет пользовательский ввод пароля
+     */
+    validatePassword() {
+        const password = document.querySelector('.password') as HTMLInputElement;
+
+        password.classList.remove('login-reg__input_error');
+        addErrorToClass('', passwordErrorTypes);
+
+        const { isError, errorClass } = checkPassword(password?.value);
+
+        if (isError) {
+            password.classList.add('login-reg__input_error');
+            addErrorToClass(errorClass, passwordErrorTypes);
+            this.state.valid.passwordIsValid = false;
+            return;
+        }
+
+        this.state.valid.passwordIsValid = true;
+    }
+
+    /**
+     * Проверяет пользовательский ввод подтверждения пароля
+     */
+    validateConfirmPassword() {
+        const password = document.querySelector('.password') as HTMLInputElement;
+        const confirmPassword = document.querySelector('.confirm-password') as HTMLInputElement;
+
+        confirmPassword.classList.remove('login-reg__input_error');
+        addErrorToClass('', confirmPasswordErrorTypes);
+
+        const { isError, errorClass } = checkConfirmPassword(password?.value, confirmPassword?.value);
+
+        if (isError) {
+            confirmPassword.classList.add('login-reg__input_error');
+            addErrorToClass(errorClass, passwordErrorTypes);
+            this.state.valid.confirmPasswordIsValid = false;
+            return;
+        }
+
+        this.state.valid.confirmPasswordIsValid = true;
+    }
+
+    /**
+     * Проверяет пользовательский ввод имени
+     */
+    validateUsername() {
+        const username = document.querySelector('.username') as HTMLInputElement;
+
+        username.classList.remove('login-reg__input_error');
+        addErrorToClass('', passwordErrorTypes);
+
+        const { isError, errorClass } = checkUsername(username?.value);
+
+        if (isError) {
+            username.classList.add('login-reg__input_error');
+            addErrorToClass(errorClass, passwordErrorTypes);
+            this.state.valid.usernameIsValid = false;
+            return;
+        }
+
+        this.state.valid.usernameIsValid = true;
     }
 
     /**
      * Рендерит логин
      */
     render() {
-        // tik tak
-        this.componentDidMount();
+        if (!this.state.isSubscribed) {
+            this.unsubscribe = store.subscribe(this.render());
+            this.state.isSubscribed = true;
+        }
+
+        const LoginUI = new DumbSignUp({ 
+            ...this.props, 
+            onClickLogin: this.handleClickLogin,
+            onClickMoveToSignUp: this.handleClickMoveToSignUp,
+            validateEmail: this.validateEmail,
+            validatePassword: this.validatePassword,
+            validateConfirmPassword: this.validateConfirmPassword,
+            validateUsername: this.validateUsername,
+            destroy: this.destroy,
+        }); 
+
+        this.rootNode.innerHTML = LoginUI.render();
+        
+        LoginUI.componentDidMount();
     }
-
-    /**
-     * Проверяет пользовательский ввод
-     * @param {Object} user - форма логина
-     */
-    validateSignUp(user : {}) {}
-
-    /**
-     * Навешивает обработчики на валидацию и на выход
-     */
-    componentDidMount() {}
 
     /**
      * Удаляет все подписки
      */
-    componentWillUnmount() {}
+    destroy() {
+        this.unsubscribe();
+    }
 }

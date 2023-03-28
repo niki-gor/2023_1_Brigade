@@ -9,7 +9,11 @@ export interface Login {
     state: {
         statusLogin: number,
         isSubscribed: boolean,
-        isValid: boolean,
+        valid: {
+            emailIsValid: boolean,
+            passwordIsValid: boolean,
+            isValid: () => boolean,
+        },
     }
 }
 
@@ -30,7 +34,14 @@ export class Login extends Container {
         this.state = {
             statusLogin: 0,
             isSubscribed: false,
-            isValid: false,
+            valid: {
+                emailIsValid: false,
+                passwordIsValid: false,
+                isValid: () =>  {
+                    return this.state.valid.emailIsValid && 
+                           this.state.valid.passwordIsValid
+                }
+            },
         };
     }
 
@@ -45,7 +56,7 @@ export class Login extends Container {
      * Обрабатывает нажатие кнопки логина
      */
     handleClickLogin() {
-        if (this.state.isValid) {
+        if (this.state.valid.isValid()) {
             // TODO: login request action
         }
     }
@@ -71,11 +82,11 @@ export class Login extends Container {
         if (isError) {
             email.classList.add('login-reg__input_error');
             addErrorToClass(errorClass, emailErrorTypes);
-            this.state.isValid = false;
+            this.state.valid.emailIsValid = false;
             return;
         }
 
-        this.state.isValid = true;
+        this.state.valid.emailIsValid = true;
     }
 
     /**
@@ -92,11 +103,11 @@ export class Login extends Container {
         if (isError) {
             password.classList.add('login-reg__input_error');
             addErrorToClass(errorClass, passwordErrorTypes);
-            this.state.isValid = false;
+            this.state.valid.passwordIsValid = false;
             return;
         }
 
-        this.state.isValid = true;
+        this.state.valid.passwordIsValid = true;
     }
 
     /**

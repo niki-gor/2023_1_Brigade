@@ -120,14 +120,14 @@ export const checkUsername = (username: string) => {
     if (!isNotEmpty) {
         return {
             isError: true,
-            errorClass: '.empty-nick',
+            errorClass: '.empty-username',
         };
     }
 
     if (!hasValidLength) {
         return {
             isError: true,
-            errorClass: '.invalid-nick',
+            errorClass: '.invalid-username',
         };
     }
 
@@ -313,10 +313,10 @@ export const checkNickname = (nickname: string) => {
 
 //     /**
 //      * implementation email validation
-//      * @param {Object} nick - the nickname
+//      * @param {Object} username - the username
 //      */
-//     #validateNick() {
-//         const errorTypes = ['.empty-nick', '.invalid-nick'];
+//     #validateUsername() {
+//         const errorTypes = ['.empty-username', '.invalid-username'];
 
 //         this.#username?.addEventListener('input', () => {
 //             this.#username.classList.remove('login-reg__input_error');
@@ -325,7 +325,7 @@ export const checkNickname = (nickname: string) => {
 //             this.#validStatus = (this.#username.value !== '');
 
 //             if (!this.#validStatus) {
-//                 this.#addError('.empty-nick', errorTypes);
+//                 this.#addError('.empty-username', errorTypes);
 //                 this.#username.classList.add('login-reg__input_error');
 //                 return;
 //             }
@@ -333,7 +333,7 @@ export const checkNickname = (nickname: string) => {
 //             this.#validStatus = (this.#username.value.length > 1);
 
 //             if (!this.#validStatus) {
-//                 this.#addError('.invalid-nick', errorTypes);
+//                 this.#addError('.invalid-username', errorTypes);
 //                 this.#username.classList.add('login-reg__input_error');
 //                 return;
 //             }

@@ -11,11 +11,11 @@
         div.input__errors.flex
             span.empty-password.login-reg__error.invisible Password not filled
             span.invalid-password.login-reg__error.invisible Password too short
-    else if type=='nick'
-        input(type='text', placeholder='Your nick').login-reg__input.nick
+    else if type=='username'
+        input(type='text', placeholder='Your username').login-reg__input.username
         div.input__errors.flex
-            span.empty-nick.login-reg__error.invisible Nick not filled
-            span.invalid-nick.login-reg__error.invisible Nick too short
+            span.empty-username.login-reg__error.invisible Nick not filled
+            span.invalid-username.login-reg__error.invisible Nick too short
     else if type=='confirm password'
         input(type='password', placeholder='Confirm password').login-reg__input.confirm-password
         div.input__errors.flex
