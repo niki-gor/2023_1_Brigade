@@ -26,7 +26,7 @@ interface Response extends anyObject {
 };
 
 interface Reducer {
-    (anyObject, Action) : anyObject,
+    (state: anyObject, action: Action) : anyObject,
 }
 
 interface CreateStore {

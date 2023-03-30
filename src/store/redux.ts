@@ -1,4 +1,4 @@
-export const createStore = (reducers: Map<string, (state: anyObject, action: Action) => anyObject>) => {
+export const createStore = (reducers: Map<string, Reducer>) => {
     let state: anyObject = {};
     let subscribers = new Map<string, Function>();
 
