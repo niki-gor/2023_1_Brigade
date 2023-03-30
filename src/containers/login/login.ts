@@ -66,7 +66,7 @@ export class SmartLogin extends Container {
     render() {
         const LoginUI = new DumbLogin({ 
             ...this.props,
-        }); 
+        });
 
         this.rootNode.innerHTML = LoginUI.render();
     }

@@ -7,3 +7,15 @@ import '@/index.css';
 
 // const login = new SmartLogin({ ...store.getState(), rootNode: ROOT });
 // login.componentDidMount();
+
+// import { DumbProfile } from './components/profile/profile';
+// const profile = new DumbProfile({
+//     user: {
+//         avatar: './assets/img/geva.png',
+//         username: 'Gevork Gabrielyan',
+//         nickname: 'yurkakurka',
+//         status: 'Horovace shat lav bane!'
+//     }
+// });
+
+// document.querySelector('#root')?.innerHTML = profile.render();
