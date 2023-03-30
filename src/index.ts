@@ -6,7 +6,7 @@ import { store } from './store/Store';
 
 
 router.register('new', { path: "", component: new SmartLogin({ ...store.getState(), rootNode: ROOT }) })
-console.log(router.getRoutes());
+console.log(router.getRoute("/"));
 
 // TODO: костыли, которые заменятся роутером
 // import { ROOT } from '@config/config';
