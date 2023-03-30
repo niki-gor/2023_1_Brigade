@@ -1,0 +1,150 @@
+export const checkEmail = (email: string) => {
+    const isNotEmpty = email.length > 0;
+    const hasDog = /@/.test(email);
+    const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    if (!isNotEmpty) {
+        return {
+            isError: true,
+            errorClass: '.empty-email',
+        }
+    }
+
+    if (!hasDog) {
+        return {
+            isError: true,
+            errorClass: '.missdog-email',
+        }
+    }
+
+    if (!isValid) {
+        return {
+            isError: true,
+            errorClass: '.invalid-email',
+        }
+    }
+
+    return {
+        isError: false,
+        errorClass: '',
+    }
+};
+
+// TODO: в будущем для мыла можно сделать такую мегауточняющую хрень
+// function validateEmail(email) {
+//     const errors = {};
+  
+//     if (!email) {
+//       errors.missing = 'Email address is required';
+//     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+//       const parts = email.split('@');
+//       if (parts.length !== 2) {
+//         errors.invalid = 'Invalid email address format';
+//       } else {
+//         const localPart = parts[0];
+//         const domainPart = parts[1];
+//         if (!localPart) {
+//           errors.invalid = 'Local part of email address is missing';
+//         } else if (!domainPart) {
+//           errors.invalid = 'Domain part of email address is missing';
+//         } else if (localPart.length > 64) {
+//           errors.invalid = 'Local part of email address is too long';
+//         } else if (domainPart.length > 255) {
+//           errors.invalid = 'Domain part of email address is too long';
+//         } else if (!/^[a-zA-Z0-9!#$%&'*+/=?^_`~-]+(\.[a-zA-Z0-9!#$%&'*+/=?^_`~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(email)) {
+//             errors.invalid = 'Invalid email address format';
+//           }
+//         }
+//     }
+    
+//       return errors;
+// }
+
+export const checkPassword = (password: string) => {
+    const isNotEmpty = password.length > 0;
+    // TODO: на будущее
+    // const hasNumber = /\d/.test(email);
+    // const hasUpperCase = /[A-Z]/.test(email);
+    // const hasLowerCase = /[a-z]/.test(email);
+    const hasValidLength = password.length >= 8;
+
+    if (!isNotEmpty) {
+        return { 
+            isError: true,
+            errorClass: '.empty-password', 
+        };
+    }
+
+    if (!hasValidLength) {
+        return { 
+            isError: true,
+            errorClass: '.invalid-password',
+        };
+    }
+
+    return {
+        isError: false,
+        errorClass: '',
+    };
+};
+
+export const checkConfirmPassword = (password: string, confirmPassword: string) => {
+    const isNotEmpty = confirmPassword.length > 0;
+    const isEqualPassword = confirmPassword === password;
+    
+    if (!isNotEmpty) {
+        return {
+            isError: true,
+            errorClass: '.empty-confirm-password',
+        };
+    }
+
+    if (!isEqualPassword) {
+        return {
+            isError: true,
+            errorClass: '.invalid-confirm-password',
+        };
+    }
+
+    return {
+        isError: false,
+        errorClass: '',
+    }
+    
+};
+
+export const checkUsername = (username: string) => {
+    const isNotEmpty = username.length > 0;
+    const hasValidLength = username.length > 1;
+
+    if (!isNotEmpty) {
+        return {
+            isError: true,
+            errorClass: '.empty-username',
+        };
+    }
+
+    if (!hasValidLength) {
+        return {
+            isError: true,
+            errorClass: '.invalid-username',
+        };
+    }
+
+    return {
+        isError: false,
+        errorClass: '',
+    }
+};
+
+export const addErrorToClass = (classToRemoveInvisible: string, classesToAddInvisible: string[]) => {
+    classesToAddInvisible.forEach((curClass) => {
+        document.querySelector(curClass)?.classList.add('invisible');
+    });
+
+    if (classToRemoveInvisible) document.querySelector(classToRemoveInvisible)?.classList.remove('invisible');
+}
+
+export const checkNickname = (nickname: string) => {
+    // TODO: здесь нужно делать заспрос на бэк
+};

@@ -1,18 +1,50 @@
 {
   "devDependencies": {
+    "@babel/core": "^7.21.3",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-typescript": "^7.21.0",
+    "@types/pug": "^2.0.6",
+    "babel-loader": "^9.1.2",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.7.3",
     "eslint": "^8.35.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.27.5",
-    "pug": "^3.0.2"
+    "file-loader": "^6.2.0",
+    "filemanager-webpack-plugin": "^8.0.0",
+    "html-webpack-plugin": "^5.5.0",
+    "image-minimizer-webpack-plugin": "^3.8.2",
+    "imagemin": "^8.0.1",
+    "imagemin-gifsicle": "^7.0.0",
+    "imagemin-jpegtran": "^7.0.0",
+    "imagemin-optipng": "^8.0.0",
+    "imagemin-svgo": "^10.0.1",
+    "mini-css-extract-plugin": "^2.7.5",
+    "postcss-loader": "^7.1.0",
+    "postcss-preset-env": "^8.0.1",
+    "pug": "^3.0.2",
+    "pug3-loader": "^2.4.3",
+    "sass": "^1.59.3",
+    "sass-loader": "^13.2.1",
+    "style-loader": "^3.3.2",
+    "svgo": "^3.0.2",
+    "ts-loader": "^9.4.2",
+    "tsconfig-paths-webpack-plugin": "^4.0.1",
+    "typescript": "^5.0.2",
+    "webpack": "^5.76.3",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.13.1"
   },
   "name": "2023_1_brigade",
   "description": "Репозиторий команды \"Brigade\". Весна, 2023",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prestart": "mkdir ./src/templates && npm run compile",
-    "compile": "node compile.js"
+    "start": "webpack serve --open --mode development",
+    "mock": "node ./mock/server.js",
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -26,8 +58,12 @@
   },
   "homepage": "https://github.com/frontend-park-mail-ru/2023_1_Brigade#readme",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "express": "^4.18.2",
     "mkdirp": "^2.1.4",
-    "pug-cli": "^1.0.0-alpha6"
+    "morgan": "^1.10.0",
+    "pug-cli": "^1.0.0-alpha6",
+    "uuid": "^9.0.0"
   }
 }
