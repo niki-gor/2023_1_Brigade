@@ -16,27 +16,24 @@
 // import { createBrowserHistory } from 'history';
 // import { store } from '@store/Store';
 import { routes, Route, ComponentTemplate} from './routerConfig';
-import { hrefRegExp } from '@/config/regExp';
-
-// const history = createBrowserHistory();
 
 class Router {
     routes: Map<string, ComponentTemplate>;
+    history: Object;
+    currentIndex: number;
     currentRoute: Route | null | undefined;
 
     constructor(routes: Map<string, ComponentTemplate>) {
       this.routes = routes;
-      if (routes.get('/')) {
-        this.currentRoute = {path: '/', component: routes?.get('/')};
-      }
+      this.history = window.history;
+      this.currentIndex = -1;
+      this.currentRoute = null;
     }
 
     /**
-     * Принимаем url нового rout-a в переменную path
-     * Принимаем объекта нового route в переменную newRoute, 
-     * можем указать url нового Rout-a как в переменной path, так и задать в самом объектк newRoute
+     * Можем указать url нового Rout-a как в переменной path, так и задать в самом объектк newRoute
      * @param {string} path - url нового rout-a
-     * @param {Route} newRoute - объект нового rout-a имеет поля path: string, component: Class
+     * @param {Route} newRoute - объект нового rout-a имеет поля path: string, component: ComponentTemplate
      */
     register(path: string = '', newRoute: Route) : boolean {
         if (path) {
@@ -52,50 +49,15 @@ class Router {
     }
 
     /**
-     * строка, содержащая путь к маршруту, который нужно получить.
-     * @param {string} path - 
-     * @returns 
-     */
-    getRoute(path: string) : string {
-        if (this.routes.has(path)) {
-            return path;    
-        }
-
-        return "not found";
-    }
-
-    /**
-     * Получает путь для обработчика render и динамические параметры
-     * @param {string} href - ccылка без домена и id
-     */
-    matchHref(href :string) {
-        let newHref = href;
-        if (newHref !== '/') {
-            newHref = href.replace(hrefRegExp.endSlash, '');
-        }
-        let reg = new RegExp(`^${newHref.replace(hrefRegExp.idChats, hrefRegExp.chatProps)}?$`);
-
-        let matchHref = newHref.match(reg);
-        if (matchHref) {
-            if (matchHref[1]) {
-                matchHref[0] = matchHref[0].replace(hrefRegExp.idChats, '');
-            } else {
-                reg = new RegExp(`^${href.replace(hrefRegExp.idChats, hrefRegExp.chatProps)}?$`);
-                matchHref = href.match(reg);
-            }
-        }
-        return matchHref;
-    }
-
-    /**
      * Метод `route` находит маршрут, соответствующий текущему пути, и вызывает методы `componentWillUnmount` и `componentDidMount`
      * у текущего и нового компонентов соответственно.
      * @param {string} path - ccылка без домена и id
      */
     route(path: string) {
-        const route = this.routes.has(path);
+        console.log("route method has been called");
+        const routeExist = this.routes.has(path);
         let id, separatorNumber;
-        if (route) {
+        if (routeExist) {
             if (this.currentRoute) {
                 this.currentRoute.component?.componentWillUnmount();
             }
@@ -107,16 +69,85 @@ class Router {
             }
             window.history.pushState({id}, '', path + id);
             this.currentRoute.component?.componentDidMount();
+            ++this.currentIndex;
         } else {
             console.log("error page");
         }
     }
   
     start() {
+        // console.log("current routes: ", this.routes);
+        // console.log("current url: ", window.location.pathname);
+
+        if (this.routes.get('/')) {
+            this.currentRoute = {path: '/', component: this.routes?.get('/')};
+        } else {
+            const rootPath = this.routes.keys().next().value;
+            this.currentRoute = {path: rootPath, component: this.routes?.get(rootPath)};
+        }
+        this.currentRoute.component?.componentDidMount();
+        ++this.currentIndex;
+
+        // console.log("current url: ", this.currentRoute.path);
         window.addEventListener('popstate', () => {
+            console.log('URL changed:', window.location.href);
             this.route(window.location.pathname);
         });
     };
+
+    /**
+     * Получает путь для обработчика render и динамические параметры
+     * @param {string} href - ccылка без домена и id
+     */
+    // match(href: string) : boolean {
+    //     const pathSegments = href.split("/").filter((segment: string) => segment !== "");
+    //     const routeSegments = this.currentRoute?.path.split("/").filter((segment: string) => segment !== "");
+    //     if (pathSegments.length !== routeSegments?.length) {
+    //         return false;
+    //     }
+
+    //     const params = {};
+    //     for (let i = 0; i < routeSegments.length; i++) {
+    //         if (routeSegments[i].charAt(0) === ":") {
+    //             const paramName = routeSegments[i].substring(1);
+    //             params[paramName] = pathSegments[i];
+    //         } else if (routeSegments[i] !== pathSegments[i]) {
+    //             return false;
+    //         }
+    //     }
+
+    //     this.currentRoute?.component?.componentDidMount(params);
+    //     return true;      
+    // }
+
+    /**
+     * метод для перехода на предыдущую страницу в истории браузера.
+     */
+    back() {
+        if (this.currentIndex > 0) {
+          --this.currentIndex;
+          const path = history.state.path;
+          const routeExist = this.routes.has(path);
+          if (routeExist) {
+            this.currentRoute = {path: path, component: this.routes.get(path)}
+          }
+
+          history.back();
+        }
+    }
+
+    /**
+     * строка, содержащая путь к маршруту, который нужно получить.
+     * @param {string} path - строка, содержащая путь к маршруту, который нужно получить. 
+     * @returns {Route} - возвращает объект маршрута, содержащий путь и обработчик.
+     */
+    getRoute(path: string) : Route {
+        if (this.routes.has(path)) {
+            return {path: path, component: this.routes.get(path)};    
+        }
+
+        return {path: 'not found', component: this.routes.get('not found')}; // TODO: not found => /error/:id/ && component: errorComponent
+    }
 }
 
 export const router = new Router(routes);

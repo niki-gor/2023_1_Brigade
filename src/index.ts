@@ -5,14 +5,12 @@ import { SmartLogin } from './containers/login/login';
 import { store } from './store/Store';
 
 
-router.register('new', { path: "", component: new SmartLogin({ ...store.getState(), rootNode: ROOT }) })
-console.log(router.getRoute("/"));
+router.register('/login', { path: "/login", component: new SmartLogin({ ...store.getState(), rootNode: ROOT }) });
+// когда делаем router.start() надо посмотреть this.routes[]
+router.start();
+// console.log(router.getRoute("/"));
 
 // TODO: костыли, которые заменятся роутером
-// import { ROOT } from '@config/config';
-// import { store } from '@store/store'
-// import { SmartLogin } from '@containers/login/login';
-
 // const login = new SmartLogin({ ...store.getState(), rootNode: ROOT });
 // login.componentDidMount();
 
