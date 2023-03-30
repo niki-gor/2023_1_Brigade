@@ -1,57 +1,83 @@
-import { routes } from '@router/routes';
+import { createBrowserHistory } from 'history';
+import { store } from '@store/Store';
+import { routes, Route} from './routerConfig';
+import { hrefRegExp } from '@/config/regExp';
 
-class Router {
-    #routes;
+const history = createBrowserHistory();
 
-    // Определяем маршруты
-    constructor(routes) {
-        this.#routes = routes;
-    }
+history.push(store.getState());
 
-    // Функция для отображения компонента
-    #renderComponent(component) {
-        const app = document.getElementById('app');
-        app.innerHTML = '';
-        app.appendChild(component());
-    }
+// class Router {
+//     routes: Map<string, Route>;
+//     currentRoute: Route | null;
 
-    // Функция для поиска компонента по маршруту
-    #findComponentByPath(path) {
-        const route = routes.find((route) => route.path === path);
-        return route ? route.component : null;
-    }
+//     constructor(routes: Map<string, Route>) {
+//       this.routes = routes;
+//       this.currentRoute = null;
+//     }
 
-    // Функция для обработки изменения URL
-    #handleUrlChange() {
-        const path = window.location.pathname;
-        const component = this.#findComponentByPath(path);
-        if (component) {
-            this.#renderComponent(component);
-        } else {
-            const route = routes.find((route) => route.path === '/notfound');
-            this.#renderComponent(route ? route.component : null);
-        }
-    }
+//     // TODO: можем передавать path || можем создавать компнонет для регистрации 
+//     register(path: string = '', newRoute: Route) {
+//         if (path) {
+//             newRoute.path = path;
+//         }
 
-    // Функция для добавления маршрута в историю браузера
-    navigateTo(path) {
-        window.history.pushState(null, null, path);
-        this.handleUrlChange();
-    }
+//         if (newRoute.path && newRoute.component) {
+//             this.routes.set(newRoute.path, newRoute.component.render());
+//         }
+//         this.routes.set(newRoute.path, newRoute.component);
+//     }
 
-    // Функция для замены текущего маршрута в истории браузера
-    replacePath(path) {
-        window.history.replaceState(null, null, path);
-        this.handleUrlChange();
-    }
+//     /**
+//      * Получает путь для обработчика render и динамические параметры
+//      * @param {string} href - ccылка без домена и id
+//      */
+//     matchHref(href :string) {
+//         let newHref = href;
+//         if (newHref !== '/') {
+//             newHref = href.replace(hrefRegExp.endSlash, '');
+//         }
+//         let reg = new RegExp(`^${newHref.replace(hrefRegExp.idChats, hrefRegExp.chatProps)}?$`);
 
-    // Инициализация приложения
-    init() {
-        this.#handleUrlChange();
-        // Обработчик события изменения URL
-        window.addEventListener('popstate', this.handleUrlChange);
-    }
-}
+//         let matchHref = newHref.match(reg);
+//         if (matchHref) {
+//             if (matchHref[1]) {
+//                 matchHref[0] = matchHref[0].replace(hrefRegExp.idChats, '');
+//             } else {
+//                 reg = new RegExp(`^${href.replace(hrefRegExp.idChats, hrefRegExp.chatProps)}?$`);
+//                 matchHref = href.match(reg);
+//             }
+//         }
+//         return matchHref;
+//     }
 
-// // Запуск приложения
-// init();
+//     /**
+//      * Метод `route` находит маршрут, соответствующий текущему пути, и вызывает методы `componentWillUnmount` и `componentDidMount`
+//      * у текущего и нового компонентов соответственно.
+//      * @param {string} path - ccылка без домена и id
+//      */
+//     route(path: string) {
+//         const route = this.routes.find(route => route.path === path);
+//         if (route) {
+//             if (this.currentRoute) {
+//                 this.currentRoute.component.componentWillUnmount();
+//             }
+//             this.currentRoute = route;
+//             window.history.pushState({}, '', path);
+//             route.component.componentDidMount();
+//         }
+//     }
+  
+//     start() {
+//         window.addEventListener('popstate', () => {
+//             this.route(window.location.pathname);
+//         });
+
+//         window.addEventListener('', () => {
+
+//         });
+//     };
+// }
+
+
+// export const router = new Router(routes);
