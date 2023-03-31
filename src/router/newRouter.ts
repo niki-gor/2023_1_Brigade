@@ -36,12 +36,16 @@ class Router {
      * @param {Route} newRoute - объект нового rout-a имеет поля path: string, component: ComponentTemplate
      */
     register(path: string = '', newRoute: Route) : boolean {
+        const currentPath = this.currentRoute?.path;
+
         if (path) {
             newRoute.path = path;
         }
         
         if (newRoute.path && newRoute.component) {
             this.routes.set(newRoute.path, newRoute.component);
+            console.log("New route path: ", newRoute.path); // отладка
+            window.history.pushState({}, '', newRoute.path);
             return true;
         }
 
@@ -76,49 +80,23 @@ class Router {
     }
   
     start() {
-        // console.log("current routes: ", this.routes);
-        // console.log("current url: ", window.location.pathname);
-
         if (this.routes.get('/')) {
             this.currentRoute = {path: '/', component: this.routes?.get('/')};
+            window.history.pushState({}, '', '/');
+            window.history.pushState({}, '', '/login');
         } else {
             const rootPath = this.routes.keys().next().value;
             this.currentRoute = {path: rootPath, component: this.routes?.get(rootPath)};
         }
+
         this.currentRoute.component?.componentDidMount();
         ++this.currentIndex;
 
-        // console.log("current url: ", this.currentRoute.path);
         window.addEventListener('popstate', () => {
             console.log('URL changed:', window.location.href);
-            this.route(window.location.pathname);
+            // this.route(window.location.pathname);
         });
     };
-
-    /**
-     * Получает путь для обработчика render и динамические параметры
-     * @param {string} href - ccылка без домена и id
-     */
-    // match(href: string) : boolean {
-    //     const pathSegments = href.split("/").filter((segment: string) => segment !== "");
-    //     const routeSegments = this.currentRoute?.path.split("/").filter((segment: string) => segment !== "");
-    //     if (pathSegments.length !== routeSegments?.length) {
-    //         return false;
-    //     }
-
-    //     const params = {};
-    //     for (let i = 0; i < routeSegments.length; i++) {
-    //         if (routeSegments[i].charAt(0) === ":") {
-    //             const paramName = routeSegments[i].substring(1);
-    //             params[paramName] = pathSegments[i];
-    //         } else if (routeSegments[i] !== pathSegments[i]) {
-    //             return false;
-    //         }
-    //     }
-
-    //     this.currentRoute?.component?.componentDidMount(params);
-    //     return true;      
-    // }
 
     /**
      * метод для перехода на предыдущую страницу в истории браузера.
@@ -148,6 +126,31 @@ class Router {
 
         return {path: 'not found', component: this.routes.get('not found')}; // TODO: not found => /error/:id/ && component: errorComponent
     }
+
+    /**
+     * Получает путь для обработчика render и динамические параметры
+     * @param {string} href - ccылка без домена и id
+     */
+    // match(href: string) : boolean {
+    //     const pathSegments = href.split("/").filter((segment: string) => segment !== "");
+    //     const routeSegments = this.currentRoute?.path.split("/").filter((segment: string) => segment !== "");
+    //     if (pathSegments.length !== routeSegments?.length) {
+    //         return false;
+    //     }
+
+    //     const params = {};
+    //     for (let i = 0; i < routeSegments.length; i++) {
+    //         if (routeSegments[i].charAt(0) === ":") {
+    //             const paramName = routeSegments[i].substring(1);
+    //             params[paramName] = pathSegments[i];
+    //         } else if (routeSegments[i] !== pathSegments[i]) {
+    //             return false;
+    //         }
+    //     }
+
+    //     this.currentRoute?.component?.componentDidMount(params);
+    //     return true;      
+    // }
 }
 
 export const router = new Router(routes);
