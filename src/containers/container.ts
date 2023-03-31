@@ -15,6 +15,7 @@ export class Container {
     constructor(props = { rootNode: ROOT } as componentProps) {
         this.state = {};
         this.props = props;
+        this.unsubscribe = [];
         if (Object.hasOwnProperty.call(props, 'rootNode')) {
             this.rootNode = props.rootNode;
         }

@@ -11,8 +11,6 @@
  * 10) `notFound(route: Route)` - метод для установки обработчика, который будет вызываться, если нет пути
  */
 
-
-
 // import { createBrowserHistory } from 'history';
 // import { store } from '@store/Store';
 import { routes, Route, ComponentTemplate} from './routerConfig';
@@ -44,8 +42,8 @@ class Router {
         
         if (newRoute.path && newRoute.component) {
             this.routes.set(newRoute.path, newRoute.component);
-            console.log("New route path: ", newRoute.path); // отладка
-            window.history.pushState({}, '', newRoute.path);
+            // console.log("New route path: ", newRoute.path); // отладка
+            // window.history.pushState({}, '', newRoute.path);
             return true;
         }
 
@@ -83,7 +81,6 @@ class Router {
         if (this.routes.get('/')) {
             this.currentRoute = {path: '/', component: this.routes?.get('/')};
             window.history.pushState({}, '', '/');
-            window.history.pushState({}, '', '/login');
         } else {
             const rootPath = this.routes.keys().next().value;
             this.currentRoute = {path: rootPath, component: this.routes?.get(rootPath)};
@@ -92,7 +89,9 @@ class Router {
         this.currentRoute.component?.componentDidMount();
         ++this.currentIndex;
 
-        window.addEventListener('popstate', () => {
+        console.log("router start method has been called...");
+
+        window.addEventListener('locationchange', function() {
             console.log('URL changed:', window.location.href);
             // this.route(window.location.pathname);
         });
