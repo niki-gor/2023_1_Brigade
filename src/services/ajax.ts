@@ -1,11 +1,7 @@
-const AJAX_METHODS = {
-    GET: 'GET',
-    POST: 'POST',
-    DELETE: 'DELETE',
-};
+import { AJAX_METHODS } from '@config/ajax'
 
 const BACKEND_URL = 'http://127.0.0.1:8081'; // 'http://95.163.249.116:8081';
-// const BACKEND_URL_LOCAL = '127.0.0.1:8081'
+// const BACKEND_URL_LOCAL = 'http://127.0.0.1:8081'
 
 /**
  * method implementing request work
@@ -82,5 +78,22 @@ export const deleteSession = (
         url,
         AJAX_METHODS.DELETE,
         null,
+    );
+}
+
+/**
+ * method implementing PUT request
+ * @param {string} url - path url
+ * @param {json} body - request data
+ * @returns {Promise} - request promise
+ */
+export const put = (
+    url: string,
+    body: anyObject | null | undefined,
+) => {
+    return ajax(
+        url, 
+        AJAX_METHODS.PUT,
+        body,
     );
 }

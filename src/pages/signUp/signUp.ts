@@ -14,7 +14,7 @@ export class DumbSignUp extends Page {
         return template({
             top: loginRegTopUI.renderTemplate({type: 'reg'}),
             email: loginRegInputUI.renderTemplate({type: 'email'}),
-            username: loginRegInputUI.renderTemplate({type: 'username'}),
+            nickname: loginRegInputUI.renderTemplate({type: 'nickname'}),
             password: loginRegInputUI.renderTemplate({type: 'password'}),
             confirmPassword: loginRegInputUI.renderTemplate({type: 'confirm password'}),
             bottom: loginRegBottomUI.renderTemplate({type: 'reg'}),

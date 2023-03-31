@@ -1,10 +1,13 @@
 import { constantsOfActions } from "@/config/actions";
 
-export const reduceSetState = (state: anyObject, action: Action) => {
+export const reduceSetUser = (state: anyObject, action: Action) => {
     switch (action.type) {
-    case constantsOfActions.setState:
+    case constantsOfActions.setUser:
         return {
-            ...action.payload,
+            ...state,
+            user: { 
+                ...action.payload
+            },
         };
     default:
         return {

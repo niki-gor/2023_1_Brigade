@@ -1,8 +1,8 @@
 import { Container } from "@containers/container";
 import { DumbSignUp } from "@/pages/signUp/signUp";
-import { checkEmail, checkPassword, checkConfirmPassword, checkUsername, addErrorToClass } from "@/utils/validator";
+import { checkEmail, checkPassword, checkConfirmPassword, checkNickname, addErrorToClass } from "@/utils/validator";
 import { store } from "@/store/store";
-import { emailErrorTypes, passwordErrorTypes, confirmPasswordErrorTypes, usernameErrorTypes } from "@/config/config";
+import { emailErrorTypes, passwordErrorTypes, confirmPasswordErrorTypes, nicknameErrorTypes } from "@/config/config";
 import { constantsOfActions } from "@/config/actions";
 import { createSignUpAction } from "@/actions/authActions";
 import { createMoveToLoginAction } from "@/actions/routeActions";
@@ -10,20 +10,19 @@ import { createMoveToLoginAction } from "@/actions/routeActions";
 
 export interface SmartSignUp {
     state: {
-        statusLogin: number,
         isSubscribed: boolean,
         valid: {
             emailIsValid: boolean,
             passwordIsValid: boolean,
             confirmPasswordIsValid: boolean,
-            usernameIsValid: boolean,
+            nicknameIsValid: boolean,
             isValid: () => boolean,
         },
         domElements: {
             email: HTMLInputElement | null,
             password: HTMLInputElement | null,
             confirmPassword: HTMLInputElement | null,
-            username: HTMLInputElement | null,
+            nickname: HTMLInputElement | null,
             signUpButton: HTMLButtonElement | null,
             moveToLogin: HTMLElement | null,
         }
@@ -45,25 +44,24 @@ export class SmartSignUp extends Container {
     constructor(props :componentProps) {
         super(props);
         this.state = {
-            statusLogin: 0,
             isSubscribed: false,
             valid: {
                 emailIsValid: false,
                 passwordIsValid: false,
                 confirmPasswordIsValid: false,
-                usernameIsValid: false,
+                nicknameIsValid: false,
                 isValid: () => {
                     return this.state.valid.emailIsValid && 
                            this.state.valid.passwordIsValid && 
                            this.state.valid.confirmPasswordIsValid && 
-                           this.state.valid.usernameIsValid;
+                           this.state.valid.nicknameIsValid;
                 }
             },
             domElements: {
                 email: null,
                 password:  null,
                 confirmPassword: null,
-                username: null,
+                nickname: null,
                 signUpButton: null,
                 moveToLogin: null
             }
@@ -86,7 +84,7 @@ export class SmartSignUp extends Container {
      */
     occupiedEmail() {
         this.state.domElements.email?.classList.add('login-reg__input_error');
-        document.querySelector('.occupied-email')?.classList.remove('invisible');
+        addErrorToClass('.occupied-email', emailErrorTypes);
     }
 
     /**
@@ -130,15 +128,15 @@ export class SmartSignUp extends Container {
             this.validateConfirmPassword();
         });
 
-        this.state.domElements.username = document.querySelector('.username');
-        this.state.domElements.username?.addEventListener('input', (e) => {
+        this.state.domElements.nickname = document.querySelector('.nickname');
+        this.state.domElements.nickname?.addEventListener('input', (e) => {
             e.preventDefault();
 
-            this.validateUsername();
+            this.validateNickname();
         });
 
         if (!this.state.isSubscribed) {
-            this.unsubscribe.push(store.subscribe(constantsOfActions.setState, this.render));
+            this.unsubscribe.push(store.subscribe(constantsOfActions.setUser, this.render));
             this.unsubscribe.push(store.subscribe(constantsOfActions.occupiedEmail, this.occupiedEmail));
 
             this.state.isSubscribed = true;
@@ -161,12 +159,10 @@ export class SmartSignUp extends Container {
             const user = {
                 email: this.state.domElements.email?.value,
                 password: this.state.domElements.password?.value,
-                username: this.state.domElements.username?.value,
+                nickname: this.state.domElements.nickname?.value,
             } as anyObject;
 
-            if (this.state.valid.isValid()) {
-                store.dispatch(createSignUpAction(user))
-            }
+            store.dispatch(createSignUpAction(user))
         }
     }
 
@@ -237,19 +233,19 @@ export class SmartSignUp extends Container {
     /**
      * Проверяет пользовательский ввод имени
      */
-    validateUsername() {
-        this.state.domElements.username?.classList.remove('login-reg__input_error');
+    validateNickname() {
+        this.state.domElements.nickname?.classList.remove('login-reg__input_error');
         addErrorToClass('', passwordErrorTypes);
 
-        const { isError, errorClass } = checkUsername(this.state.domElements.username?.value ?? '');
+        const { isError, errorClass } = checkNickname(this.state.domElements.nickname?.value ?? '');
 
         if (isError) {
-            this.state.domElements.username?.classList.add('login-reg__input_error');
+            this.state.domElements.nickname?.classList.add('login-reg__input_error');
             addErrorToClass(errorClass, passwordErrorTypes);
-            this.state.valid.usernameIsValid = false;
+            this.state.valid.nicknameIsValid = false;
             return;
         }
 
-        this.state.valid.usernameIsValid = true;
+        this.state.valid.nicknameIsValid = true;
     }
 }

@@ -1,7 +1,8 @@
 export const constantsOfActions = {
-    setState: 'setState',
+    setUser: 'setUser',
     invalidEmail: 'invalidEmail',
     occupiedEmail: 'occupiedEmail',
+    occupiedUsername: 'occupiedUsername',
     moveToSignUp: 'moveToSignUp',
     moveToLogin: 'moveToLogin',
 }

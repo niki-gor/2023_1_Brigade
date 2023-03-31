@@ -17,24 +17,26 @@ export class DumbProfile extends Component {
                 imgSrc: this.props.user.avatar, 
                 altMsg: 'avatar'
             }),
-            username: this.props.user.username,
             nickname: this.props.user.nickname,
+            username: this.props.user.username,
             status: this.props.user.status,
             nameHeader: headerInputUI.renderTemplate({
-                headerInputText: 'Имя'
+                headerInputText: 'Никнейм'
             }),
             nameInput: dataInputUI.renderTemplate({
-                className: 'username',
-                inputType: 'text',
-                inputPlaceholder: this.props.user.username,
-            }),
-            nickHeader: headerInputUI.renderTemplate({
-                headerInputText: 'Ник'
-            }),
-            nickInput: dataInputUI.renderTemplate({
                 className: 'nickname',
                 inputType: 'text',
-                inputPlaceholder: this.props.user.nickname,
+                inputPlaceholder: '',
+                value: this.props.user.nickname,
+            }),
+            nickHeader: headerInputUI.renderTemplate({
+                headerInputText: 'Имя пользователя'
+            }),
+            nickInput: dataInputUI.renderTemplate({
+                className: 'username',
+                inputType: 'text',
+                inputPlaceholder: '',
+                value: this.props.user.username,
             }),
             statusHeader: headerInputUI.renderTemplate({
                 headerInputText: 'Статус'
@@ -42,15 +44,26 @@ export class DumbProfile extends Component {
             statusInput: dataInputUI.renderTemplate({
                 className: 'status',
                 inputType: 'text',
-                inputPlaceholder: this.props.user.status,
+                inputPlaceholder: '',
+                value: this.props.user.status,
             }),
-            passwordHeader: headerInputUI.renderTemplate({
-                headerInputText: 'Пароль'
+            currentPasswordHeader: headerInputUI.renderTemplate({
+                headerInputText: 'Текущий пароль'
             }),
-            passwordInput: dataInputUI.renderTemplate({
-                className: 'password',
+            currentPasswordInput: dataInputUI.renderTemplate({
+                className: 'current-password',
                 inputType: 'password',
                 inputPlaceholder: '**********',
+                value: '',
+            }),
+            newPasswordHeader: headerInputUI.renderTemplate({
+                headerInputText: 'Новый пароль'
+            }),
+            newPasswordInput: dataInputUI.renderTemplate({
+                className: 'new-password',
+                inputType: 'password',
+                inputPlaceholder: '**********',
+                value: '',
             }),
             buttonSave: blueButtonUI.renderTemplate({
                 className: 'button-save',

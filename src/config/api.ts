@@ -4,4 +4,5 @@ export const config = {
     signup: '/signup/',
     chat: '/users/',
     logout: '/logout/',
+    updateUser: '/users/settings/',
 };

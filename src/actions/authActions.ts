@@ -1,13 +1,13 @@
 import { auth, login, signUp, logout } from "@/utils/api";
-import { createSetStateAction, createInvalidEmailAction, createOccupiedEmailAction } from "@actions/userActions";
+import { createSetUserAction, createInvalidEmailAction, createOccupiedEmailAction } from "@actions/userActions";
 
-export const createAuthAction = () => {
+export const createAuthAction = () : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: anyObject) => {
         const { status, body } = await auth();
 
         switch (status) {
         case 200:
-            return dispatch(createSetStateAction(body));
+            return dispatch(createSetUserAction(body));
         case 401:
             // TODO: не уверен, но как-будто нужно поменять url и роутер уже отреагирует и отрендерит
         case 500:
@@ -20,13 +20,13 @@ export const createAuthAction = () => {
     };
 };
 
-export const createLoginAction = (user: anyObject) => {
+export const createLoginAction = (user: anyObject) : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: anyObject) => {
         const { status, body } = await login(user);
 
         switch (status) {
         case 200:
-            return dispatch(createSetStateAction(body));
+            return dispatch(createSetUserAction(body));
         case 404:
             // TODO: не уверен, но как-будто нужно поменять url и роутер уже отреагирует и отрендерит
         case 409:
@@ -41,13 +41,13 @@ export const createLoginAction = (user: anyObject) => {
     };
 };
 
-export const createSignUpAction = (user: anyObject) => {
+export const createSignUpAction = (user: anyObject) : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: anyObject) => {
         const { status, body } = await signUp(user);
 
         switch (status) {
         case 201:
-            return dispatch(createSetStateAction(body));
+            return dispatch(createSetUserAction(body));
         case 400:
             // TODO: не уверен, но как-будто нужно поменять url и роутер уже отреагирует и отрендерит
         case 409:
@@ -62,7 +62,7 @@ export const createSignUpAction = (user: anyObject) => {
     };
 };
 
-export const createLogoutAction = () => {
+export const createLogoutAction = () : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: anyObject) => {
         const { status, body } = await logout();
 

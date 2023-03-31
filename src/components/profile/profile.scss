@@ -1,5 +1,5 @@
 .profile {
-    width: 333px;
+    margin-top: 50px;
 
     display: flex;
     flex-direction: column;
@@ -11,7 +11,7 @@
     flex-direction: column;
     align-items: center;
 
-    margin-bottom: 62px;
+    margin-bottom: 50px;
 }
 
 .profile__user-description {
@@ -29,8 +29,7 @@
     flex-direction: column;
     align-items: center;
 
-    margin-bottom: 72px;
-    margin-top: 21px;
+    margin-bottom: 40px;
 }
 
 .profile__input {

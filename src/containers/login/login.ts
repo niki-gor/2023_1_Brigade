@@ -10,7 +10,6 @@ import { createMoveToSignUpAction } from "@/actions/routeActions";
 
 export interface SmartLogin {
     state: {
-        statusLogin: number,
         isSubscribed: boolean,
         valid: {
             emailIsValid: boolean,
@@ -41,7 +40,6 @@ export class SmartLogin extends Container {
     constructor(props :componentProps) {
         super(props);
         this.state = {
-            statusLogin: 0,
             isSubscribed: false,
             valid: {
                 emailIsValid: false,
@@ -76,7 +74,7 @@ export class SmartLogin extends Container {
      */
     invalidEmail() {
         this.state.domElements.email?.classList.add('login-reg__input_error');
-        document.querySelector('.invalid-email')?.classList.remove('invisible');
+        addErrorToClass('.invalid-email', emailErrorTypes);
     }
 
     /**
@@ -114,7 +112,7 @@ export class SmartLogin extends Container {
         });
 
         if (!this.state.isSubscribed) {
-            this.unsubscribe.push(store.subscribe(constantsOfActions.setState, this.render));
+            this.unsubscribe.push(store.subscribe(constantsOfActions.setUser, this.render));
             this.unsubscribe.push(store.subscribe(constantsOfActions.invalidEmail, this.invalidEmail));
 
             this.state.isSubscribed = true;
@@ -139,9 +137,7 @@ export class SmartLogin extends Container {
                 password: this.state.domElements.password?.value,
             } as anyObject;
 
-            if (this.state.valid.isValid()) {
-                store.dispatch(createLoginAction(user))
-            }
+            store.dispatch(createLoginAction(user))
         }
     }
 
