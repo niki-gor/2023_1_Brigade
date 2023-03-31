@@ -14,7 +14,7 @@ export interface Route {
 }
 
 export const routes = new Map<string, ComponentTemplate> ([
-    ["/", new SmartSignUp({ ...store.getState(), rootNode: ROOT }) ], // TODO: SmartLogin->SmartChat
+    // ["/", new SmartSignUp({ ...store.getState(), rootNode: ROOT }) ], // TODO: SmartLogin->SmartChat
     // ["/login/", new SmartLogin({ ...store.getState(), rootNode: ROOT })],
     // ["/signup/", new SmartSignUp({ ...store.getState(), rootNode: ROOT })],
     // ["/chat/:id/", new SmartLogin({ ...store.getState(), rootNode: ROOT }) ], // TODO: SmartLogin->SmartChatID
