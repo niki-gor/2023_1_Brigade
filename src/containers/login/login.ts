@@ -2,7 +2,7 @@ import { Container } from "@containers/container";
 import { DumbLogin } from "@/pages/login/login";
 import { checkEmail, checkPassword, addErrorToClass } from "@/utils/validator";
 import { store } from "@/store/store";
-import { emailErrorTypes, passwordErrorTypes } from "@/config/config";
+import { emailErrorTypes, passwordErrorTypes } from "@/config/errors";
 import { constantsOfActions } from "@/config/actions";
 import { createLoginAction } from "@/actions/authActions";
 import { createMoveToSignUpAction } from "@/actions/routeActions";
@@ -74,7 +74,7 @@ export class SmartLogin extends Container {
      */
     invalidEmail() {
         this.state.domElements.email?.classList.add('login-reg__input_error');
-        addErrorToClass('.invalid-email', emailErrorTypes);
+        addErrorToClass('invalid-email', emailErrorTypes);
     }
 
     /**

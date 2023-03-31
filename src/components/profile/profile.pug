@@ -7,14 +7,17 @@
             .font-size-2!= '@' + username
             .font-size-3!= status
 
-    .profile__inputs 
+    .profile__inputs
         .profile__input
-            != nameHeader 
-            != nameInput
+            != nicknameHeader 
+            != nicknameInput
+            != emptyNickname
+            != invalidNickname
 
         .profile__input
-            != nickHeader 
-            != nickInput
+            != usernameHeader 
+            != usernameInput
+            != occupiedUsername
 
         .profile__input
             != statusHeader 
@@ -23,9 +26,13 @@
         .profile__input
             != currentPasswordHeader
             != currentPasswordInput
+            != emptyPassword
+            != invalidPassword
         
         .profile__input
             != newPasswordHeader
             != newPasswordInput
+            != emptyNewPassword
+            != invalidNewPassword
 
     != buttonSave 

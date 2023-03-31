@@ -6,21 +6,21 @@ export const checkEmail = (email: string) => {
     if (!isNotEmpty) {
         return {
             isError: true,
-            errorClass: '.empty-email',
+            errorClass: 'empty-email',
         }
     }
 
     if (!hasDog) {
         return {
             isError: true,
-            errorClass: '.missdog-email',
+            errorClass: 'missdog-email',
         }
     }
 
     if (!isValid) {
         return {
             isError: true,
-            errorClass: '.invalid-email',
+            errorClass: 'invalid-email',
         }
     }
 
@@ -37,14 +37,14 @@ export const checkPassword = (password: string) => {
     if (!isNotEmpty) {
         return { 
             isError: true,
-            errorClass: '.empty-password', 
+            errorClass: 'empty-password', 
         };
     }
 
     if (!hasValidLength) {
         return { 
             isError: true,
-            errorClass: '.invalid-password',
+            errorClass: 'invalid-password',
         };
     }
 
@@ -61,14 +61,14 @@ export const checkConfirmPassword = (password: string, confirmPassword: string) 
     if (!isNotEmpty) {
         return {
             isError: true,
-            errorClass: '.empty-confirm-password',
+            errorClass: 'empty-confirm-password',
         };
     }
 
     if (!isEqualPassword) {
         return {
             isError: true,
-            errorClass: '.invalid-confirm-password',
+            errorClass: 'invalid-confirm-password',
         };
     }
 
@@ -79,14 +79,6 @@ export const checkConfirmPassword = (password: string, confirmPassword: string) 
     
 };
 
-export const addErrorToClass = (classToRemoveInvisible: string, classesToAddInvisible: string[]) => {
-    classesToAddInvisible.forEach((curClass) => {
-        document.querySelector(curClass)?.classList.add('invisible');
-    });
-
-    if (classToRemoveInvisible) document.querySelector(classToRemoveInvisible)?.classList.remove('invisible');
-}
-
 export const checkNickname = (nickname: string) => {
     const isNotEmpty = nickname.length > 0;
     const hasValidLength = nickname.length > 1;
@@ -94,14 +86,14 @@ export const checkNickname = (nickname: string) => {
     if (!isNotEmpty) {
         return {
             isError: true,
-            errorClass: '.empty-username',
+            errorClass: 'empty-nickname',
         };
     }
 
     if (!hasValidLength) {
         return {
             isError: true,
-            errorClass: '.invalid-username',
+            errorClass: 'invalid-nickname',
         };
     }
 
@@ -110,6 +102,14 @@ export const checkNickname = (nickname: string) => {
         errorClass: '',
     }
 };
+
+export const addErrorToClass = (classToRemoveInvisible: string, classesToAddInvisible: ErrorTypes[]) => {
+    classesToAddInvisible.forEach((curClass) => {
+        document.querySelector('.' + curClass.class)?.classList.add('invisible');
+    });
+
+    if (classToRemoveInvisible) document.querySelector('.' + classToRemoveInvisible)?.classList.remove('invisible');
+}
 
 // TODO: на будущее для проверки пароля
 // const hasNumber = /\d/.test(password);

@@ -4,11 +4,29 @@ import { blueButtonUI } from "@components/ui/blue-button/blue-button";
 import { dataInputUI } from "@components/ui/data-input/data-input";
 import { ellipseIconUI } from "@components/ui/ellipse-icon/ellipse-icon";
 import { headerInputUI } from "@components/ui/header-input/header-input";
+import { errorInputUI } from "../ui/error-input/error-input";
+import { nicknameErrorTypes, passwordErrorTypes, usernameErrorTypes, newPasswordErrorTypes } from "@/config/errors";
 import "@components/profile/profile.scss"
 
 export class DumbProfile extends Component {
     constructor(props: any) {
         super(props);
+    }
+
+    getValidateErrors(errors: {param: string, class: string, message: string}[]) {
+        let result = {};
+    
+        errors.forEach(err => {
+            result = {
+                    ...result,
+                    [err.param] : errorInputUI.renderTemplate({
+                        className:  `${err.class}`,
+                        message: `${err.message}`,
+                    }),
+            };
+        });
+    
+        return result;
     }
 
     render() {
@@ -17,27 +35,33 @@ export class DumbProfile extends Component {
                 imgSrc: this.props.user.avatar, 
                 altMsg: 'avatar'
             }),
+
             nickname: this.props.user.nickname,
             username: this.props.user.username,
             status: this.props.user.status,
-            nameHeader: headerInputUI.renderTemplate({
+
+            nicknameHeader: headerInputUI.renderTemplate({
                 headerInputText: 'Никнейм'
             }),
-            nameInput: dataInputUI.renderTemplate({
+            nicknameInput: dataInputUI.renderTemplate({
                 className: 'nickname',
                 inputType: 'text',
                 inputPlaceholder: '',
                 value: this.props.user.nickname,
             }),
-            nickHeader: headerInputUI.renderTemplate({
+            ...this.getValidateErrors(nicknameErrorTypes),
+
+            usernameHeader: headerInputUI.renderTemplate({
                 headerInputText: 'Имя пользователя'
             }),
-            nickInput: dataInputUI.renderTemplate({
+            usernameInput: dataInputUI.renderTemplate({
                 className: 'username',
                 inputType: 'text',
                 inputPlaceholder: '',
                 value: this.props.user.username,
             }),
+            ...this.getValidateErrors(usernameErrorTypes),
+
             statusHeader: headerInputUI.renderTemplate({
                 headerInputText: 'Статус'
             }),
@@ -47,6 +71,7 @@ export class DumbProfile extends Component {
                 inputPlaceholder: '',
                 value: this.props.user.status,
             }),
+
             currentPasswordHeader: headerInputUI.renderTemplate({
                 headerInputText: 'Текущий пароль'
             }),
@@ -56,6 +81,8 @@ export class DumbProfile extends Component {
                 inputPlaceholder: '**********',
                 value: '',
             }),
+            ...this.getValidateErrors(passwordErrorTypes),
+
             newPasswordHeader: headerInputUI.renderTemplate({
                 headerInputText: 'Новый пароль'
             }),
@@ -65,6 +92,8 @@ export class DumbProfile extends Component {
                 inputPlaceholder: '**********',
                 value: '',
             }),
+            ...this.getValidateErrors(newPasswordErrorTypes),
+
             buttonSave: blueButtonUI.renderTemplate({
                 className: 'button-save',
                 buttonValue: 'Сохранить изменения',

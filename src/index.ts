@@ -19,3 +19,8 @@ const profile = new DumbProfile({
 });
 
 document.querySelector('#root')?.innerHTML = profile.render();
+// document.querySelector('.occupied-username')?.classList.remove('invisible');
+// document.querySelector('.invalid-nickname')?.classList.remove('invisible');
+// document.querySelector('.empty-password')?.classList.remove('invisible');
+// document.querySelector('.missdog-email')?.classList.remove('invisible');
+// document.querySelector('.invalid-new-password')?.classList.remove('invisible');

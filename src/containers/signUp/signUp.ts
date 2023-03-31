@@ -2,7 +2,7 @@ import { Container } from "@containers/container";
 import { DumbSignUp } from "@/pages/signUp/signUp";
 import { checkEmail, checkPassword, checkConfirmPassword, checkNickname, addErrorToClass } from "@/utils/validator";
 import { store } from "@/store/store";
-import { emailErrorTypes, passwordErrorTypes, confirmPasswordErrorTypes, nicknameErrorTypes } from "@/config/config";
+import { emailErrorTypes, passwordErrorTypes, confirmPasswordErrorTypes, nicknameErrorTypes } from "@/config/errors";
 import { constantsOfActions } from "@/config/actions";
 import { createSignUpAction } from "@/actions/authActions";
 import { createMoveToLoginAction } from "@/actions/routeActions";
@@ -84,7 +84,7 @@ export class SmartSignUp extends Container {
      */
     occupiedEmail() {
         this.state.domElements.email?.classList.add('login-reg__input_error');
-        addErrorToClass('.occupied-email', emailErrorTypes);
+        addErrorToClass('occupied-email', emailErrorTypes);
     }
 
     /**

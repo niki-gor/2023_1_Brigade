@@ -2,7 +2,7 @@ import { Container } from "@containers/container";
 import { DumbProfile } from "@/components/profile/profile";
 import { checkPassword, checkNickname, addErrorToClass } from "@/utils/validator";
 import { store } from "@/store/store";
-import { passwordErrorTypes, usernameErrorTypes, nicknameErrorTypes } from "@/config/config";
+import { passwordErrorTypes, usernameErrorTypes, nicknameErrorTypes } from "@/config/errors";
 import { constantsOfActions } from "@/config/actions";
 import { createUpdateUserAction } from "@/actions/userActions";
 
@@ -73,7 +73,7 @@ export class SmartProfile extends Container {
      */
     occupiedUsername() {
         this.state.domElements.username?.classList.add('data-input--error');
-        addErrorToClass('.occupied-username', usernameErrorTypes);
+        addErrorToClass('occupied-username', usernameErrorTypes);
     }
 
     /**
