@@ -1,6 +1,6 @@
 import { AJAX_METHODS } from '@config/ajax'
 
-const BACKEND_URL = 'http://127.0.0.1:8081'; // 'http://95.163.249.116:8081';
+const BACKEND_URL = '127.0.0.1:8081'; // 'http://95.163.249.116:8081';
 // const BACKEND_URL_LOCAL = 'http://127.0.0.1:8081'
 
 /**
@@ -18,7 +18,9 @@ const ajax = (
     return fetch(BACKEND_URL + url, {
         method,
         headers: {
-            Accept: 'application/json', Host: BACKEND_URL, 'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Host: BACKEND_URL,
+            'Content-Type': 'application/json',
         },
         credentials: 'include',
         mode: 'cors',

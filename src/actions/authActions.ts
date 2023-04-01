@@ -1,19 +1,25 @@
 import { auth, login, signUp, logout } from "@/utils/api";
 import { createSetUserAction, createInvalidEmailAction, createOccupiedEmailAction } from "@actions/userActions";
+import { router } from "@/router/router";
 
 export const createAuthAction = () : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: anyObject) => {
         const { status, body } = await auth();
-
+        
         switch (status) {
         case 200:
-            return dispatch(createSetUserAction(body));
+            dispatch(createSetUserAction(body));
+            router.route('/profile');
+            break;
         case 401:
-            // TODO: не уверен, но как-будто нужно поменять url и роутер уже отреагирует и отрендерит
+            router.route('/login');
+            break;
         case 500:
             // TODO: не уверен, но как-будто нужно поменять url и роутер уже отреагирует и отрендерит
+            break;
         case 0:
             // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
+            break;
         default:
             // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
         }

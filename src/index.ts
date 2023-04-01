@@ -1,26 +1,31 @@
 import '@/index.css';
+import { router } from '@router/router';
+import { ROOT } from './config/config';
+import { SmartLogin } from './containers/login/login';
+import { SmartSignUp } from './containers/signUp/signUp';
+import { SmartProfile } from './containers/profile/profile';
+import { store } from '@store/store';
+import { createAuthAction } from './actions/authActions';
 
-// TODO: костыли, которые заменятся роутером
-// import { ROOT } from '@config/config';
-// import { store } from '@store/store'
-// import { SmartLogin } from '@containers/login/login';
+let ok: boolean;
+ok = router.register('/login', { path: "/login", component: new SmartLogin({ ...store.getState(), rootNode: ROOT }) });
+if (!ok) {
+    console.error('router registration error');
+    process.exit(1);
+}
+ok = router.register('/signup', { path: "/signup", component: new SmartSignUp({ ...store.getState(), rootNode: ROOT }) });
+if (!ok) {
+    console.error('router registration error');
+    process.exit(1);
+}
+ok = router.register('/profile', { path: "/profile", component: new SmartProfile({ ...store.getState(), rootNode: ROOT }) });
+if (!ok) {
+    console.error('router registration error');
+    process.exit(1);
+}
 
-// const login = new SmartLogin({ ...store.getState(), rootNode: ROOT });
-// login.componentDidMount();
+store.dispatch(createAuthAction());
 
-import { DumbProfile } from './components/profile/profile';
-const profile = new DumbProfile({
-    user: {
-        avatar: './assets/img/geva.png',
-        nickname: 'Gevork Gabrielyan',
-        username: 'yurkakurka',
-        status: 'Horovace shat lav bane!'
-    }
-});
-
-document.querySelector('#root')?.innerHTML = profile.render();
-// document.querySelector('.occupied-username')?.classList.remove('invisible');
-// document.querySelector('.invalid-nickname')?.classList.remove('invisible');
-// document.querySelector('.empty-password')?.classList.remove('invisible');
-// document.querySelector('.missdog-email')?.classList.remove('invisible');
-// document.querySelector('.invalid-new-password')?.classList.remove('invisible');
+// router.route('/signup');
+// router.back();
+// console.log(router.getRoute("/"));
