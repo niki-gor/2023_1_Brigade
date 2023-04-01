@@ -1,3 +1,5 @@
+import { routes, Route, ComponentTemplate, urlInfo} from './routerConfig';
+
 /**
  * 1) register(path, route: Route) - для добавления нового маршрута +
  * 2) removeRoute(path) - метод для удаления маршрута -
@@ -10,11 +12,6 @@
  * 9) `getCurrentPath()` - метод для получения текущего пути.
  * 10) `notFound(route: Route)` - метод для установки обработчика, который будет вызываться, если нет пути
  */
-
-// import { createBrowserHistory } from 'history';
-// import { store } from '@store/Store';
-import { routes, Route, ComponentTemplate} from './routerConfig';
-
 
 class Router {
     routes: Map<string, ComponentTemplate>;
@@ -51,61 +48,75 @@ class Router {
      * @param {string} path - ccылка без домена и id
      */
     route(path: string) {
-        console.log("route method has been called");
-        const routeExist = this.routes.has(path);
-        let id, separatorNumber;
-        if (routeExist) {
+        const urlParams: urlInfo | null = this.match(path);
+        if (urlParams) {
             if (this.currentRoute) {
                 this.currentRoute.component?.componentWillUnmount();
             }
+
             this.currentRoute = {path: path, component: this.routes.get(path)};
 
-            separatorNumber = path.indexOf(':');
-            if (separatorNumber != - 1) {
-                id = path.slice(separatorNumber + 1); // TODO: извлечние не до конца строки, а до / скорее всего
-                window.history.pushState({id}, '', path + id);
+            if (Object.keys(urlParams.dynamicParams).length !== 0) {
+                const dynamicPath = Object.keys(urlParams.dynamicParams).reduce((accumulator, currentValue) => {
+                    return accumulator + ':' + currentValue;
+                }, path);
+                window.history.pushState({dynamicParam: urlParams.dynamicParams, path: dynamicPath}, '', dynamicPath); // TODO: path + urlParams.dynamicParams - динамический url
             } else {
-                window.history.pushState({path: this.currentRoute.path}, '', path); // статический url 'content': this.currentRoute
+                window.history.pushState({path: this.currentRoute.path}, '', path); // 'content': this.currentRoute - статический url
             }
             
             this.currentRoute.component?.componentDidMount();
             ++this.currentIndex;
         } else {
-            console.log("error page");
+            console.log("error page"); // TODO: errorPage
         }
+    }
+
+    /**
+     * Получает путь для обработчика render и динамические параметры
+     * @param {string} href - ccылка без домена и id
+     */
+    match(href: string) : urlInfo | null {
+        const pathSegments = href.split("/").filter((segment: string) => segment !== "");
+        if (this.routes.has(href)) {
+            this.currentRoute = {path: href, component: this.routes.get(href)}; // TODO: создать метод setCurrentRoute(path: string, component: ComponentTemplate | undefined);
+        }
+        
+        const routeSegments = this.currentRoute?.path.split("/").filter((segment: string) => segment !== "");
+        if (pathSegments.length !== routeSegments?.length) {
+            return null;
+        }
+
+        let params: {[key: string]: any} = {};
+
+        for (let i = 0; i < routeSegments.length; i++) {
+            if (routeSegments[i].charAt(0) === ":") {
+                const paramName = routeSegments[i].substring(1);
+                params[paramName] = pathSegments[i];
+            } else if (routeSegments[i] !== pathSegments[i]) {
+                return null;
+            }
+        }
+
+        return {
+            dynamicParams: params,
+        };      
     }
 
     /**
      * метод для перехода на предыдущую страницу в истории браузера.
      */
     back() {
-        console.log('back method has been called');
-        console.log('history state - prev path: ', window.history.state.path);
-        console.log('curRoute path: ', this.currentRoute?.path);
-        console.log('cur path: ', window.history.back());
-        // if (this.currentIndex > 0) { // на второй странице
-        //   --this.currentIndex;
-        //   const prevPath = window.history.state.path;
-        //   const routeExist = this.routes.has(prevPath);
-        //   if (routeExist) {
-        //     this.currentRoute = {path: prevPath, component: this.routes.get(prevPath)};
-        //   }
-        // //   history.back();
-        // }
+        --this.currentIndex;
+        history.back();
     }
 
     /**
      * метод для перехода на следующую страницу в истории браузера.
      */
     forward() {
-        console.log('forward method has been called');
         ++this.currentIndex;
         history.forward();
-        // if (history.forwardAvailable) {
-        //     console.log('Next page exists');
-        //   } else {
-        //     console.log('Next page does not exist')
-        // }
     }      
 
     /**
@@ -126,53 +137,27 @@ class Router {
             return this.currentRoute?.path;
         }
         
-        return 'not found';
+        return 'not found'; // TODO: errorComponent
     }
 
     start() {
-        // при запуске router-a window.history же пуста ?
         this.currentRoute?.component?.componentWillUnmount();
 
-        if (this.routes.get(window.location.pathname)) {
+        if (this.routes.has(window.location.pathname)) {
+            console.log('current url: ', window.location.pathname); // отладка
             this.currentRoute = {path: window.location.pathname, component: this.routes?.get(window.location.pathname)};
             this.currentRoute.component?.componentDidMount();
             ++this.currentIndex;
         }
 
-        window.addEventListener('popstate', (e) => {
-            e.preventDefault();
-            this.back();
-        });
-        
-
-        console.log("router start method has been called...");
-        console.log("path: ", window.location.pathname);
-    };
- 
-    /**
-     * Получает путь для обработчика render и динамические параметры
-     * @param {string} href - ccылка без домена и id
-     */
-    match(href: string) : Object {
-        const pathSegments = href.split("/").filter((segment: string) => segment !== "");
-        const routeSegments = this.currentRoute?.path.split("/").filter((segment: string) => segment !== "");
-        if (pathSegments.length !== routeSegments?.length) {
-            return false;
-        }
-
-        let params: {[key: string]: any} = {};
-
-        for (let i = 0; i < routeSegments.length; i++) {
-            if (routeSegments[i].charAt(0) === ":") { // динамический параметр
-                const paramName = routeSegments[i].substring(1);
-                params[paramName] = pathSegments[i];
-            } else if (routeSegments[i] !== pathSegments[i]) {
-                return {};
+        window.addEventListener('popstate', (event) => {
+            if (event.state && event.state.direction === 'forward') {
+              this.forward();
+            } else {
+              this.back();
             }
-        }
-
-        return {};      
-    }
+        });          
+    };
 }
 
 export const router = new Router(routes);

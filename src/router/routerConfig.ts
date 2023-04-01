@@ -1,7 +1,6 @@
-import { ROOT } from "@/config/config";
+// import { ROOT } from "@/config/config";
 // import { SmartLogin } from "@/containers/login/login";
-import { SmartSignUp } from "@/containers/signUp/signUp";
-import { store } from "@/store/store";
+// import { SmartSignUp } from "@/containers/signUp/signUp";
 
 export interface ComponentTemplate {
     componentWillUnmount: Function;
@@ -11,6 +10,15 @@ export interface ComponentTemplate {
 export interface Route {
     path: string,
     component: ComponentTemplate | undefined,
+}
+
+export interface historyIterator {
+    currentIndex: number;
+    path: string;
+}
+
+export interface urlInfo {
+    dynamicParams: Object;
 }
 
 export const routes = new Map<string, ComponentTemplate> ([
