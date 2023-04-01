@@ -11,7 +11,7 @@ export const auth = () => {
     .then(({ status, parsedBody }) => {
         switch (status) {
         case 200:
-            parsedBody?.then((body) => {
+            parsedBody?.then((body: anyObject) => {
                 return {
                     status,
                     body,
@@ -54,7 +54,7 @@ export const login = (body: anyObject) => {
     .then(({ status, parsedBody }) => {
         switch (status) {
         case 200:
-            parsedBody?.then((body) => {
+            parsedBody?.then((body: anyObject) => {
                 return {
                     status,
                     body,
@@ -98,7 +98,7 @@ export const signUp = (body: anyObject) => {
     .then(({ status, parsedBody }) => {
         switch (status) {
         case 201:
-            parsedBody?.then((body) => {
+            parsedBody?.then((body: anyObject) => {
                 return {
                     status,
                     body,
@@ -173,7 +173,7 @@ export const updateUser = (body: anyObject) => {
     .then(({ status, parsedBody }) => {
         switch (status) {
         case 200:
-            parsedBody?.then((body) => {
+            parsedBody?.then((body: anyObject) => {
                 return {
                     status,
                     body,

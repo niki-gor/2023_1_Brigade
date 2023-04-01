@@ -84,7 +84,7 @@ export class SmartLogin extends Container {
         this.render();
 
         this.state.domElements.loginButton = document.querySelector('.login-but');
-        this.state.domElements.email?.addEventListener('click', (e) => {
+        this.state.domElements.loginButton?.addEventListener('click', (e) => {
             e.preventDefault();
 
             this.handleClickLogin();

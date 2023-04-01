@@ -29,14 +29,15 @@ export const createAuthAction = () : AsyncAction => {
 export const createLoginAction = (user: anyObject) : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: anyObject) => {
         const { status, body } = await login(user);
-
+        console.log(body);
         switch (status) {
         case 200:
-            return dispatch(createSetUserAction(body));
+            dispatch(createSetUserAction(body));
+            router.route('/profile');
         case 404:
-            // TODO: не уверен, но как-будто нужно поменять url и роутер уже отреагирует и отрендерит
+            dispatch(createInvalidEmailAction());
         case 409:
-            return dispatch(createInvalidEmailAction());
+            // TODO: хз
         case 500:
             // TODO: не уверен, но как-будто нужно поменять url и роутер уже отреагирует и отрендерит
         case 0:

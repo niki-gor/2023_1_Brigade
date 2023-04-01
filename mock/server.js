@@ -96,7 +96,7 @@ app.post('/login', (req, res) => {
         return res.status(400).json({ error: 'Не указан E-Mail или пароль' });
     }
     if (!users[email] || users[email].password !== password) {
-        return res.status(400).json({ error: 'Не верный E-Mail и/или пароль' });
+        return res.status(404).json({ error: 'Не верный E-Mail и/или пароль' });
     }
 
     const id = uuid();

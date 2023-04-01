@@ -1,6 +1,6 @@
 import { AJAX_METHODS } from '@config/ajax'
 
-const BACKEND_URL = '127.0.0.1:8081'; // 'http://95.163.249.116:8081';
+const BACKEND_URL = 'http://127.0.0.1:8081'; // 'http://95.163.249.116:8081';
 // const BACKEND_URL_LOCAL = 'http://127.0.0.1:8081'
 
 /**
@@ -33,6 +33,16 @@ const ajax = (
                 parsedBody = response.json();
             }
             return { status, parsedBody };
+        })
+        .catch((err) => {
+            const { status } = err;
+            
+            let parsedBody;
+            if (status !== 204) {
+                parsedBody = err.json();
+            }
+            
+            return { status, parsedBody };
         });
 }
 
@@ -47,7 +57,7 @@ export const get = (
     return ajax(
         url,
         AJAX_METHODS.GET,
-        null,
+        undefined,
     );
 }
 
@@ -92,7 +102,7 @@ export const deleteSession = (
 export const put = (
     url: string,
     body: anyObject | null | undefined,
-) => {
+): Promise<any> => {
     return ajax(
         url, 
         AJAX_METHODS.PUT,
