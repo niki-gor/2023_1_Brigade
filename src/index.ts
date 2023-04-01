@@ -12,7 +12,6 @@ ok = router.register('/signup', { path: "/signup", component: new SmartSignUp({ 
 if (ok) {
     console.log('success registration');
     router.start();
-    router.route('/signup');
 } else {
     console.log('registration error');
 }
