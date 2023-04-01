@@ -8,19 +8,17 @@ import { routes, Route, ComponentTemplate, urlInfo} from './routerConfig';
  * 5) `start()` - метод для запуска прослушивания изменений URL-адреса и вызова соответствующих обработчиков маршрутов. Этот метод должен быть вызван после добавления всех маршрутов. +
  * 6) `back()` - метод для перехода на предыдущую страницу в истории браузера. +-
  * 7) `forward()` -  метод для перехода на следующую страницу в истории браузера. +-
- * 8) `go(n)` - метод для перехода на страницу в истории браузера, находящуюся на расстоянии `n` от текущей страницы. Если `n` положительное число, то происходит переход вперед, если отрицательное - назад.
- * 9) `getCurrentPath()` - метод для получения текущего пути.
- * 10) `notFound(route: Route)` - метод для установки обработчика, который будет вызываться, если нет пути
+ * 8) `go(n)` - метод для перехода на страницу в истории браузера, находящуюся на расстоянии `n` от текущей страницы. Если `n` положительное число, то происходит переход вперед, если отрицательное - назад. +-
+ * 9) `getCurrentPath()` - метод для получения текущего пути. +
+ * 10) `notFound(route: Route)` - метод для установки обработчика, который будет вызываться, если нет пути -
  */
 
 class Router {
     routes: Map<string, ComponentTemplate>;
-    currentIndex: number;
     currentRoute: Route | null | undefined;
 
     constructor(routes: Map<string, ComponentTemplate>) {
       this.routes = routes;
-      this.currentIndex = -1;
       this.currentRoute = null;
     }
 
@@ -66,7 +64,6 @@ class Router {
             }
             
             this.currentRoute.component?.componentDidMount();
-            ++this.currentIndex;
         } else {
             console.log("error page"); // TODO: errorPage
         }
@@ -107,16 +104,18 @@ class Router {
      * метод для перехода на предыдущую страницу в истории браузера.
      */
     back() {
-        --this.currentIndex;
-        history.back();
+        if (window.history && window.history.back) {
+            window.history.back();
+        }
     }
 
     /**
      * метод для перехода на следующую страницу в истории браузера.
      */
     forward() {
-        ++this.currentIndex;
-        history.forward();
+        if (window.history && window.history.forward) {
+            window.history.forward();
+        }
     }
 
     /**
@@ -124,8 +123,19 @@ class Router {
      * Если `n` положительное число, то происходит переход вперед, если отрицательное - назад.
     */
     go(n: number) {
-        this.currentIndex += n;
-        history.go(n);
+        if (n) {
+            if (n > 0) {
+                while (n) {
+                    this.forward();
+                    --n;
+                }
+            } else {
+                while (n) {
+                    this.back();
+                    ++n;
+                }
+            }
+        }
     }
 
     /**
@@ -135,7 +145,7 @@ class Router {
      */
     getRoute(path: string) : Route {
         if (this.routes.has(path)) {
-            return {path: path, component: this.routes.get(path)};    
+            return {path: path, component: this.routes.get(path)};
         }
 
         return {path: 'not found', component: this.routes.get('not found')}; // TODO: not found => /error/:id/ && component: errorComponent
@@ -156,7 +166,6 @@ class Router {
             console.log('current url: ', window.location.pathname); // отладка
             this.currentRoute = {path: window.location.pathname, component: this.routes?.get(window.location.pathname)};
             this.currentRoute.component?.componentDidMount();
-            ++this.currentIndex;
         }
 
         window.addEventListener('popstate', (event) => {

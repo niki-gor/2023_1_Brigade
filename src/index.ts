@@ -5,6 +5,7 @@ import { SmartLogin } from './containers/login/login';
 import { SmartSignUp } from './containers/signUp/signUp';
 import { store } from './store/Store';
 
+
 let ok: boolean;
 ok = router.register('/login', { path: "/login", component: new SmartLogin({ ...store.getState(), rootNode: ROOT }) });
 ok = router.register('/signup', { path: "/signup", component: new SmartSignUp({ ...store.getState(), rootNode: ROOT }) });
