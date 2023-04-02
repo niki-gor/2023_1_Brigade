@@ -1,34 +1,15 @@
-import { publicPaths, privatePaths, Route, ComponentTemplate, urlInfo} from './routerConfig';
-
-/**
- * 1) register(path, route: Route) - для добавления нового маршрута +
- * 2) removeRoute(path) - метод для удаления маршрута -
- * 3) getRoute(path)` - метод для получения маршрута по его пути. Принимает один аргумент: `path` -  Возвращает объект маршрута, содержащий путь и обработчик. +
- * 4) `route(path)` - метод для навигации по маршруту. Принимает один аргумент: `path` - строка, содержащая путь + 
- * 5) `start()` - метод для запуска прослушивания изменений URL-адреса и вызова соответствующих обработчиков маршрутов. Этот метод должен быть вызван после добавления всех маршрутов. +
- * 6) `back()` - метод для перехода на предыдущую страницу в истории браузера. +
- * 7) `forward()` -  метод для перехода на следующую страницу в истории браузера. +
- * 8) `go(n)` - метод для перехода на страницу в истории браузера, находящуюся на расстоянии `n` от текущей страницы. Если `n` положительное число, то происходит переход вперед, если отрицательное - назад. +-
- * 9) `getCurrentPath()` - метод для получения текущего пути. +
- * 10) `notFound(route: Route)` - метод для установки обработчика, который будет вызываться, если нет пути -
- */
+import { Route, ComponentTemplate, urlInfo, appRoutes} from './routerConfig';
 
 class Router {
     routes: Map<string, ComponentTemplate> | null;
-    privateRoutes: Map<string, ComponentTemplate> | null;
     currentRoute: Route | null | undefined;
 
     constructor() {
         this.routes = new Map<string, ComponentTemplate>();
-        this.privateRoutes = new Map<string, ComponentTemplate>();
         this.currentRoute = null;
 
-        for (const rout of publicPaths.values()) {
-            this.#register(rout, false);
-        }
-
-        for (const rout of privatePaths.values()) {
-            this.#register(rout, true);
+        for (const rout of appRoutes.values()) {
+            this.#register(rout);
         }
     }
 
@@ -37,15 +18,9 @@ class Router {
      * @param {string} path - url нового rout-a
      * @param {Route} newRoute - объект нового rout-a имеет поля path: string, component: ComponentTemplate
      */
-    #register(newRoute: Route, onlyRegister: boolean) : boolean {
+    #register(newRoute: Route) : boolean {
         if (newRoute.path && newRoute.component) {
-            if (onlyRegister) {
-                this.routes?.set(newRoute.path, newRoute.component);
-                console.log('private path has been registred: ', newRoute.path);
-            } else {
-                this.routes?.set(newRoute.path, newRoute.component);
-                console.log('public path has been registred: ', newRoute.path);
-            }
+            this.routes?.set(newRoute.path, newRoute.component);
             return true;
         }
 
@@ -65,7 +40,6 @@ class Router {
         const urlParams: urlInfo | null = this.#match(path);
 
         if (urlParams) {
-            // проверка на статический || динамический url и обработка
             if (Object.keys(urlParams.dynamicParams).length !== 0) {
                 const dynamicPath = Object.keys(urlParams.dynamicParams).reduce((accumulator, currentValue) => {
                     return accumulator + ':' + currentValue;

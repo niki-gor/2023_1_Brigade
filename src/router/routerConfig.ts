@@ -13,16 +13,15 @@ export interface Route {
     component: ComponentTemplate | undefined,
 }
 
+export interface urlInfo {
+    dynamicParams: Object;
+}
+
 export interface historyIterator {
     currentIndex: number;
     path: string;
 }
 
-export interface urlInfo {
-    dynamicParams: Object;
-}
-
-export const publicPaths = new Map<string, Route>();
-export const privatePaths = new Map<string, Route>();
-publicPaths.set('/login', { path: '/login', component: new SmartLogin({ ...store.getState(), rootNode: ROOT })})
-publicPaths.set('/signup', { path: '/signup', component: new SmartSignUp({ ...store.getState(), rootNode: ROOT })})
+export const appRoutes = new Map<string, Route>();
+appRoutes.set('/login', { path: '/login', component: new SmartLogin({ ...store.getState(), rootNode: ROOT })})
+appRoutes.set('/signup', { path: '/signup', component: new SmartSignUp({ ...store.getState(), rootNode: ROOT })})
