@@ -10,13 +10,13 @@ export const createStore = (reducers: Map<string, Reducer>) => {
                 state = reducer(state, action);
             }
             subscribers.forEach((cb) => cb());
-            // console.log(`state: ${state}`);
+            console.log(`state: ${state}`);
         },
         subscribe: (key: string, cb: () => void) => { 
-            // console.log(`subscribed ${key}`);
+            console.log(`subscribed ${key}`);
             subscribers.set(key, cb); 
             return () => {
-                // console.log(`unsubscribed ${key}`);
+                console.log(`unsubscribed ${key}`);
                 subscribers.delete(key);
             }
         },
