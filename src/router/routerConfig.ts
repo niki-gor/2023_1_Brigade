@@ -24,5 +24,5 @@ export interface urlInfo {
 
 export const publicPaths = new Map<string, Route>();
 export const privatePaths = new Map<string, Route>();
-publicPaths.set('/login/', { path: '/login/', component: new SmartLogin({ ...store.getState(), rootNode: ROOT })})
-publicPaths.set('/signup/', { path: '/signup/', component: new SmartSignUp({ ...store.getState(), rootNode: ROOT })})
+publicPaths.set('/login', { path: '/login', component: new SmartLogin({ ...store.getState(), rootNode: ROOT })})
+publicPaths.set('/signup', { path: '/signup', component: new SmartSignUp({ ...store.getState(), rootNode: ROOT })})

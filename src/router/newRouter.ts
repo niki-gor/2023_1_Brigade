@@ -66,6 +66,7 @@ class Router {
 
             this.#setCurrentRoute(path);
 
+            // проверка на статический || динамический url и обработка
             if (Object.keys(urlParams.dynamicParams).length !== 0) {
                 const dynamicPath = Object.keys(urlParams.dynamicParams).reduce((accumulator, currentValue) => {
                     return accumulator + ':' + currentValue;
@@ -104,18 +105,8 @@ class Router {
      * Если `n` положительное число, то происходит переход вперед, если отрицательное - назад.
     */
     go(n: number) {
-        if (n) {
-            if (n > 0) {
-                while (n) {
-                    this.forward();
-                    --n;
-                }
-            } else {
-                while (n) {
-                    this.back();
-                    ++n;
-                }
-            }
+        if (window.history && (window.history.forward || window.history.back)) {
+            window.history.go(n);
         }
     }
 
@@ -142,19 +133,10 @@ class Router {
 
     start() {
         this.currentRoute?.component?.componentWillUnmount();
-
         if (this.routes?.has(window.location.pathname)) {
             this.#setCurrentRoute(window.location.pathname);
             this.currentRoute?.component?.componentDidMount();
         }
-
-        window.addEventListener('popstate', (event) => {
-            if (event.state && event.state.direction === 'forward') {
-              this.forward();
-            } else {
-              this.back();
-            }
-        });          
     };
 
     /**
@@ -170,12 +152,12 @@ class Router {
      * @param {string} href - ccылка без домена и id
      */
     #match(href: string) : urlInfo | null {
-        const pathSegments = href.split("/").filter((segment: string) => segment !== "");
+        const pathSegments = href.split("/").filter((segment: string) => !segment);
         if (this.routes?.has(href)) {
             this.#setCurrentRoute(href);
         }
         
-        const routeSegments = this.currentRoute?.path.split("/").filter((segment: string) => segment !== "");
+        const routeSegments = this.currentRoute?.path.split("/").filter((segment: string) => !segment);
         if (pathSegments.length !== routeSegments?.length) {
             return null;
         }
