@@ -1,5 +1,6 @@
 import '@/index.css';
-import { router } from 'src/router/router';
+import { createAuthAction } from './actions/authActions';
+import { store } from './store/store';
 
 
-router.start();
+store.dispatch(createAuthAction());

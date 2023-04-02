@@ -5,6 +5,7 @@ class Router {
     currentRoute: Route | null | undefined;
 
     constructor() {
+        console.log('constructor has been called');
         this.routes = new Map<string, ComponentTemplate>();
         this.currentRoute = null;
 
@@ -33,6 +34,8 @@ class Router {
      * @param {string} path - ccылка без домена и id
      */
     route(path: string) {
+        console.log('route method has been called');
+
         if (this.currentRoute) {
             this.currentRoute.component?.componentWillUnmount();
         }
@@ -143,7 +146,7 @@ class Router {
 
         return {
             dynamicParams: params,
-        };      
+        };  
     }
 }
 
