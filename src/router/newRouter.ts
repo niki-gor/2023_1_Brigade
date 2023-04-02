@@ -58,14 +58,13 @@ class Router {
      * @param {string} path - ccылка без домена и id
      */
     route(path: string) {
+        if (this.currentRoute) {
+            this.currentRoute.component?.componentWillUnmount();
+        }
+
         const urlParams: urlInfo | null = this.#match(path);
+
         if (urlParams) {
-            if (this.currentRoute) {
-                this.currentRoute.component?.componentWillUnmount();
-            }
-
-            this.#setCurrentRoute(path);
-
             // проверка на статический || динамический url и обработка
             if (Object.keys(urlParams.dynamicParams).length !== 0) {
                 const dynamicPath = Object.keys(urlParams.dynamicParams).reduce((accumulator, currentValue) => {
@@ -105,9 +104,7 @@ class Router {
      * Если `n` положительное число, то происходит переход вперед, если отрицательное - назад.
     */
     go(n: number) {
-        if (window.history && (window.history.forward || window.history.back)) {
-            window.history.go(n);
-        }
+        window.history.go(n);
     }
 
     /**
