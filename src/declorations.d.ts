@@ -12,7 +12,7 @@ interface componentProps extends anyObject {
 };
 
 interface Action extends anyObject { 
-    type: string, 
+    type: string,
     payload: anyObject | null | undefined,
 }
 
@@ -49,4 +49,10 @@ interface Middleware {
 
 interface Dispatch {
     (action: Action) : void,
+}
+
+interface ErrorTypes {
+    param: string,
+    class: string,
+    message: string,
 }

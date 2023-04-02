@@ -1,11 +1,7 @@
-const AJAX_METHODS = {
-    GET: 'GET',
-    POST: 'POST',
-    DELETE: 'DELETE',
-};
+import { AJAX_METHODS } from '@config/ajax'
 
 const BACKEND_URL = 'http://127.0.0.1:8081'; // 'http://95.163.249.116:8081';
-// const BACKEND_URL_LOCAL = '127.0.0.1:8081'
+// const BACKEND_URL_LOCAL = 'http://127.0.0.1:8081'
 
 /**
  * method implementing request work
@@ -22,7 +18,9 @@ const ajax = (
     return fetch(BACKEND_URL + url, {
         method,
         headers: {
-            Accept: 'application/json', Host: BACKEND_URL, 'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Host: BACKEND_URL,
+            'Content-Type': 'application/json',
         },
         credentials: 'include',
         mode: 'cors',
@@ -30,10 +28,22 @@ const ajax = (
     })
         .then((response) => {
             const { status } = response;
+
             let parsedBody;
             if (status !== 204) {
                 parsedBody = response.json();
             }
+
+            return { status, parsedBody };
+        })
+        .catch((err) => {
+            const { status } = err;
+            
+            let parsedBody;
+            if (status !== 204) {
+                parsedBody = err.json();
+            }
+
             return { status, parsedBody };
         });
 }
@@ -49,7 +59,7 @@ export const get = (
     return ajax(
         url,
         AJAX_METHODS.GET,
-        null,
+        undefined,
     );
 }
 
@@ -82,5 +92,22 @@ export const deleteSession = (
         url,
         AJAX_METHODS.DELETE,
         null,
+    );
+}
+
+/**
+ * method implementing PUT request
+ * @param {string} url - path url
+ * @param {json} body - request data
+ * @returns {Promise} - request promise
+ */
+export const put = (
+    url: string,
+    body: anyObject | null | undefined,
+): Promise<any> => {
+    return ajax(
+        url, 
+        AJAX_METHODS.PUT,
+        body,
     );
 }
