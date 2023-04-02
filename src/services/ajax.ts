@@ -11,18 +11,18 @@ const BACKEND_URL = 'http://127.0.0.1:8081'; // 'http://95.163.249.116:8081';
  * @returns {Promise} - request promise
  */
 const ajax = (
-    url: string, 
-    method: string, 
+    url: string,
+    method: string,
     body: anyObject | null | undefined
 ) => {
-    return fetch(BACKEND_URL + url, {
+    return fetch(url, {
         method,
         headers: {
             Accept: 'application/json', Host: BACKEND_URL, 'Content-Type': 'application/json',
         },
         credentials: 'include',
         mode: 'cors',
-        body: JSON.stringify(body),
+        body: body == null ? null : JSON.stringify(body),
     })
         .then((response) => {
             const { status } = response;
@@ -43,7 +43,7 @@ export const get = (
     url: string
 ) => {
     return ajax(
-        url,
+        BACKEND_URL + url,
         AJAX_METHODS.GET,
         null,
     );
@@ -60,7 +60,7 @@ export const post = (
     body: anyObject | null | undefined,
 ) => {
     return ajax(
-        url, 
+        url,
         AJAX_METHODS.POST,
         body,
     );
@@ -92,7 +92,7 @@ export const put = (
     body: anyObject | null | undefined,
 ) => {
     return ajax(
-        url, 
+        url,
         AJAX_METHODS.PUT,
         body,
     );

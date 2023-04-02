@@ -8,11 +8,11 @@ interface anyObject {
 };
 
 interface componentProps extends anyObject {
-    rootNode: HTMLElement,
+    rootNode: HTMLElement | null,
 };
 
-interface Action extends anyObject { 
-    type: string, 
+interface Action extends anyObject {
+    type: string,
     payload: anyObject | null | undefined,
 }
 

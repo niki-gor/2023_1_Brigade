@@ -5,7 +5,7 @@ export const reduceSetUser = (state: anyObject, action: Action) => {
     case constantsOfActions.setUser:
         return {
             ...state,
-            user: { 
+            user: {
                 ...action.payload
             },
         };

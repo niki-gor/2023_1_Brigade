@@ -2,7 +2,7 @@ html {
     box-sizing: border-box;
 }
 
-*, 
+*,
 *::before,
 *::after {
     box-sizing: inherit;
@@ -68,7 +68,7 @@ section {
     margin: 0px;
     padding: 0px;
     list-style: none;
-} 
+}
 
 .btn-reset {
     padding: 0px;
@@ -91,7 +91,7 @@ button {
     display: flex;
 }
 
-.container { 
+.container {
     margin: 0 auto;
 }
 
@@ -166,6 +166,50 @@ main {
     text-align: center;
 
     color: #696969;
+}
+
+.font-size-4 {
+    width: 230px;
+    height: 29px;
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+    padding-left: 15px;
+    text-align: left;
+    color: #FFFFFF;
+}
+
+.font-size-5 {
+    width: 230px;
+    height: 19px;
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    padding-left: 15px;
+    text-align: left;
+    color: #696969;
+}
+
+.font-size-6 {
+    width: 286px;
+    height: 29px;
+
+    margin-bottom: 20px;
+
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 29px;
+    /* identical to box height */
+
+    text-align: center;
+
+    color: #FFFFFF;
 }
 
 @import "./assets/fonts/fonts.css";

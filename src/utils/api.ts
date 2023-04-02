@@ -1,5 +1,6 @@
 import { get, post, deleteSession, put } from '@services/ajax';
 import { config } from '@config/api';
+import * as timers from "timers";
 
 /**
  * implementation request authorization
@@ -60,7 +61,7 @@ export const login = (body: anyObject) => {
                     body,
                 };
             });
-            
+
             return {
                 status,
                 body: null,
@@ -179,7 +180,7 @@ export const updateUser = (body: anyObject) => {
                     body,
                 };
             });
-            
+
             return {
                 status,
                 body: null,
@@ -206,4 +207,48 @@ export const updateUser = (body: anyObject) => {
             body: error,
         }
     });
+};
+
+/**
+ * implementation request contacts
+ */
+
+// const func = async (parsedBody: Promise<any>) => {
+//     // внутри функции получаем результат промиса
+//     const result = await parsedBody.then();
+//     console.log("в")
+//     console.log(result); // => success!
+// };
+
+export const contacts = () => {
+    return get(
+        config.contacts,
+    )
+        .then(({ status, parsedBody }) => {
+            switch (status) {
+                case 200:
+                    return {
+                        status,
+                        body: parsedBody,
+                    };
+                case 401:
+                case 404:
+                case 500:
+                    return {
+                        status,
+                        body: null,
+                    };
+                default:
+                    return {
+                        status,
+                        body: null,
+                    };
+            }
+        })
+        .catch((error) => {
+            return {
+                status: 0,
+                body: error,
+            }
+        });
 };

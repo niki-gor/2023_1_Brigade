@@ -11,8 +11,8 @@ export const createStore = (reducers: Map<string, Reducer>) => {
             }
             subscribers.forEach((cb) => cb());
         },
-        subscribe: (key: string, cb: () => void) => { 
-            subscribers.set(key, cb); 
+        subscribe: (key: string, cb: () => void) => {
+            subscribers.set(key, cb);
             return () => {
                 subscribers.delete(key);
             }
