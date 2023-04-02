@@ -15,3 +15,14 @@ export const reduceSetUser = (state: anyObject, action: Action) => {
         }
     }
 };
+
+export const reduceDeleteState = (state: anyObject, action: Action) => {
+    switch (action.type) {
+    case constantsOfActions.deleteState:
+        return {};
+    default:
+        return {
+            ...state,
+        }
+    }
+};

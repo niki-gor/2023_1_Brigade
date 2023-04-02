@@ -28,10 +28,12 @@ const ajax = (
     })
         .then((response) => {
             const { status } = response;
+
             let parsedBody;
             if (status !== 204) {
                 parsedBody = response.json();
             }
+
             return { status, parsedBody };
         })
         .catch((err) => {
@@ -41,7 +43,7 @@ const ajax = (
             if (status !== 204) {
                 parsedBody = err.json();
             }
-            
+
             return { status, parsedBody };
         });
 }

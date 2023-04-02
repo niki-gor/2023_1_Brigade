@@ -46,6 +46,7 @@ class Router {
      * @param {string} path - ccылка без домена и id
      */
     route(path: string) {
+        debugger;
         const urlParams: urlInfo | null = this.match(path);
         if (urlParams) {
             if (this.currentRoute) {

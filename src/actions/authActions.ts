@@ -1,5 +1,5 @@
 import { auth, login, signUp, logout } from "@/utils/api";
-import { createSetUserAction, createInvalidEmailAction, createOccupiedEmailAction } from "@actions/userActions";
+import { createSetUserAction, createInvalidEmailAction, createOccupiedEmailAction, createDeleteStateAction } from "@actions/userActions";
 import { router } from "@/router/router";
 
 export const createAuthAction = () : AsyncAction => {
@@ -8,7 +8,8 @@ export const createAuthAction = () : AsyncAction => {
         
         switch (status) {
         case 200:
-            dispatch(createSetUserAction(body));
+            const jsonBody = await body;
+            dispatch(createSetUserAction(jsonBody));
             router.route('/profile');
             break;
         case 401:
@@ -29,13 +30,16 @@ export const createAuthAction = () : AsyncAction => {
 export const createLoginAction = (user: anyObject) : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: anyObject) => {
         const { status, body } = await login(user);
-        console.log(body);
+
         switch (status) {
         case 200:
-            dispatch(createSetUserAction(body));
+            const jsonBody = await body;
+            dispatch(createSetUserAction(jsonBody));
             router.route('/profile');
+            break;
         case 404:
             dispatch(createInvalidEmailAction());
+            break;
         case 409:
             // TODO: хз
         case 500:
@@ -54,11 +58,15 @@ export const createSignUpAction = (user: anyObject) : AsyncAction => {
 
         switch (status) {
         case 201:
-            return dispatch(createSetUserAction(body));
+            const jsonBody = await body;
+            dispatch(createSetUserAction(jsonBody));
+            router.route('/profile');
+            break;
         case 400:
             // TODO: не уверен, но как-будто нужно поменять url и роутер уже отреагирует и отрендерит
         case 409:
-            return dispatch(createOccupiedEmailAction());
+            dispatch(createOccupiedEmailAction());
+            break;
         case 500:
             // TODO: не уверен, но как-будто нужно поменять url и роутер уже отреагирует и отрендерит
         case 0:
@@ -75,11 +83,12 @@ export const createLogoutAction = () : AsyncAction => {
 
         switch (status) {
         case 204:
-            // TODO: не уверен, но как-будто нужно поменять url и роутер уже отреагирует и отрендерит
+            router.route('/login');
+            dispatch(createDeleteStateAction());
+            break;
         case 401:
-            // TODO: не уверен, но как-будто нужно поменять url и роутер уже отреагирует и отрендерит
         case 404:
-            return dispatch(createOccupiedEmailAction());
+            // TODO: вроде на все нужно login отрендерить
         case 500:
             // TODO: не уверен, но как-будто нужно поменять url и роутер уже отреагирует и отрендерит
         case 0:
