@@ -42,6 +42,7 @@ export class SmartSignUp extends Container {
      * @param {Object} props - параметры компонента
      */
     constructor(props :componentProps) {
+
         super(props);
         this.state = {
             isSubscribed: false,
@@ -66,6 +67,9 @@ export class SmartSignUp extends Container {
                 moveToLogin: null
             }
         };
+
+        this.render = this.render.bind(this);
+        this.occupiedEmail = this.occupiedEmail.bind(this);
     }
 
     /**
@@ -73,11 +77,53 @@ export class SmartSignUp extends Container {
      */
     render() {
         if (this.state.isSubscribed) {
-            const LoginUI = new DumbSignUp({ 
+            const SignUpUI = new DumbSignUp({ 
                 ...this.props,
             }); 
 
-            this.rootNode.innerHTML = LoginUI.render();
+            this.rootNode.innerHTML = SignUpUI.render();
+
+            this.state.domElements.signUpButton = document.querySelector('.reg-but');
+            this.state.domElements.signUpButton?.addEventListener('click', (e) => {
+                e.preventDefault();
+3
+                this.handleClickSignUp();
+            });
+
+            this.state.domElements.moveToLogin = document.querySelector('.reg-ques');
+            this.state.domElements.moveToLogin?.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                this.handleClickMoveToLogin();
+            });
+
+            this.state.domElements.email = document.querySelector('.email');
+            this.state.domElements.email?.addEventListener('input', (e) => {
+                e.preventDefault();
+
+                this.validateEmail();
+            });
+
+            this.state.domElements.password = document.querySelector('.password');
+            this.state.domElements.password?.addEventListener('input', (e) => {
+                e.preventDefault();
+
+                this.validatePassword();
+            });
+
+            this.state.domElements.confirmPassword = document.querySelector('.confirm-password');
+            this.state.domElements.confirmPassword?.addEventListener('input', (e) => {
+                e.preventDefault();
+
+                this.validateConfirmPassword();
+            });
+
+            this.state.domElements.nickname = document.querySelector('.nickname');
+            this.state.domElements.nickname?.addEventListener('input', (e) => {
+                e.preventDefault();
+
+                this.validateNickname();
+            });
         }
     }
 
@@ -85,7 +131,7 @@ export class SmartSignUp extends Container {
      * Показывает, что была введа занятая почта
      */
     occupiedEmail() {
-        if (this.state.isSubscribed) {
+        if (this.state.isSubscribed && this.props?.occupiedEmail) {
             this.state.domElements.email?.classList.add('login-reg__input_error');
             addErrorToClass('occupied-email', emailErrorTypes);
         }
@@ -96,55 +142,20 @@ export class SmartSignUp extends Container {
      */
     componentDidMount() {
         if (!this.state.isSubscribed) {
-            this.unsubscribe.push(store.subscribe(constantsOfActions.setUser, this.render));
-            this.unsubscribe.push(store.subscribe(constantsOfActions.occupiedEmail, this.occupiedEmail));
+            // this.unsubscribe.push(store.subscribe(constantsOfActions.setUser, this.render));
+            // this.unsubscribe.push(store.subscribe(constantsOfActions.occupiedEmail, this.occupiedEmail));
+
+            this.unsubscribe.push(store.subscribe(this.name, (pr: componentProps) => { 
+                this.props = pr;
+
+                this.render();
+                this.occupiedEmail();
+            }).bind(this));
 
             this.state.isSubscribed = true;
         }
-        
+
         this.render();
-
-        this.state.domElements.signUpButton = document.querySelector('.reg-but');
-        this.state.domElements.signUpButton?.addEventListener('click', (e) => {
-            e.preventDefault();
-
-            this.handleClickSignUp();
-        });
-
-        this.state.domElements.moveToLogin = document.querySelector('.reg-ques');
-        this.state.domElements.moveToLogin?.addEventListener('click', (e) => {
-            e.preventDefault();
-
-            this.handleClickMoveToLogin();
-        });
-
-        this.state.domElements.email = document.querySelector('.email');
-        this.state.domElements.email?.addEventListener('input', (e) => {
-            e.preventDefault();
-
-            this.validateEmail();
-        });
-
-        this.state.domElements.password = document.querySelector('.password');
-        this.state.domElements.password?.addEventListener('input', (e) => {
-            e.preventDefault();
-
-            this.validatePassword();
-        });
-
-        this.state.domElements.confirmPassword = document.querySelector('.confirm-password');
-        this.state.domElements.confirmPassword?.addEventListener('input', (e) => {
-            e.preventDefault();
-
-            this.validateConfirmPassword();
-        });
-
-        this.state.domElements.nickname = document.querySelector('.nickname');
-        this.state.domElements.nickname?.addEventListener('input', (e) => {
-            e.preventDefault();
-
-            this.validateNickname();
-        });
     }
 
     /**
@@ -161,9 +172,9 @@ export class SmartSignUp extends Container {
     handleClickSignUp() {
         if (this.state.valid.isValid()) {
             const user = {
+                nickname: this.state.domElements.nickname?.value,
                 email: this.state.domElements.email?.value,
                 password: this.state.domElements.password?.value,
-                nickname: this.state.domElements.nickname?.value,
             } as anyObject;
 
             store.dispatch(createSignUpAction(user))
@@ -239,13 +250,13 @@ export class SmartSignUp extends Container {
      */
     validateNickname() {
         this.state.domElements.nickname?.classList.remove('login-reg__input_error');
-        addErrorToClass('', passwordErrorTypes);
+        addErrorToClass('', nicknameErrorTypes);
 
         const { isError, errorClass } = checkNickname(this.state.domElements.nickname?.value ?? '');
 
         if (isError) {
             this.state.domElements.nickname?.classList.add('login-reg__input_error');
-            addErrorToClass(errorClass, passwordErrorTypes);
+            addErrorToClass(errorClass, nicknameErrorTypes);
             this.state.valid.nicknameIsValid = false;
             return;
         }

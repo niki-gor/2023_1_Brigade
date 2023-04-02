@@ -1,4 +1,4 @@
-export const createStore = (reducers: Map<string, Reducer>) => {
+export const createStore = (reducers: Map<string, Reducer>) : Store => {
     let state: anyObject = {};
     let subscribers = new Map<string, Function>();
 
@@ -9,14 +9,11 @@ export const createStore = (reducers: Map<string, Reducer>) => {
             if (reducer) {
                 state = reducer(state, action);
             }
-            subscribers.forEach((cb) => cb());
-            // console.log(`state: ${state}`);
+            subscribers.forEach((cb) => cb(state));
         },
-        subscribe: (key: string, cb: () => void) => { 
-            // console.log(`subscribed ${key}`);
-            subscribers.set(key, cb); 
+        subscribe: (key: string, cb: (state: componentProps) => void) => {
+            subscribers.set(key, cb);
             return () => {
-                // console.log(`unsubscribed ${key}`);
                 subscribers.delete(key);
             }
         },

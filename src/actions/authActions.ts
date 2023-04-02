@@ -10,7 +10,7 @@ export const createAuthAction = () : AsyncAction => {
         case 200:
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
-            router.route('/profile');
+            router.route('/profile'); // window.location.pathname
             break;
         case 401:
             router.route('/login');
