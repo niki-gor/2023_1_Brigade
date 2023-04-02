@@ -1,5 +1,7 @@
 import { ROOT } from "@/config/config";
 import { SmartLogin } from "@/containers/login/login";
+import { SmartProfile } from "@/containers/profile/profile";
+
 import { SmartSignUp } from "@/containers/signUp/signUp";
 import { store } from "@/store/store";
 
@@ -25,3 +27,5 @@ export interface historyIterator {
 export const appRoutes = new Map<string, Route>();
 appRoutes.set('/login', { path: '/login', component: new SmartLogin({ ...store.getState(), rootNode: ROOT })})
 appRoutes.set('/signup', { path: '/signup', component: new SmartSignUp({ ...store.getState(), rootNode: ROOT })})
+appRoutes.set('/profile', { path: '/profile', component: new SmartProfile({ ...store.getState(), rootNode: ROOT })})
+

@@ -6,21 +6,21 @@ export const checkEmail = (email: string) => {
     if (!isNotEmpty) {
         return {
             isError: true,
-            errorClass: '.empty-email',
+            errorClass: 'empty-email',
         }
     }
 
     if (!hasDog) {
         return {
             isError: true,
-            errorClass: '.missdog-email',
+            errorClass: 'missdog-email',
         }
     }
 
     if (!isValid) {
         return {
             isError: true,
-            errorClass: '.invalid-email',
+            errorClass: 'invalid-email',
         }
     }
 
@@ -29,6 +29,92 @@ export const checkEmail = (email: string) => {
         errorClass: '',
     }
 };
+
+export const checkPassword = (password: string) => {
+    const isNotEmpty = password.length > 0;
+    const hasValidLength = password.length >= 8;
+
+    if (!isNotEmpty) {
+        return { 
+            isError: true,
+            errorClass: 'empty-password', 
+        };
+    }
+
+    if (!hasValidLength) {
+        return { 
+            isError: true,
+            errorClass: 'invalid-password',
+        };
+    }
+
+    return {
+        isError: false,
+        errorClass: '',
+    };
+};
+
+export const checkConfirmPassword = (password: string, confirmPassword: string) => {
+    const isNotEmpty = confirmPassword.length > 0;
+    const isEqualPassword = confirmPassword === password;
+    
+    if (!isNotEmpty) {
+        return {
+            isError: true,
+            errorClass: 'empty-confirm-password',
+        };
+    }
+
+    if (!isEqualPassword) {
+        return {
+            isError: true,
+            errorClass: 'invalid-confirm-password',
+        };
+    }
+
+    return {
+        isError: false,
+        errorClass: '',
+    }
+    
+};
+
+export const checkNickname = (nickname: string) => {
+    const isNotEmpty = nickname.length > 0;
+    const hasValidLength = nickname.length > 1;
+
+    if (!isNotEmpty) {
+        return {
+            isError: true,
+            errorClass: 'empty-nickname',
+        };
+    }
+
+    if (!hasValidLength) {
+        return {
+            isError: true,
+            errorClass: 'invalid-nickname',
+        };
+    }
+
+    return {
+        isError: false,
+        errorClass: '',
+    }
+};
+
+export const addErrorToClass = (classToRemoveInvisible: string, classesToAddInvisible: ErrorTypes[]) => {
+    classesToAddInvisible.forEach((curClass) => {
+        document.querySelector('.' + curClass.class)?.classList.add('invisible');
+    });
+
+    if (classToRemoveInvisible) document.querySelector('.' + classToRemoveInvisible)?.classList.remove('invisible');
+}
+
+// TODO: на будущее для проверки пароля
+// const hasNumber = /\d/.test(password);
+// const hasUpperCase = /[A-Z]/.test(password);
+// const hasLowerCase = /[a-z]/.test(password);
 
 // TODO: в будущем для мыла можно сделать такую мегауточняющую хрень
 // function validateEmail(email) {
@@ -59,92 +145,3 @@ export const checkEmail = (email: string) => {
     
 //       return errors;
 // }
-
-export const checkPassword = (password: string) => {
-    const isNotEmpty = password.length > 0;
-    // TODO: на будущее
-    // const hasNumber = /\d/.test(email);
-    // const hasUpperCase = /[A-Z]/.test(email);
-    // const hasLowerCase = /[a-z]/.test(email);
-    const hasValidLength = password.length >= 8;
-
-    if (!isNotEmpty) {
-        return { 
-            isError: true,
-            errorClass: '.empty-password', 
-        };
-    }
-
-    if (!hasValidLength) {
-        return { 
-            isError: true,
-            errorClass: '.invalid-password',
-        };
-    }
-
-    return {
-        isError: false,
-        errorClass: '',
-    };
-};
-
-export const checkConfirmPassword = (password: string, confirmPassword: string) => {
-    const isNotEmpty = confirmPassword.length > 0;
-    const isEqualPassword = confirmPassword === password;
-    
-    if (!isNotEmpty) {
-        return {
-            isError: true,
-            errorClass: '.empty-confirm-password',
-        };
-    }
-
-    if (!isEqualPassword) {
-        return {
-            isError: true,
-            errorClass: '.invalid-confirm-password',
-        };
-    }
-
-    return {
-        isError: false,
-        errorClass: '',
-    }
-    
-};
-
-export const checkUsername = (username: string) => {
-    const isNotEmpty = username.length > 0;
-    const hasValidLength = username.length > 1;
-
-    if (!isNotEmpty) {
-        return {
-            isError: true,
-            errorClass: '.empty-username',
-        };
-    }
-
-    if (!hasValidLength) {
-        return {
-            isError: true,
-            errorClass: '.invalid-username',
-        };
-    }
-
-    return {
-        isError: false,
-        errorClass: '',
-    }
-};
-
-export const addErrorToClass = (classToRemoveInvisible: string, classesToAddInvisible: string[]) => {
-    classesToAddInvisible.forEach((curClass) => {
-        document.querySelector(curClass)?.classList.add('invisible');
-    });
-
-    if (classToRemoveInvisible) document.querySelector(classToRemoveInvisible)?.classList.remove('invisible');
-}
-
-export const checkNickname = (nickname: string) => {
-    // TODO: здесь нужно делать заспрос на бэк
-};

@@ -1,6 +1,5 @@
 import '@/index.css';
-import { router } from 'src/router/newRouter';
+import { router } from 'src/router/router';
 
 
 router.start();
-

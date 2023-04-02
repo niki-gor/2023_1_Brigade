@@ -1,8 +1,10 @@
-import { reduceSetState } from "@/reducers/userReducers";
+import { reduceSetUser, reduceDeleteState } from "@/reducers/userReducers";
+import { constantsOfActions } from "./actions";
 
 /**
 * Устанавливает соответствие между экшенами и редьюсерами
 */
 export const reducers = [
-    { type: 'set', reducer: reduceSetState }
+    { type: constantsOfActions.setUser, reducer: reduceSetUser },
+    { type: constantsOfActions.deleteState, reducer: reduceDeleteState },
 ];

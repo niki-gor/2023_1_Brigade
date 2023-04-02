@@ -50,3 +50,9 @@ interface Middleware {
 interface Dispatch {
     (action: Action) : void,
 }
+
+interface ErrorTypes {
+    param: string,
+    class: string,
+    message: string,
+}

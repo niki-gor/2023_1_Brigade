@@ -1,7 +1,38 @@
-- const storeUsers = {user1: "./assets/img/geva.png", user2: "./assets/img/danya.png"}
+.profile
+    .profile__top
+        != avatar
 
-mixin profile(pathToUserAvatar)
-    div.header__img.flex
-        img(src="./assets/img/logo.png", alt="Our logo").header__logo
-        if pathToUserAvatar == storeUsers.user1
-            img(src="./assets/img/iii.png", alt="User avatar").header__user-photo
+        .profile__user-description
+            .font-size-1!= nickname 
+            .font-size-2!= '@' + username
+            .font-size-3!= status
+
+    .profile__inputs
+        .profile__input
+            != nicknameHeader 
+            != nicknameInput
+            != emptyNickname
+            != invalidNickname
+
+        .profile__input
+            != usernameHeader 
+            != usernameInput
+            != occupiedUsername
+
+        .profile__input
+            != statusHeader 
+            != statusInput
+
+        .profile__input
+            != currentPasswordHeader
+            != currentPasswordInput
+            != emptyPassword
+            != invalidPassword
+        
+        .profile__input
+            != newPasswordHeader
+            != newPasswordInput
+            != emptyNewPassword
+            != invalidNewPassword
+
+    != buttonSave 

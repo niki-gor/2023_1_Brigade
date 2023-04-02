@@ -2,7 +2,7 @@ import { Container } from "@containers/container";
 import { DumbLogin } from "@/pages/login/login";
 import { checkEmail, checkPassword, addErrorToClass } from "@/utils/validator";
 import { store } from "@/store/store";
-import { emailErrorTypes, passwordErrorTypes } from "@/config/config";
+import { emailErrorTypes, passwordErrorTypes } from "@/config/errors";
 import { constantsOfActions } from "@/config/actions";
 import { createLoginAction } from "@/actions/authActions";
 import { createMoveToSignUpAction } from "@/actions/routeActions";
@@ -10,7 +10,6 @@ import { createMoveToSignUpAction } from "@/actions/routeActions";
 
 export interface SmartLogin {
     state: {
-        statusLogin: number,
         isSubscribed: boolean,
         valid: {
             emailIsValid: boolean,
@@ -41,7 +40,6 @@ export class SmartLogin extends Container {
     constructor(props :componentProps) {
         super(props);
         this.state = {
-            statusLogin: 0,
             isSubscribed: false,
             valid: {
                 emailIsValid: false,
@@ -64,29 +62,40 @@ export class SmartLogin extends Container {
      * Рендерит логин
      */
     render() {
-        const LoginUI = new DumbLogin({ 
-            ...this.props,
-        }); 
-
-        this.rootNode.innerHTML = LoginUI.render();
+        if (this.state.isSubscribed) {
+            const LoginUI = new DumbLogin({ 
+                ...this.props,
+            });
+    
+            this.rootNode.innerHTML = LoginUI.render();
+        }
     }
 
     /**
      * Показывает, что была введа незарегистрированная почта
      */
     invalidEmail() {
-        this.state.domElements.email?.classList.add('login-reg__input_error');
-        document.querySelector('.invalid-email')?.classList.remove('invisible');
+        if (this.state.isSubscribed) {
+            this.state.domElements.email?.classList.add('login-reg__input_error');
+            addErrorToClass('invalid-email', emailErrorTypes);
+        }
     }
 
     /**
      * Навешивает переданные обработчики на валидацию и кнопки
      */
     componentDidMount() {
+        if (!this.state.isSubscribed) {
+            this.unsubscribe.push(store.subscribe(constantsOfActions.setUser, this.render));
+            this.unsubscribe.push(store.subscribe(constantsOfActions.invalidEmail, this.invalidEmail));
+
+            this.state.isSubscribed = true;
+        }
+
         this.render();
 
         this.state.domElements.loginButton = document.querySelector('.login-but');
-        this.state.domElements.email?.addEventListener('click', (e) => {
+        this.state.domElements.loginButton?.addEventListener('click', (e) => {
             e.preventDefault();
 
             this.handleClickLogin();
@@ -112,13 +121,6 @@ export class SmartLogin extends Container {
 
             this.validatePassword();
         });
-
-        if (!this.state.isSubscribed) {
-            this.unsubscribe.push(store.subscribe(constantsOfActions.setState, this.render));
-            this.unsubscribe.push(store.subscribe(constantsOfActions.invalidEmail, this.invalidEmail));
-
-            this.state.isSubscribed = true;
-        }
     }
 
     /**
@@ -139,9 +141,7 @@ export class SmartLogin extends Container {
                 password: this.state.domElements.password?.value,
             } as anyObject;
 
-            if (this.state.valid.isValid()) {
-                store.dispatch(createLoginAction(user))
-            }
+            store.dispatch(createLoginAction(user))
         }
     }
 
