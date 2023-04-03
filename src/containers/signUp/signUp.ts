@@ -5,7 +5,7 @@ import { store } from "@/store/store";
 import { emailErrorTypes, passwordErrorTypes, confirmPasswordErrorTypes, nicknameErrorTypes } from "@/config/errors";
 import { constantsOfActions } from "@/config/actions";
 import { createSignUpAction } from "@/actions/authActions";
-import { createMoveToLoginAction } from "@/actions/routeActions";
+import { createMoveToLoginAction, createRenderAction } from "@/actions/routeActions";
 
 
 export interface SmartSignUp {
@@ -155,7 +155,7 @@ export class SmartSignUp extends Container {
             this.state.isSubscribed = true;
         }
 
-        this.render();
+        store.dispatch(createRenderAction());
     }
 
     /**

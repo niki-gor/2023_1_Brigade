@@ -4,7 +4,7 @@ import { checkEmail, checkPassword, addErrorToClass } from "@/utils/validator";
 import { store } from "@/store/store";
 import { emailErrorTypes, passwordErrorTypes } from "@/config/errors";
 import { createLoginAction } from "@/actions/authActions";
-import { createMoveToSignUpAction } from "@/actions/routeActions";
+import { createMoveToSignUpAction, createRenderAction } from "@/actions/routeActions";
 
 
 export interface SmartLogin {
@@ -130,7 +130,7 @@ export class SmartLogin extends Container {
             this.state.isSubscribed = true;
         }
 
-        this.render();
+        store.dispatch(createRenderAction());
     }
 
     /**

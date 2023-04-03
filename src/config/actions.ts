@@ -6,4 +6,5 @@ export const constantsOfActions = {
     moveToSignUp: 'moveToSignUp',
     moveToLogin: 'moveToLogin',
     deleteState: 'deleteState',
+    render: 'render',
 }

@@ -4,6 +4,7 @@ import { checkPassword, checkNickname, addErrorToClass } from "@/utils/validator
 import { store } from "@/store/store";
 import { passwordErrorTypes, usernameErrorTypes, nicknameErrorTypes } from "@/config/errors";
 import { createUpdateUserAction } from "@/actions/userActions";
+import { createRenderAction } from "@/actions/routeActions";
 
 export interface SmartProfile {
     state: {
@@ -131,7 +132,7 @@ export class SmartProfile extends Container {
             this.state.isSubscribed = true;
         }
 
-        this.render();
+        store.dispatch(createRenderAction());
     }
 
     /**
