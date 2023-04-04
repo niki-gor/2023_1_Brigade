@@ -2,7 +2,7 @@ import { get, post, deleteSession, put } from '@services/ajax';
 import { config } from '@config/api';
 
 /**
- * implementation request authorization
+ * Отправляет запрос авторизации и обрабатывает ответ
  */
 export const auth = () => {
     return get(
@@ -37,7 +37,7 @@ export const auth = () => {
 };
 
 /**
- * implementation request login
+ * Отправляет запрос логина и обрабатывает ответ
  */
 export const login = (body: anyObject) => {
     return post(
@@ -74,7 +74,7 @@ export const login = (body: anyObject) => {
 };
 
 /**
- * implementation request registration
+ * Отправляет запрос регистрации и обрабатывает ответ
  */
 export const signUp = (body: anyObject) => {
     return post(
@@ -111,7 +111,7 @@ export const signUp = (body: anyObject) => {
 };
 
 /**
- * implementation request logout
+ * Отправляет запрос выхода из текущего аккаунта и обрабатывает ответ
  */
 export const logout = () => {
     return deleteSession(
@@ -143,7 +143,7 @@ export const logout = () => {
 };
 
 /**
- * implementation request update user profile
+ * Отправляет запрос обновления пользовательских данных и обрабатывает ответ
  */
 export const updateUser = (body: anyObject) => {
     return put(

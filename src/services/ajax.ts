@@ -4,11 +4,11 @@ const BACKEND_URL = 'http://95.163.249.116:8081';
 // const BACKEND_URL_LOCAL = 'http://127.0.0.1:8081'
 
 /**
- * method implementing request work
- * @param {string} url - path url
- * @param {string} method - request method
- * @param {json} body - request data
- * @returns {Promise} - request promise
+ * Отправляет HTTP запросы
+ * @param {string} url - url
+ * @param {string} method - HTTP метод
+ * @param {json} body - тело запроса
+ * @returns {Promise} - промис
  */
 const ajax = (
     url: string, 
@@ -49,9 +49,9 @@ const ajax = (
 }
 
 /**
- * method implementing GET request
- * @param {string} url - path url
- * @returns {Promise} - request promise
+ * Отправляет GET-запросы
+ * @param {string} url - url
+ * @returns {Promise} - промис
  */
 export const get = (
     url: string
@@ -64,10 +64,10 @@ export const get = (
 }
 
 /**
- * method implementing POST request
- * @param {string} url - path url
- * @param {json} body - request data
- * @returns {Promise} - request promise
+ * Отправляет POST-запросы
+ * @param {string} url - url
+ * @param {json} body - тело запроса
+ * @returns {Promise} - промис
  */
 export const post = (
     url: string,
@@ -81,9 +81,9 @@ export const post = (
 }
 
 /**
- * method implementing DELETE request
- * @param {string} url - path url
- * @returns {Promise} - request promise
+ * Отправляет DELETE-запрос (удаляет текущую пользовательскую сессию)
+ * @param {string} url - url
+ * @returns {Promise} - тело запроса
  */
 export const deleteSession = (
     url: string,
@@ -96,10 +96,10 @@ export const deleteSession = (
 }
 
 /**
- * method implementing PUT request
- * @param {string} url - path url
- * @param {json} body - request data
- * @returns {Promise} - request promise
+ * Отправляет PUT-запрос
+ * @param {string} url - url
+ * @param {json} body - тело запроса
+ * @returns {Promise} - промис
  */
 export const put = (
     url: string,
