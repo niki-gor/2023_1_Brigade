@@ -1,6 +1,4 @@
-import { reduceSetUser } from "@/reducers/userReducers";
-import { reduceGetContacts } from "@/reducers/contactReducers";
-import {  } from "@/reducers/userReducers";
+import { reduceSetUser, reduceDeleteState } from "@/reducers/userReducers";
 import { constantsOfActions } from "./actions";
 
 /**
@@ -8,5 +6,5 @@ import { constantsOfActions } from "./actions";
 */
 export const reducers = [
     { type: constantsOfActions.setUser, reducer: reduceSetUser },
-    { type: constantsOfActions.getContacts, reducer:  reduceGetContacts}
+    { type: constantsOfActions.deleteState, reducer: reduceDeleteState },
 ];

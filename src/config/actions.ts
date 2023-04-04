@@ -5,5 +5,5 @@ export const constantsOfActions = {
     occupiedUsername: 'occupiedUsername',
     moveToSignUp: 'moveToSignUp',
     moveToLogin: 'moveToLogin',
-    getContacts: `getContacts`,
+    deleteState: 'deleteState',
 }

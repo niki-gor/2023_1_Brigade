@@ -12,16 +12,9 @@ export const auth = () => {
     .then(({ status, parsedBody }) => {
         switch (status) {
         case 200:
-            parsedBody?.then((body) => {
-                return {
-                    status,
-                    body,
-                };
-            });
-
             return {
                 status,
-                body: null,
+                body: parsedBody,
             };
         case 401:
         case 500:
@@ -55,16 +48,9 @@ export const login = (body: anyObject) => {
     .then(({ status, parsedBody }) => {
         switch (status) {
         case 200:
-            parsedBody?.then((body) => {
-                return {
-                    status,
-                    body,
-                };
-            });
-
             return {
                 status,
-                body: null,
+                body: parsedBody,
             };
         case 404:
         case 409:
@@ -99,15 +85,9 @@ export const signUp = (body: anyObject) => {
     .then(({ status, parsedBody }) => {
         switch (status) {
         case 201:
-            parsedBody?.then((body) => {
-                return {
-                    status,
-                    body,
-                };
-            });
             return {
                 status,
-                body: null,
+                body: parsedBody,
             };
         case 400:
         case 409:
@@ -174,16 +154,9 @@ export const updateUser = (body: anyObject) => {
     .then(({ status, parsedBody }) => {
         switch (status) {
         case 200:
-            parsedBody?.then((body) => {
-                return {
-                    status,
-                    body,
-                };
-            });
-
             return {
                 status,
-                body: null,
+                body: parsedBody,
             };
         case 400:
         case 401:

@@ -62,29 +62,40 @@ export class SmartLogin extends Container {
      * Рендерит логин
      */
     render() {
-        const LoginUI = new DumbLogin({ 
-            ...this.props,
-        });
-
-        this.rootNode.innerHTML = LoginUI.render();
+        if (this.state.isSubscribed) {
+            const LoginUI = new DumbLogin({ 
+                ...this.props,
+            });
+    
+            this.rootNode.innerHTML = LoginUI.render();
+        }
     }
 
     /**
      * Показывает, что была введа незарегистрированная почта
      */
     invalidEmail() {
-        this.state.domElements.email?.classList.add('login-reg__input_error');
-        addErrorToClass('invalid-email', emailErrorTypes);
+        if (this.state.isSubscribed) {
+            this.state.domElements.email?.classList.add('login-reg__input_error');
+            addErrorToClass('invalid-email', emailErrorTypes);
+        }
     }
 
     /**
      * Навешивает переданные обработчики на валидацию и кнопки
      */
     componentDidMount() {
+        if (!this.state.isSubscribed) {
+            this.unsubscribe.push(store.subscribe(constantsOfActions.setUser, this.render));
+            this.unsubscribe.push(store.subscribe(constantsOfActions.invalidEmail, this.invalidEmail));
+
+            this.state.isSubscribed = true;
+        }
+
         this.render();
 
         this.state.domElements.loginButton = document.querySelector('.login-but');
-        this.state.domElements.email?.addEventListener('click', (e) => {
+        this.state.domElements.loginButton?.addEventListener('click', (e) => {
             e.preventDefault();
 
             this.handleClickLogin();
@@ -110,13 +121,6 @@ export class SmartLogin extends Container {
 
             this.validatePassword();
         });
-
-        if (!this.state.isSubscribed) {
-            this.unsubscribe.push(store.subscribe(constantsOfActions.setUser, this.render));
-            this.unsubscribe.push(store.subscribe(constantsOfActions.invalidEmail, this.invalidEmail));
-
-            this.state.isSubscribed = true;
-        }
     }
 
     /**

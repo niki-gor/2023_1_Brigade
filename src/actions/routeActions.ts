@@ -1,14 +1,8 @@
 import { constantsOfActions } from "@/config/actions";
-// TODO: костыли, которые заменятся роутером
-// import { SmartSignUp } from "@/containers/signUp/signUp";
-// import { store } from "@/store/store";
-// import { ROOT } from "@/config/config";
-// import { SmartLogin } from "@/containers/login/login";
+import { router } from "@/router/router";
 
 export const createMoveToSignUpAction = () : Action => {
-    // TODO: костыли, которые заменятся роутером
-    // const signup = new SmartSignUp({...store.getState(), rootNode: ROOT });
-    // signup.componentDidMount();
+    router.route('/signup');
 
     return {
         type: constantsOfActions.moveToSignUp,
@@ -17,9 +11,7 @@ export const createMoveToSignUpAction = () : Action => {
 };
 
 export const createMoveToLoginAction = () : Action => {
-    // TODO: костыли, которые заменятся роутером
-    // const login = new SmartLogin({...store.getState(), rootNode: ROOT });
-    // login.componentDidMount();
+    router.route('/login');
 
     return {
         type: constantsOfActions.moveToLogin,

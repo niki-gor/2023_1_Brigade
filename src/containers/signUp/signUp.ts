@@ -72,25 +72,36 @@ export class SmartSignUp extends Container {
      * Рендерит логин
      */
     render() {
-        const LoginUI = new DumbSignUp({ 
-            ...this.props,
-        }); 
+        if (this.state.isSubscribed) {
+            const LoginUI = new DumbSignUp({ 
+                ...this.props,
+            }); 
 
-        this.rootNode.innerHTML = LoginUI.render();
+            this.rootNode.innerHTML = LoginUI.render();
+        }
     }
 
     /**
      * Показывает, что была введа занятая почта
      */
     occupiedEmail() {
-        this.state.domElements.email?.classList.add('login-reg__input_error');
-        addErrorToClass('occupied-email', emailErrorTypes);
+        if (this.state.isSubscribed) {
+            this.state.domElements.email?.classList.add('login-reg__input_error');
+            addErrorToClass('occupied-email', emailErrorTypes);
+        }
     }
 
     /**
      * Навешивает переданные обработчики на валидацию и кнопки
      */
     componentDidMount() {
+        if (!this.state.isSubscribed) {
+            this.unsubscribe.push(store.subscribe(constantsOfActions.setUser, this.render));
+            this.unsubscribe.push(store.subscribe(constantsOfActions.occupiedEmail, this.occupiedEmail));
+
+            this.state.isSubscribed = true;
+        }
+        
         this.render();
 
         this.state.domElements.signUpButton = document.querySelector('.reg-but');
@@ -134,13 +145,6 @@ export class SmartSignUp extends Container {
 
             this.validateNickname();
         });
-
-        if (!this.state.isSubscribed) {
-            this.unsubscribe.push(store.subscribe(constantsOfActions.setUser, this.render));
-            this.unsubscribe.push(store.subscribe(constantsOfActions.occupiedEmail, this.occupiedEmail));
-
-            this.state.isSubscribed = true;
-        }
     }
 
     /**

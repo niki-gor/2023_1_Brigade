@@ -32,24 +32,34 @@ export const createOccupiedUsernameAction = () : Action => {
 export const createUpdateUserAction = (user: anyObject) : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: anyObject) => {
         const { status, body } = await updateUser(user);
+        const { jsonBody } = await body;
 
         switch (status) {
         case 200:
-            return dispatch(createSetUserAction(body));
+            dispatch(createSetUserAction(jsonBody));
+            break;
         case 400:
-            return dispatch(createOccupiedUsernameAction());
+            // TODO: 
         case 401:
-            // TODO: не уверен, но как-будто нужно поменять url и роутер уже отреагирует и отрендерит
+            // TODO: 
         case 404:
-            // TODO: не уверен, но как-будто нужно поменять url и роутер уже отреагирует и отрендерит
+            // TODO: 
         case 409:
-            return dispatch(createOccupiedUsernameAction());
+            dispatch(createOccupiedUsernameAction());
+            break;
         case 500:
-            // TODO: не уверен, но как-будто нужно поменять url и роутер уже отреагирует и отрендерит
+            // TODO: 
         case 0:
             // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
         default:
             // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
         }
     };
+}
+
+export const createDeleteStateAction = () => {
+    return {
+        type: constantsOfActions.deleteState,
+        payload: null,
+    }
 }
