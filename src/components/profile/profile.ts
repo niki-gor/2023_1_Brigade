@@ -8,6 +8,15 @@ import { errorInputUI } from "../ui/error-input/error-input";
 import { nicknameErrorTypes, passwordErrorTypes, usernameErrorTypes, newPasswordErrorTypes } from "@/config/errors";
 import "@components/profile/profile.scss"
 
+const strings = {
+    nickname: 'Никнейм',
+    username: 'Имя пользователя',
+    status: 'Статус',
+    currentPassword: 'Текущий пароль',
+    newPassword: 'Новый пароль',
+    saveChanges: 'Сохранить изменения'
+};
+
 export class DumbProfile extends Component {
     constructor(props: any) {
         super(props);
@@ -49,7 +58,7 @@ export class DumbProfile extends Component {
             status: this.props.user.status,
 
             nicknameHeader: headerInputUI.renderTemplate({
-                headerInputText: 'Никнейм',
+                headerInputText: strings.nickname,
             }),
             nicknameInput: dataInputUI.renderTemplate({
                 className: 'nickname',
@@ -60,7 +69,7 @@ export class DumbProfile extends Component {
             ...this.getValidateErrors(nicknameErrorTypes),
 
             usernameHeader: headerInputUI.renderTemplate({
-                headerInputText: 'Имя пользователя',
+                headerInputText: strings.username,
             }),
             usernameInput: dataInputUI.renderTemplate({
                 className: 'username',
@@ -71,7 +80,7 @@ export class DumbProfile extends Component {
             ...this.getValidateErrors(usernameErrorTypes),
 
             statusHeader: headerInputUI.renderTemplate({
-                headerInputText: 'Статус',
+                headerInputText: strings.status,
             }),
             statusInput: dataInputUI.renderTemplate({
                 className: 'status',
@@ -81,7 +90,7 @@ export class DumbProfile extends Component {
             }),
 
             currentPasswordHeader: headerInputUI.renderTemplate({
-                headerInputText: 'Текущий пароль',
+                headerInputText: strings.currentPassword,
             }),
             currentPasswordInput: dataInputUI.renderTemplate({
                 className: 'current-password',
@@ -92,7 +101,7 @@ export class DumbProfile extends Component {
             ...this.getValidateErrors(passwordErrorTypes),
 
             newPasswordHeader: headerInputUI.renderTemplate({
-                headerInputText: 'Новый пароль',
+                headerInputText: strings.newPassword,
             }),
             newPasswordInput: dataInputUI.renderTemplate({
                 className: 'new-password',
@@ -104,7 +113,7 @@ export class DumbProfile extends Component {
 
             buttonSave: blueButtonUI.renderTemplate({
                 className: 'button-save',
-                buttonValue: 'Сохранить изменения',
+                buttonValue: strings.saveChanges,
             })
         });
     }
