@@ -69,7 +69,7 @@ app.post('/signup', (req, res) => {
         return res.status(400).json({ error: 'Не валидные данные пользователя' });
     }
     if (users[email]) {
-        return res.status(400).json({ error: 'Пользователь уже существует' });
+        return res.status(409).json({ error: 'Пользователь уже существует' });
     }
 
     const id = uuid();

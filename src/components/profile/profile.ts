@@ -29,6 +29,14 @@ export class DumbProfile extends Component {
         return result;
     }
 
+    getUsername() {
+        if (this.props.user.username == this.props.user.id) {
+            return '@';
+        }
+
+        return '@' + this.props.user.username;
+    }
+
     render() {
         return template({
             avatar: ellipseIconUI.renderTemplate({
@@ -37,11 +45,11 @@ export class DumbProfile extends Component {
             }),
 
             nickname: this.props.user.nickname,
-            username: this.props.user.username,
+            username: this.getUsername(),
             status: this.props.user.status,
 
             nicknameHeader: headerInputUI.renderTemplate({
-                headerInputText: 'Никнейм'
+                headerInputText: 'Никнейм',
             }),
             nicknameInput: dataInputUI.renderTemplate({
                 className: 'nickname',
@@ -52,18 +60,18 @@ export class DumbProfile extends Component {
             ...this.getValidateErrors(nicknameErrorTypes),
 
             usernameHeader: headerInputUI.renderTemplate({
-                headerInputText: 'Имя пользователя'
+                headerInputText: 'Имя пользователя',
             }),
             usernameInput: dataInputUI.renderTemplate({
                 className: 'username',
                 inputType: 'text',
                 inputPlaceholder: '',
-                value: this.props.user.username,
+                value: this.getUsername(),
             }),
             ...this.getValidateErrors(usernameErrorTypes),
 
             statusHeader: headerInputUI.renderTemplate({
-                headerInputText: 'Статус'
+                headerInputText: 'Статус',
             }),
             statusInput: dataInputUI.renderTemplate({
                 className: 'status',
@@ -73,7 +81,7 @@ export class DumbProfile extends Component {
             }),
 
             currentPasswordHeader: headerInputUI.renderTemplate({
-                headerInputText: 'Текущий пароль'
+                headerInputText: 'Текущий пароль',
             }),
             currentPasswordInput: dataInputUI.renderTemplate({
                 className: 'current-password',
@@ -84,7 +92,7 @@ export class DumbProfile extends Component {
             ...this.getValidateErrors(passwordErrorTypes),
 
             newPasswordHeader: headerInputUI.renderTemplate({
-                headerInputText: 'Новый пароль'
+                headerInputText: 'Новый пароль',
             }),
             newPasswordInput: dataInputUI.renderTemplate({
                 className: 'new-password',

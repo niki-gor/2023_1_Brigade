@@ -30,17 +30,17 @@ interface Reducer {
 }
 
 interface CreateStore {
-    (reducers: Map<string, (state: anyObject, action: Action) => anyObject>) : {
+    (reducers: Map<string, Reducer>) : {
         getState: () => anyObject,
         dispatch: (action: Action) => void,
-        subscribe: (key: string, cb: () => void) => () => void,
+        subscribe: (key: string, cb: (pr: componentProps) => void) => () => void,
     }
 }
 
 interface Store {
     getState: () => anyObject,
     dispatch: (action: Action) => void,
-    subscribe: (key: string, cb: () => void) => () => void,
+    subscribe: (key: string, cb: (pr: componentProps) => void) => () => void,
 }
 
 interface Middleware {

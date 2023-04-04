@@ -18,3 +18,10 @@ export const createMoveToLoginAction = () : Action => {
         payload: null,
     }
 };
+
+export const createRenderAction = () : Action => {
+    return {
+        type: constantsOfActions.render,
+        payload: null,
+    }
+}
