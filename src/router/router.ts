@@ -1,4 +1,4 @@
-import { Route, ComponentTemplate, urlInfo, appRoutes} from './routerConfig';
+import { Route, ComponentTemplate, urlInfo, appRoutes} from '@router/routes';
 
 class Router {
     routes: Map<string, ComponentTemplate> | null;

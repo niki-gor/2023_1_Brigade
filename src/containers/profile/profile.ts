@@ -3,8 +3,8 @@ import { DumbProfile } from "@/components/profile/profile";
 import { checkPassword, checkNickname, addErrorToClass } from "@/utils/validator";
 import { store } from "@/store/store";
 import { passwordErrorTypes, usernameErrorTypes, nicknameErrorTypes } from "@/config/errors";
-import { constantsOfActions } from "@/config/actions";
 import { createUpdateUserAction } from "@/actions/userActions";
+import { createRenderAction } from "@/actions/routeActions";
 
 export interface SmartProfile {
     state: {
@@ -61,68 +61,76 @@ export class SmartProfile extends Container {
      * Рендерит логин
      */
     render() {
-        const LoginUI = new DumbProfile({ 
-            ...this.props,
-        }); 
+        if (this.state.isSubscribed) {
+            const LoginUI = new DumbProfile({ 
+                ...this.props,
+            }); 
 
-        this.rootNode.innerHTML = LoginUI.render();
+            this.rootNode.innerHTML = LoginUI.render();
+
+            this.state.domElements.saveButton = document.querySelector('.button-save');
+            this.state.domElements.saveButton?.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                this.handleClickSave();
+            });
+
+            this.state.domElements.current_password = document.querySelector('.current-password');
+            this.state.domElements.current_password?.addEventListener('input', (e) => {
+                e.preventDefault();
+
+                this.validateCurrentPassword();
+            });
+
+            this.state.domElements.new_password = document.querySelector('.new-password');
+            this.state.domElements.new_password?.addEventListener('input', (e) => {
+                e.preventDefault();
+
+                this.validateNewPassword();
+            });
+
+            this.state.domElements.username = document.querySelector('.nickname');
+            this.state.domElements.username?.addEventListener('input', (e) => {
+                e.preventDefault();
+
+                this.validateNickname();
+            });
+
+            this.state.domElements.username = document.querySelector('.username');
+            this.state.domElements.username?.addEventListener('input', (e) => {
+                e.preventDefault();
+
+                this.validateUsername();
+            });
+        }
     }
 
     /**
      * Показывает, что был введен занятый username
      */
     occupiedUsername() {
-        this.state.domElements.username?.classList.add('data-input--error');
-        addErrorToClass('occupied-username', usernameErrorTypes);
+        if (this.state.isSubscribed && this.props?.occupiedUsername) {
+            this.state.domElements.username?.classList.add('data-input--error');
+            addErrorToClass('occupied-username', usernameErrorTypes);
+        }
     }
 
     /**
      * Навешивает переданные обработчики на валидацию и кнопки
      */
     componentDidMount() {
-        this.render();
-
-        this.state.domElements.saveButton = document.querySelector('.button-save');
-        this.state.domElements.saveButton?.addEventListener('click', (e) => {
-            e.preventDefault();
-
-            this.handleClickSave();
-        });
-
-        this.state.domElements.current_password = document.querySelector('.current-password');
-        this.state.domElements.current_password?.addEventListener('input', (e) => {
-            e.preventDefault();
-
-            this.validateCurrentPassword();
-        });
-
-        this.state.domElements.new_password = document.querySelector('.new-password');
-        this.state.domElements.new_password?.addEventListener('input', (e) => {
-            e.preventDefault();
-
-            this.validateNewPassword();
-        });
-
-        this.state.domElements.username = document.querySelector('.nickname');
-        this.state.domElements.username?.addEventListener('input', (e) => {
-            e.preventDefault();
-
-            this.validateNickname();
-        });
-
-        this.state.domElements.username = document.querySelector('.username');
-        this.state.domElements.username?.addEventListener('input', (e) => {
-            e.preventDefault();
-
-            this.validateUsername();
-        });
-
         if (!this.state.isSubscribed) {
-            this.unsubscribe.push(store.subscribe(constantsOfActions.setUser, this.render));
-            this.unsubscribe.push(store.subscribe(constantsOfActions.occupiedUsername, this.occupiedUsername));
+            this.unsubscribe.push(store.subscribe(this.name, (pr: componentProps) => {
+                this.props = pr;
+
+                this.render();
+                this.occupiedUsername();
+            }));
 
             this.state.isSubscribed = true;
         }
+
+        store.dispatch(createRenderAction());
     }
 
     /**
@@ -212,7 +220,7 @@ export class SmartProfile extends Container {
     }
 
     validateUsername() {
-        this.state.domElements.nickname?.classList.remove('data-input--error');
+        this.state.domElements.username?.classList.remove('data-input--error');
         addErrorToClass('', usernameErrorTypes);
     }
 }

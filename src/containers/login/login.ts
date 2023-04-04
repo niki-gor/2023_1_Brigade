@@ -3,25 +3,24 @@ import { DumbLogin } from "@/pages/login/login";
 import { checkEmail, checkPassword, addErrorToClass } from "@/utils/validator";
 import { store } from "@/store/store";
 import { emailErrorTypes, passwordErrorTypes } from "@/config/errors";
-import { constantsOfActions } from "@/config/actions";
 import { createLoginAction } from "@/actions/authActions";
-import { createMoveToSignUpAction } from "@/actions/routeActions";
+import { createMoveToSignUpAction, createRenderAction } from "@/actions/routeActions";
 
 
 export interface SmartLogin {
     state: {
         isSubscribed: boolean,
-        valid: {
-            emailIsValid: boolean,
-            passwordIsValid: boolean,
-            isValid: () => boolean,
-        },
         domElements: {
             email: HTMLInputElement | null,
             password: HTMLInputElement | null,
             loginButton: HTMLButtonElement | null,
             moveToSignUp: HTMLElement | null,
         }
+        valid: {
+            emailIsValid: boolean,
+            passwordIsValid: boolean,
+            isValid: () => boolean,
+        },
     }
 }
 
@@ -39,6 +38,7 @@ export class SmartLogin extends Container {
      */
     constructor(props :componentProps) {
         super(props);
+
         this.state = {
             isSubscribed: false,
             valid: {
@@ -54,7 +54,7 @@ export class SmartLogin extends Container {
                 password:  null,
                 loginButton: null,
                 moveToSignUp: null
-            }
+            },
         };
     }
 
@@ -68,6 +68,34 @@ export class SmartLogin extends Container {
             });
     
             this.rootNode.innerHTML = LoginUI.render();
+
+            this.state.domElements.loginButton = document.querySelector('.login-but');
+            this.state.domElements.loginButton?.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                this.handleClickLogin();
+            });
+
+            this.state.domElements.moveToSignUp = document.querySelector('.login-ques');
+            this.state.domElements.moveToSignUp?.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                this.handleClickMoveToSignUp();
+            });
+
+            this.state.domElements.email = document.querySelector('.email');
+            this.state.domElements.email?.addEventListener('input', (e) => {
+                e.preventDefault();
+
+                this.validateEmail();
+            });
+
+            this.state.domElements.password = document.querySelector('.password')
+            this.state.domElements.password?.addEventListener('input', (e) => {
+                e.preventDefault();
+
+                this.validatePassword();
+            });
         }
     }
 
@@ -75,7 +103,7 @@ export class SmartLogin extends Container {
      * Показывает, что была введа незарегистрированная почта
      */
     invalidEmail() {
-        if (this.state.isSubscribed) {
+        if (this.state.isSubscribed && this.props?.invalidEmail) {
             this.state.domElements.email?.classList.add('login-reg__input_error');
             addErrorToClass('invalid-email', emailErrorTypes);
         }
@@ -86,41 +114,17 @@ export class SmartLogin extends Container {
      */
     componentDidMount() {
         if (!this.state.isSubscribed) {
-            this.unsubscribe.push(store.subscribe(constantsOfActions.setUser, this.render));
-            this.unsubscribe.push(store.subscribe(constantsOfActions.invalidEmail, this.invalidEmail));
+            this.unsubscribe.push(store.subscribe(this.name, (pr: componentProps) => {
+                this.props = pr;
+
+                this.render();
+                this.invalidEmail();
+            }));
 
             this.state.isSubscribed = true;
         }
 
-        this.render();
-
-        this.state.domElements.loginButton = document.querySelector('.login-but');
-        this.state.domElements.loginButton?.addEventListener('click', (e) => {
-            e.preventDefault();
-
-            this.handleClickLogin();
-        });
-
-        this.state.domElements.moveToSignUp = document.querySelector('.login-ques');
-        this.state.domElements.moveToSignUp?.addEventListener('click', (e) => {
-            e.preventDefault();
-
-            this.handleClickMoveToSignUp();
-        });
-
-        this.state.domElements.email = document.querySelector('.email');
-        this.state.domElements.email?.addEventListener('input', (e) => {
-            e.preventDefault();
-
-            this.validateEmail();
-        });
-
-        this.state.domElements.password = document.querySelector('.password')
-        this.state.domElements.password?.addEventListener('input', (e) => {
-            e.preventDefault();
-
-            this.validatePassword();
-        });
+        store.dispatch(createRenderAction());
     }
 
     /**

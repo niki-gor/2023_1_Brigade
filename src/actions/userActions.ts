@@ -11,21 +11,27 @@ export const createSetUserAction = (state: anyObject) : Action => {
 export const createInvalidEmailAction = () : Action => {
     return {
         type: constantsOfActions.invalidEmail,
-        payload: null,
+        payload: {
+            invalidEmail: true,
+        },
     }
 }
 
 export const createOccupiedEmailAction = () : Action => {
     return {
         type: constantsOfActions.occupiedEmail,
-        payload: null,
+        payload: {
+            occupiedEmail: true,
+        },
     }
 }
 
 export const createOccupiedUsernameAction = () : Action => {
     return {
         type: constantsOfActions.occupiedUsername,
-        payload: null,
+        payload: {
+            occupiedUsername: true,
+        },
     }
 }
 
