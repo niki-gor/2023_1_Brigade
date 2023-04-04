@@ -56,9 +56,6 @@ export class SmartLogin extends Container {
                 moveToSignUp: null
             },
         };
-
-        this.render = this.render.bind(this);
-        this.invalidEmail = this.invalidEmail.bind(this);
     }
 
     /**
@@ -125,7 +122,7 @@ export class SmartLogin extends Container {
 
                 this.render();
                 this.invalidEmail();
-            }).bind(this));
+            }));
 
             this.state.isSubscribed = true;
         }

@@ -67,9 +67,6 @@ export class SmartSignUp extends Container {
                 moveToLogin: null
             }
         };
-
-        this.render = this.render.bind(this);
-        this.occupiedEmail = this.occupiedEmail.bind(this);
     }
 
     /**
@@ -150,7 +147,7 @@ export class SmartSignUp extends Container {
 
                 this.render();
                 this.occupiedEmail();
-            }).bind(this));
+            }));
 
             this.state.isSubscribed = true;
         }

@@ -127,7 +127,7 @@ export class SmartProfile extends Container {
 
                 this.render();
                 this.occupiedUsername();
-            }).bind(this));
+            }));
 
             this.state.isSubscribed = true;
         }
