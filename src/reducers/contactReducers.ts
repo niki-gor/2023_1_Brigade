@@ -11,7 +11,7 @@ export const reduceSetContacts = (state: anyObject, action: Action) => {
             }
             return {
                 ...state,
-                ...action.payload
+                contacts: { ...action.payload },
             };
         default:
             return {
