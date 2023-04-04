@@ -30,8 +30,8 @@ export class DumbProfile extends Component {
     }
 
     getUsername() {
-        if (this.props.user.username === this.props.user.id) {
-            return '';
+        if (this.props.user.username == this.props.user.id) {
+            return '@';
         }
 
         return '@' + this.props.user.username;

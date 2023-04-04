@@ -222,7 +222,7 @@ export class SmartProfile extends Container {
     }
 
     validateUsername() {
-        this.state.domElements.nickname?.classList.remove('data-input--error');
+        this.state.domElements.username?.classList.remove('data-input--error');
         addErrorToClass('', usernameErrorTypes);
     }
 }
