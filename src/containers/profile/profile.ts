@@ -120,8 +120,6 @@ export class SmartProfile extends Container {
      */
     componentDidMount() {
         if (!this.state.isSubscribed) {
-            // this.unsubscribe.push(store.subscribe(constantsOfActions.setUser, this.render));
-            // this.unsubscribe.push(store.subscribe(constantsOfActions.occupiedUsername, this.occupiedUsername));
             this.unsubscribe.push(store.subscribe(this.name, (pr: componentProps) => {
                 this.props = pr;
 
