@@ -185,14 +185,6 @@ export const updateUser = (body: anyObject) => {
 /**
  * implementation request contacts
  */
-
-// const func = async (parsedBody: Promise<any>) => {
-//     // внутри функции получаем результат промиса
-//     const result = await parsedBody.then();
-//     console.log("в")
-//     console.log(result); // => success!
-// };
-
 export const contacts = () => {
     return get(
         config.contacts,

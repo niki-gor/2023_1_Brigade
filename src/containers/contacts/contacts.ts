@@ -1,10 +1,9 @@
 import { Container } from "@containers/container";
-import {store} from "@store/store";
-import {constantsOfActions} from "@config/actions";
-import {createGetContactsAction} from "@actions/createGetContactsAction";
-import {DumbContact} from "@components/contact/contact";
-import {DumbContacts} from "@components/contacts/contacts";
-import {smallEllipseIconUI} from "@components/ui/small-ellipse-icon/small-ellipse-icon";
+import { store } from "@store/store";
+import { createGetContactsAction } from "@actions/contactsActions";
+import { DumbContact } from "@components/contact/contact";
+import { DumbContacts } from "@components/contacts/contacts";
+import { smallEllipseIconUI } from "@components/ui/small-ellipse-icon/small-ellipse-icon";
 
 export interface SmartContacts {
     state: {
@@ -18,70 +17,44 @@ export interface SmartContacts {
 }
 
 export class SmartContacts extends Container {
-    unsubscribeStore: () => void = () => {};
-
     constructor(props :componentProps) {
         super(props);
-    }
-
-    newContacts() {
-        const contacts = store.getState()["contacts"].payload
-        let uiContacts: string[] = [];
-
-        for (let i = 0; i < contacts.length; i++) {
-            uiContacts.push(DumbContact.renderTemplate({
-                    avatar: smallEllipseIconUI.renderTemplate({
-                        imgSrc: './assets/img/geva.png',
-                        altMsg: 'avatar'
-                    }),
-                    nickname: contacts[i].nickname,
-                    status: contacts[i].status,
-                })
-            )
-        }
-
-        const ContactsUI = new DumbContacts({
-            headContacts: {
-                label: 'Контакты',
-            },
-            contacts: uiContacts,
-            addContactButton: {
-                className: 'btn-primary',
-                buttonValue: 'добавить контакт',
+        this.state = {
+            isSubscribed: false,
+            domElements: {
+                headContacts:  null,
+                contacts: null,
+                addContactButton:  null,
             }
-        });
-
-        document.querySelector('#root')?.innerHTML = ContactsUI.render();
+        }
     }
 
     render() {
-        this.unsubscribeStore = store.subscribe("contacts", this.newContacts)
-        store.dispatch(createGetContactsAction())
+        if (this.state.isSubscribed) {
+            const ContactsUI = new DumbContacts(this.props.contacts);
 
-        const ContactsUI = new DumbContacts({
-            headContacts: {
-                label: 'Контакты',
-            },
-            contacts:[{
-                avatar: '',
-                nickname: '',
-                status: ''
-            }],
-            addContactButton: {
-                className: 'btn-primary',
-                buttonValue: 'добавить контакт',
-            }
-        });
+            this.rootNode.innerHTML = ContactsUI.render();
 
-        document.querySelector('#root')?.innerHTML = ContactsUI.render();
+            // TODO: навесить обработчики
+        }
     }
 
-    // componentDidMount() {
-    //     this.render();
-    // }
-    //
-    // componentWillUnmount() {
-    //     this.unsubscribe.forEach((uns) => uns());
-    //     this.state.isSubscribed = false;
-    // }
+    componentDidMount() {
+        if (!this.state.isSubscribed) {
+            this.unsubscribe.push(store.subscribe(this.name, (pr: componentProps) => {
+                this.props = pr;
+    
+                this.render();
+            }));
+
+            this.state.isSubscribed = true;
+        }
+
+        store.dispatch(createGetContactsAction())
+    }
+    
+    componentWillUnmount() {
+        this.unsubscribe.forEach((uns) => uns());
+        this.state.isSubscribed = false;
+    }
 }

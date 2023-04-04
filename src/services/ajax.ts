@@ -1,6 +1,6 @@
 import { AJAX_METHODS } from '@config/ajax'
 
-const BACKEND_URL = 'http://95.163.249.116:8081';
+const BACKEND_URL = 'https://technogramm.ru';
 // const BACKEND_URL_LOCAL = 'http://127.0.0.1:8081'
 
 /**
@@ -57,7 +57,7 @@ export const get = (
     url: string
 ) => {
     return ajax(
-        BACKEND_URL + url,
+        url,
         AJAX_METHODS.GET,
         undefined,
     );
