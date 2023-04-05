@@ -12,9 +12,9 @@ export const createAuthAction = () : AsyncAction => {
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
 
-            Contacts.componentDidMount();
-
             router.route(window.location.pathname);
+            
+            Contacts.componentDidMount();
 
             break;
         case 401:
@@ -39,9 +39,9 @@ export const createLoginAction = (user: anyObject) : AsyncAction => {
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
 
-            Contacts.componentDidMount();
-
             router.route('/');
+
+            Contacts.componentDidMount();
 
             break;
         case 404:
@@ -68,10 +68,10 @@ export const createSignUpAction = (user: anyObject) : AsyncAction => {
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
 
+            router.route('/');
+
             Contacts.componentDidMount();
 
-            router.route('/');
-            
             break;
         case 400:
             // TODO: отрендерить ошибку
@@ -95,7 +95,9 @@ export const createLogoutAction = () : AsyncAction => {
         switch (status) {
         case 204:
             Contacts.componentWillUnmount();
+
             router.route('/login');
+
             dispatch(createDeleteStateAction());
             break;
         case 401:
