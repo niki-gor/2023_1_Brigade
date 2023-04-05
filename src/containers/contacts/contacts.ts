@@ -1,9 +1,7 @@
 import { Container } from "@containers/container";
 import { store } from "@store/store";
 import { createGetContactsAction } from "@actions/contactsActions";
-import { DumbContact } from "@components/contact/contact";
 import { DumbContacts } from "@components/contacts/contacts";
-import { smallEllipseIconUI } from "@components/ui/small-ellipse-icon/small-ellipse-icon";
 
 export interface SmartContacts {
     state: {
@@ -30,7 +28,7 @@ export class SmartContacts extends Container {
     }
 
     render() {
-        if (this.state.isSubscribed) {
+        if (this.state.isSubscribed && this.props.user) {
             const ContactsUI = new DumbContacts(this.props.contacts);
 
             this.rootNode.innerHTML = ContactsUI.render();
@@ -54,7 +52,9 @@ export class SmartContacts extends Container {
     }
     
     componentWillUnmount() {
-        this.unsubscribe.forEach((uns) => uns());
-        this.state.isSubscribed = false;
+        if (this.state.isSubscribed) {
+            this.unsubscribe.forEach((uns) => uns());
+            this.state.isSubscribed = false;
+        }
     }
 }

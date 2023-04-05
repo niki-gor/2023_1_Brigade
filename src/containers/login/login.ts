@@ -5,6 +5,8 @@ import { store } from "@/store/store";
 import { emailErrorTypes, passwordErrorTypes } from "@/config/errors";
 import { createLoginAction } from "@/actions/authActions";
 import { createMoveToSignUpAction, createRenderAction } from "@/actions/routeActions";
+import { DYNAMIC, SIDEBAR, STATIC } from "@/config/config";
+import { Contacts } from "../contacts/createContacts";
 
 
 export interface SmartLogin {
@@ -67,7 +69,10 @@ export class SmartLogin extends Container {
                 ...this.props,
             });
     
-            this.rootNode.innerHTML = LoginUI.render();
+            // this.rootNode.innerHTML = LoginUI.render();
+            SIDEBAR.innerHTML = STATIC.innerHTML = DYNAMIC.innerHTML = '';
+            Contacts.componentWillUnmount();
+            this.rootNode.insertAdjacentHTML("afterbegin", LoginUI.render());
 
             this.state.domElements.loginButton = document.querySelector('.login-but');
             this.state.domElements.loginButton?.addEventListener('click', (e) => {
@@ -131,8 +136,10 @@ export class SmartLogin extends Container {
      * Удаляет все подписки
      */
     componentWillUnmount() {
-        this.unsubscribe.forEach((uns) => uns());
-        this.state.isSubscribed = false;
+        if (this.state.isSubscribed) {
+            this.unsubscribe.forEach((uns) => uns());
+            this.state.isSubscribed = false;
+        }
     }
 
     /**

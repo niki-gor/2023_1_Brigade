@@ -1,4 +1,5 @@
 .login {
+    grid-column: start / end;
     min-width: 100%;
     min-height: 100%;
     display: flex;

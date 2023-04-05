@@ -159,8 +159,10 @@ export class SmartSignUp extends Container {
      * Удаляет все подписки
      */
     componentWillUnmount() {
-        this.unsubscribe.forEach((uns) => uns());
-        this.state.isSubscribed = false;
+        if (this.state.isSubscribed) {
+            this.unsubscribe.forEach((uns) => uns());
+            this.state.isSubscribed = false;
+        }
     }
 
     /**

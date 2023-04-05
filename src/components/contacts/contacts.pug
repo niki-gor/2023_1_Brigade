@@ -3,9 +3,8 @@
         .font-size-6!= headContacts
     .contacts__separator
     .contacts__contacts
-        ul
-          for i in contacts
-            li!= i
-.contacts__add-contact
+        for i in contacts
+            != i
     .contacts__separator
-    != addContactButton
+    .contacts__add-contact
+        != addContactButton

@@ -1,6 +1,7 @@
 import { auth, login, signUp, logout } from "@/utils/api";
 import { createSetUserAction, createInvalidEmailAction, createOccupiedEmailAction, createDeleteStateAction } from "@actions/userActions";
 import { router } from "@/router/router";
+import { Contacts } from "@/containers/contacts/createContacts";
 
 export const createAuthAction = () : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: anyObject) => {
@@ -10,7 +11,11 @@ export const createAuthAction = () : AsyncAction => {
         case 200:
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
-            router.route('/contacts');
+
+            Contacts.componentDidMount();
+
+            router.route(window.location.pathname);
+
             break;
         case 401:
             router.route('/login');
@@ -33,7 +38,11 @@ export const createLoginAction = (user: anyObject) : AsyncAction => {
         case 200:
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
-            router.route('/contacts');
+
+            Contacts.componentDidMount();
+
+            router.route('/');
+
             break;
         case 404:
             dispatch(createInvalidEmailAction());
@@ -58,7 +67,11 @@ export const createSignUpAction = (user: anyObject) : AsyncAction => {
         case 201:
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
-            router.route('/contacts');
+
+            Contacts.componentDidMount();
+
+            router.route('/');
+            
             break;
         case 400:
             // TODO: отрендерить ошибку
@@ -81,6 +94,7 @@ export const createLogoutAction = () : AsyncAction => {
 
         switch (status) {
         case 204:
+            Contacts.componentWillUnmount();
             router.route('/login');
             dispatch(createDeleteStateAction());
             break;
