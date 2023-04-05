@@ -29,6 +29,10 @@ export class SmartContacts extends Container {
 
     render() {
         if (this.state.isSubscribed && this.props.user) {
+            if (!this.props.contacts) {
+                this.props.contacts = [];
+            }
+            
             const ContactsUI = new DumbContacts(this.props.contacts);
 
             this.rootNode.innerHTML = ContactsUI.render();
@@ -39,16 +43,16 @@ export class SmartContacts extends Container {
 
     componentDidMount() {
         if (!this.state.isSubscribed) {
-            this.unsubscribe.push(store.subscribe(this.name, (pr: componentProps) => {
+            this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: componentProps) => {
                 this.props = pr;
     
                 this.render();
             }));
 
             this.state.isSubscribed = true;
-        }
 
-        store.dispatch(createGetContactsAction())
+            store.dispatch(createGetContactsAction())
+        }
     }
     
     componentWillUnmount() {

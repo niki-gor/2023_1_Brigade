@@ -3,7 +3,6 @@ import { DumbSignUp } from "@/pages/signUp/signUp";
 import { checkEmail, checkPassword, checkConfirmPassword, checkNickname, addErrorToClass } from "@/utils/validator";
 import { store } from "@/store/store";
 import { emailErrorTypes, passwordErrorTypes, confirmPasswordErrorTypes, nicknameErrorTypes } from "@/config/errors";
-import { constantsOfActions } from "@/config/actions";
 import { createSignUpAction } from "@/actions/authActions";
 import { createMoveToLoginAction, createRenderAction } from "@/actions/routeActions";
 import { DYNAMIC, SIDEBAR, SIGNUP, STATIC } from "@/config/config";
@@ -75,7 +74,7 @@ export class SmartSignUp extends Container {
      * Рендерит логин
      */
     render() {
-        if (this.state.isSubscribed) {
+        if (this.state.isSubscribed && !SIGNUP()) {
             const SignUpUI = new DumbSignUp({ 
                 ...this.props,
             }); 
@@ -83,7 +82,6 @@ export class SmartSignUp extends Container {
             SIDEBAR.innerHTML = STATIC.innerHTML = DYNAMIC.innerHTML = '';
             Contacts.componentWillUnmount();
             this.rootNode.insertAdjacentHTML("afterbegin", SignUpUI.render());
-            // this.rootNode.innerHTML = SignUpUI.render();
 
             this.state.domElements.signUpButton = document.querySelector('.reg-but');
             this.state.domElements.signUpButton?.addEventListener('click', (e) => {
@@ -144,7 +142,7 @@ export class SmartSignUp extends Container {
      */
     componentDidMount() {
         if (!this.state.isSubscribed) {
-            this.unsubscribe.push(store.subscribe(this.name, (pr: componentProps) => { 
+            this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: componentProps) => { 
                 this.props = pr;
 
                 this.render();
@@ -152,9 +150,9 @@ export class SmartSignUp extends Container {
             }));
 
             this.state.isSubscribed = true;
-        }
 
-        store.dispatch(createRenderAction());
+            store.dispatch(createRenderAction());
+        }
     }
 
     /**

@@ -11,10 +11,10 @@ export const createAuthAction = () : AsyncAction => {
         case 200:
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
-
-            router.route(window.location.pathname);
             
             Contacts.componentDidMount();
+
+            router.route(window.location.pathname);
 
             break;
         case 401:
@@ -39,9 +39,9 @@ export const createLoginAction = (user: anyObject) : AsyncAction => {
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
 
-            router.route('/');
-
             Contacts.componentDidMount();
+
+            router.route('/');
 
             break;
         case 404:
@@ -68,9 +68,9 @@ export const createSignUpAction = (user: anyObject) : AsyncAction => {
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
 
-            router.route('/');
-
             Contacts.componentDidMount();
+
+            router.route('/');
 
             break;
         case 400:
@@ -99,6 +99,7 @@ export const createLogoutAction = () : AsyncAction => {
             router.route('/login');
 
             dispatch(createDeleteStateAction());
+
             break;
         case 401:
             // TODO: вроде на все нужно login отрендерить

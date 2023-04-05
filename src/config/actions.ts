@@ -7,5 +7,5 @@ export const constantsOfActions = {
     moveToLogin: 'moveToLogin',
     deleteState: 'deleteState',
     render: 'render',
-    getContacts: 'getContacts',
+    setContacts: 'setContacts',
 }

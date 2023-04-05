@@ -12,5 +12,5 @@ export const reducers = [
     { type: constantsOfActions.invalidEmail, reducer: reduceValidate },
     { type: constantsOfActions.occupiedEmail, reducer: reduceValidate },
     { type: constantsOfActions.occupiedUsername, reducer: reduceValidate },
-    { type: constantsOfActions.getContacts, reducer: reduceSetContacts },
+    { type: constantsOfActions.setContacts, reducer: reduceSetContacts },
 ];

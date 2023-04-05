@@ -3,7 +3,7 @@ import {contacts} from "@utils/api";
 
 export const createSetContactsAction = (state: anyObject) : Action => {
     return {
-        type: constantsOfActions.getContacts,
+        type: constantsOfActions.setContacts,
         payload: state,
     }
 }

@@ -2,7 +2,7 @@ import { constantsOfActions } from "@/config/actions";
 
 export const reduceSetContacts = (state: anyObject, action: Action) => {
     switch (action.type) {
-        case constantsOfActions.getContacts:
+        case constantsOfActions.setContacts:
             if (!action.payload) {
                 return {
                     ...state,

@@ -6,7 +6,7 @@ import { emailErrorTypes, passwordErrorTypes } from "@/config/errors";
 import { createLoginAction } from "@/actions/authActions";
 import { createMoveToSignUpAction, createRenderAction } from "@/actions/routeActions";
 import { DYNAMIC, LOGIN, SIDEBAR, STATIC } from "@/config/config";
-import { Contacts } from "../contacts/createContacts";
+import { Contacts } from "@containers/contacts/createContacts";
 
 
 export interface SmartLogin {
@@ -64,15 +64,13 @@ export class SmartLogin extends Container {
      * Рендерит логин
      */
     render() {
-        if (this.state.isSubscribed) {
+        if (this.state.isSubscribed && !LOGIN()) {
             const LoginUI = new DumbLogin({ 
                 ...this.props,
             });
     
             SIDEBAR.innerHTML = STATIC.innerHTML = DYNAMIC.innerHTML = '';
             Contacts.componentWillUnmount();
-            // this.rootNode.innerHTML = LoginUI.render();
-            console.log(LoginUI.render())
             this.rootNode.insertAdjacentHTML("afterbegin", LoginUI.render());
 
             this.state.domElements.loginButton = document.querySelector('.login-but');
@@ -120,7 +118,7 @@ export class SmartLogin extends Container {
      */
     componentDidMount() {
         if (!this.state.isSubscribed) {
-            this.unsubscribe.push(store.subscribe(this.name, (pr: componentProps) => {
+            this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: componentProps) => {
                 this.props = pr;
 
                 this.render();
@@ -128,9 +126,9 @@ export class SmartLogin extends Container {
             }));
 
             this.state.isSubscribed = true;
-        }
 
-        store.dispatch(createRenderAction());
+            store.dispatch(createRenderAction());
+        }
     }
 
     /**
