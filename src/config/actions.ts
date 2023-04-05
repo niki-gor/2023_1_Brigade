@@ -8,4 +8,5 @@ export const constantsOfActions = {
     deleteState: 'deleteState',
     render: 'render',
     setContacts: 'setContacts',
+    chooseContact: 'chooseContact',
 }

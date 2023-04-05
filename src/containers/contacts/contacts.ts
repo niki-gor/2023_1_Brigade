@@ -1,6 +1,6 @@
 import { Container } from "@containers/container";
 import { store } from "@store/store";
-import { createGetContactsAction } from "@actions/contactsActions";
+import { createDialogAction, createGetContactsAction } from "@actions/contactsActions";
 import { DumbContacts } from "@components/contacts/contacts";
 
 export interface SmartContacts {
@@ -8,7 +8,7 @@ export interface SmartContacts {
         isSubscribed: boolean,
         domElements: {
             headContacts: HTMLElement | null,
-            contacts: HTMLElement[] | null,
+            contacts: HTMLElement | null,
             addContactButton: HTMLElement | null,
         },
     }
@@ -37,7 +37,24 @@ export class SmartContacts extends Container {
 
             this.rootNode.innerHTML = ContactsUI.render();
 
-            // TODO: навесить обработчики
+            this.state.domElements.contacts = document.querySelector('.contacts__contacts');
+            this.state.domElements.contacts?.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                const contact = e.target as HTMLElement;
+                if (contact.classList.contains('.contact')) {
+                    const contactID = contact.getAttribute('name');
+
+                    for (const key in this.props.contacts) {
+                        if (this.props.contacts[key].id == contactID) {
+                            store.dispatch(createDialogAction(this.props.contacts[key]));
+                            break;
+                        }
+                    }
+                }
+            });
+            
+            // TODO: навесить обработчик на добавление контакта
         }
     }
 

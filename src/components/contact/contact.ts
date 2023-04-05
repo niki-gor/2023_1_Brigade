@@ -16,6 +16,7 @@ export class DumbContact extends Component {
             }),
             nickname: this.props.nickname,
             status: this.props.status,
+            id: this.props.id,
         });
     }
 }

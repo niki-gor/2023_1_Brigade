@@ -29,3 +29,16 @@ export const createGetContactsAction = () : AsyncAction => {
         }
     };
 }
+
+export const chooseContactActions = (contact: anyObject) => {
+    return {
+        type: constantsOfActions.chooseContact,
+        payload: contact,
+    }
+}
+
+export const createDialogAction = (contact: anyObject) => {
+    return async (dispatch: (action: Action) => void, state: anyObject) => {
+        //TODO: async function
+    }
+}
