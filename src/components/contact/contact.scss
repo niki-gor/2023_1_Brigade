@@ -4,6 +4,11 @@
   width: 100%;
   padding-left: 6%;
   margin-top: 3%;
+
+  &:hover {
+    background: #252530;
+    cursor: pointer;
+  }
 }
 
 .contact-avatar {

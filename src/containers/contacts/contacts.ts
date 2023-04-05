@@ -40,20 +40,11 @@ export class SmartContacts extends Container {
             this.state.domElements.contacts = document.querySelector('.contacts__contacts');
             this.state.domElements.contacts?.addEventListener('click', (e) => {
                 e.preventDefault();
-
                 const contact = e.target as HTMLElement;
-                if (contact.classList.contains('.contact')) {
-                    const contactID = contact.getAttribute('name');
-
-                    for (const key in this.props.contacts) {
-                        if (this.props.contacts[key].id == contactID) {
-                            store.dispatch(createDialogAction(this.props.contacts[key]));
-                            break;
-                        }
-                    }
-                }
+                
+                this.handleClickCreateDialog(contact);
             });
-            
+
             // TODO: навесить обработчик на добавление контакта
         }
     }
@@ -76,6 +67,19 @@ export class SmartContacts extends Container {
         if (this.state.isSubscribed) {
             this.unsubscribe.forEach((uns) => uns());
             this.state.isSubscribed = false;
+        }
+    }
+
+    handleClickCreateDialog(contact: HTMLElement) {
+        if (contact.classList.contains('contact')) {
+            const contactID = contact.getAttribute('name');
+
+            for (const key in this.props.contacts) {
+                if (this.props.contacts[key].id == contactID) {
+                    store.dispatch(createDialogAction(this.props.contacts[key]));
+                    break;
+                }
+            }
         }
     }
 }
