@@ -13,7 +13,7 @@ interface anyObject {
 };
 
 interface componentProps extends anyObject {
-    rootNode: HTMLElement,
+    rootNode: HTMLElement | null,
 };
 
 interface Action extends anyObject { 
@@ -22,7 +22,7 @@ interface Action extends anyObject {
 }
 
 interface AsyncAction {
-    (dispatch: (action: Action) => void, state: anyObject) : Promise<void>,
+    (dispatch: (action: Action) => void, state: Function) : Promise<void>,
 }
 
 interface Response extends anyObject {

@@ -1,0 +1,34 @@
+.chat-card {
+    display: flex;
+    justify-content: start;
+    width: 100%;
+    padding-left: 6%;
+    margin-top: 3%;
+
+    &:hover {
+        background: #252530;
+        cursor: pointer;
+    }
+}
+
+.chat-avatar {
+    margin-right: 6%;
+}
+
+.chat-info {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    width: auto;
+}
+
+.chat-title {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.chat-last-message {
+    font-size: 14px;
+    color: #999;
+}
+  

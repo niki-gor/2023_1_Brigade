@@ -7,4 +7,9 @@ export const constantsOfActions = {
     moveToLogin: 'moveToLogin',
     deleteState: 'deleteState',
     render: 'render',
+    setContacts: 'setContacts',
+    addChat: 'addChat',
+    openChat: 'openChat',
+    setChats: 'setChats',
+    createGroup: 'createGroup',
 }
