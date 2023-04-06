@@ -1,5 +1,6 @@
 import { constantsOfActions } from "@/config/actions";
 import { ChatTypes } from "@/config/enum";
+import { store } from "@/store/store";
 import { createChat, getChats, getOneChat } from "@/utils/api";
 
 export const createOpenChatAction = (chat: anyObject) => {
@@ -58,7 +59,7 @@ export const createGetChatsAction = () => {
         let jsonBody = await body;
 
         switch (status) {
-            case 201:
+            case 200:
                 dispatch(createSetChatsAction(jsonBody));
                 break;
             case 401:
@@ -87,7 +88,7 @@ export const createCreateDialogAction = (contact: anyObject) => {
         const { status, body } = await createChat({
             type: ChatTypes.Dialog,
             title: contact.nickname,
-            members: [ contact.id, ]
+            members: [ contact.id, store.getState().user.id ],
         });
 
         let jsonBody = await body;

@@ -4,6 +4,6 @@ export const config = {
     signup: '/signup/',
     logout: '/logout/',
     updateUser: '/users/settings/',
-    contacts: '/users/contacts',
+    contacts: '/users/contacts/',
     chats: '/chats/',
 };

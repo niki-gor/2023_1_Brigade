@@ -13,8 +13,8 @@ export const createAuthAction = () : AsyncAction => {
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
             
-            // Contacts.componentDidMount();
-            Chats.componentDidMount();
+            Contacts.componentDidMount();
+            // Chats.componentDidMount();
 
             router.route(window.location.pathname);
 

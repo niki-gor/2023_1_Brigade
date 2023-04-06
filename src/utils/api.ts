@@ -287,7 +287,7 @@ export const getChats = () => {
 
 export const getOneChat = (chat: anyObject) => {
     return get(
-        config.chats + `${chat.id}`,
+        config.chats + `${chat.id}/`,
     )
         .then(({ status, parsedBody }) => {
             switch (status) {
