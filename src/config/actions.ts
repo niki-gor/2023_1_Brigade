@@ -11,4 +11,5 @@ export const constantsOfActions = {
     addChat: 'addChat',
     openChat: 'openChat',
     setChats: 'setChats',
+    createGroup: 'createGroup',
 }

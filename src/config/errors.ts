@@ -3,7 +3,7 @@ export const emailErrorTypes : ErrorTypes[] = [
         param: 'emptyEmail',
         class: 'empty-email',
         message: 'Почта не может быть пустой',
-    }, 
+    },
     {
         param: 'invalidEmail',
         class: 'invalid-email',
@@ -13,7 +13,7 @@ export const emailErrorTypes : ErrorTypes[] = [
         param: 'occupiedEmail',
         class: 'occupied-email',
         message: 'Почта уже зарегистрирована',
-    }, 
+    },
     {
         param: 'missdogEmail',
         class: 'missdog-email',
@@ -26,7 +26,7 @@ export const passwordErrorTypes : ErrorTypes[] = [
         param: 'emptyPassword',
         class: 'empty-password',
         message: 'Пароль не может быть пустым',
-    }, 
+    },
     {
         param: 'invalidPassword',
         class: 'invalid-password',
@@ -52,7 +52,7 @@ export const newPasswordErrorTypes : ErrorTypes[] = [
         param: 'emptyNewPassword',
         class: 'empty-new-password',
         message: 'Пароль не может быть пустым',
-    }, 
+    },
     {
         param: 'invalidNewPassword',
         class: 'invalid-new-password',
@@ -69,7 +69,7 @@ export const nicknameErrorTypes : ErrorTypes[] = [
     {
         param: 'invalidNickname',
         class: 'invalid-nickname',
-        message: 'Никнейм должен быть длиннее двух символов' 
+        message: 'Никнейм должен быть длиннее двух символов'
     },
 ];
 
@@ -78,5 +78,13 @@ export const usernameErrorTypes : ErrorTypes[] = [
         param: 'occupiedUsername',
         class: 'occupied-username',
         message: 'Имя пользователя уже занято',
+    },
+];
+
+export const countingMembersErrorTypes : ErrorTypes[] = [
+    {
+        param: 'incorrectEmptyCountingMembers',
+        class: 'incorrect-emptyCountingMembers',
+        message: 'Для создания группы выберите хотя-бы одного участника',
     },
 ];
