@@ -17,7 +17,7 @@ interface Action extends anyObject {
 }
 
 interface AsyncAction {
-    (dispatch: (action: Action) => void, state: anyObject) : Promise<void>,
+    (dispatch: (action: Action) => void, state: Function) : Promise<void>,
 }
 
 interface Response extends anyObject {
@@ -55,10 +55,4 @@ interface ErrorTypes {
     param: string,
     class: string,
     message: string,
-}
-
-enum ChatTypes {
-    Dialog,
-    Group,
-    Channel,
 }

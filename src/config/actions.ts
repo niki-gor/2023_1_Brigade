@@ -9,4 +9,5 @@ export const constantsOfActions = {
     render: 'render',
     setContacts: 'setContacts',
     addChat: 'addChat',
+    openChat: 'openChat',
 }

@@ -1,5 +1,15 @@
 import { constantsOfActions } from "@/config/actions";
+import { ChatTypes } from "@/config/enum";
 import { createChat } from "@/utils/api";
+
+export const createOpenChatActions = (chat: anyObject) => {
+    //TODO: подписать страницу чата - вызвать роутер
+
+    return {
+        type: constantsOfActions.openChat,
+        payload: chat,
+    }
+}
 
 export const createAddChatActions = (chat: anyObject) => {
     return {
@@ -9,18 +19,27 @@ export const createAddChatActions = (chat: anyObject) => {
 }
 
 export const createCreateDialogAction = (contact: anyObject) => {
-    return async (dispatch: (action: Action) => void, state: anyObject) => {
+    return async (dispatch: (action: Action) => void, state: Function) => {
+        for (const key in state().chats) {
+            const st = state().chats[key];
+            if (st.type === ChatTypes.Dialog && st.members[0].id == contact.id) {
+                return dispatch(createOpenChatActions(st));
+            }
+        }
+
         const { status, body } = await createChat({
             type: ChatTypes.Dialog,
             title: contact.nickname,
-            members: [ contact, ]
+            members: [ contact.id, ]
         });
 
         let jsonBody = await body;
 
         switch (status) {
-            case 200:
-                return dispatch(createAddChatActions(jsonBody));
+            case 201:
+                dispatch(createAddChatActions(jsonBody));
+                dispatch(createOpenChatActions(jsonBody));
+                break;
             case 401:
                 // TODO: отрендерить ошибку
             case 404:         
