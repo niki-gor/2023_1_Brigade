@@ -1,13 +1,9 @@
 import { Component } from "@/components/component";
 import { DumbContact } from "@components/contact/contact"
-import { whiteButtonUI } from "@components/ui/white-button/white-button"
-import { smallEllipseIconUI } from "@components/ui/small-ellipse-icon/small-ellipse-icon";
-
-import template from "@components/create_group/create_group.pug";
-import "@components/create_group/create_group.scss"
+import template from "@components/createGroup/createGroup.pug";
+import "@components/createGroup/createGroup.scss"
 import {dataInputUI} from "@components/ui/data-input/data-input";
 import {blueButtonUI} from "@components/ui/blue-button/blue-button";
-import {DumbContacts} from "@components/contacts/contacts";
 
 export class DumbCreateGroup extends Component {
     constructor(props: any) {
