@@ -1,6 +1,6 @@
 import { Page } from "@pages/page";
 import template from "@pages/chat/chat.pug"
-import { simpleButton } from "@/components/ui/button/button";
+import { svgButtonUI } from "@/components/ui/button/button";
 
 import "@/pages/chat/chat.css"
 
@@ -11,7 +11,10 @@ export class DumbChat extends Page {
 
     render() {
         return template({
-            simpleButton: simpleButton.renderTemplate({buttonValue: 'работай сука'})
-        })
+            Header: svgButtonUI.renderTemplate({svgClassName: ''}), // TODO: navbarUI
+            // ChatList: chatListComponent.renderTemplate({}),
+            // ViewChat: ViewChat.renderTemplate({}),
+            // GroupInfo: GroupInfo.renderTemplate({}),
+        });
     }
 }

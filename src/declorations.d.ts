@@ -3,6 +3,11 @@ declare module "*.pug" {
     export default _;
 };
 
+declare module "*.svg" {
+    const _: string;
+    export default _;
+};
+
 interface anyObject {
     [key: string]: any,
 };

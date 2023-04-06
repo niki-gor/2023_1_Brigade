@@ -1,6 +1,16 @@
-//- include ../../components/header/header.pug
-//- include ../../components/chatList/chatList.pug
-//- include ../../components/ui/input/input.pug
-//- include ../../components/ui/button/button.pug
+.chat-page.flex
+    div!= Header 
+    //- div!= ChatList
+    //- div!= ViewChat
+    //- div!= GroupInfo
 
-.chat-page.flex!= simpleButton
+//- .chat-page.flex
+//-     header.header.flex
+//-         +header("chatHeader")
+//-     main.main.flex
+//-         +chatList("chatList")
+//-         section.header-offset.view-chat.flex
+//-             +header("viewHeader")
+//-             +input("input-message__text-field")
+//-         section.header-offset.group-info.flex
+//-             +header("group-info")

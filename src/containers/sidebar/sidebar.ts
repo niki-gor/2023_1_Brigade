@@ -1,9 +1,10 @@
 import { Container } from "@containers/container";
-import { DumbChat } from "@/pages/chat/chat";
 import { store } from "@/store/store";
+import { DumbNavbar } from "@/components/navbar/navbar";
+import { DumbNavItem } from "@/components/navItem/navItem";
 
 
-export interface SmartChat {
+export interface SmartSidebar {
     state: {
         isSubsribed: boolean,
         domElements: {
@@ -17,7 +18,7 @@ export interface SmartChat {
  * Прокидывает actions стору для создания диалога, удаление диалога, открыть диалог для просмотра
  * Также подписывается на изменения активного диалога и статуса диалога
  */
-export class SmartChat extends Container {
+export class SmartSidebar extends Container {
     /**
      * Сохраняет props
      * @param {Object} props - параметры компонента
@@ -27,6 +28,7 @@ export class SmartChat extends Container {
         this.state = {
             isSubsribed: false,
             domElements: {
+                // прописать htmlElement-ы, на которые будут навещаны обработчики
                 createChatButton: null,
             }
         }
@@ -36,10 +38,17 @@ export class SmartChat extends Container {
      * Рендерит чат
      */
     render() {
-        if (this.state.isSubsribed) {
-            const ChatUi = new DumbChat({})
+        const svgButtons: Map<string, Object> = new Map();
+        svgButtons.set('messgeButton', {className: 'nav-item__message-btn', value: 48});
+        svgButtons.set('contactButton', {className: 'nav-item__contact-btn'});
+        svgButtons.set('logoutButton', {className: 'logout-btn'});
 
-            this.rootNode.innerHTML = ChatUi.render();
+        const changeTheme = {white: 'change-theme__white', black: 'change-theme__black'};
+
+        if (this.state.isSubsribed) {
+            const navbar = new DumbNavbar({svgButtons: svgButtons, changeTheme: changeTheme}); // TODO: перенести сюда логику создания UI элементов
+
+            this.rootNode.innerHTML = navbar.render();
         }
     }
 

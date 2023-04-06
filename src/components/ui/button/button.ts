@@ -1,8 +1,8 @@
-import { UITool } from "../uiTool";
+import { UITool } from "@components/ui/uiTool";
 import template from "@components/ui/button/button.pug"
 
-export class simpleButton extends UITool {
-    static renderTemplate(args: {buttonValue: string}) {
+export class svgButtonUI extends UITool {
+    static renderTemplate(args: {svgClassName: string}) {
         return template(args);
     }
 }
