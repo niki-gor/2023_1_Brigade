@@ -1,0 +1,12 @@
+main.main.flex
+    section.header-offset.view-chat.flex
+        div.view-chat__header.flex
+            div.view-chat__header__companion.flex
+                !=HeaderUserAvatar
+            ul.view-chat__header__icons.flex
+                    !=MoreInfoBtn
+        div.view-chat__input-message.flex
+            !=InputAvatar 
+            span.input-message__text-field
+                input.input-message__text-field__in(type="text" placeholder="Type Something...")
+                !=SendMessageBtn

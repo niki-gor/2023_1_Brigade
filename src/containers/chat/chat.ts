@@ -1,14 +1,16 @@
 import { Container } from "@containers/container";
 import { store } from "@/store/store";
-import { DumbNavbar } from "@/components/navbar/navbar";
+import { DumbChat } from "@/components/chat/chat";
 
 
-export interface SmartSidebar {
+export interface SmartChat {
     state: {
         isSubsribed: boolean,
         domElements: {
-            createChatButton: HTMLElement | null;
-        } 
+            submitBtn: HTMLElement | null;
+            searchBtn: HTMLElement | null;
+            chatInfoBtn: HTMLElement | null;
+        }
     }
 }
 
@@ -17,7 +19,7 @@ export interface SmartSidebar {
  * Прокидывает actions стору для создания диалога, удаление диалога, открыть диалог для просмотра
  * Также подписывается на изменения активного диалога и статуса диалога
  */
-export class SmartSidebar extends Container {
+export class SmartChat extends Container {
     /**
      * Сохраняет props
      * @param {Object} props - параметры компонента
@@ -27,8 +29,9 @@ export class SmartSidebar extends Container {
         this.state = {
             isSubsribed: false,
             domElements: {
-                // прописать htmlElement-ы, на которые будут навещаны обработчики
-                createChatButton: null,
+                submitBtn: null,
+                searchBtn: null,
+                chatInfoBtn: null,
             }
         }
     }
@@ -37,17 +40,17 @@ export class SmartSidebar extends Container {
      * Рендерит чат
      */
     render() {
-        const svgButtons: Map<string, Object> = new Map();
-        svgButtons.set('messgeButton', {className: 'nav-item__message-btn', value: 48});
-        svgButtons.set('contactButton', {className: 'nav-item__contact-btn'});
-        svgButtons.set('logoutButton', {className: 'logout-btn'});
-
         const changeTheme = {white: 'change-theme__white', black: 'change-theme__black'};
 
         if (this.state.isSubsribed) {
-            const navbar = new DumbNavbar({svgButtons: svgButtons, changeTheme: changeTheme}); // TODO: перенести сюда логику создания UI элементов
+            const chat = new DumbChat({pathToUserImage: './assets/img/iii.png', 
+                                        userName: 'Daniil Zelenko',
+                                        userStatus: 'ha ha chill',
+                                        friendAvatar: './assets/img/geva.png',
+                                        newMessage: 'salam bro',
+            }); // TODO: прокидываем объект из swagger-a
 
-            this.rootNode.innerHTML = navbar.render();
+            this.rootNode.innerHTML = chat.render();
         }
     }
 

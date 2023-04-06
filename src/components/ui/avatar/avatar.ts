@@ -4,7 +4,7 @@ import { UITool } from "@components/ui/uiTool";
 
 
 export class avatarUi extends UITool {
-    static renderTemplate(args: { ClassName: string, PathToUserImage: string, Online: boolean }) {
+    static renderTemplate(args: { ClassName: string, PathToUserImage: string, Online: boolean}) {
         return template(args);
     }
 }
