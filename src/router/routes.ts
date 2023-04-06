@@ -3,6 +3,7 @@ import { SmartLogin } from "@/containers/login/login";
 import { SmartSignUp } from "@/containers/signUp/signUp";
 import { SmartProfile } from "@/containers/profile/profile";
 import { store } from "@/store/store";
+import { SmartChat } from "@/containers/chat/chat";
 
 export interface ComponentTemplate {
     componentWillUnmount: Function;
@@ -27,4 +28,4 @@ export const appRoutes = new Map<string, Route>();
 appRoutes.set('/login', { path: '/login', component: new SmartLogin({ ...store.getState(), rootNode: ROOT })})
 appRoutes.set('/signup', { path: '/signup', component: new SmartSignUp({ ...store.getState(), rootNode: ROOT })})
 appRoutes.set('/profile', { path: '/profile', component: new SmartProfile({ ...store.getState(), rootNode: DYNAMIC })})
-appRoutes.set('/', { path: '/', component: new SmartProfile({ ...store.getState(), rootNode: DYNAMIC })})
+appRoutes.set('/', { path: '/', component: new SmartChat({ ...store.getState(), rootNode: DYNAMIC })})
