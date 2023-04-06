@@ -1,21 +1,26 @@
-import {constantsOfActions} from "@config/actions";
-import {createChat, getContacts} from "@utils/api";
+import { constantsOfActions } from "@/config/actions";
+import { createChat } from "@/utils/api";
 
-export const createSetContactsAction = (state: anyObject) : Action => {
+export const createAddChatActions = (chat: anyObject) => {
     return {
-        type: constantsOfActions.setContacts,
-        payload: state,
+        type: constantsOfActions.addChat,
+        payload: chat,
     }
 }
 
-export const createGetContactsAction = () : AsyncAction => {
+export const createCreateDialogAction = (contact: anyObject) => {
     return async (dispatch: (action: Action) => void, state: anyObject) => {
-        const { status, body } = await getContacts();
+        const { status, body } = await createChat({
+            type: ChatTypes.Dialog,
+            title: contact.nickname,
+            members: [ contact, ]
+        });
+
         let jsonBody = await body;
 
         switch (status) {
             case 200:
-                return dispatch(createSetContactsAction(jsonBody));
+                return dispatch(createAddChatActions(jsonBody));
             case 401:
                 // TODO: отрендерить ошибку
             case 404:         

@@ -5,5 +5,6 @@ export const config = {
     chat: '/users/',
     logout: '/logout/',
     updateUser: '/users/settings/',
-    contacts: '/users/contacts',
+    contacts: '/users/contacts/',
+    createChat: '/chats/',
 };

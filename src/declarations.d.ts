@@ -56,3 +56,9 @@ interface ErrorTypes {
     class: string,
     message: string,
 }
+
+enum ChatTypes {
+    Dialog,
+    Group,
+    Channel,
+}

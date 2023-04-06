@@ -185,7 +185,7 @@ export const updateUser = (body: anyObject) => {
 /**
  * implementation request contacts
  */
-export const contacts = () => {
+export const getContacts = () => {
     return get(
         config.contacts,
     )
@@ -216,4 +216,38 @@ export const contacts = () => {
                 body: error,
             }
         });
+};
+
+export const createChat = (body: anyObject) => {
+    return post(
+        config.createChat,
+        body,
+    )
+    .then(({ status, parsedBody }) => {
+        switch (status) {
+        case 201:
+            return {
+                status,
+                body: parsedBody,
+            };
+        case 401:
+        case 404:
+        case 500:
+            return {
+                status,
+                body: null,
+            };
+        default:
+            return {
+                status,
+                body: null,
+            };
+        }
+    })
+    .catch((error) => {
+        return {
+            status: 0,
+            body: error,
+        }
+    });
 };
