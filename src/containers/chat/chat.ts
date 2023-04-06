@@ -47,7 +47,6 @@ export class SmartChat extends Container {
                 this.props = pr;
 
                 this.render();
-                this.occupiedUsername();
             }));
 
             this.state.isSubscribed = true;

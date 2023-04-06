@@ -220,7 +220,7 @@ export const getContacts = () => {
 
 export const createChat = (body: anyObject) => {
     return post(
-        config.createChat,
+        config.chats,
         body,
     )
     .then(({ status, parsedBody }) => {
@@ -250,4 +250,71 @@ export const createChat = (body: anyObject) => {
             body: error,
         }
     });
+};
+
+export const getChats = () => {
+    return get(
+        config.chats,
+    )
+        .then(({ status, parsedBody }) => {
+            switch (status) {
+                case 200:
+                    return {
+                        status,
+                        body: parsedBody,
+                    };
+                case 401:
+                case 404:
+                case 500:
+                    return {
+                        status,
+                        body: null,
+                    };
+                default:
+                    return {
+                        status,
+                        body: null,
+                    };
+            }
+        })
+        .catch((error) => {
+            return {
+                status: 0,
+                body: error,
+            }
+        });
+};
+
+export const getOneChat = (chat: anyObject) => {
+    return get(
+        config.chats + `${chat.id}`,
+    )
+        .then(({ status, parsedBody }) => {
+            switch (status) {
+                case 200:
+                    return {
+                        status,
+                        body: parsedBody,
+                    };
+                case 401:
+                case 403:
+                case 404:
+                case 500:
+                    return {
+                        status,
+                        body: null,
+                    };
+                default:
+                    return {
+                        status,
+                        body: null,
+                    };
+            }
+        })
+        .catch((error) => {
+            return {
+                status: 0,
+                body: error,
+            }
+        });
 };

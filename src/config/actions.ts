@@ -10,4 +10,5 @@ export const constantsOfActions = {
     setContacts: 'setContacts',
     addChat: 'addChat',
     openChat: 'openChat',
+    setChats: 'setChats',
 }
