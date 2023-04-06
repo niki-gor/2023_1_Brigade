@@ -43,10 +43,11 @@ export class SmartChat extends Container {
         const changeTheme = {white: 'change-theme__white', black: 'change-theme__black'};
 
         if (this.state.isSubsribed) {
-            const chat = new DumbChat({pathToUserImage: './assets/img/iii.png', 
-                                        userName: 'Daniil Zelenko',
+            const chat = new DumbChat({pathToUserImage: './assets/img/geva.png', 
+                                        userName: 'Gevork Gabrielyan',
                                         userStatus: 'ha ha chill',
-                                        friendAvatar: './assets/img/geva.png',
+                                        userOnline: false,
+                                        friendAvatar: './assets/img/iii.png',
                                         newMessage: 'salam bro',
             }); // TODO: прокидываем объект из swagger-a
 

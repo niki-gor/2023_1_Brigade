@@ -8,6 +8,10 @@ export class DumbChat extends Component {
         super(props);
     }
 
+    getMessageList() {
+        console.log('consist message list');
+    }
+
     render() {
         return template({
             MoreInfoBtn: svgButtonUI.renderTemplate({svgClassName: 'view-chat__header__button-fourth'}),
