@@ -61,7 +61,7 @@ export class SmartProfile extends Container {
      * Рендерит логин
      */
     render() {
-        if (this.state.isSubscribed) {
+        if (this.state.isSubscribed && this.props.user) {
             const LoginUI = new DumbProfile({ 
                 ...this.props,
             }); 
@@ -120,7 +120,7 @@ export class SmartProfile extends Container {
      */
     componentDidMount() {
         if (!this.state.isSubscribed) {
-            this.unsubscribe.push(store.subscribe(this.name, (pr: componentProps) => {
+            this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: componentProps) => {
                 this.props = pr;
 
                 this.render();
@@ -128,17 +128,19 @@ export class SmartProfile extends Container {
             }));
 
             this.state.isSubscribed = true;
+            
+            store.dispatch(createRenderAction());
         }
-
-        store.dispatch(createRenderAction());
     }
 
     /**
      * Удаляет все подписки
      */
     componentWillUnmount() {
-        this.unsubscribe.forEach((uns) => uns());
-        this.state.isSubscribed = false;
+        if (this.state.isSubscribed) {
+            this.unsubscribe.forEach((uns) => uns());
+            this.state.isSubscribed = false;
+        }
     }
 
     /**

@@ -41,11 +41,11 @@ class Router {
 
         if (urlParams) {
             if (Object.keys(urlParams.dynamicParams).length !== 0) {
+                console.log('!== 0')
                 window.history.pushState({dynamicParam: urlParams.dynamicParams, path: window.location.pathname}, '', window.location.pathname); // TODO: path + urlParams.dynamicParams - динамический url
             } else {
                 window.history.pushState({path: this.currentRoute?.path}, '', path); // 'content': this.currentRoute - статический url
             }
-            
             this.currentRoute?.component?.componentDidMount();
         } else {
             console.log("error page"); // TODO: errorPage

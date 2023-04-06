@@ -17,8 +17,7 @@ export class Container {
         this.props = props;
         this.unsubscribe = [];
         if (Object.hasOwnProperty.call(props, 'rootNode')) {
-            this.rootNode = props.rootNode;
+            this.rootNode = props.rootNode ?? ROOT;
         }
-        this.unsubscribe = [];
     }
 }

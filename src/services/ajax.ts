@@ -1,6 +1,6 @@
 import { AJAX_METHODS } from '@config/ajax'
 
-const BACKEND_URL = 'http://95.163.249.116:8081';
+const BACKEND_URL = 'https://technogramm.ru';
 // const BACKEND_URL_LOCAL = 'http://127.0.0.1:8081'
 
 /**
@@ -11,8 +11,8 @@ const BACKEND_URL = 'http://95.163.249.116:8081';
  * @returns {Promise} - промис
  */
 const ajax = (
-    url: string, 
-    method: string, 
+    url: string,
+    method: string,
     body: anyObject | null | undefined
 ) => {
     return fetch(BACKEND_URL + '/api/v1' + url, {
@@ -24,7 +24,7 @@ const ajax = (
         },
         credentials: 'include',
         mode: 'cors',
-        body: JSON.stringify(body),
+        body: body == null ? null : JSON.stringify(body),
     })
         .then((response) => {
             const { status } = response;
@@ -74,7 +74,7 @@ export const post = (
     body: anyObject | null | undefined,
 ) => {
     return ajax(
-        url, 
+        url,
         AJAX_METHODS.POST,
         body,
     );
@@ -106,7 +106,7 @@ export const put = (
     body: anyObject | null | undefined,
 ): Promise<any> => {
     return ajax(
-        url, 
+        url,
         AJAX_METHODS.PUT,
         body,
     );
