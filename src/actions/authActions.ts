@@ -13,8 +13,8 @@ export const createAuthAction = () : AsyncAction => {
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
             
-            Contacts.componentDidMount();
-            // Chats.componentDidMount();
+            // Contacts.componentDidMount();
+            Chats.componentDidMount();
 
             router.route(window.location.pathname);
 
@@ -41,8 +41,8 @@ export const createLoginAction = (user: anyObject) : AsyncAction => {
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
 
-            Contacts.componentDidMount();
-            // Chats.componentDidMount();
+            // Contacts.componentDidMount();
+            Chats.componentDidMount();
 
             router.route('/');
 
@@ -71,8 +71,8 @@ export const createSignUpAction = (user: anyObject) : AsyncAction => {
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
 
-            Contacts.componentDidMount();
-            // Chats.componentDidMount();
+            // Contacts.componentDidMount();
+            Chats.componentDidMount();
 
             router.route('/');
 
