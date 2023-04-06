@@ -14,7 +14,6 @@ export const createGetCreateGroupAction = (group: anyObject) : AsyncAction => {
         const { status, body } = await createGroup(group);
         const jsonBody = await body;
 
-        console.log(jsonBody)
         switch (status) {
             case 201:
                 dispatch(createAddChatAction(jsonBody));

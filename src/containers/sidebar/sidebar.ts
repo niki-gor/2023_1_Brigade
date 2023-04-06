@@ -1,12 +1,12 @@
 import { Container } from "@containers/container";
 import { store } from "@/store/store";
 import { DumbNavbar } from "@/components/navbar/navbar";
-import { DumbNavItem } from "@/components/navItem/navItem";
+import { createRenderAction } from "@/actions/routeActions";
 
 
 export interface SmartSidebar {
     state: {
-        isSubsribed: boolean,
+        isSubscribed: boolean,
         domElements: {
             createChatButton: HTMLElement | null;
         } 
@@ -26,7 +26,7 @@ export class SmartSidebar extends Container {
     constructor(props: componentProps) {
         super(props);
         this.state = {
-            isSubsribed: false,
+            isSubscribed: false,
             domElements: {
                 // прописать htmlElement-ы, на которые будут навещаны обработчики
                 createChatButton: null,
@@ -45,7 +45,7 @@ export class SmartSidebar extends Container {
 
         const changeTheme = {white: 'change-theme__white', black: 'change-theme__black'};
 
-        if (this.state.isSubsribed) {
+        if (this.state.isSubscribed) {
             const navbar = new DumbNavbar({svgButtons: svgButtons, changeTheme: changeTheme}); // TODO: перенести сюда логику создания UI элементов
 
             this.rootNode.innerHTML = navbar.render();
@@ -54,24 +54,26 @@ export class SmartSidebar extends Container {
 
 
     componentDidMount() {
-        if (!this.state.isSubsribed) {
+        if (!this.state.isSubscribed) {
             this.unsubscribe.push(store.subscribe(this.name, (pr: componentProps) => {
                 this.props = pr;
                 
                 this.render();
             }))
 
-            this.state.isSubsribed = true;
-        }
+            this.state.isSubscribed = true;
 
-        // store.dispatch(createRenderAction()); // говорим что че то произошло
+            store.dispatch(createRenderAction());
+        }
     }
 
     /**
      * Удаляет все подписки
      */
     componentWillUnmount() {
-        this.unsubscribe.forEach((uns) => uns());
-        this.state.isSubsribed = false;
+        if (this.state.isSubscribed) {
+            this.unsubscribe.forEach((uns) => uns());
+            this.state.isSubscribed = false;
+        }
     }
 }
