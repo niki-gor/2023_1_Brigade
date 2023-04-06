@@ -2,6 +2,7 @@ import { auth, login, signUp, logout } from "@/utils/api";
 import { createSetUserAction, createInvalidEmailAction, createOccupiedEmailAction, createDeleteStateAction } from "@actions/userActions";
 import { router } from "@/router/router";
 import { Contacts } from "@/containers/contacts/createContacts";
+import { Chats } from "@/containers/chatList/createChatList";
 
 export const createAuthAction = () : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: anyObject) => {
@@ -13,6 +14,7 @@ export const createAuthAction = () : AsyncAction => {
             dispatch(createSetUserAction(jsonBody));
             
             Contacts.componentDidMount();
+            // Chats.componentDidMount();
 
             router.route(window.location.pathname);
 
@@ -40,6 +42,7 @@ export const createLoginAction = (user: anyObject) : AsyncAction => {
             dispatch(createSetUserAction(jsonBody));
 
             Contacts.componentDidMount();
+            // Chats.componentDidMount();
 
             router.route('/');
 
@@ -69,6 +72,7 @@ export const createSignUpAction = (user: anyObject) : AsyncAction => {
             dispatch(createSetUserAction(jsonBody));
 
             Contacts.componentDidMount();
+            // Chats.componentDidMount();
 
             router.route('/');
 
@@ -95,6 +99,7 @@ export const createLogoutAction = () : AsyncAction => {
         switch (status) {
         case 204:
             Contacts.componentWillUnmount();
+            Chats.componentWillUnmount();
 
             router.route('/login');
 

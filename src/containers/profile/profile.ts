@@ -62,11 +62,11 @@ export class SmartProfile extends Container {
      */
     render() {
         if (this.state.isSubscribed && this.props.user) {
-            const LoginUI = new DumbProfile({ 
+            const ProfileUI = new DumbProfile({ 
                 ...this.props,
             }); 
 
-            this.rootNode.innerHTML = LoginUI.render();
+            this.rootNode.innerHTML = ProfileUI.render();
 
             this.state.domElements.saveButton = document.querySelector('.button-save');
             this.state.domElements.saveButton?.addEventListener('click', (e) => {

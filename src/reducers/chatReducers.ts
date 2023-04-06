@@ -30,3 +30,38 @@ export const reduceAddChat = (state: anyObject, action: Action) => {
             }
     }
 };
+
+export const reduceSetChats = (state: anyObject, action: Action) => {
+    switch (action.type) {
+        case constantsOfActions.setChats:
+            return {
+                ...state,
+                chats: action.payload,
+            }
+        default:
+            return {
+                ...state,
+            }
+    }
+};
+
+export const reduceOpenChat = (state: anyObject, action: Action) => {
+    switch (action.type) {
+        case constantsOfActions.openChat:
+            if (!action.payload?.messages) {
+                action.payload = {
+                    ...action.payload,
+                    messages: [],
+                };
+            }
+            return {
+                ...state,
+                openedChats: [ action.payload, ],
+                openChatNow: action.payload?.id,
+            };
+        default:
+            return {
+                ...state,
+            }
+    }
+}
