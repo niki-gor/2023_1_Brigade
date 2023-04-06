@@ -15,6 +15,8 @@ export class DumbNavbar extends Component {
     getNavbarList() {
         let navList: DumbNavItem[] = [];
 
+        console.log('DumbNavbar props: ', this.props.changeTheme);
+
         this.props.svgButtons.forEach((buttonProperty: any, buttonType: string) => {
             let navValue = '';
             if (buttonProperty.value) {
@@ -36,7 +38,7 @@ export class DumbNavbar extends Component {
         return template({
             UserImage: avatarUi.renderTemplate({ ClassName: 'header__user-photo', PathToUserImage: './assets/img/iii.png', Online: true}),
             NavList: this.getNavbarList(),
-            ChangeTheme: new DumbChangeTheme({changeTheme: this.props.changeTheme}),
+            ChangeTheme: new DumbChangeTheme({changeTheme: this.props.changeTheme}).render(),
         })
     }
 }
