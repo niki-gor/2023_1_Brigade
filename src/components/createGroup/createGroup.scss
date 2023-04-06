@@ -8,8 +8,8 @@
 }
 
 .create-group__header {
-  height: 20%;
-  width: 35%;
+  height: 100%;
+  width: auto;
   margin-right: auto;
   margin-left: auto;
   display: flex;
@@ -25,36 +25,22 @@
 
 .create-group__contacts {
   height: 100%;
-  width: 17.5%;
-}
-
-.contacts {
+  width: 20%;
   background: #1C1C24;
-  height: 100%;
-  width: 100%;
 }
 
-.contacts__head {
+.contacts__head-create {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding-top: 15px;
+  width: 100%;
+  height: 8%
 }
 
 .create-group__contacts__contacts {
   padding-top: 15px;
   display: flex;
   flex-direction: column;
-}
-
-.contacts__add-contact {
-  display: flex;
-}
-
-.contacts__separator {
   width: 100%;
-  border: 1px solid #4A4E50;
-  background: #1C1C24;
 }
-

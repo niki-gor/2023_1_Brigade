@@ -5,7 +5,7 @@ import { countingMembersErrorTypes, nicknameErrorTypes } from "@/config/errors";
 import { DumbCreateGroup } from "@/components/createGroup/createGroup";
 import { createGetCreateGroupAction } from "@actions/groupActions";
 import { ChatTypes } from "@config/enum";
-import { createRenderAction } from "@/actions/routeActions";
+import { createGetContactsAction } from "@/actions/contactsActions";
 
 
 export interface SmartCreateGroup {
@@ -118,7 +118,11 @@ export class SmartCreateGroup extends Container {
      */
     handleClickCreateGroup() {
         if (this.state.valid.isValid()) {
-            const choseContacts = this.getChoseContacts()
+            const choseContacts = [
+                ...this.getChoseContacts(), 
+                this.props.user.id
+            ];
+            
             const contacts = {
                 type: ChatTypes.Group,
                 title: this.state.domElements.groupNameInput?.value,
@@ -143,7 +147,7 @@ export class SmartCreateGroup extends Container {
             this.state.isSubscribed = true;
         }
 
-        store.dispatch(createRenderAction());
+        store.dispatch(createGetContactsAction());
     }
 
     /**

@@ -15,7 +15,7 @@ export class DumbChatCard extends Component {
                 altMsg: this.props.title,
             }),
             title: this.props.title,
-            lastMessage: this.props.last_message.body,
+            lastMessage: this.props.last_message?.body,
             id: this.props.id,
         });
     }

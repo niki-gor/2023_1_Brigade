@@ -5,12 +5,9 @@
             != groupNameInput
         .font-size-1!= buttonCreateGroup
     .create-group__contacts
-        .contacts
-            .contacts__head
-                .font-size-6!= headContacts
-            .contacts__separator
-            .create-group__contacts__contacts
-                for contact in contacts
-                    != contact
-            .contacts__add-contact
-                .contacts__separator
+        .contacts__head-create
+            .font-size-6!= headContacts
+        .contacts__separator
+        .create-group__contacts__contacts
+            for contact in contacts
+                != contact
