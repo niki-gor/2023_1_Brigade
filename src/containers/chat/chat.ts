@@ -46,7 +46,7 @@ export class SmartChat extends Container {
                                         userStatus: 'ha ha chill',
                                         userOnline: false,
                                         friendAvatar: './assets/img/iii.png',
-                                        messageContent: 'Salam bro. How are you ?',
+                                        messageContent: 'Salam bro. How are you ? anasdkalksdlkandlkfnakldnfalkdsnalknfakdnfalkfnklasndalknfklandlkandlaknsdflkakndflaknflknaklf aldfk akld flakfnal alkdfnakldfnaldf alksf a dlkfnaflksanfalkfnsnalkfn aldfk akld flakfnal alkdfnakldfnaldf alksf a  laknflknaklf aldfk akld flakfnal alkdfnakldfnaldf alksf a dlkfnaflksanfalkfdlkfnaflksanfalkfnsnalkfn',
                                         messageSide: true, // true, если мы отправили сообщение
             }); // TODO: прокидываем объект из swagger-a
 
