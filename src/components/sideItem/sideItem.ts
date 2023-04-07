@@ -1,16 +1,16 @@
-import template from "@components/navItem/navItem.pug"
-import "@components/navItem/navItem.scss"
+import template from "@components/sideItem/sideItem.pug"
+import "@components/sideItem/sideItem.scss"
 import { Component } from "@/components/component";
 
 
-export class DumbNavItem extends Component {
+export class DumbSideItem extends Component {
     constructor(props: any) {
         super(props);
     }
 
     render() {
         return template({
-            NavButton: this.props.navSvgIcon,
+            SideButton: this.props.navSvgIcon,
             ItemValue: this.props.navItemValue,
         });
     }

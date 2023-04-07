@@ -2,7 +2,7 @@ html {
     box-sizing: border-box;
 }
 
-*, 
+*,
 *::before,
 *::after {
     box-sizing: inherit;
@@ -67,7 +67,7 @@ section {
     margin: 0px;
     padding: 0px;
     list-style: none;
-} 
+}
 
 .btn-reset {
     padding: 0px;
@@ -90,7 +90,7 @@ button {
     display: flex;
 }
 
-.container { 
+.container {
     margin: 0 auto;
 }
 
@@ -121,16 +121,25 @@ main {
     min-width: 100%;
     height: 100vh;
 
-    /* display: grid;
-    grid-template-columns: [sidebar-start] 104px [sidebar-end static-start] 380px [static-end dynamic-start] auto [dynamic-end]; */
+    display: grid;
+    grid-template-columns: [start sidebar-start] 104px [sidebar-end static-start] 380px [static-end dynamic-start] auto [dynamic-end end];
     
     background-color: #131318;
 }
 
-.font-size-1 {
-    width: 203px;
-    height: 29px;
+#sidebar {
+    grid-column-start: start;
+}
 
+#static {
+    grid-column: static-start / static-end;
+}
+
+#dynamic {
+    grid-column: dynamic-start / dynamic-end;
+}
+
+.font-size-1 {
     font-family: 'SF Pro Display';
     font-style: normal;
     font-weight: 700;
@@ -138,14 +147,10 @@ main {
     line-height: 29px;
     /* identical to box height */
 
-    text-align: center;
-
     color: #FFFFFF;
 }
 
 .font-size-2 {
-    width: 88px;
-    height: 19px;
     font-family: 'SF Pro Display';
     font-style: normal;
     font-weight: 400;
@@ -153,34 +158,53 @@ main {
     line-height: 19px;
     /* identical to box height */
 
-    text-align: center;
-
     color: #696969;
 }
 
 .font-size-3 {
-    width: 131px;
-    height: 14px;
-
     font-family: 'SF Pro Display';
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
     line-height: 14px;
-    text-align: center;
 
     color: #696969;
 }
 
+.font-size-4 {
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+    color: #FFFFFF;
+}
+
+.font-size-5 {
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #696969;
+}
+
+.font-size-6 {
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 29px;
+    /* identical to box height */
+
+    color: #FFFFFF;
+}
+
 @import "./assets/fonts/fonts.css";
-@import "./components/chatCard/chatCard.css";
 @import "./pages/chat/chat.css";
 @import "./pages/error/error.css";
 @import "./components/header/header.css";
 @import "./components/ui/input/input.css";
-@import "./components/navbar/navbar.css";
 @import "./components/ui/header/header.css";
-@import "./components/chatList/chatList.css";
-@import "./components/chatCard/chatCard.css";
 @import "./components/list/list.css";
 @import "./components/chatType/chatType.css";

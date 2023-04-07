@@ -9,8 +9,8 @@ export class DumbChangeTheme extends Component {
 
     render() {
         return template({
-            WhiteBtn: svgButtonUI.renderTemplate({svgClassName: this.props.changeTheme.white}),
-            BlackBtn: svgButtonUI.renderTemplate({svgClassName: this.props.changeTheme.black}),
+            WhiteBtn: svgButtonUI.renderTemplate({svgClassName: this.props.white}),
+            BlackBtn: svgButtonUI.renderTemplate({svgClassName: this.props.black}),
         });
     }
 }

@@ -1,8 +1,9 @@
 import { get, post, deleteSession, put } from '@services/ajax';
 import { config } from '@config/api';
+import * as timers from "timers";
 
 /**
- * implementation request authorization
+ * Отправляет запрос авторизации и обрабатывает ответ
  */
 export const auth = () => {
     return get(
@@ -37,7 +38,7 @@ export const auth = () => {
 };
 
 /**
- * implementation request login
+ * Отправляет запрос логина и обрабатывает ответ
  */
 export const login = (body: anyObject) => {
     return post(
@@ -74,7 +75,7 @@ export const login = (body: anyObject) => {
 };
 
 /**
- * implementation request registration
+ * Отправляет запрос регистрации и обрабатывает ответ
  */
 export const signUp = (body: anyObject) => {
     return post(
@@ -111,7 +112,7 @@ export const signUp = (body: anyObject) => {
 };
 
 /**
- * implementation request logout
+ * Отправляет запрос выхода из текущего аккаунта и обрабатывает ответ
  */
 export const logout = () => {
     return deleteSession(
@@ -143,7 +144,7 @@ export const logout = () => {
 };
 
 /**
- * implementation request update user profile
+ * Отправляет запрос обновления пользовательских данных и обрабатывает ответ
  */
 export const updateUser = (body: anyObject) => {
     return put(
@@ -179,4 +180,178 @@ export const updateUser = (body: anyObject) => {
             body: error,
         }
     });
+};
+
+/**
+ * implementation request contacts
+ */
+export const getContacts = () => {
+    return get(
+        config.contacts,
+    )
+        .then(({ status, parsedBody }) => {
+            switch (status) {
+                case 200:
+                    return {
+                        status,
+                        body: parsedBody,
+                    };
+                case 401:
+                case 404:
+                case 500:
+                    return {
+                        status,
+                        body: null,
+                    };
+                default:
+                    return {
+                        status,
+                        body: null,
+                    };
+            }
+        })
+        .catch((error) => {
+            return {
+                status: 0,
+                body: error,
+            }
+        });
+};
+
+export const createChat = (body: anyObject) => {
+    return post(
+        config.chats,
+        body,
+    )
+    .then(({ status, parsedBody }) => {
+        switch (status) {
+        case 201:
+            return {
+                status,
+                body: parsedBody,
+            };
+        case 401:
+        case 404:
+        case 500:
+            return {
+                status,
+                body: null,
+            };
+        default:
+            return {
+                status,
+                body: null,
+            };
+        }
+    })
+    .catch((error) => {
+        return {
+            status: 0,
+            body: error,
+        }
+    });
+};
+
+export const getChats = () => {
+    return get(
+        config.chats,
+    )
+        .then(({ status, parsedBody }) => {
+            switch (status) {
+                case 200:
+                    return {
+                        status,
+                        body: parsedBody,
+                    };
+                case 401:
+                case 404:
+                case 500:
+                    return {
+                        status,
+                        body: null,
+                    };
+                default:
+                    return {
+                        status,
+                        body: null,
+                    };
+            }
+        })
+        .catch((error) => {
+            return {
+                status: 0,
+                body: error,
+            }
+        });
+};
+
+export const getOneChat = (chat: anyObject) => {
+    return get(
+        config.chats + `${chat.id}/`,
+    )
+        .then(({ status, parsedBody }) => {
+            switch (status) {
+                case 200:
+                    return {
+                        status,
+                        body: parsedBody,
+                    };
+                case 401:
+                case 403:
+                case 404:
+                case 500:
+                    return {
+                        status,
+                        body: null,
+                    };
+                default:
+                    return {
+                        status,
+                        body: null,
+                    };
+            }
+        })
+        .catch((error) => {
+            return {
+                status: 0,
+                body: error,
+            }
+        });
+};
+
+/**
+ * implementation request create group
+ */
+export const createGroup = (body: anyObject) => {
+    return post(
+        config.createGroup,
+        body,
+    )
+        .then(({ status, parsedBody }) => {
+            switch (status) {
+                case 201:
+                    return {
+                        status,
+                        body: parsedBody,
+                    };
+                case 401:
+                case 404:
+                case 500:
+                    return {
+                        status,
+                        body: null,
+                    };
+                default:
+                    return {
+                        status,
+                        body: null,
+                    };
+            }
+        })
+        .catch((error) => {
+            return {
+                status: 0,
+                body: error,
+            }
+        });
 };

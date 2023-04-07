@@ -9,7 +9,9 @@ export const createStore = (reducers: Map<string, Reducer>) : Store => {
             if (reducer) {
                 state = reducer(state, action);
             }
-            subscribers.forEach((cb) => cb(state));
+            subscribers.forEach((cb) => {
+                cb(state)
+            });
         },
         subscribe: (key: string, cb: (state: componentProps) => void) => {
             subscribers.set(key, cb);
