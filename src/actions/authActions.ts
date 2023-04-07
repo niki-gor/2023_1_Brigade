@@ -3,6 +3,7 @@ import { createSetUserAction, createInvalidEmailAction, createOccupiedEmailActio
 import { router } from "@/router/router";
 import { Contacts } from "@/containers/contacts/createContacts";
 import { Chats } from "@/containers/chatList/createChatList";
+import { Sidebar } from "@/containers/sidebar/createSidebur";
 
 export const createAuthAction = () : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: anyObject) => {
@@ -13,6 +14,7 @@ export const createAuthAction = () : AsyncAction => {
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
             
+            Sidebar.componentDidMount();
             // Contacts.componentDidMount();
             Chats.componentDidMount();
 
@@ -41,6 +43,7 @@ export const createLoginAction = (user: anyObject) : AsyncAction => {
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
 
+            Sidebar.componentDidMount();
             // Contacts.componentDidMount();
             Chats.componentDidMount();
 
@@ -71,6 +74,7 @@ export const createSignUpAction = (user: anyObject) : AsyncAction => {
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
 
+            Sidebar.componentDidMount();
             // Contacts.componentDidMount();
             Chats.componentDidMount();
 
@@ -98,6 +102,7 @@ export const createLogoutAction = () : AsyncAction => {
 
         switch (status) {
         case 204:
+            Sidebar.componentWillUnmount();
             Contacts.componentWillUnmount();
             Chats.componentWillUnmount();
 

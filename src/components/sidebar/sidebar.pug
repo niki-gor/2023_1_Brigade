@@ -1,0 +1,9 @@
+header.sidebar-header.flex
+    .header__img.flex
+        img(src="./assets/img/logo.png", alt="Our logo").header__logo
+        != UserImage
+    nav.nav.header__nav.flex
+        .nav__list.flex
+            each item in NavList
+                != item
+    !=ChangeTheme

@@ -35,7 +35,6 @@ export interface SmartSignUp {
 * Прокидывает actions в стору для логина
 * Также подписывается на изменения статуса логина,
 * для корректного рендера ошибки
-*
 */
 export class SmartSignUp extends Container {
     /**
