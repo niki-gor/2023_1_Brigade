@@ -40,13 +40,14 @@ export class SmartChat extends Container {
      * @returns {Object} - объект открытого чата
      */
     #getOpenChat() : Object | null {
+        this.props.openChatNow = this.props.chatId;
         const openedChats = this.props.openedChats;
 
-        for (let i = 0; i < openedChats.length; ++i) {
-            if (openedChats[i].id === this.props.openChatNow) {
-                return openedChats[i];
-            }
-        }
+        // for (let i = 0; i < openedChats.length; ++i) {
+        //     if (openedChats[i].id === this.props.openChatNow) {
+        //         return openedChats[i];
+        //     }
+        // }
 
         return null;
     }
