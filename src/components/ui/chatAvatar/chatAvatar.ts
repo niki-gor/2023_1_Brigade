@@ -1,6 +1,7 @@
 import template from "@components/ui/chatAvatar/chatAvatar.pug"
 import "@components/ui/avatar/avatar.scss";
 import { UITool } from "@components/ui/uiTool";
+import "@components/ui/chatAvatar/chatAvatar.scss"
 
 
 export class chatAvatarUi extends UITool {

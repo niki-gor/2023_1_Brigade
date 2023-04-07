@@ -1,0 +1,15 @@
+.messages__message {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    min-width: 90px;
+    background-color: transparent;
+}
+
+.message-left {
+    align-self: flex-start;
+}
+
+.message-right {
+    align-self: flex-end;
+}

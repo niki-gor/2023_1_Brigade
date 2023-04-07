@@ -1,0 +1,13 @@
+case Side
+    when false
+        .messages__message.message-right.flex
+    when true
+        .messages__message.message-left.flex
+            .message__avatar.flex
+                !=MessageAvatar
+            .message__right-side.flex
+                .message__right-side__username
+                    !=Username
+                .message__right-side__text-content
+                    !=MessageText
+

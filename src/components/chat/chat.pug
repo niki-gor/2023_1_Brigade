@@ -4,9 +4,16 @@ main.main.flex
             .view-chat__header__companion.flex
                 !=HeaderUserAvatar
             ul.view-chat__header__icons.flex
-                    !=MoreInfoBtn
-        .view-chat__input-message.flex
-            !=InputAvatar 
-            span.input-message__text-field
-                input.input-message__text-field__in(type="text" placeholder="Type Something...")
-                !=SendMessageBtn
+                !=MoreInfoBtn
+        .view-chat__messages.flex
+            // TODO: MessageList
+            !=MessageList
+            p(class="messages__message message-right") Это строка текста с атрибутом class
+            p(class="messages__message message-left") Это строка текста с атрибутом class
+            p(class="messages__message message-right") Это строка текста с атрибутом class
+            p(class="messages__message message-left") Это строка текста с атрибутом class
+            p(class="messages__message message-right") Это строка текста с атрибутом class
+            p(class="messages__message message-left") Это строка текста с атрибутом class
+            p(class="messages__message message-right") Это строка текста с атрибутом class
+            p(class="messages__message message-left") Это строка текста с атрибутом class
+        !=Input
