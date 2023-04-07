@@ -1,14 +1,19 @@
 import { Container } from "@containers/container";
 import { store } from "@/store/store";
-import { DumbNavbar } from "@/components/navbar/navbar";
-import { createRenderAction } from "@/actions/routeActions";
+import { DumbSidebar } from "@/components/sidebar/sidebar";
+import { createMoveToChatsAction, createMoveToContactsAction, createMoveToProfileAction, createRenderAction } from "@/actions/routeActions";
+import { createLogoutAction } from "@/actions/authActions";
 
 
 export interface SmartSidebar {
     state: {
         isSubscribed: boolean,
         domElements: {
-            createChatButton: HTMLElement | null;
+            messageButton: HTMLElement | null,
+            contactButton: HTMLElement | null,
+            logoutButton: HTMLElement | null,
+            avatarButton: HTMLElement | null,
+            //TODO: themeButton
         } 
     }
 }
@@ -28,8 +33,10 @@ export class SmartSidebar extends Container {
         this.state = {
             isSubscribed: false,
             domElements: {
-                // прописать htmlElement-ы, на которые будут навещаны обработчики
-                createChatButton: null,
+                messageButton: null,
+                contactButton: null,
+                logoutButton: null,
+                avatarButton: null,
             }
         }
     }
@@ -38,17 +45,40 @@ export class SmartSidebar extends Container {
      * Рендерит чат
      */
     render() {
-        const svgButtons: Map<string, Object> = new Map();
-        svgButtons.set('messgeButton', {className: 'nav-item__message-btn', value: 48});
-        svgButtons.set('contactButton', {className: 'nav-item__contact-btn'});
-        svgButtons.set('logoutButton', {className: 'logout-btn'});
-
-        const changeTheme = {white: 'change-theme__white', black: 'change-theme__black'};
-
         if (this.state.isSubscribed) {
-            const navbar = new DumbNavbar({svgButtons: svgButtons, changeTheme: changeTheme}); // TODO: перенести сюда логику создания UI элементов
+            const navbar = new DumbSidebar({ 
+                ...this.props.user,
+            });
 
             this.rootNode.innerHTML = navbar.render();
+
+            this.state.domElements.avatarButton = document.querySelector('.header__user-photo');
+            this.state.domElements.avatarButton?.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                store.dispatch(createMoveToProfileAction());
+            });
+
+            this.state.domElements.contactButton = document.querySelector('.nav-item__contact-btn');
+            this.state.domElements.contactButton?.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                store.dispatch(createMoveToContactsAction());
+            });
+            
+            this.state.domElements.messageButton = document.querySelector('.nav-item__message-btn');
+            this.state.domElements.messageButton?.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                store.dispatch(createMoveToChatsAction());
+            });
+
+            this.state.domElements.logoutButton = document.querySelector('.logout-btn');
+            this.state.domElements.logoutButton?.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                store.dispatch(createLogoutAction());
+            });
         }
     }
 

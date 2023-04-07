@@ -12,5 +12,8 @@ $online-circle-color: #5FD641;
 }
 
 .header__user-photo {
+    border-radius: 50%;
+    min-height: 60px;
+    min-width: 60px;
     margin-bottom: 33px;
 }

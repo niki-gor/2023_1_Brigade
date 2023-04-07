@@ -2,14 +2,14 @@ import { Container } from "@containers/container";
 import { store } from "@store/store";
 import { createGetChatsAction, createGetOneChatAction } from "@/actions/chatActions";
 import { DumbChatList } from "@/components/chatList/chatList";
+import { createMoveToCreateGroupAction } from "@/actions/routeActions";
 
 export interface SmartChatList {
     state: {
         isSubscribed: boolean,
         domElements: {
-            headContacts: HTMLElement | null,
-            contacts: HTMLElement | null,
-            addContactButton: HTMLElement | null,
+            chats: HTMLElement | null,
+            createGroup: HTMLElement | null,
         },
     }
 }
@@ -20,9 +20,8 @@ export class SmartChatList extends Container {
         this.state = {
             isSubscribed: false,
             domElements: {
-                headContacts:  null,
-                contacts: null,
-                addContactButton:  null,
+                chats:  null,
+                createGroup: null,
             }
         }
     }
@@ -37,12 +36,19 @@ export class SmartChatList extends Container {
 
             this.rootNode.innerHTML = ChatListUI.render();
 
-            this.state.domElements.contacts = document.querySelector('.chats');
-            this.state.domElements.contacts?.addEventListener('click', (e) => {
+            this.state.domElements.chats = document.querySelector('.chats');
+            this.state.domElements.chats?.addEventListener('click', (e) => {
                 e.preventDefault();
                 const chat = e.target as HTMLElement;
                 
                 this.handleClickOpenChat(chat);
+            });
+
+            this.state.domElements.createGroup = document.querySelector('.chat-list__header__write-message-button');
+            this.state.domElements.createGroup?.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                store.dispatch(createMoveToCreateGroupAction());
             });
         }
     }
@@ -72,7 +78,6 @@ export class SmartChatList extends Container {
         if (chat.classList.contains('chat-card')) {
             const chatID = chat.getAttribute('name');
 
-            //TODO:
             for (const key in this.props.chats) {
                 if (this.props.chats[key].id == chatID) {
                     store.dispatch(createGetOneChatAction(this.props.chats[key]));
