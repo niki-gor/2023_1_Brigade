@@ -3,7 +3,7 @@ import { store } from "@/store/store";
 import { DumbChat } from "@/components/chat/chat";
 import { createRenderAction } from "@/actions/routeActions";
 import { Message } from "@/components/message/message";
-import { createNewMessageAction } from "@/actions/chatActions";
+import { createSendMessageAction } from "@/actions/chatActions";
 
 
 export interface SmartChat {
@@ -77,14 +77,11 @@ export class SmartChat extends Container {
         const input = document.querySelector('.input-message__text-field__in') as HTMLInputElement;
         if (input.value) {
             const message = {
-                // id: 0, // какой номер у нового id должен быть ?
                 body: input.value,
-                // chatId: 0, // какой номер у нового id должен быть ?
-                // author_id: 0, // какой номер у нового id должен быть ?
+                chatId: this.props.chatId,
+                author_id: this.props.user.id,
             }
-
-            console.log('input value: ', input.value);
-            store.dispatch(createNewMessageAction(message));
+            store.dispatch(createSendMessageAction(message));
         }
         input.value = '';
     }
