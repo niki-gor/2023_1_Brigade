@@ -23,10 +23,10 @@ export class DumbChat extends Component {
                 messageSide: this.props.messageSide, // TODO: если id == user.id true - отображаем слева
                 messageAvatar: avatarUi.renderTemplate({
                     ClassName: 'message__avatar',
-                    PathToUserImage: this.props.avatar, // хз
+                    PathToUserImage: this.props.avatar, // todo: getUserAvatar
                     Online: false, // потом
                 }),
-                username: this.props.username, // хз
+                username: this.props.username, // // todo: getUsername
                 messageContent: message.body, // ок
             }).render());
         }
@@ -41,8 +41,8 @@ export class DumbChat extends Component {
             SendMessageBtn: svgButtonUI.renderTemplate({svgClassName: 'view-chat__send-message-button'}),
             HeaderUserAvatar: chatAvatarUi.renderTemplate({
                 ClassName: 'header__companion__ava',
-                PathToUserImage: this.props.avatar, // хз
-                UserName: this.props.username, // хз
+                PathToUserImage: this.props.avatar, // todo: getFriendAvatar
+                UserName: this.props.username, // todo: getUsername
                 UserStatus: this.props.userStatus, // нет
                 Online: this.props.userOnline, // нет
             }),
@@ -51,10 +51,10 @@ export class DumbChat extends Component {
                 inputClassName: 'view-chat__input-message',
                 userImage: chatAvatarUi.renderTemplate({
                     ClassName: 'input-message__user-avatar',
-                    PathToUserImage: this.props.avatar, // хз
+                    PathToUserImage: this.props.avatar, // todo: getUserAvatar
                     UserName: '', // не надо
                     UserStatus: '', // не надо
-                    Online: false
+                    Online: false,
                 }),
                 sendBtn: svgButtonUI.renderTemplate({svgClassName: 'view-chat__send-message-button'}),
                 placeholder: 'Type something...',

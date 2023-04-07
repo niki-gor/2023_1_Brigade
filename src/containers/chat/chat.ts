@@ -73,19 +73,16 @@ export class SmartChat extends Container {
     }
 
     handleClickSendButton(sendBtn: HTMLElement) {
-        // TODO: из input-a забираем текст
-        //  Создаем сообщение
         const input = document.querySelector('.input-message__text-field__in') as HTMLInputElement;
         if (input.value) {
-            const message = new Message({
-                messageContent: input.value,
-                messageAvatar: './assets/img/geva.png', // TODO: this.state.avatar
-                messageSide: true, // true - левая сторона
-                username: 'Gevork Gabrielyan', // TODO: this.state.username
-            })
+            const message = {
+                // id: 0, // какой номер у нового id должен быть ?
+                body: input.value,
+                // chatId: 0, // какой номер у нового id должен быть ?
+                // author_id: 0, // какой номер у нового id должен быть ?
+            }
 
             console.log('input value: ', input.value);
-
             store.dispatch(createNewMessageAction(message));
         }
         input.value = '';
