@@ -26,6 +26,8 @@
     padding: 30px;
     min-width: 100%;
     flex-grow: 3;
+    max-height: 100%;
+    overflow: auto;
 }
 
 p {
