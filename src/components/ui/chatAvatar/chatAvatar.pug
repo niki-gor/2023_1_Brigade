@@ -1,8 +1,8 @@
 img(src=PathToUserImage, alt="User avatar")(class=ClassName)
-div.header__companion__info.flex
-    h4.companion__info__title
+div.header__avatar.flex
+    h4.header__avatar__username
         !=UserName
-    span.companion__info__time
+    span.header__avatar__status
         !=UserInfo
 if Online
     <svg class="user-photo__online-status" width="13" height="13" viewBox="0 0 13 13" xmlns="http://www.w3.org/2000/svg">

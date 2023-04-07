@@ -5,14 +5,14 @@ import "@components/message/message.scss"
 export class Message extends Component {
     constructor(props: any) {
         super(props);
+        console.log('Message props: ', this.props);
     }
 
     render() {
-        console.log('props: ', this.props);
         return template({
             Side: this.props.messageSide, // boolean
             MessageAvatar: this.props.messageAvatar,
-            MessageText: this.props.messageBody,
+            MessageText: this.props.messageContent, // messageBody
             Username: this.props.username,
         })
     }

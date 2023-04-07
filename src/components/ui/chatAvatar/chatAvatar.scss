@@ -1,4 +1,10 @@
-.companion__info__title {
+.header__avatar {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.header__avatar__username {
     font-family: 'SF Pro Display';
     font-style: normal;
     font-weight: 600;
@@ -9,7 +15,7 @@
 }
 
 
-.companion__info__time {
+.header__avatar__status {
     font-family: 'SF Pro Display';
     font-style: normal;
     font-weight: 400;
