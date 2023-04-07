@@ -1,5 +1,6 @@
 import { Component } from "@components/component";
 import template from "@components/message/message.pug"
+import "@components/message/message.scss"
 
 export class Message extends Component {
     constructor(props: any) {
