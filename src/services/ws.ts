@@ -1,4 +1,4 @@
-const createWS = () => {
+const createWs = () => {
     let ws: any = undefined;
 
     const create = () => {
@@ -14,4 +14,4 @@ const createWS = () => {
     }
 }
 
-export const getWS = createWS();
+export const getWs = createWs();

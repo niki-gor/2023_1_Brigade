@@ -4,7 +4,8 @@ import { router } from "@/router/router";
 import { Contacts } from "@/containers/contacts/createContacts";
 import { Chats } from "@/containers/chatList/createChatList";
 import { Sidebar } from "@/containers/sidebar/createSidebar";
-import { getWS } from "@/services/ws";
+import { getWs } from "@/services/ws";
+import { addWsListeners } from "@/utils/ws";
 
 export const createAuthAction = () : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: anyObject) => {
@@ -15,7 +16,8 @@ export const createAuthAction = () : AsyncAction => {
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
 
-            const ws = getWS();
+            const ws = getWs();
+            addWsListeners(ws);
             
             Sidebar.componentDidMount();
             Chats.componentDidMount();
@@ -45,7 +47,8 @@ export const createLoginAction = (user: anyObject) : AsyncAction => {
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
 
-            const ws = getWS();
+            const ws = getWs();
+            addWsListeners(ws);
 
             Sidebar.componentDidMount();
             Chats.componentDidMount();
@@ -77,8 +80,9 @@ export const createSignUpAction = (user: anyObject) : AsyncAction => {
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
 
-            const ws = getWS();
-
+            const ws = getWs();
+            addWsListeners(ws);
+            
             Sidebar.componentDidMount();
             Chats.componentDidMount();
 
@@ -110,7 +114,7 @@ export const createLogoutAction = () : AsyncAction => {
             Contacts.componentWillUnmount();
             Chats.componentWillUnmount();
 
-            const ws = getWS();
+            const ws = getWs();
             ws.close();
 
             router.route('/login');

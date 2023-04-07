@@ -1,5 +1,6 @@
 import { constantsOfActions } from "@/config/actions";
 import { ChatTypes } from "@/config/enum";
+import { getWs } from "@/services/ws";
 import { store } from "@/store/store";
 import { createChat, getChats, getOneChat } from "@/utils/api";
 
@@ -111,4 +112,20 @@ export const createCreateDialogAction = (contact: anyObject) => {
                 // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
         }
     };
+}
+
+export const createSendMessageAction = (message: anyObject) => {
+    return async (dispatch: (action: Action) => void, state: Function) => {
+        const ws = getWs();
+        ws.send(JSON.stringify(message));
+
+        dispatch(createSentMessageAction());
+    }
+}
+
+export const createSentMessageAction = () => {
+    return {
+        type: constantsOfActions.sentMessage,
+        payload: null,
+    }
 }
