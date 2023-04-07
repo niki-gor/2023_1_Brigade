@@ -16,8 +16,12 @@ export interface Route {
     component: ComponentTemplate | undefined,
 }
 
+// export interface urlInfo {
+//     dynamicParams: Object;
+// }
+
 export interface urlInfo {
-    dynamicParams: Object;
+    dynamicParams: string | null;
 }
 
 export interface historyIterator {
@@ -31,3 +35,7 @@ appRoutes.set('/signup', { path: '/signup', component: new SmartSignUp({ ...stor
 appRoutes.set('/profile', { path: '/profile', component: new SmartProfile({ ...store.getState(), rootNode: DYNAMIC })})
 appRoutes.set('/create_group', { path: '/create_group', component: new SmartCreateGroup({ ...store.getState(), rootNode: DYNAMIC })})
 appRoutes.set('/', { path: '/', component: new SmartChat({ ...store.getState(), rootNode: DYNAMIC })})
+
+export const getSmartChat = (id: string) => {
+    return new SmartChat({ ...store.getState(), rootNode: DYNAMIC, chatId: id });
+}
