@@ -112,3 +112,10 @@ export const createCreateDialogAction = (contact: anyObject) => {
         }
     };
 }
+
+export const createNewMessageAction = (message: anyObject) => {
+    return {
+        type: constantsOfActions.sendMessage,
+        payload: message,
+    }
+}

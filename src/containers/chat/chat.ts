@@ -3,6 +3,7 @@ import { store } from "@/store/store";
 import { DumbChat } from "@/components/chat/chat";
 import { createRenderAction } from "@/actions/routeActions";
 import { Message } from "@/components/message/message";
+import { createNewMessageAction } from "@/actions/chatActions";
 
 
 export interface SmartChat {
@@ -35,24 +36,31 @@ export class SmartChat extends Container {
     }
 
     /**
+     * получаем объект открытого чата
+     * @returns {Object} - объект открытого чата
+     */
+    #getOpenChat() : Object | null {
+        const openedChats = this.props.openedChats;
+
+        for (let i = 0; i < openedChats.length; ++i) {
+            if (openedChats[i].id === this.props.openChatNow) {
+                return openedChats[i];
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Рендерит чат
      */
     render() {
         if (this.state.isSubsribed) {
-            // TODO: this.state.openChat.avatar и тд
-            const chat = new DumbChat({ avatar: './assets/img/geva.png', // this.props.avatar
-                                        username: 'Gevork Gabrielyan', // this.props.username
-                                        title: this.props.title,
-                                        messages: this.props.messages,
-                                        members: this.props.members,
-                                        userStatus: 'ha ha chill',
-                                        userOnline: false,
-                                        friendAvatar: './assets/img/iii.png',
-                                        messageContent: 'Salam bro. How are you ? anasdkalksdlkandlkfnakldnfalkdsnalknfakdnfalkfnklasndalknfklandlkandlaknsdflkakndflaknflknaklf aldfk akld flakfnal alkdfnakldfnaldf alksf a dlkfnaflksanfalkfnsnalkfn aldfk akld flakfnal alkdfnakldfnaldf alksf a  laknflknaklf aldfk akld flakfnal alkdfnakldfnaldf alksf a dlkfnaflksanfalkfdlkfnaflksanfalkfnsnalkfn',
-                                        messageSide: true, // true, если мы отправили сообщение
-            }); // TODO: прокидываем объект из swagger-a
-
-            this.rootNode.innerHTML = chat.render();
+            const openChat = this.#getOpenChat();
+            if (openChat) {
+                const chat = new DumbChat({chatData: openChat});
+                this.rootNode.innerHTML = chat.render();
+            }
 
             this.state.domElements.submitBtn = document.querySelector('.view-chat__send-message-button');
             this.state.domElements.submitBtn?.addEventListener('click', (e) => {
@@ -61,13 +69,12 @@ export class SmartChat extends Container {
 
                 this.handleClickSendButton(sendBtn);
             })
-
         }
     }
 
     handleClickSendButton(sendBtn: HTMLElement) {
         // TODO: из input-a забираем текст
-        //  Создаем сообщение,
+        //  Создаем сообщение
         const input = document.querySelector('.input-message__text-field__in') as HTMLInputElement;
         if (input.value) {
             const message = new Message({
@@ -77,9 +84,11 @@ export class SmartChat extends Container {
                 username: 'Gevork Gabrielyan', // TODO: this.state.username
             })
 
-            // TODO: this.state.messages.push(message); - websocket ???
-            // TODO: store.dispatch(createMessageDialogAction(this.props.messages.push(input))); - хер знает как там в store будет изменяться
+            console.log('input value: ', input.value);
+
+            store.dispatch(createNewMessageAction(message));
         }
+        input.value = '';
     }
 
     componentDidMount() {
