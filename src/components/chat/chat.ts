@@ -37,7 +37,7 @@ export class DumbChat extends Component {
                 messageAvatar: avatarUi.renderTemplate({
                     ClassName: 'message__avatar',
                     PathToUserImage: messageData.messageAvatar, 
-                    Online: false, // потом
+                    Online: false,
                 }),
                 username: messageData.messageUsername,
                 messageContent: message.body,
