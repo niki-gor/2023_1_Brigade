@@ -21,8 +21,7 @@
 }
 
 .view-chat__messages {
-    flex-direction: column;
-    justify-content: flex-end;
+    flex-direction: column-reverse;
     padding: 30px;
     min-width: 100%;
     flex-grow: 3;
