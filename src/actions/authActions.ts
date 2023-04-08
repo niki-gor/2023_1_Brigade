@@ -3,7 +3,8 @@ import { createSetUserAction, createInvalidEmailAction, createOccupiedEmailActio
 import { router } from "@/router/router";
 import { Contacts } from "@/containers/contacts/createContacts";
 import { Chats } from "@/containers/chatList/createChatList";
-import { Sidebar } from "@/containers/sidebar/createSidebur";
+import { Sidebar } from "@/containers/sidebar/createSidebar";
+import { getWS } from "@/services/ws";
 
 export const createAuthAction = () : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: anyObject) => {
@@ -13,9 +14,10 @@ export const createAuthAction = () : AsyncAction => {
         case 200:
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
+
+            const ws = getWS();
             
             Sidebar.componentDidMount();
-            // Contacts.componentDidMount();
             Chats.componentDidMount();
 
             router.route(window.location.pathname);
@@ -43,8 +45,9 @@ export const createLoginAction = (user: anyObject) : AsyncAction => {
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
 
+            const ws = getWS();
+
             Sidebar.componentDidMount();
-            // Contacts.componentDidMount();
             Chats.componentDidMount();
 
             router.route('/');
@@ -74,8 +77,9 @@ export const createSignUpAction = (user: anyObject) : AsyncAction => {
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
 
+            const ws = getWS();
+
             Sidebar.componentDidMount();
-            // Contacts.componentDidMount();
             Chats.componentDidMount();
 
             router.route('/');
@@ -105,6 +109,9 @@ export const createLogoutAction = () : AsyncAction => {
             Sidebar.componentWillUnmount();
             Contacts.componentWillUnmount();
             Chats.componentWillUnmount();
+
+            const ws = getWS();
+            ws.close();
 
             router.route('/login');
 

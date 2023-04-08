@@ -120,12 +120,12 @@ class Router {
      * @param {string} href - ccылка без домена и id
      */
     #match(href: string) : urlInfo | null {
-        const pathSegments = href.split("/");
+        const pathSegments = href.split("/").filter((segment: string) => !segment);
         if (this.routes?.has(href)) {
             this.#setCurrentRoute(href);
         }
         
-        const routeSegments = this.currentRoute?.path.split("/");
+        const routeSegments = this.currentRoute?.path.split("/").filter((segment: string) => !segment);
         if (pathSegments.length !== routeSegments?.length) {
             return null;
         }
