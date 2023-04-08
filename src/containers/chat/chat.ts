@@ -43,15 +43,15 @@ export class SmartChat extends Container {
      */
     componentDidMount() {
         if (!this.state.isSubscribed) {
-            // this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: componentProps) => {
-            //     this.props = pr;
+            this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: componentProps) => {
+                this.props = pr;
 
-            //     this.render();
-            // }));
-            console.log(this.props.chatId);
+                this.render();
+            }));
+
             this.state.isSubscribed = true;
             
-            // store.dispatch(createRenderAction());
+            store.dispatch(createRenderAction());
         }
     }
 

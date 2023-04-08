@@ -1,8 +1,8 @@
 const createWs = () => {
-    let ws: any = undefined;
+    let ws : WebSocket;
 
     const create = () => {
-        ws = new WebSocket('wss://technogramm.ru/message/');
+        ws = new WebSocket('ws://technogramm.ru/api/v1/message/');
     }
 
     return () : WebSocket => {

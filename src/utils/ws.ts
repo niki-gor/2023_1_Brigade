@@ -1,21 +1,21 @@
 export const addWsListeners = (ws: WebSocket) => {
     // Обработчик события открытия соединения
-    ws.addEventListener('open', (event) => {
+    ws.onopen = (event) => {
         console.log('WebSocket connection opened');
-    });
+    };
 
     // Обработчик события получения сообщения от сервера
-    ws.addEventListener('message', (event) => {
+    ws.onmessage = (event) => {
         console.log('Message received from server:', event.data);
-    });
+    };
 
     // Обработчик события закрытия соединения
-    ws.addEventListener('close', (event) => {
+    ws.onclose = (event) => {
         console.log('WebSocket connection closed');
-    });
+    };
 
     // Обработчик события ошибки соединения
-    ws.addEventListener('error', (event) => {
+    ws.onerror = (event) => {
         console.error('WebSocket connection error:', event);
-    });
+    };
 }
