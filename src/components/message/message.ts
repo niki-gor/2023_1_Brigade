@@ -10,9 +10,9 @@ export class Message extends Component {
 
     render() {
         return template({
-            Side: this.props.messageSide, // boolean
+            Side: this.props.messageSide,
             MessageAvatar: this.props.messageAvatar,
-            MessageText: this.props.messageContent, // messageBody
+            MessageText: this.props.messageContent,
             Username: this.props.username,
         })
     }

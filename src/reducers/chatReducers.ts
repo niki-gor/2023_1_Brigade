@@ -65,26 +65,3 @@ export const reduceOpenChat = (state: anyObject, action: Action) => {
             }
     }
 }
-
-export const reduceCreateMessage = (state: anyObject, action: Action) => {
-    switch (action.type) {
-        case constantsOfActions.sendMessage:
-            return {
-                ...state,
-                // openedChats: {
-                //     ...state.openedChats,
-                //     [state.openChatNow]: {
-                //         ...state.openedChats[state.openChatNow],
-                //         messages: {
-                //             ...state.openedChats[state.openChatNow].messages,
-                //             [state.openedChats[state.openChatNow].messages.length]: action.payload,
-                //         }
-                //     }
-                // },
-            }
-        default:
-            return {
-                ...state,
-            }
-    }
-}

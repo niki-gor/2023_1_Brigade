@@ -12,25 +12,37 @@ export class DumbChat extends Component {
         super(props);
     }
 
-    getUsername() {
+    #getMessageData(message: {id: number}) : {messageAvatar: string, messageUsername: string} {
+        let messageAvatar;
+        let messageUsername;
+        for (let member of this.props.chatData.members) { // TODO: можно лучше
+            if (member.id === message.id) {
+                messageAvatar = member.avatar;
+                messageUsername = member.username;
+            }
+        }
 
+        return {
+            messageAvatar: messageAvatar,
+            messageUsername: messageUsername,
+        }
     }
 
     getMessageList() {
         const messages: Message[] = [];
         for (let message of this.props.chatData.messages) {
+            let messageData: {messageAvatar: string, messageUsername: string} = this.#getMessageData(message);
             messages.push(new Message({
-                messageSide: this.props.messageSide, // TODO: если id == user.id true - отображаем слева
+                messageSide: message.author.id === this.props.userId,
                 messageAvatar: avatarUi.renderTemplate({
                     ClassName: 'message__avatar',
-                    PathToUserImage: this.props.avatar, // todo: getUserAvatar
+                    PathToUserImage: messageData.messageAvatar, 
                     Online: false, // потом
                 }),
-                username: this.props.username, // // todo: getUsername
-                messageContent: message.body, // ок
+                username: messageData.messageUsername,
+                messageContent: message.body,
             }).render());
         }
-        
 
         return messages;
     }
@@ -41,20 +53,20 @@ export class DumbChat extends Component {
             SendMessageBtn: svgButtonUI.renderTemplate({svgClassName: 'view-chat__send-message-button'}),
             HeaderUserAvatar: chatAvatarUi.renderTemplate({
                 ClassName: 'header__companion__ava',
-                PathToUserImage: this.props.avatar, // todo: getFriendAvatar
-                UserName: this.props.username, // todo: getUsername
-                UserStatus: this.props.userStatus, // нет
-                Online: this.props.userOnline, // нет
+                PathToUserImage: this.props.chatAvatar,
+                UserName: this.props.username,
+                UserStatus: '', // нет this.props?.userStatus
+                Online: false, // нет this.props?.userOnline,
             }),
             MessageList: this.getMessageList(),
             Input: new inputUi({
                 inputClassName: 'view-chat__input-message',
                 userImage: chatAvatarUi.renderTemplate({
                     ClassName: 'input-message__user-avatar',
-                    PathToUserImage: this.props.avatar, // todo: getUserAvatar
+                    PathToUserImage: this.props.userAvatar,
                     UserName: '', // не надо
                     UserStatus: '', // не надо
-                    Online: false,
+                    Online: false, // не надо
                 }),
                 sendBtn: svgButtonUI.renderTemplate({svgClassName: 'view-chat__send-message-button'}),
                 placeholder: 'Type something...',
