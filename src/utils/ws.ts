@@ -34,6 +34,7 @@ const createWs = () => {
         // Обработчик события ошибки соединения
         ws.onerror = (event) => {
             console.error('WebSocket connection error:', event);
+            ws = undefined;
         };
     }
 
