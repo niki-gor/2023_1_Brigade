@@ -3,6 +3,7 @@ import { store } from "@/store/store";
 import { DumbChat } from "@/components/chat/chat";
 import { createRenderAction } from "@/actions/routeActions";
 import { Message } from "@/components/message/message";
+import { router } from "@/router/router";
 
 
 export interface SmartChat {
@@ -10,6 +11,7 @@ export interface SmartChat {
         isSubsribed: boolean,
         domElements: {
             submitBtn: HTMLElement | null;
+            deleteBtn: HTMLElement | null;
         }
     }
 }
@@ -30,6 +32,7 @@ export class SmartChat extends Container {
             isSubsribed: false,
             domElements: {
                 submitBtn: null,
+                deleteBtn: null,
             }
         }
     }
@@ -55,6 +58,13 @@ export class SmartChat extends Container {
 
                 this.handleClickSendButton(sendBtn);
             });
+
+            this.state.domElements.deleteBtn?.addEventListener('click', (e) => {
+                e.preventDefault();
+                const deleteBtn = e.target as HTMLElement;
+
+                this.handleClickDeleteButton(deleteBtn);
+            })
         }
     }
 
@@ -73,8 +83,14 @@ export class SmartChat extends Container {
         input.value = '';
     }
 
-    // handleWebSocketMessage(event: Event) {
+    handleClickDeleteButton(deleteBtn: HTMLElement) {
+        const chatId = this.props.chatId;
+        // store.dispatch(deleteChatAction(chatId));
+    }
+
+    // handleWebSocketMessage(event: Event) : string {
     //     const message = event.data;
+    //     return message;
     // }
 
     componentDidMount() {
@@ -84,6 +100,7 @@ export class SmartChat extends Container {
             }))
 
             this.state.isSubsribed = true;
+            // this.render();
             // store.dispatch(createRenderAction()); // TODO: отправиь сообщение createSendMessage
         }
     }
