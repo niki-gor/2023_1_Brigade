@@ -1,4 +1,4 @@
-import { Route, ComponentTemplate, urlInfo, appRoutes} from '@router/routes';
+import { Route, ComponentTemplate, urlInfo, appRoutes, getSmartChat} from '@router/routes';
 
 class Router {
     routes: Map<string, ComponentTemplate> | null;
@@ -40,9 +40,12 @@ class Router {
         const urlParams: urlInfo | null = this.#match(path);
 
         if (urlParams) {
-            if (Object.keys(urlParams.dynamicParams).length !== 0) {
-                console.log('!== 0')
-                window.history.pushState({dynamicParam: urlParams.dynamicParams, path: window.location.pathname}, '', window.location.pathname); // TODO: path + urlParams.dynamicParams - динамический url
+            // if (Object.keys(urlParams.dynamicParams).length !== 0) {
+            if (urlParams.dynamicParams) {   
+                // console.log('!== 0')
+                // window.history.pushState({dynamicParam: urlParams.dynamicParams, path: window.location.pathname}, '', window.location.pathname); // TODO: path + urlParams.dynamicParams - динамический url
+                this.currentRoute = { path: path, component: getSmartChat(urlParams.dynamicParams) };
+                window.history.pushState({dynamicParam: urlParams.dynamicParams, path: path}, '', path);
             } else {
                 window.history.pushState({path: this.currentRoute?.path}, '', path); // 'content': this.currentRoute - статический url
             }
@@ -120,22 +123,27 @@ class Router {
      * @param {string} href - ccылка без домена и id
      */
     #match(href: string) : urlInfo | null {
-        const pathSegments = href.split("/").filter((segment: string) => !segment);
+        // console.log(href)
+        const pathSegments = href.split("/")//.filter((segment: string) => !segment);
         if (this.routes?.has(href)) {
             this.#setCurrentRoute(href);
         }
+        // console.log(pathSegments)
         
-        const routeSegments = this.currentRoute?.path.split("/").filter((segment: string) => !segment);
+        const routeSegments = pathSegments//this.currentRoute?.path.split("/")//.filter((segment: string) => !segment);
+        // console.log(routeSegments)
         if (pathSegments.length !== routeSegments?.length) {
             return null;
         }
 
-        let params: {[key: string]: any} = {};
+        // let params: {[key: string]: any} = {};
+        let params: string | null = null;
 
         for (let i = 0; i < routeSegments.length; i++) {
             if (routeSegments[i].charAt(0) === ":") {
-                const paramName = routeSegments[i].substring(1);
-                params[paramName] = pathSegments[i];
+                // const paramName = routeSegments[i].substring(1);
+                // params[paramName] = pathSegments[i];
+                params = routeSegments[i].substring(1);
             } else if (routeSegments[i] !== pathSegments[i]) {
                 return null;
             }
@@ -143,7 +151,7 @@ class Router {
 
         return {
             dynamicParams: params,
-        };  
+        };
     }
 }
 

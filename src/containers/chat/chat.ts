@@ -1,15 +1,15 @@
 import { Container } from "@containers/container";
 import { store } from "@/store/store";
 import { DumbChat } from "@/components/chat/chat";
-import { createRenderAction } from "@/actions/routeActions";
 import { Message } from "@/components/message/message";
-import { router } from "@/router/router";
 import { createDeleteChatAction } from "@/actions/chatActions";
+import { getWs } from "@/utils/ws";
+import { DumbEmptyDynamicPage } from "@/components/emptyDynamicPage/emptyDynamicPage";
 
 
 export interface SmartChat {
     state: {
-        isSubsribed: boolean,
+        isSubscribed: boolean,
         domElements: {
             submitBtn: HTMLElement | null;
             deleteBtn: HTMLElement | null;
@@ -30,11 +30,11 @@ export class SmartChat extends Container {
     constructor(props: componentProps) {
         super(props);
         this.state = {
-            isSubsribed: false,
+            isSubscribed: false,
             domElements: {
                 submitBtn: null,
                 deleteBtn: null,
-            }
+            },
         }
     }
 
@@ -42,7 +42,7 @@ export class SmartChat extends Container {
      * Рендерит чат
      */
     render() {
-        if (this.state.isSubsribed && this.props.openedChat) {
+        if (this.state.isSubscribed && this.props.chatId) {
             const chat = new DumbChat({
                 chatData: this.props.openedChat,
                 userId: this.props?.user?.id,
@@ -66,17 +66,23 @@ export class SmartChat extends Container {
 
                 this.handleClickDeleteButton(deleteBtn);
             })
+        } else {
+            const emptyUI = new DumbEmptyDynamicPage({ 
+                ...this.props,
+            }); 
+
+            this.rootNode.innerHTML = emptyUI.render();
         }
     }
 
-
-    // TODO: create function with this params
-    // {
-    //     "body": "string",
-    //     "author_id": 0,
-    //     "chat_id": 0
-    // }
-    
+    renderIncomingMessage(message: anyObject) {
+        // TODO: create function with this params
+        // {
+        //     "body": "string",
+        //     "author_id": 0,
+        //     "chat_id": 0
+        // }
+    }    
     
     handleClickSendButton(sendBtn: HTMLElement) {
         const input = document.querySelector('.input-message__text-field__in') as HTMLInputElement;
@@ -90,9 +96,14 @@ export class SmartChat extends Container {
             const parent = document.querySelector('.view-chat__messages');
             parent?.appendChild(newMessage);
         }
+        
+        getWs().send({
+            body: input.value,
+            author_id: this.props.user.id,
+            chat_id: this.props.chatID,
+        })
+
         input.value = '';
-        // TODO: send action
-        // json object 
     }
 
     handleClickDeleteButton(deleteBtn: HTMLElement) {
@@ -101,25 +112,24 @@ export class SmartChat extends Container {
         store.dispatch(createDeleteChatAction(chatId));
     }
 
-    // handleWebSocketMessage(event: Event) : string {
-    //     const message = event.data;
-    //     return message;
-    // }
-
     componentDidMount() {
-        if (!this.state.isSubsribed) {
-            this.unsubscribe.push(store.subscribe(this.name, (pr: componentProps) => {
-                this.props = pr;
-            }))
+        if (!this.state.isSubscribed) {
+            if (this.props.chatId) {
+                this.unsubscribe.push(store.subscribe(this.name, (pr: componentProps) => {
+                    this.props = pr;
+                }))
+    
+                this.unsubscribe.push(getWs().subscribe(this.props.chatID, this.renderIncomingMessage));
+            }
 
-            this.state.isSubsribed = true;
-            // this.render();
-            // store.dispatch(createRenderAction()); // TODO: отправиь сообщение createSendMessage
+            this.render();
+
+            this.state.isSubscribed = true;
         }
     }
 
     componentWillUnmount() {
         this.unsubscribe.forEach((uns) => uns());
-        this.state.isSubsribed = false;
+        this.state.isSubscribed = false;
     }
 }

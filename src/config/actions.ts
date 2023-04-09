@@ -16,9 +16,5 @@ export const constantsOfActions = {
     openChat: 'openChat',
     setChats: 'setChats',
     createGroup: 'createGroup',
-    sendMessage: 'sendMessage',
     deleteChat: 'deleteChat',
-    deleteGroup: 'deleteGroup',
-    deleteChannel: 'deleteChannel',
-    //? sentMessage: 'sentMessage',
 }

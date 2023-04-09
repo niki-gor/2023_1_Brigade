@@ -76,10 +76,10 @@ export class SmartChatList extends Container {
 
     handleClickOpenChat(chat: HTMLElement) {
         if (chat.classList.contains('chat-card')) {
-            const chatID = chat.getAttribute('name');
+            const chatId = chat.getAttribute('name');
 
             for (const key in this.props.chats) {
-                if (this.props.chats[key].id == chatID) {
+                if (this.props.chats[key].id == chatId) {
                     store.dispatch(createGetOneChatAction(this.props.chats[key]));
                     break;
                 }

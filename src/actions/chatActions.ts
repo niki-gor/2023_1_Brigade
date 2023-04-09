@@ -2,11 +2,10 @@ import { constantsOfActions } from "@/config/actions";
 import { ChatTypes } from "@/config/enum";
 import { getWs } from "@/utils/ws";
 import { store } from "@/store/store";
-import { createChat, getChats, getOneChat } from "@/utils/api";
+import { createChat, deleteChat, getChats, getOneChat } from "@/utils/api";
+import { router } from "@/router/router";
 
 export const createOpenChatAction = (chat: anyObject) => {
-    //TODO: вызвать роутер на рендер страницы чата
-
     return {
         type: constantsOfActions.openChat,
         payload: chat,
@@ -36,6 +35,7 @@ export const createGetOneChatAction = (chat: anyObject) => {
         switch (status) {
             case 200:
                 dispatch(createOpenChatAction(jsonBody));
+                router.route(`/:${chat.id}`);
                 break;
             case 401:
                 // TODO: отрендерить ошибку
@@ -114,32 +114,15 @@ export const createCreateDialogAction = (contact: anyObject) => {
     };
 }
 
-//? Не уверен, насколько это надо, еще и лишний раз дергать стор
-// export const createSendMessageAction = (message: anyObject) => {
-//     return async (dispatch: (action: Action) => void, state: Function) => {
-//         const ws = getWs();
-//         ws.send(message);
-
-//         dispatch(createSentMessageAction());
-//     }
-// }
-
-// export const createSentMessageAction = () => {
-//     return {
-//         type: constantsOfActions.sentMessage,
-//         payload: null,
-//     }
-// }
-
 /**
  * 
  * @param chatId - id удаляемого чата
  * @returns 
  */
-export const createDeleteChatFromStoreAction = (chatId: anyObject) => {
+export const createDeleteChatFromStoreAction = (chat: anyObject) => {
     return {
         type: constantsOfActions.deleteChat,
-        payload: chatId,
+        payload: chat,
     }
 }
 
@@ -148,31 +131,30 @@ export const createDeleteChatAction = (deletedChat: anyObject) => {
         for (const key in state().chats) {
             const chat = state().chats[key];
             if (chat?.id === deletedChat?.id) {
-                return dispatch(createDeleteChatFromStoreAction(chat));
+                dispatch(createDeleteChatFromStoreAction(chat));
             }
         }
 
-        // const { status, body } = await deleteChat({
-            
-        // });
-
-        let jsonBody = await body;
+        const { status } = await deleteChat({
+            chat_id: deletedChat.id,
+        });
 
         switch (status) {
             case 204:
-                dispatch(createAddChatAction(jsonBody));
-                dispatch(createOpenChatAction(jsonBody));
+                router.route('/');
                 break;
             case 401:
-                
-            case 403:         
-                
+                // TODO: отрендерить ошибку
+            case 403:          
+                // TODO: отрендерить ошибку
             case 404:
-                
+                // TODO: отрендерить ошибку
             case 500:
-                
+                // TODO: отрендерить ошибку
+            case 0:
+                // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
             default:
-               
+               // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
         }
     }
 }

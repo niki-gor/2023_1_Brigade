@@ -1,5 +1,5 @@
 import {constantsOfActions} from "@config/actions";
-import {createGroup} from "@utils/api";
+import {createChat} from "@utils/api";
 import {createAddChatAction, createOpenChatAction} from "@actions/chatActions";
 
 export const createSetCreateGroupAction = (state: anyObject) : Action => {
@@ -11,7 +11,7 @@ export const createSetCreateGroupAction = (state: anyObject) : Action => {
 
 export const createGetCreateGroupAction = (group: anyObject) : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: anyObject) => {
-        const { status, body } = await createGroup(group);
+        const { status, body } = await createChat(group);
         const jsonBody = await body;
 
         switch (status) {
