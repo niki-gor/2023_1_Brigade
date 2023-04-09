@@ -4,6 +4,7 @@ import { SmartSignUp } from "@/containers/signUp/signUp";
 import { SmartProfile } from "@/containers/profile/profile";
 import { store } from "@/store/store";
 import { SmartChat } from "@/containers/chat/chat";
+import { SmartError } from "@/containers/error/error";
 import { SmartCreateGroup } from "@/containers/createGroup/createGroup";
 
 export interface ComponentTemplate {
@@ -35,6 +36,7 @@ appRoutes.set('/signup', { path: '/signup', component: new SmartSignUp({ ...stor
 appRoutes.set('/profile', { path: '/profile', component: new SmartProfile({ ...store.getState(), rootNode: DYNAMIC })})
 appRoutes.set('/create_group', { path: '/create_group', component: new SmartCreateGroup({ ...store.getState(), rootNode: DYNAMIC })})
 appRoutes.set('/', { path: '/', component: new SmartChat({ ...store.getState(), rootNode: DYNAMIC })})
+appRoutes.set('/error', { path: '/error', component: new SmartError({ ...store.getState(), rootNode: DYNAMIC })})
 
 export const getSmartChat = (id: string) => {
     return new SmartChat({ ...store.getState(), rootNode: DYNAMIC, chatId: id });

@@ -4,14 +4,14 @@ import { Container } from "@containers/container";
 
 export interface SmartError {
     state: {
-        isSubsribed: boolean,
+        isSubscribed: boolean,
     }
 }
 
 /**
  * Отрисовывает страницу ошибки.
  */
-export class SmartChat extends Container {
+export class SmartError extends Container {
     /**
      * Сохраняет props
      * @param {Object} props - параметры компонента
@@ -46,5 +46,3 @@ export class SmartChat extends Container {
         this.state.isSubscribed = false;
     }
 }
-
-// error {status: number, message: string};

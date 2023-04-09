@@ -17,4 +17,5 @@ export const constantsOfActions = {
     setChats: 'setChats',
     createGroup: 'createGroup',
     deleteChat: 'deleteChat',
+    openError: 'error',
 }
