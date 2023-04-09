@@ -3,7 +3,7 @@ import "@components/error/error.scss";
 import { Component } from "@components/component";
 import { svgButtonUI } from "@components/ui/button/button";
 
-export class DumbChat extends Component {
+export class DumbError extends Component {
     constructor(props: any) {
         super(props);
     }

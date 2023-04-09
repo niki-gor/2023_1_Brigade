@@ -1,3 +1,4 @@
+import { DumbError } from "@/components/error/error";
 import { Container } from "@containers/container";
 
 
