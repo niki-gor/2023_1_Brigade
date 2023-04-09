@@ -76,12 +76,19 @@ export class SmartChat extends Container {
     }
 
     renderIncomingMessage(message: anyObject) {
-        // TODO: create function with this params
-        // {
-        //     "body": "string",
-        //     "author_id": 0,
-        //     "chat_id": 0
-        // }
+        for (const member of this.props?.openedChat.members) {
+            if (member.id === message.author_id) {
+                const newMessage = new Message({
+                    messageSide: false,
+                    messageAvatar: member.avatar,
+                    messageContent: message.body,
+                    username: member.username,
+                }).render();
+                const parent = document.querySelector('.view-chat__messages');
+                parent?.appendChild(newMessage);
+                break;
+            }
+        }
     }    
     
     handleClickSendButton(sendBtn: HTMLElement) {
