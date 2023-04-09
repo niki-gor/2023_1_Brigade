@@ -90,7 +90,7 @@ export class SmartSignUp extends Container {
             this.state.domElements.signUpButton = document.querySelector('.reg-but');
             this.state.domElements.signUpButton?.addEventListener('click', (e) => {
                 e.preventDefault();
-3
+
                 this.handleClickSignUp();
             });
 
