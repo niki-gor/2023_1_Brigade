@@ -57,8 +57,7 @@ export const reduceOpenChat = (state: anyObject, action: Action) => {
             }
             return {
                 ...state,
-                openedChats: [ action.payload, ],
-                openChatNow: action.payload?.id,
+                openedChats: action.payload,
             };
         default:
             return {
