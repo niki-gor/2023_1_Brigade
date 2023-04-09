@@ -4,8 +4,7 @@ import { router } from "@/router/router";
 import { Contacts } from "@/containers/contacts/createContacts";
 import { Chats } from "@/containers/chatList/createChatList";
 import { Sidebar } from "@/containers/sidebar/createSidebar";
-import { getWs } from "@/services/ws";
-import { addWsListeners } from "@/utils/ws";
+import { getWs } from "@/utils/ws";
 
 export const createAuthAction = () : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: anyObject) => {
@@ -17,7 +16,6 @@ export const createAuthAction = () : AsyncAction => {
             dispatch(createSetUserAction(jsonBody));
 
             const ws = getWs();
-            addWsListeners(ws);
             
             Sidebar.componentDidMount();
             Chats.componentDidMount();
@@ -48,7 +46,6 @@ export const createLoginAction = (user: anyObject) : AsyncAction => {
             dispatch(createSetUserAction(jsonBody));
 
             const ws = getWs();
-            addWsListeners(ws);
 
             Sidebar.componentDidMount();
             Chats.componentDidMount();
@@ -81,7 +78,6 @@ export const createSignUpAction = (user: anyObject) : AsyncAction => {
             dispatch(createSetUserAction(jsonBody));
 
             const ws = getWs();
-            addWsListeners(ws);
             
             Sidebar.componentDidMount();
             Chats.componentDidMount();
