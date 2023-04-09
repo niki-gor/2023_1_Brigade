@@ -20,4 +20,5 @@ export const constantsOfActions = {
     deleteChat: 'deleteChat',
     deleteGroup: 'deleteGroup',
     deleteChannel: 'deleteChannel',
+    //? sentMessage: 'sentMessage',
 }
