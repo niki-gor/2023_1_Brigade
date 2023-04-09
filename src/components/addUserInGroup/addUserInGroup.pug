@@ -1,0 +1,13 @@
+.create-group
+    .create-group__header
+        .font-size-1!= groupNameLabel
+        .create-group__input
+            != groupNameInput
+        .font-size-1!= buttonCreateGroup
+    .create-group__contacts
+        .contacts__head-create
+            .font-size-6!= headContacts
+        .contacts__separator
+        .create-group__contacts__contacts
+			for contact in contacts
+                != contact
