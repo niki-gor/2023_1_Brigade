@@ -15,7 +15,7 @@ export const createAuthAction = () : AsyncAction => {
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
 
-            const ws = getWs();
+            getWs();
             
             Sidebar.componentDidMount();
             Chats.componentDidMount();
@@ -45,7 +45,7 @@ export const createLoginAction = (user: anyObject) : AsyncAction => {
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
 
-            const ws = getWs();
+            getWs();
 
             Sidebar.componentDidMount();
             Chats.componentDidMount();
@@ -77,7 +77,7 @@ export const createSignUpAction = (user: anyObject) : AsyncAction => {
             const jsonBody = await body;
             dispatch(createSetUserAction(jsonBody));
 
-            const ws = getWs();
+            getWs();
             
             Sidebar.componentDidMount();
             Chats.componentDidMount();
