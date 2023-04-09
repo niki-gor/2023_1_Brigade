@@ -113,23 +113,48 @@ export const createCreateDialogAction = (contact: anyObject) => {
     };
 }
 
-// Dialog,
-// Group,
-// Channel,
-export const createDeleteChatAction = (chatId: anyObject) => {
+/**
+ * 
+ * @param chatId - id удаляемого чата
+ * @returns 
+ */
+export const createDeleteChatFromStoreAction = (chatId: anyObject) => {
     return {
         type: constantsOfActions.deleteChat,
         payload: chatId,
     }
 }
 
-export const deleteChatAction = (deletedChat: anyObject) => {
+export const createDeleteChatAction = (deletedChat: anyObject) => {
     return async (dispatch: (action: Action) => void, state: Function) => {
         for (const key in state().chats) {
-            const st = state().chats[key];
-            // if (st.type === ChatTypes.Dialog && st.chat[0]?.id === chat?.id) {
-            //     return dispatch(createDeleteChatAction(st));
-            // }
+            const chat = state().chats[key];
+            if (chat?.id === deletedChat?.id) {
+                return dispatch(createDeleteChatFromStoreAction(chat));
+            }
+        }
+
+        // const { status, body } = await deleteChat({
+            
+        // });
+
+        let jsonBody = await body;
+
+        switch (status) {
+            case 204:
+                dispatch(createAddChatAction(jsonBody));
+                dispatch(createOpenChatAction(jsonBody));
+                break;
+            case 401:
+                
+            case 403:         
+                
+            case 404:
+                
+            case 500:
+                
+            default:
+               
         }
     }
 }

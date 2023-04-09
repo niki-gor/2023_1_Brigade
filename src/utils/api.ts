@@ -360,11 +360,11 @@ export const createGroup = (body: anyObject) => {
 export const deleteChat = (body: anyObject) => {
     return post(
         config.deleteChat,
-        body,
+        body, // chatId
     )
     .then (({status, parsedBody}) => {
         switch (status) {
-            case 201:
+            case 204:
                 return {
                     status,
                     body: parsedBody,

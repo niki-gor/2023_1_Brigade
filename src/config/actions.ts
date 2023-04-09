@@ -13,9 +13,11 @@ export const constantsOfActions = {
     render: 'render',
     setContacts: 'setContacts',
     addChat: 'addChat',
-    deleteChat: 'deleteChat',
     openChat: 'openChat',
     setChats: 'setChats',
     createGroup: 'createGroup',
     sendMessage: 'sendMessage',
+    deleteChat: 'deleteChat',
+    deleteGroup: 'deleteGroup',
+    deleteChannel: 'deleteChannel',
 }

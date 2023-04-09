@@ -4,7 +4,7 @@ import { DumbChat } from "@/components/chat/chat";
 import { createRenderAction } from "@/actions/routeActions";
 import { Message } from "@/components/message/message";
 import { router } from "@/router/router";
-import { deleteChatAction } from "@/actions/chatActions";
+import { createDeleteChatAction } from "@/actions/chatActions";
 
 
 export interface SmartChat {
@@ -69,6 +69,15 @@ export class SmartChat extends Container {
         }
     }
 
+
+    // TODO: create function with this params
+    // {
+    //     "body": "string",
+    //     "author_id": 0,
+    //     "chat_id": 0
+    // }
+    
+    
     handleClickSendButton(sendBtn: HTMLElement) {
         const input = document.querySelector('.input-message__text-field__in') as HTMLInputElement;
         if (input.value) {
@@ -82,12 +91,14 @@ export class SmartChat extends Container {
             parent?.appendChild(newMessage);
         }
         input.value = '';
+        // TODO: send action
+        // json object 
     }
 
     handleClickDeleteButton(deleteBtn: HTMLElement) {
-        this.componentWillUnmount(); // или менять тут Dynamic с помощью router-a ?
+        this.componentWillUnmount();
         const chatId = this.props.openedChat.id;
-        store.dispatch(deleteChatAction(chatId));
+        store.dispatch(createDeleteChatAction(chatId));
     }
 
     // handleWebSocketMessage(event: Event) : string {

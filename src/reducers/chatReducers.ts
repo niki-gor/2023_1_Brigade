@@ -70,7 +70,7 @@ export const reduceOpenChat = (state: anyObject, action: Action) => {
 export const reduceDeleteChat = (state: anyObject, action: Action) => {
     switch (action.type) {
         case constantsOfActions.deleteChat:
-            if (action.payload?.chaId) {
+            if (action.payload?.chatId) {
                 const index = state.chats.findIndex((chat: {id: number}) => chat.id === action.payload?.chatId);
 
                 if (index !== -1) {
