@@ -114,18 +114,19 @@ export const createCreateDialogAction = (contact: anyObject) => {
     };
 }
 
-export const createSendMessageAction = (message: anyObject) => {
-    return async (dispatch: (action: Action) => void, state: Function) => {
-        const ws = getWs();
-        ws.send(message);
+//? Не уверен, насколько это надо, еще и лишний раз дергать стор
+// export const createSendMessageAction = (message: anyObject) => {
+//     return async (dispatch: (action: Action) => void, state: Function) => {
+//         const ws = getWs();
+//         ws.send(message);
 
-        dispatch(createSentMessageAction());
-    }
-}
+//         dispatch(createSentMessageAction());
+//     }
+// }
 
-export const createSentMessageAction = () => {
-    return {
-        type: constantsOfActions.sentMessage,
-        payload: null,
-    }
-}
+// export const createSentMessageAction = () => {
+//     return {
+//         type: constantsOfActions.sentMessage,
+//         payload: null,
+//     }
+// }
