@@ -7,12 +7,6 @@ const createWs = () => {
         
         ws.onopen = (event) => {
             console.log('WebSocket connection opened');
-
-            ws?.send(JSON.stringify({ 
-                body: 'Я заебался за эту неделю',
-                author_id: 4,
-                chat_id: 1,
-            }));
         };
     
         // Обработчик события получения сообщения от сервера
