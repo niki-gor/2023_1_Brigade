@@ -4,6 +4,7 @@ import { DumbChat } from "@/components/chat/chat";
 import { createRenderAction } from "@/actions/routeActions";
 import { Message } from "@/components/message/message";
 import { router } from "@/router/router";
+import { deleteChatAction } from "@/actions/chatActions";
 
 
 export interface SmartChat {
@@ -84,8 +85,9 @@ export class SmartChat extends Container {
     }
 
     handleClickDeleteButton(deleteBtn: HTMLElement) {
-        const chatId = this.props.chatId;
-        // store.dispatch(deleteChatAction(chatId));
+        this.componentWillUnmount(); // или менять тут Dynamic с помощью router-a ?
+        const chatId = this.props.openedChat.id;
+        store.dispatch(deleteChatAction(chatId));
     }
 
     // handleWebSocketMessage(event: Event) : string {

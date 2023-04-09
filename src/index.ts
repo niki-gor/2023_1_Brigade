@@ -10,8 +10,8 @@ import { SmartChat } from './containers/chat/chat';
 // sidebar.componentDidMount();
 // sidebar.render();
 
-const chat = new SmartChat({...store.getState(), rootNode: ROOT});
-chat.componentDidMount();
-chat.render();
+// const chat = new SmartChat({...store.getState(), rootNode: ROOT});
+// chat.componentDidMount();
+// chat.render();
 
-// store.dispatch(createAuthAction());
+store.dispatch(createAuthAction());

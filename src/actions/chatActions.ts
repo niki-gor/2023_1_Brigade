@@ -112,3 +112,24 @@ export const createCreateDialogAction = (contact: anyObject) => {
         }
     };
 }
+
+// Dialog,
+// Group,
+// Channel,
+export const createDeleteChatAction = (chatId: anyObject) => {
+    return {
+        type: constantsOfActions.deleteChat,
+        payload: chatId,
+    }
+}
+
+export const deleteChatAction = (deletedChat: anyObject) => {
+    return async (dispatch: (action: Action) => void, state: Function) => {
+        for (const key in state().chats) {
+            const st = state().chats[key];
+            // if (st.type === ChatTypes.Dialog && st.chat[0]?.id === chat?.id) {
+            //     return dispatch(createDeleteChatAction(st));
+            // }
+        }
+    }
+}

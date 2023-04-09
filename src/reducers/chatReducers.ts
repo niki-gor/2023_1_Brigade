@@ -1,4 +1,5 @@
 import { constantsOfActions } from "@/config/actions";
+import { Chats } from "@/containers/chatList/createChatList";
 
 export const reduceAddChat = (state: anyObject, action: Action) => {
     switch (action.type) {
@@ -63,5 +64,25 @@ export const reduceOpenChat = (state: anyObject, action: Action) => {
             return {
                 ...state,
             }
+    }
+}
+
+export const reduceDeleteChat = (state: anyObject, action: Action) => {
+    switch (action.type) {
+        case constantsOfActions.deleteChat:
+            if (action.payload?.chaId) {
+                const index = state.chats.findIndex((chat: {id: number}) => chat.id === action.payload?.chatId);
+
+                if (index !== -1) {
+                    state.chats.splice(index, 1);
+                }
+            }
+            return {
+                ...state,
+            };
+        default:
+            return {
+                ...state,
+            };
     }
 }
