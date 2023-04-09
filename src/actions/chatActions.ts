@@ -1,5 +1,6 @@
 import { constantsOfActions } from "@/config/actions";
 import { ChatTypes } from "@/config/enum";
+import { getWs } from "@/utils/ws";
 import { store } from "@/store/store";
 import { createChat, getChats, getOneChat } from "@/utils/api";
 
@@ -112,3 +113,20 @@ export const createCreateDialogAction = (contact: anyObject) => {
         }
     };
 }
+
+//? Не уверен, насколько это надо, еще и лишний раз дергать стор
+// export const createSendMessageAction = (message: anyObject) => {
+//     return async (dispatch: (action: Action) => void, state: Function) => {
+//         const ws = getWs();
+//         ws.send(message);
+
+//         dispatch(createSentMessageAction());
+//     }
+// }
+
+// export const createSentMessageAction = () => {
+//     return {
+//         type: constantsOfActions.sentMessage,
+//         payload: null,
+//     }
+// }
