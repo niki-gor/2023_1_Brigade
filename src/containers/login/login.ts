@@ -7,6 +7,8 @@ import { createLoginAction } from "@/actions/authActions";
 import { createMoveToSignUpAction, createRenderAction } from "@/actions/routeActions";
 import { DYNAMIC, LOGIN, SIDEBAR, STATIC } from "@/config/config";
 import { Contacts } from "@containers/contacts/createContacts";
+import { Chats } from "../chatList/createChatList";
+import { Sidebar } from "../sidebar/createSidebar";
 
 
 export interface SmartLogin {
@@ -71,6 +73,9 @@ export class SmartLogin extends Container {
     
             SIDEBAR.innerHTML = STATIC.innerHTML = DYNAMIC.innerHTML = '';
             Contacts.componentWillUnmount();
+            Chats.componentDidMount();
+            Sidebar.componentDidMount();
+            
             this.rootNode.insertAdjacentHTML("afterbegin", LoginUI.render());
 
             this.state.domElements.loginButton = document.querySelector('.login-but');
