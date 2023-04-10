@@ -8,6 +8,7 @@ export const constantsOfActions = {
     moveToProfile: 'moveToProfile',
     moveToContacts: 'moveToContacts',
     moveToChats: 'moveToChats',
+    moveToChat: 'moveToChat',
     moveToCreateGroup: 'moveToCreateGroup',
     deleteState: 'deleteState',
     render: 'render',

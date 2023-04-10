@@ -81,9 +81,6 @@ export class SmartSignUp extends Container {
             }); 
 
             SIDEBAR.innerHTML = STATIC.innerHTML = DYNAMIC.innerHTML = '';
-            Contacts.componentWillUnmount();
-            Chats.componentDidMount();
-            Sidebar.componentDidMount();
             
             this.rootNode.insertAdjacentHTML("afterbegin", SignUpUI.render());
 

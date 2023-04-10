@@ -2,7 +2,7 @@ import { Container } from "@containers/container";
 import { store } from "@/store/store";
 import { DumbChat } from "@/components/chat/chat";
 import { Message } from "@/components/message/message";
-import { createDeleteChatAction } from "@/actions/chatActions";
+import { createDeleteChatAction, createGetOneChatAction, createOpenChatAction } from "@/actions/chatActions";
 import { getWs } from "@/utils/ws";
 import { DumbEmptyDynamicPage } from "@/components/emptyDynamicPage/emptyDynamicPage";
 
@@ -43,6 +43,7 @@ export class SmartChat extends Container {
      */
     render() {
         if (this.state.isSubscribed && this.props.chatId) {
+            console.log('Chat props', this.props);
             const chat = new DumbChat({
                 chatData: this.props.openedChat,
                 userId: this.props?.user?.id,
@@ -121,17 +122,26 @@ export class SmartChat extends Container {
 
     componentDidMount() {
         if (!this.state.isSubscribed) {
+            this.state.isSubscribed = true;
+
             if (this.props.chatId) {
+                this.unsubscribe.push(getWs().subscribe(this.props.chatID, this.renderIncomingMessage));
+
                 this.unsubscribe.push(store.subscribe(this.name, (pr: componentProps) => {
                     this.props = pr;
+
+                    this.render();
                 }))
-    
-                this.unsubscribe.push(getWs().subscribe(this.props.chatID, this.renderIncomingMessage));
+
+                for (const key in this.props.chats) {
+                    if (this.props.chats[key].id == this.props.chatId) {
+                        store.dispatch(createGetOneChatAction(this.props.chats[key]));
+                        break;
+                    }
+                }
+            } else {
+                this.render();
             }
-
-            this.render();
-
-            this.state.isSubscribed = true;
         }
     }
 

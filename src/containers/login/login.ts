@@ -72,9 +72,6 @@ export class SmartLogin extends Container {
             });
     
             SIDEBAR.innerHTML = STATIC.innerHTML = DYNAMIC.innerHTML = '';
-            Contacts.componentWillUnmount();
-            Chats.componentDidMount();
-            Sidebar.componentDidMount();
             
             this.rootNode.insertAdjacentHTML("afterbegin", LoginUI.render());
 
