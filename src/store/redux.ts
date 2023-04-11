@@ -1,5 +1,3 @@
-import { constantsOfActions } from "@/config/actions";
-
 export const createStore = (reducers: Map<string, Reducer>) : Store => {
     let state: anyObject = {};
     let subscribers = new Map<string, Function>();
@@ -10,12 +8,9 @@ export const createStore = (reducers: Map<string, Reducer>) : Store => {
             const reducer = reducers.get(action.type);
             if (reducer) {
                 state = reducer(state, action);
-                if (action.type == constantsOfActions.openChat) {
-                    console.log(state)
-                }
             }
             subscribers.forEach((cb) => {
-                cb(state)
+                cb(state);
             });
         },
         subscribe: (key: string, cb: (state: componentProps) => void) => {

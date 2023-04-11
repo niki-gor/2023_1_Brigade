@@ -37,24 +37,5 @@ export const dynamicUrlsRegex: RegExp[] = [
 
 export enum dynamicComponent {
     chatId,
-    chatAdd, 
+    chatAdd,
 }
-
-// ***********************Test***************************
-// function handleRequest(url: string) {
-//     for (let dynamicUrl of dynamicUrlsRegex) {
-//         const match = url.match(dynamicUrl);
-//         if (match) {
-//             console.log('path dynamic url: ', match[0]);
-//         }
-//         if (match) {
-//             const dynamicParam = match[1];
-//             return dynamicParam;
-//         }
-//     }
-// }
-
-
-// console.log('dynamic param: ', handleRequest('/123'));
-// console.log('dynamic param: ', handleRequest('/123/add'));
-// console.log('dynamic param: ', handleRequest('/chats/123/change'));
