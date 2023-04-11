@@ -88,11 +88,11 @@ export class SmartChat extends Container {
                     messageSide: false,
                     messageAvatar: member.avatar,
                     messageContent: message.body,
-                    username: member.username,
+                    username: member.nickname,
                 }).render(), 'text/html').body.firstChild as ChildNode;
                 
                 const parent = document.querySelector('.view-chat__messages');
-                parent?.appendChild(newMessage);
+                parent?.insertBefore(newMessage, parent.firstChild);
                 break;
             }
         }
@@ -109,7 +109,7 @@ export class SmartChat extends Container {
             }).render(), 'text/html').body.firstChild as ChildNode;
             
             const parent = document.querySelector('.view-chat__messages');
-            parent?.appendChild(newMessage);
+            parent?.insertBefore(newMessage, parent.firstChild);
         }
         
         getWs().send({
@@ -132,7 +132,7 @@ export class SmartChat extends Container {
             this.state.isSubscribed = true;
             
             if (this.chatId) {
-                this.unsubscribe.push(getWs().subscribe(this.chatId, this.renderIncomingMessage));
+                this.unsubscribe.push(getWs().subscribe(parseInt(this.chatId), this.renderIncomingMessage.bind(this)));
 
                 this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: componentProps) => {
                     this.props = pr;
