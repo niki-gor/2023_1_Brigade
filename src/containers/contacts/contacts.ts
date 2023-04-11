@@ -2,7 +2,8 @@ import { Container } from "@containers/container";
 import { store } from "@store/store";
 import { createGetContactsAction } from "@actions/contactsActions";
 import { DumbContacts } from "@components/contacts/contacts";
-import { createCreateDialogAction } from "@/actions/chatActions";
+import { createCreateDialogAction, createGetOneChatAction } from "@/actions/chatActions";
+import { createMoveToChatAction, createMoveToChatsAction } from "@/actions/routeActions";
 
 export interface SmartContacts {
     state: {
@@ -78,6 +79,7 @@ export class SmartContacts extends Container {
             for (const key in this.props.contacts) {
                 if (this.props.contacts[key].id == contactID) {
                     store.dispatch(createCreateDialogAction(this.props.contacts[key]));
+                    store.dispatch(createMoveToChatsAction());
                     break;
                 }
             }

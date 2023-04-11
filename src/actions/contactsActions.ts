@@ -9,7 +9,7 @@ export const createSetContactsAction = (state: anyObject) : Action => {
 }
 
 export const createGetContactsAction = () : AsyncAction => {
-    return async (dispatch: (action: Action) => void, state: anyObject) => {
+    return async (dispatch: (action: Action) => void, state: Function) => {
         const { status, body } = await getContacts();
         let jsonBody = await body;
 

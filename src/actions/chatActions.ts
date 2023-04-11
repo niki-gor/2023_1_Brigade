@@ -3,6 +3,7 @@ import { ChatTypes } from "@/config/enum";
 import { store } from "@/store/store";
 import { createChat, deleteChat, getChats, getOneChat } from "@/utils/api";
 import { router } from "@/router/router";
+import { createMoveToChatAction } from "./routeActions";
 
 export const createIsNotRenderedAction = () => {
     return {
@@ -104,6 +105,7 @@ export const createCreateDialogAction = (contact: anyObject) => {
             case 201:
                 dispatch(createAddChatAction(jsonBody));
                 dispatch(createOpenChatAction(jsonBody));
+                dispatch(createMoveToChatAction(state().openedChat));
                 break;
             case 401:
                 // TODO: отрендерить ошибку
