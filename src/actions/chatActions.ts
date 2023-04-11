@@ -133,17 +133,17 @@ export const createDeleteChatFromStoreAction = (chat: anyObject) => {
     }
 }
 
-export const createDeleteChatAction = (deletedChat: anyObject) => {
+export const createDeleteChatAction = (deletedChatId: anyObject) => {
     return async (dispatch: (action: Action) => void, state: Function) => {
         for (const key in state().chats) {
             const chat = state().chats[key];
-            if (chat?.id === deletedChat?.id) {
+            if (chat?.id === deletedChatId) {
                 dispatch(createDeleteChatFromStoreAction(chat));
             }
         }
 
         const { status } = await deleteChat({
-            chat_id: deletedChat.id,
+            chat_id: deletedChatId,
         });
 
         switch (status) {

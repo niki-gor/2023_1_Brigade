@@ -52,9 +52,12 @@ export class SmartChat extends Container {
                     chatAvatar: this.props?.openedChat?.avatar,
                     chatTitle: this.props?.openedChat?.title,
                 });
+
                 this.rootNode.innerHTML = chat.render();
     
                 this.state.domElements.submitBtn = document.querySelector('.view-chat__send-message-button');
+                this.state.domElements.deleteBtn = document.querySelector('.delete-btn');
+
                 const input = document.querySelector('.input-message__text-field__in') as HTMLInputElement;
 
                 input.addEventListener('keydown', e => {
@@ -133,9 +136,7 @@ export class SmartChat extends Container {
 
     handleClickDeleteButton(deleteBtn: HTMLElement) {
         this.componentWillUnmount();
-        const chatId = this.props.openedChat.id;
-        console.log('check chatId', chatId);
-        store.dispatch(createDeleteChatAction(chatId));
+        store.dispatch(createDeleteChatAction(this.props.openedChat.id));
     }
 
     async componentDidMount() {
