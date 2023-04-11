@@ -2,7 +2,7 @@ import { Container } from "@containers/container";
 import { store } from "@/store/store";
 import { DumbChat } from "@/components/chat/chat";
 import { Message } from "@/components/message/message";
-import { createDeleteChatAction, createGetOneChatAction, createOpenChatAction } from "@/actions/chatActions";
+import { createDeleteChatAction, createGetOneChatAction} from "@/actions/chatActions";
 import { getWs } from "@/utils/ws";
 import { DumbEmptyDynamicPage } from "@/components/emptyDynamicPage/emptyDynamicPage";
 
@@ -96,7 +96,7 @@ export class SmartChat extends Container {
         const input = document.querySelector('.input-message__text-field__in') as HTMLInputElement;
         if (input.value) {
             const newMessage = new Message({
-                messageSide: true, // true - мы создаем сообщение
+                messageSide: true,
                 messageAvatar: this.props.openedChat.avatar,
                 messageContent: input.value,
                 username: this.props.user.username,
@@ -117,6 +117,7 @@ export class SmartChat extends Container {
     handleClickDeleteButton(deleteBtn: HTMLElement) {
         this.componentWillUnmount();
         const chatId = this.props.openedChat.id;
+        console.log('check chatId value', chatId);
         store.dispatch(createDeleteChatAction(chatId));
     }
 

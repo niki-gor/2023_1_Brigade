@@ -29,11 +29,14 @@ export class SmartAddUserInGroup extends Container {
 
     render() {
         console.log('add user component render method has been called: ');
-        if (this.state.isSubscribed) { //&& this.props.contacts && this.props.groupId
+        if (this.state.isSubscribed) { //&& this.props.contacts && this.props.groupId && this.props.openedChat
             console.log('addUserInGroup props', this.props);
             const addUser = new DumbAddContactInGroup({
                 groupChangeForm: 'Change group',
+                membersList: this.props?.openedChat?.members,
             });
+
+            this.rootNode.innerHTML = addUser.render();
         }
     }
 
