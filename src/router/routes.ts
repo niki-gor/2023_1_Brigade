@@ -27,7 +27,7 @@ appRoutes.set('/login', { path: '/login', component: new SmartLogin({ ...store.g
 appRoutes.set('/signup', { path: '/signup', component: new SmartSignUp({ ...store.getState(), rootNode: ROOT })});
 appRoutes.set('/profile', { path: '/profile', component: new SmartProfile({ ...store.getState(), rootNode: DYNAMIC })});
 appRoutes.set('/create_group', { path: '/create_group', component: new SmartCreateGroup({ ...store.getState(), rootNode: DYNAMIC })});
-appRoutes.set('/', { path: '/', component: new SmartChat({ ...store.getState(), rootNode: DYNAMIC })});
+// appRoutes.set('/', { path: '/', component: new SmartEmpty({ ...store.getState(), rootNode: DYNAMIC })});
 
 export const dynamicUrlsRegex: RegExp[] = [
     /^\/([a-z0-9_-]+)$/i,
@@ -38,22 +38,3 @@ export enum dynamicComponent {
     chatId,
     chatAdd,
 }
-
-// ***********************Test***************************
-// function handleRequest(url: string) {
-//     for (let dynamicUrl of dynamicUrlsRegex) {
-//         const match = url.match(dynamicUrl);
-//         if (match) {
-//             console.log('path dynamic url: ', match[0]);
-//         }
-//         if (match) {
-//             const dynamicParam = match[1];
-//             return dynamicParam;
-//         }
-//     }
-// }
-
-
-// console.log('dynamic param: ', handleRequest('/123'));
-// console.log('dynamic param: ', handleRequest('/123/add'));
-// console.log('dynamic param: ', handleRequest('/chats/123/change'));

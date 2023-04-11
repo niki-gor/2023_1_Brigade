@@ -137,6 +137,7 @@ export class SmartChat extends Container {
     handleClickDeleteButton(deleteBtn: HTMLElement) {
         this.componentWillUnmount();
         store.dispatch(createDeleteChatAction(this.props.openedChat.id));
+        location.reload();
     }
 
     async componentDidMount() {
