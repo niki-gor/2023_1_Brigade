@@ -55,8 +55,8 @@ export class DumbChat extends Component {
             HeaderUserAvatar: chatAvatarUi.renderTemplate({
                 ClassName: 'header__companion__ava',
                 PathToUserImage: this.props.chatAvatar,
-                UserName: this.props.username,
-                UserStatus: '', // нет this.props?.userStatus
+                UserName: this.props.chatTitle,
+                UserStatus: '',
                 Online: false, // нет this.props?.userOnline,
             }),
             MessageList: this.getMessageList(),

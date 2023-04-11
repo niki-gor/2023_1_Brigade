@@ -41,7 +41,7 @@ class Router {
 
         if (urlParams) {
             // if (Object.keys(urlParams.dynamicParams).length !== 0) {
-            if (urlParams.dynamicParams) {   
+            if (urlParams.dynamicParams) {  
                 // window.history.pushState({dynamicParam: urlParams.dynamicParams, path: window.location.pathname}, '', window.location.pathname); // TODO: path + urlParams.dynamicParams - динамический url
                 this.currentRoute = { path: path, component: getSmartChat(urlParams.dynamicParams) };
                 window.history.pushState({dynamicParam: urlParams.dynamicParams, path: path}, '', path);

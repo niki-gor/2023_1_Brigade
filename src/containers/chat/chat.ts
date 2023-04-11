@@ -47,8 +47,9 @@ export class SmartChat extends Container {
                 chatData: this.props.openedChat,
                 userId: this.props?.user?.id,
                 userAvatar: this.props?.user?.avatar,
-                username: this.props?.user?.username,
+                nickname: this.props?.user?.nickname,
                 chatAvatar: this.props?.openedChat?.avatar,
+                chatTitle: this.props?.openedChat?.title,
             });
             this.rootNode.innerHTML = chat.render();
 
@@ -99,12 +100,13 @@ export class SmartChat extends Container {
     handleClickSendButton(sendBtn: HTMLElement) {
         const input = document.querySelector('.input-message__text-field__in') as HTMLInputElement;
         if (input.value) {
-            const newMessage = new Message({
+            const newMessage = new DOMParser().parseFromString(new Message({
                 messageSide: true, // true - мы создаем сообщение
                 messageAvatar: this.props.openedChat.avatar,
                 messageContent: input.value,
-                username: this.props.user.username,
-            }).render();
+                username: this.props.user.nickname,
+            }).render(), 'text/html').body.firstChild as ChildNode;
+            
             const parent = document.querySelector('.view-chat__messages');
             parent?.appendChild(newMessage);
         }
@@ -112,7 +114,7 @@ export class SmartChat extends Container {
         getWs().send({
             body: input.value,
             author_id: this.props.user.id,
-            chat_id: this.chatId,
+            chat_id: parseInt(this.chatId),
         })
 
         input.value = '';
