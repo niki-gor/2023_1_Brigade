@@ -18,33 +18,43 @@ export interface Route {
     component: ComponentTemplate | undefined,
 }
 
-export interface historyIterator {
-    currentIndex: number;
-    path: string;
+export interface DynamicUrl {
+    path: string,
+    dynamicParam: string,
 }
+
+export const appRoutes = new Map<string, Route>();
+appRoutes.set('/login', { path: '/login', component: new SmartLogin({ ...store.getState(), rootNode: ROOT })});
+appRoutes.set('/signup', { path: '/signup', component: new SmartSignUp({ ...store.getState(), rootNode: ROOT })});
+appRoutes.set('/profile', { path: '/profile', component: new SmartProfile({ ...store.getState(), rootNode: DYNAMIC })});
+appRoutes.set('/create_group', { path: '/create_group', component: new SmartCreateGroup({ ...store.getState(), rootNode: DYNAMIC })});
+appRoutes.set('/', { path: '/', component: new SmartChat({ ...store.getState(), rootNode: DYNAMIC })});
 
 export const dynamicUrlsRegex: RegExp[] = [
     /^\/([a-z0-9_-]+)$/i,
-    /^\/chats\/([a-z0-9_-]+)$/i,
-    /^\/chats\/([a-z0-9_-]+)\/add$/i,
+    /^\/([a-z0-9_-]+)\/add$/i,
 ];
 
-export const appRoutes = new Map<string, Route>();
-appRoutes.set('/login', { path: '/login', component: new SmartLogin({ ...store.getState(), rootNode: ROOT })})
-appRoutes.set('/signup', { path: '/signup', component: new SmartSignUp({ ...store.getState(), rootNode: ROOT })})
-appRoutes.set('/profile', { path: '/profile', component: new SmartProfile({ ...store.getState(), rootNode: DYNAMIC })})
-appRoutes.set('/create_group', { path: '/create_group', component: new SmartCreateGroup({ ...store.getState(), rootNode: DYNAMIC })})
-appRoutes.set('/', { path: '/', component: new SmartChat({ ...store.getState(), rootNode: DYNAMIC })})
-appRoutes.set('/^\/([a-z0-9_-]+)$/i', { path: '/^\/([a-z0-9_-]+)$/i', component: undefined })
-
-export const getSmartChat = (id: string) => {
-    return new SmartChat({ ...store.getState(), rootNode: DYNAMIC, chatId: id });
+export const dynamicComponent = {
+    chatId: 0,
+    chatAdd: 1, 
 }
 
-export const getSmartAddContactInGroup = (id: string) => {
-    return new SmartAddUserInGroup({...store.getState(), rootNode: DYNAMIC, groupId: id});
-}
+// ***********************Test***************************
+// function handleRequest(url: string) {
+//     for (let dynamicUrl of dynamicUrlsRegex) {
+//         const match = url.match(dynamicUrl);
+//         if (match) {
+//             console.log('path dynamic url: ', match[0]);
+//         }
+//         if (match) {
+//             const dynamicParam = match[1];
+//             return dynamicParam;
+//         }
+//     }
+// }
 
-// console.log('dynamic param: ', handleRequest('/chats/123'));
-// console.log('dynamic param: ', handleRequest('/chats/123/add'));
+
+// console.log('dynamic param: ', handleRequest('/123'));
+// console.log('dynamic param: ', handleRequest('/123/add'));
 // console.log('dynamic param: ', handleRequest('/chats/123/change'));
