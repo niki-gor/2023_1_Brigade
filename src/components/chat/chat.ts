@@ -48,7 +48,7 @@ export class DumbChat extends Component {
 
     render() {
         return template({
-            MoreInfoBtn: svgButtonUI.renderTemplate({svgClassName: 'view-chat__header__button-fourth'}),
+            MoreInfoBtn: svgButtonUI.renderTemplate({svgClassName: 'edit-chat'}),
             SendMessageBtn: svgButtonUI.renderTemplate({svgClassName: 'view-chat__send-message-button'}),
             DeleteChatBtn: svgButtonUI.renderTemplate({svgClassName: 'delete-btn'}),
             HeaderUserAvatar: chatAvatarUi.renderTemplate({
