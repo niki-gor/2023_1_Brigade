@@ -5,6 +5,7 @@ import { SmartProfile } from "@/containers/profile/profile";
 import { store } from "@/store/store";
 import { SmartChat } from "@/containers/chat/chat";
 import { SmartCreateGroup } from "@/containers/createGroup/createGroup";
+import { Container } from "@/containers/container";
 
 export interface ComponentTemplate {
     componentWillUnmount: Function;
@@ -16,26 +17,43 @@ export interface Route {
     component: ComponentTemplate | undefined,
 }
 
-// export interface urlInfo {
-//     dynamicParams: Object;
-// }
-
-export interface urlInfo {
-    dynamicParams: string | null;
-}
-
-export interface historyIterator {
-    currentIndex: number;
-    path: string;
+export interface DynamicUrl {
+    path: string,
+    dynamicParam: string,
 }
 
 export const appRoutes = new Map<string, Route>();
-appRoutes.set('/login', { path: '/login', component: new SmartLogin({ ...store.getState(), rootNode: ROOT })})
-appRoutes.set('/signup', { path: '/signup', component: new SmartSignUp({ ...store.getState(), rootNode: ROOT })})
-appRoutes.set('/profile', { path: '/profile', component: new SmartProfile({ ...store.getState(), rootNode: DYNAMIC })})
-appRoutes.set('/create_group', { path: '/create_group', component: new SmartCreateGroup({ ...store.getState(), rootNode: DYNAMIC })})
-appRoutes.set('/', { path: '/', component: new SmartChat({ ...store.getState(), rootNode: DYNAMIC })})
+appRoutes.set('/login', { path: '/login', component: new SmartLogin({ ...store.getState(), rootNode: ROOT })});
+appRoutes.set('/signup', { path: '/signup', component: new SmartSignUp({ ...store.getState(), rootNode: ROOT })});
+appRoutes.set('/profile', { path: '/profile', component: new SmartProfile({ ...store.getState(), rootNode: DYNAMIC })});
+appRoutes.set('/create_group', { path: '/create_group', component: new SmartCreateGroup({ ...store.getState(), rootNode: DYNAMIC })});
+appRoutes.set('/', { path: '/', component: new SmartChat({ ...store.getState(), rootNode: DYNAMIC })});
 
-export const getSmartChat = (id: string) => {
-    return new SmartChat({ ...store.getState(), rootNode: DYNAMIC, chatId: id });
+export const dynamicUrlsRegex: RegExp[] = [
+    /^\/([a-z0-9_-]+)$/i,
+    /^\/([a-z0-9_-]+)\/add$/i,
+];
+
+export const dynamicComponent = {
+    chatId: 0,
+    chatAdd: 1, 
 }
+
+// ***********************Test***************************
+// function handleRequest(url: string) {
+//     for (let dynamicUrl of dynamicUrlsRegex) {
+//         const match = url.match(dynamicUrl);
+//         if (match) {
+//             console.log('path dynamic url: ', match[0]);
+//         }
+//         if (match) {
+//             const dynamicParam = match[1];
+//             return dynamicParam;
+//         }
+//     }
+// }
+
+
+// console.log('dynamic param: ', handleRequest('/123'));
+// console.log('dynamic param: ', handleRequest('/123/add'));
+// console.log('dynamic param: ', handleRequest('/chats/123/change'));

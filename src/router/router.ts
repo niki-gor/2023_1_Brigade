@@ -1,4 +1,8 @@
-import { Route, ComponentTemplate, urlInfo, appRoutes, getSmartChat} from '@router/routes';
+import { DYNAMIC } from '@/config/config';
+// import { SmartAddUserInGroup } from '@/containers/addUserInGroup/addUserInGroup';
+import { SmartChat } from '@/containers/chat/chat';
+import { store } from '@/store/store';
+import { Route, ComponentTemplate, appRoutes, dynamicUrlsRegex, DynamicUrl, dynamicComponent} from '@router/routes';
 
 class Router {
     routes: Map<string, ComponentTemplate> | null;
@@ -36,21 +40,28 @@ class Router {
         if (this.currentRoute) {
             this.currentRoute.component?.componentWillUnmount();
         }
+        
+        const dynamicUrl: DynamicUrl | null = this.#handleDynamicUrl(path);
 
-        const urlParams: urlInfo | null = this.#match(path);
-
-        if (urlParams) {
-            // if (Object.keys(urlParams.dynamicParams).length !== 0) {
-            if (urlParams.dynamicParams) {  
-                // window.history.pushState({dynamicParam: urlParams.dynamicParams, path: window.location.pathname}, '', window.location.pathname); // TODO: path + urlParams.dynamicParams - динамический url
-                this.currentRoute = { path: path, component: getSmartChat(urlParams.dynamicParams) };
-                window.history.pushState({dynamicParam: urlParams.dynamicParams, path: path}, '', path);
+        if (dynamicUrl) {
+            if (this.routes?.has(dynamicUrl?.path)) {
+                this.#setCurrentRoute(dynamicUrl.path);
             } else {
-                window.history.pushState({path: this.currentRoute?.path}, '', path); // 'content': this.currentRoute - статический url
+                if (this.#match(dynamicUrl.path) === dynamicComponent.chatId) {
+                    this.currentRoute = {path: dynamicUrl.path, component: new SmartChat({...store.getState(), rootNode: DYNAMIC, chatId: dynamicUrl.dynamicParam})};
+                } else if (this.#match(dynamicUrl.path) === dynamicComponent.chatAdd) {
+                    // this.currentRoute = {path: dynamicUrl.path, component: new SmartAddUserInGroup({...store.getState(), rootNode: DYNAMIC, chatId: dynamicUrl.dynamicParam})};
+                }
             }
+            
+            if (this.currentRoute) {
+                this.#register(this.currentRoute);
+            }
+
+            window.history.pushState({dynamicParam: dynamicUrl.dynamicParam, path: dynamicUrl.path}, '', dynamicUrl.path);
             this.currentRoute?.component?.componentDidMount();
         } else {
-            console.log("error page"); // TODO: errorPage
+            window.history.pushState({path: this.currentRoute?.path}, '', path);
         }
     }
 
@@ -118,39 +129,37 @@ class Router {
     }
 
     /**
-     * Получает путь для обработчика render и динамические параметры
-     * @param {string} href - ccылка без домена и id
+     * 
+     * @param url - динамический url
+     * @returns {DynamicUrl | null} - объект с путем и днамичеким параметром или null, если он отсутствует
      */
-    #match(href: string) : urlInfo | null {
-        // console.log(href)
-        const pathSegments = href.split("/")//.filter((segment: string) => !segment);
-        if (this.routes?.has(href)) {
-            this.#setCurrentRoute(href);
-        }
-        // console.log(pathSegments)
-        
-        const routeSegments = pathSegments//this.currentRoute?.path.split("/")//.filter((segment: string) => !segment);
-        // console.log(routeSegments)
-        if (pathSegments.length !== routeSegments?.length) {
-            return null;
-        }
-
-        // let params: {[key: string]: any} = {};
-        let params: string | null = null;
-
-        for (let i = 0; i < routeSegments.length; i++) {
-            if (routeSegments[i].charAt(0) === ":") {
-                // const paramName = routeSegments[i].substring(1);
-                // params[paramName] = pathSegments[i];
-                params = routeSegments[i].substring(1);
-            } else if (routeSegments[i] !== pathSegments[i]) {
-                return null;
+    #handleDynamicUrl(url: string) : DynamicUrl | null {
+        for (let dynamicUrl of dynamicUrlsRegex) {
+            const match = url.match(dynamicUrl);
+            if (match && match[0] && match[1]) {
+                const dynamicParam = match[1];
+                return {
+                    path: match[0],
+                    dynamicParam: dynamicParam,
+                };
             }
         }
 
-        return {
-            dynamicParams: params,
-        };
+        return null;
+    }
+
+    /**
+     * находит с каким путем в массиве регулярок из конфига совпадает текущий дин. url.
+     * @param path - динамический url
+     * @returns {Number} - index динамического роута, если такого нет, то возвращает -1.
+     */
+    #match(path: string) : number {
+        for (let i = 0; i < dynamicUrlsRegex.length; i++) {
+            if (dynamicUrlsRegex[i].test(path)) {
+                return i;
+            }
+        }
+        return -1;        
     }
 }
 
