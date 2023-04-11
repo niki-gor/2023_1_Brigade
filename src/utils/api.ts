@@ -1,4 +1,4 @@
-import { get, post, deleteSession, put } from '@services/ajax';
+import {get, post, deleteSession, put, postMultipartForm} from '@services/ajax';
 import { config } from '@config/api';
 import * as timers from "timers";
 
@@ -348,4 +348,39 @@ export const deleteChat = (body: anyObject) => {
             body: error,
         }
     })
+}
+
+export const uploadAvatar = (avatar: File | undefined) => {
+    if (!avatar) {
+        return
+    }
+    const formData = new FormData();
+    formData.append('image', avatar);
+    return postMultipartForm(
+        config.uploadAvatar,
+        formData,
+    )
+        .then(({status}) => {
+            switch (status) {
+                case 201:
+                case 401:
+                case 404:
+                case 500:
+                    return {
+                        status,
+                        body: null,
+                    };
+                default:
+                    return {
+                        status,
+                        body: null,
+                    };
+            }
+        })
+        .catch((error) => {
+            return {
+                status: 0,
+                body: error,
+            }
+        })
 }

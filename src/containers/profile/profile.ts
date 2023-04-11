@@ -57,16 +57,24 @@ export class SmartProfile extends Container {
         };
     }
 
+    #image:    File | undefined;
+    #formData: any
+
     /**
      * Рендерит логин
      */
     render() {
         if (this.state.isSubscribed && this.props.user) {
-            const ProfileUI = new DumbProfile({ 
+            const ProfileUI = new DumbProfile({
                 ...this.props,
-            }); 
+            });
 
             this.rootNode.innerHTML = ProfileUI.render();
+
+            const avatar = document.querySelector('.ellipse-icon');
+            avatar?.addEventListener('click', () => {
+                this.handleClickAvatar()
+            });
 
             this.state.domElements.saveButton = document.querySelector('.button-save');
             this.state.domElements.saveButton?.addEventListener('click', (e) => {
@@ -89,8 +97,8 @@ export class SmartProfile extends Container {
                 this.validateNewPassword();
             });
 
-            this.state.domElements.username = document.querySelector('.nickname');
-            this.state.domElements.username?.addEventListener('input', (e) => {
+            this.state.domElements.nickname = document.querySelector('.nickname');
+            this.state.domElements.nickname?.addEventListener('input', (e) => {
                 e.preventDefault();
 
                 this.validateNickname();
@@ -128,7 +136,7 @@ export class SmartProfile extends Container {
             }));
 
             this.state.isSubscribed = true;
-            
+
             store.dispatch(createRenderAction());
         }
     }
@@ -144,6 +152,36 @@ export class SmartProfile extends Container {
     }
 
     /**
+     * Обрабатывает нажатие кнопки аватарки
+     */
+    handleClickAvatar() {
+        // const fileInput = document.querySelector('input[type="file"]');
+        // const formData = new FormData();
+        //
+        // formData.append('file', fileInput.files[0]);
+        const input = document.createElement('input');
+        input.type = 'file';
+
+        input.addEventListener('change', () => {
+            this.#image = input?.files?.[0];
+            // const formData = new FormData();
+            this.#formData = new FormData()
+            if (this.#image) {
+                this.#formData.append('file', this.#image);
+                const reader = new FileReader();
+                reader.readAsDataURL(this.#image);
+                reader.onload = () => {
+                    const imageUrl = reader.result;
+                    const avatar = document.querySelector('.ellipse-icon')
+                    avatar?.src = imageUrl;
+                };
+            }
+        });
+
+        input.click();
+    }
+
+    /**
      * Обрабатывает нажатие кнопки логина
      */
     handleClickSave() {
@@ -156,7 +194,7 @@ export class SmartProfile extends Container {
                 new_password: this.state.domElements.new_password?.value,
             } as anyObject;
 
-            store.dispatch(createUpdateUserAction(user))
+            store.dispatch(createUpdateUserAction(user, this.#formData))
         }
     }
 
