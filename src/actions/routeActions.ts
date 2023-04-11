@@ -67,7 +67,7 @@ export const createMoveToCreateGroupAction = () : Action => {
 };
 
 export const createMoveToChatAction = (chat: anyObject) : Action => {
-    router.route(`/:${chat.id}`);
+    router.route(`/${chat.id}`);
 
     return {
         type: constantsOfActions.moveToChat,

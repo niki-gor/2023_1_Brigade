@@ -15,7 +15,7 @@ export class DumbChat extends Component {
     #getMessageData(message: {id: number}) : {messageAvatar: string, messageUsername: string} {
         let messageAvatar;
         let messageUsername;
-        for (let member of this.props.chatData.members) { // TODO: можно лучше
+        for (let member of this.props.chatData.members) {
             if (member.id === message.id) {
                 messageAvatar = member.avatar;
                 messageUsername = member.username;

@@ -6,7 +6,7 @@ export interface SmartAddUserInGroup {
     state: {
         isSubscribed: boolean,
         domElements: {
-            addBtn: HTMLElement | null;
+            saveChangesBtn: HTMLElement | null;
         }
     }
 }
@@ -22,7 +22,7 @@ export class SmartAddUserInGroup extends Container {
         this.state = {
             isSubscribed: false,
             domElements: {
-                addBtn: null,
+                saveChangesBtn: null,
             },
         }
     }
@@ -41,7 +41,7 @@ export class SmartAddUserInGroup extends Container {
     }
 
     componentDidMount() {
-        if (!this.state.isSubscribed) { // && this.props?.contacts
+        if (!this.state.isSubscribed) { // TODO: && this.props?.contacts
             this.state.isSubscribed = true;
 
             this.unsubscribe.push(store.subscribe(this.name, (pr: componentProps) => {
@@ -49,7 +49,6 @@ export class SmartAddUserInGroup extends Container {
     
                 this.render();
             }));
-
             // TODO: store.dispatch(createAddUserInChatAction());
         }
     }

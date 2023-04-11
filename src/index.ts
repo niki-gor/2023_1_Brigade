@@ -14,10 +14,8 @@ import { SmartAddUserInGroup } from '@/containers/addUserInGroup/addUserInGroup'
 // chat.componentDidMount();
 // chat.render();
 
-const addContact = new SmartAddUserInGroup({...store.getState(), rootNode: DYNAMIC});
-addContact.componentDidMount();
-addContact.render()
+// const addContact = new SmartAddUserInGroup({...store.getState(), rootNode: DYNAMIC});
+// addContact.componentDidMount();
+// addContact.render();
 
-
-
-// store.dispatch(createAuthAction());
+store.dispatch(createAuthAction());
