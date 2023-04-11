@@ -84,12 +84,13 @@ export class SmartChat extends Container {
     renderIncomingMessage(message: anyObject) {
         for (const member of this.props?.openedChat.members) {
             if (member.id === message.author_id) {
-                const newMessage = new Message({
+                const newMessage = new DOMParser().parseFromString(new Message({
                     messageSide: false,
                     messageAvatar: member.avatar,
                     messageContent: message.body,
                     username: member.username,
-                }).render();
+                }).render(), 'text/html').body.firstChild as ChildNode;
+                
                 const parent = document.querySelector('.view-chat__messages');
                 parent?.appendChild(newMessage);
                 break;
@@ -101,7 +102,7 @@ export class SmartChat extends Container {
         const input = document.querySelector('.input-message__text-field__in') as HTMLInputElement;
         if (input.value) {
             const newMessage = new DOMParser().parseFromString(new Message({
-                messageSide: true, // true - мы создаем сообщение
+                messageSide: true,
                 messageAvatar: this.props.openedChat.avatar,
                 messageContent: input.value,
                 username: this.props.user.nickname,
