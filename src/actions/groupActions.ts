@@ -19,7 +19,7 @@ export const createCreateGroupAction = (group: anyObject) : AsyncAction => {
             case 201:
                 dispatch(createAddChatAction(jsonBody));
                 dispatch(createOpenChatAction(jsonBody));
-                dispatch(createMoveToChatAction(state().openedChat));
+                dispatch(createMoveToChatAction({ chatId: state().openedChat.id }));
                 break;
             case 401:
             // TODO: отрендерить ошибку

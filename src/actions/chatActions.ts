@@ -42,7 +42,6 @@ export const createGetOneChatAction = (chat: anyObject) => {
         switch (status) {
             case 200:
                 dispatch(createOpenChatAction(jsonBody));
-                console.log('get one chat body: ', jsonBody);
                 break;
             case 401:
                 // TODO: отрендерить ошибку
@@ -85,11 +84,11 @@ export const createGetChatsAction = () => {
 }
 
 export const createCreateDialogAction = (contact: anyObject) => {
-    return async (dispatch: (action: Action) => void, state: Function) => {
+    return async (dispatch: (action: Action | AsyncAction) => void, state: Function) => {
         for (const key in state().chats) {
             const st = state().chats[key];
             if (st.type === ChatTypes.Dialog && st.members[0]?.id == contact.id) {
-                return dispatch(createOpenChatAction(st));
+                return dispatch(createMoveToChatAction({ chatId: st.id }));
             }
         }
 

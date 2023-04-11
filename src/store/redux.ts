@@ -33,7 +33,7 @@ export const applyMiddleware = (middleware: Middleware) => (createStoreFunc: Cre
 
 export const thunk = (store: Store) => (dispatch: Dispatch) => (action: Action | AsyncAction) => {
     if (typeof action === 'function') {
-        return action(store.dispatch, store.getState);
+        return action(dispatch, store.getState);
     }
 
     return dispatch(action);
