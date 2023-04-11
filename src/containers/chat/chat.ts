@@ -60,6 +60,7 @@ export class SmartChat extends Container {
                 this.handleClickSendButton(sendBtn);
             });
 
+            this.state.domElements.deleteBtn = document.querySelector('.delete-btn');
             this.state.domElements.deleteBtn?.addEventListener('click', (e) => {
                 e.preventDefault();
                 const deleteBtn = e.target as HTMLElement;
