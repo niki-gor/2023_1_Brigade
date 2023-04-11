@@ -43,7 +43,6 @@ export class SmartChat extends Container {
      */
     render() {
         if (this.state.isSubscribed && this.props.chatId) {
-            console.log('Chat props', this.props);
             const chat = new DumbChat({
                 chatData: this.props.openedChat,
                 userId: this.props?.user?.id,
@@ -146,7 +145,9 @@ export class SmartChat extends Container {
     }
 
     componentWillUnmount() {
-        this.unsubscribe.forEach((uns) => uns());
-        this.state.isSubscribed = false;
+        if (this.state.isSubscribed) {
+            this.unsubscribe.forEach((uns) => uns());
+            this.state.isSubscribed = false;
+        }
     }
 }

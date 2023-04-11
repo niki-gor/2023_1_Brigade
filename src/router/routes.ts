@@ -5,6 +5,7 @@ import { SmartProfile } from "@/containers/profile/profile";
 import { store } from "@/store/store";
 import { SmartChat } from "@/containers/chat/chat";
 import { SmartCreateGroup } from "@/containers/createGroup/createGroup";
+import { SmartAddUserInGroup } from "@/containers/addUserInGroup/addUserInGroup";
 
 export interface ComponentTemplate {
     componentWillUnmount: Function;
@@ -38,4 +39,8 @@ appRoutes.set('/', { path: '/', component: new SmartChat({ ...store.getState(), 
 
 export const getSmartChat = (id: string) => {
     return new SmartChat({ ...store.getState(), rootNode: DYNAMIC, chatId: id });
+}
+
+export const getSmartAddContactInGroup = (id: string) => {
+    return new SmartAddUserInGroup({...store.getState(), rootNode: DYNAMIC, groupId: id});
 }

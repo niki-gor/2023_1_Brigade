@@ -1,4 +1,4 @@
-import { Route, ComponentTemplate, urlInfo, appRoutes, getSmartChat} from '@router/routes';
+import { Route, ComponentTemplate, urlInfo, appRoutes, getSmartChat, getSmartAddContactInGroup} from '@router/routes';
 
 class Router {
     routes: Map<string, ComponentTemplate> | null;
@@ -40,11 +40,12 @@ class Router {
         const urlParams: urlInfo | null = this.#match(path);
 
         if (urlParams) {
-            // if (Object.keys(urlParams.dynamicParams).length !== 0) {
-            if (urlParams.dynamicParams) {   
-                // console.log('!== 0')
-                // window.history.pushState({dynamicParam: urlParams.dynamicParams, path: window.location.pathname}, '', window.location.pathname); // TODO: path + urlParams.dynamicParams - динамический url
-                this.currentRoute = { path: path, component: getSmartChat(urlParams.dynamicParams) };
+            if (urlParams.dynamicParams) {
+                if (path.includes('change')) {
+                    this.currentRoute = { path: path, component: getSmartAddContactInGroup(urlParams.dynamicParams) };
+                } else {
+                    this.currentRoute = { path: path, component: getSmartChat(urlParams.dynamicParams) };
+                }
                 window.history.pushState({dynamicParam: urlParams.dynamicParams, path: path}, '', path);
             } else {
                 window.history.pushState({path: this.currentRoute?.path}, '', path); // 'content': this.currentRoute - статический url

@@ -23,8 +23,12 @@ export class DumbContacts extends Component {
     }
 
     render() {
+        let headContactsValue = 'Контакты';
+        if (this.props.headContactsValue) {
+            headContactsValue = this.props.headContactsValue;
+        }
         return template({
-            headContacts: 'Контакты',
+            headContacts: headContactsValue,
             contacts: this.getContactsList(),
             addContactButton: whiteButtonUI.renderTemplate({
                 className: 'add-contact-button',
