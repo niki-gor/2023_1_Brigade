@@ -20,6 +20,7 @@ export const createAddChatAction = (chat: anyObject) => {
 }
 
 export const createSetChatsAction = (chat: anyObject) => {
+    console.log('createSetChatsAction')
     return {
         type: constantsOfActions.setChats,
         payload: chat,
@@ -35,7 +36,6 @@ export const createGetOneChatAction = (chat: anyObject) => {
         switch (status) {
             case 200:
                 dispatch(createOpenChatAction(jsonBody));
-                router.route(`/:${chat.id}`);
                 break;
             case 401:
                 // TODO: отрендерить ошибку

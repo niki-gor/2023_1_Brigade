@@ -30,6 +30,7 @@ export class DumbChat extends Component {
 
     getMessageList() {
         const messages: Message[] = [];
+        console.log('DumbChat', this.props.chatData)
         for (let message of this.props.chatData.messages) {
             let messageData: {messageAvatar: string, messageUsername: string} = this.#getMessageData(message);
             messages.push(new Message({
