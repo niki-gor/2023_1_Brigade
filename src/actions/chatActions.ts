@@ -41,6 +41,7 @@ export const createGetOneChatAction = (chat: anyObject) => {
         switch (status) {
             case 200:
                 dispatch(createOpenChatAction(jsonBody));
+                console.log('get one chat body: ', jsonBody);
                 break;
             case 401:
                 // TODO: отрендерить ошибку
