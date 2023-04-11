@@ -24,7 +24,11 @@ export const createAuthAction = () : AsyncAction => {
 
             break;
         case 401:
-            router.route('/login');
+            if (window.location.pathname == '/signup') {
+                router.route('/signup');
+            } else {
+                router.route('/login');
+            }
             break;
         case 500:
             // TODO: отрендерить ошибку
