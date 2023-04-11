@@ -13,8 +13,8 @@ export class DumbAddContactInGroup extends Component {
 
     render() {
         return template({
-            groupChangeForm: this.props.groupInfo,
-            groupMembers:  new DumbContacts({
+            GroupChangeForm: this.props.groupChangeForm,
+            GroupMembers:  new DumbContacts({
                 headContactsValue: 'Участники',
             }),
         })

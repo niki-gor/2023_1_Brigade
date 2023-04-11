@@ -28,6 +28,7 @@ export class SmartAddUserInGroup extends Container {
     }
 
     render() {
+        console.log('add user component render method has been called: ');
         if (this.state.isSubscribed) { //&& this.props.contacts && this.props.groupId
             console.log('addUserInGroup props', this.props);
             const addUser = new DumbAddContactInGroup({
