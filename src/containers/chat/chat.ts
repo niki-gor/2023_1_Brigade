@@ -55,11 +55,18 @@ export class SmartChat extends Container {
                 this.rootNode.innerHTML = chat.render();
     
                 this.state.domElements.submitBtn = document.querySelector('.view-chat__send-message-button');
+                const input = document.querySelector('.input-message__text-field__in') as HTMLInputElement;
+
+                input.addEventListener('keydown', e => {
+                    if (e.key === 'Enter' && e.target) {
+                        this.handleClickSendButton(input);
+                    }
+                });
+
                 this.state.domElements.submitBtn?.addEventListener('click', (e) => {
                     e.preventDefault();
-                    const sendBtn = e.target as HTMLElement;
     
-                    this.handleClickSendButton(sendBtn);
+                    this.handleClickSendButton(input);
                 });
     
                 this.state.domElements.deleteBtn?.addEventListener('click', (e) => {
@@ -67,7 +74,7 @@ export class SmartChat extends Container {
                     const deleteBtn = e.target as HTMLElement;
     
                     this.handleClickDeleteButton(deleteBtn);
-                })
+                });
             } else {
                 const emptyUI = new DumbEmptyDynamicPage({ 
                     ...this.props,
@@ -102,8 +109,7 @@ export class SmartChat extends Container {
         }
     }    
     
-    handleClickSendButton(sendBtn: HTMLElement) {
-        const input = document.querySelector('.input-message__text-field__in') as HTMLInputElement;
+    handleClickSendButton(input: HTMLInputElement) {
         if (input.value) {
             const newMessage = new DOMParser().parseFromString(new Message({
                 messageSide: true,
@@ -128,6 +134,7 @@ export class SmartChat extends Container {
     handleClickDeleteButton(deleteBtn: HTMLElement) {
         this.componentWillUnmount();
         const chatId = this.props.openedChat.id;
+        console.log('check chatId', chatId);
         store.dispatch(createDeleteChatAction(chatId));
     }
 
