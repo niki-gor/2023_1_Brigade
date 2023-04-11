@@ -35,9 +35,9 @@ export const dynamicUrlsRegex: RegExp[] = [
     /^\/([a-z0-9_-]+)\/add$/i,
 ];
 
-export const dynamicComponent = {
-    chatId: 0,
-    chatAdd: 1, 
+export enum dynamicComponent {
+    chatId,
+    chatAdd, 
 }
 
 // ***********************Test***************************
