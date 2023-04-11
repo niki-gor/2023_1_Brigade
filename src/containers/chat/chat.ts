@@ -42,8 +42,7 @@ export class SmartChat extends Container {
      * Рендерит чат
      */
     render() {
-        if (this.state.isSubscribed && this.props.chatId) {
-            console.log('Chat props', this.props);
+        if (this.state.isSubscribed && this.chatId) {
             const chat = new DumbChat({
                 chatData: this.props.openedChat,
                 userId: this.props?.user?.id,
@@ -73,6 +72,11 @@ export class SmartChat extends Container {
             }); 
 
             this.rootNode.innerHTML = emptyUI.render();
+        }
+        
+        const uns = this.unsubscribe.pop();
+        if (uns) {
+            uns();
         }
     }
 
@@ -108,7 +112,7 @@ export class SmartChat extends Container {
         getWs().send({
             body: input.value,
             author_id: this.props.user.id,
-            chat_id: this.props.chatID,
+            chat_id: this.chatId,
         })
 
         input.value = '';
@@ -123,22 +127,17 @@ export class SmartChat extends Container {
     componentDidMount() {
         if (!this.state.isSubscribed) {
             this.state.isSubscribed = true;
+            
+            if (this.chatId) {
+                this.unsubscribe.push(getWs().subscribe(this.chatId, this.renderIncomingMessage));
 
-            if (this.props.chatId) {
-                this.unsubscribe.push(getWs().subscribe(this.props.chatID, this.renderIncomingMessage));
-
-                this.unsubscribe.push(store.subscribe(this.name, (pr: componentProps) => {
+                this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: componentProps) => {
                     this.props = pr;
 
                     this.render();
                 }))
-
-                for (const key in this.props.chats) {
-                    if (this.props.chats[key].id == this.props.chatId) {
-                        store.dispatch(createGetOneChatAction(this.props.chats[key]));
-                        break;
-                    }
-                }
+                
+                store.dispatch(createGetOneChatAction({ chatId: this.chatId }));
             } else {
                 this.render();
             }
