@@ -3,7 +3,6 @@ import "@components/chat/chat.scss";
 import { Component } from "@components/component";
 import { svgButtonUI } from "@components/ui/button/button";
 import { chatAvatarUi } from "@/components/ui/chatAvatar/chatAvatar";
-import { avatarUi } from "@components/ui/avatar/avatar";
 import { inputUi } from "@components/ui/input/input";
 import { Message } from "@components/message/message";
 
