@@ -1,5 +1,3 @@
-import { constantsOfActions } from "@/config/actions";
-
 export const createStore = (reducers: Map<string, Reducer>) : Store => {
     let state: anyObject = {};
     let subscribers = new Map<string, Function>();
@@ -12,7 +10,7 @@ export const createStore = (reducers: Map<string, Reducer>) : Store => {
                 state = reducer(state, action);
             }
             subscribers.forEach((cb) => {
-                cb(state)
+                cb(state);
             });
         },
         subscribe: (key: string, cb: (state: componentProps) => void) => {

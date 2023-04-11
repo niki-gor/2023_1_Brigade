@@ -31,11 +31,11 @@ export class DumbChat extends Component {
     getMessageList() {
         const messages: Message[] = [];
         
-        if (this.props.chatData.messages) {
+        if (this.props.chatData?.messages) {
             for (let message of this.props.chatData.messages) {
                 let messageData: {messageAvatar: string, messageUsername: string} = this.#getMessageData(message);
                 messages.push(new Message({
-                    messageSide: message.author.id === this.props.userId,
+                    messageSide: message.author_id === this.props.userId,
                     messageAvatar: avatarUi.renderTemplate({
                         ClassName: 'message__avatar',
                         PathToUserImage: messageData.messageAvatar, 

@@ -2,7 +2,7 @@ import { Container } from "@containers/container";
 import { store } from "@/store/store";
 import { DumbChat } from "@/components/chat/chat";
 import { Message } from "@/components/message/message";
-import { createDeleteChatAction, createGetOneChatAction, createOpenChatAction } from "@/actions/chatActions";
+import { createDeleteChatAction, createGetOneChatAction, createIsNotRenderedAction } from "@/actions/chatActions";
 import { getWs } from "@/utils/ws";
 import { DumbEmptyDynamicPage } from "@/components/emptyDynamicPage/emptyDynamicPage";
 
@@ -42,42 +42,46 @@ export class SmartChat extends Container {
      * Рендерит чат
      */
     render() {
-        if (this.state.isSubscribed && this.chatId) {
-            const chat = new DumbChat({
-                chatData: this.props.openedChat,
-                userId: this.props?.user?.id,
-                userAvatar: this.props?.user?.avatar,
-                nickname: this.props?.user?.nickname,
-                chatAvatar: this.props?.openedChat?.avatar,
-                chatTitle: this.props?.openedChat?.title,
-            });
-            this.rootNode.innerHTML = chat.render();
+        if (this.props?.openedChat?.isNotRendered) {
+            if (this.state.isSubscribed && this.chatId) {
+                const chat = new DumbChat({
+                    chatData: this.props.openedChat,
+                    userId: this.props?.user?.id,
+                    userAvatar: this.props?.user?.avatar,
+                    nickname: this.props?.user?.nickname,
+                    chatAvatar: this.props?.openedChat?.avatar,
+                    chatTitle: this.props?.openedChat?.title,
+                });
+                this.rootNode.innerHTML = chat.render();
+    
+                this.state.domElements.submitBtn = document.querySelector('.view-chat__send-message-button');
+                this.state.domElements.submitBtn?.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const sendBtn = e.target as HTMLElement;
+    
+                    this.handleClickSendButton(sendBtn);
+                });
+    
+                this.state.domElements.deleteBtn?.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const deleteBtn = e.target as HTMLElement;
+    
+                    this.handleClickDeleteButton(deleteBtn);
+                })
+            } else {
+                const emptyUI = new DumbEmptyDynamicPage({ 
+                    ...this.props,
+                }); 
+    
+                this.rootNode.innerHTML = emptyUI.render();
+            }
+            
+            const uns = this.unsubscribe.pop();
+            if (uns) {
+                uns();
+            }
 
-            this.state.domElements.submitBtn = document.querySelector('.view-chat__send-message-button');
-            this.state.domElements.submitBtn?.addEventListener('click', (e) => {
-                e.preventDefault();
-                const sendBtn = e.target as HTMLElement;
-
-                this.handleClickSendButton(sendBtn);
-            });
-
-            this.state.domElements.deleteBtn?.addEventListener('click', (e) => {
-                e.preventDefault();
-                const deleteBtn = e.target as HTMLElement;
-
-                this.handleClickDeleteButton(deleteBtn);
-            })
-        } else {
-            const emptyUI = new DumbEmptyDynamicPage({ 
-                ...this.props,
-            }); 
-
-            this.rootNode.innerHTML = emptyUI.render();
-        }
-        
-        const uns = this.unsubscribe.pop();
-        if (uns) {
-            uns();
+            store.dispatch(createIsNotRenderedAction());
         }
     }
 
@@ -127,13 +131,13 @@ export class SmartChat extends Container {
         store.dispatch(createDeleteChatAction(chatId));
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         if (!this.state.isSubscribed) {
             this.state.isSubscribed = true;
             
             if (this.chatId) {
                 this.unsubscribe.push(getWs().subscribe(parseInt(this.chatId), this.renderIncomingMessage.bind(this)));
-
+                
                 this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: componentProps) => {
                     this.props = pr;
 

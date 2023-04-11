@@ -1,9 +1,15 @@
 import { constantsOfActions } from "@/config/actions";
 import { ChatTypes } from "@/config/enum";
-import { getWs } from "@/utils/ws";
 import { store } from "@/store/store";
 import { createChat, deleteChat, getChats, getOneChat } from "@/utils/api";
 import { router } from "@/router/router";
+
+export const createIsNotRenderedAction = () => {
+    return {
+        type: constantsOfActions.isNotRendered,
+        payload: null,
+    }
+}
 
 export const createOpenChatAction = (chat: anyObject) => {
     return {
