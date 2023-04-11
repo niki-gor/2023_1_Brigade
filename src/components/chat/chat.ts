@@ -12,13 +12,13 @@ export class DumbChat extends Component {
         super(props);
     }
 
-    #getMessageData(message: {id: number}) : {messageAvatar: string, messageUsername: string} {
+    #getMessageData(message: {author_id: number}) : {messageAvatar: string, messageUsername: string} {
         let messageAvatar;
         let messageUsername;
         for (let member of this.props.chatData.members) { // TODO: можно лучше
-            if (member.id === message.id) {
+            if (member.id === message.author_id) {
                 messageAvatar = member.avatar;
-                messageUsername = member.username;
+                messageUsername = member.nickname;
             }
         }
 
@@ -36,18 +36,15 @@ export class DumbChat extends Component {
                 let messageData: {messageAvatar: string, messageUsername: string} = this.#getMessageData(message);
                 messages.push(new Message({
                     messageSide: message.author_id === this.props.userId,
-                    messageAvatar: avatarUi.renderTemplate({
-                        ClassName: 'message__avatar',
-                        PathToUserImage: messageData.messageAvatar, 
-                        Online: false,
-                    }),
+                    messageAvatar: messageData.messageAvatar,
                     username: messageData.messageUsername,
                     messageContent: message.body,
                 }).render());
             }
+            console.log(messages[0])
         }
 
-        return messages;
+        return messages.reverse();
     }
 
     render() {
