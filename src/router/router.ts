@@ -60,7 +60,9 @@ class Router {
 
             window.history.pushState({dynamicParam: dynamicUrl.dynamicParam, path: dynamicUrl.path}, '', dynamicUrl.path);
             this.currentRoute?.component?.componentDidMount();
-        } else {            
+        } else {  
+            this.#setCurrentRoute(path);
+            this.currentRoute?.component?.componentDidMount();          
             window.history.pushState({path: this.currentRoute?.path}, '', path);
         }
     }

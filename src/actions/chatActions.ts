@@ -104,7 +104,7 @@ export const createCreateDialogAction = (contact: anyObject) => {
             case 201:
                 dispatch(createAddChatAction(jsonBody));
                 dispatch(createOpenChatAction(jsonBody));
-                dispatch(createMoveToChatAction(state().openedChat));
+                dispatch(createMoveToChatAction({ chatId: state().openedChat.id }));
                 break;
             case 401:
                 // TODO: отрендерить ошибку
@@ -136,8 +136,9 @@ export const createDeleteChatAction = (deletedChatId: string) => {
     return async (dispatch: (action: Action) => void, state: Function) => {
         for (const key in state().chats) {
             const chat = state().chats[key];
-            if (chat?.id === deletedChatId) {
+            if (chat?.id == deletedChatId) {
                 dispatch(createDeleteChatFromStoreAction(chat));
+                break;
             }
         }
 

@@ -36,14 +36,15 @@ export class SmartChat extends Container {
                 deleteBtn: null,
             },
         }
+        this.chatId = props.chatId;
     }
 
     /**
      * Рендерит чат
      */
     render() {
-        if (this.props?.openedChat?.isNotRendered) {
-            if (this.state.isSubscribed && this.chatId) {
+        if (this.state.isSubscribed && this.chatId) {
+            if (this.props?.openedChat?.isNotRendered) {
                 const chat = new DumbChat({
                     chatData: this.props.openedChat,
                     userId: this.props?.user?.id,
@@ -54,7 +55,7 @@ export class SmartChat extends Container {
                 });
 
                 this.rootNode.innerHTML = chat.render();
-    
+
                 this.state.domElements.submitBtn = document.querySelector('.view-chat__send-message-button');
                 this.state.domElements.deleteBtn = document.querySelector('.delete-btn');
 
@@ -68,30 +69,24 @@ export class SmartChat extends Container {
 
                 this.state.domElements.submitBtn?.addEventListener('click', (e) => {
                     e.preventDefault();
-    
+
                     this.handleClickSendButton(input);
                 });
-    
+
                 this.state.domElements.deleteBtn?.addEventListener('click', (e) => {
                     e.preventDefault();
                     const deleteBtn = e.target as HTMLElement;
-    
+
                     this.handleClickDeleteButton(deleteBtn);
                 });
-            } else {
-                const emptyUI = new DumbEmptyDynamicPage({ 
-                    ...this.props,
-                }); 
-    
-                this.rootNode.innerHTML = emptyUI.render();
-            }
-            
-            const uns = this.unsubscribe.pop();
-            if (uns) {
-                uns();
-            }
 
-            store.dispatch(createIsNotRenderedAction());
+                store.dispatch(createIsNotRenderedAction());
+
+                const uns = this.unsubscribe.pop();
+                if (uns) {
+                    uns();
+                }
+            };
         }
     }
 
@@ -135,9 +130,7 @@ export class SmartChat extends Container {
     }
 
     handleClickDeleteButton(deleteBtn: HTMLElement) {
-        this.componentWillUnmount();
         store.dispatch(createDeleteChatAction(this.props.openedChat.id));
-        location.reload();
     }
 
     async componentDidMount() {
@@ -155,7 +148,11 @@ export class SmartChat extends Container {
                 
                 store.dispatch(createGetOneChatAction({ chatId: this.chatId }));
             } else {
-                this.render();
+                const emptyUI = new DumbEmptyDynamicPage({ 
+                    ...this.props,
+                }); 
+    
+                this.rootNode.innerHTML = emptyUI.render();
             }
         }
     }
