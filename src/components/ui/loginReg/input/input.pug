@@ -1,23 +1,23 @@
 .login__item.input.flex
     if type=='email'
-        input(type='email', placeholder='Email address').login-reg__input.email
+        input(type='email', placeholder='Почта').login-reg__input.email
         div.input__errors.flex
-            span.empty-email.login-reg__error.invisible Email not filled
-            span.missdog-email.login-reg__error.invisible '@mail' prefix is required
-            span.invalid-email.login-reg__error.invisible Email not correct
-            span.occupied-email.login-reg__error.invisible Already have an account with this email
+            span.empty-email.login-reg__error.invisible Почта не может быть пустой
+            span.missdog-email.login-reg__error.invisible Не найден символ @
+            span.invalid-email.login-reg__error.invisible Такая почта незарегистрирована
+            span.occupied-email.login-reg__error.invisible Уже есть аккаунт с такой почтой
     else if type=='password'
-        input(type='password', placeholder='Password').login-reg__input.password
+        input(type='password', placeholder='Пароль').login-reg__input.password
         div.input__errors.flex
-            span.empty-password.login-reg__error.invisible Password not filled
-            span.invalid-password.login-reg__error.invisible Password too short
+            span.empty-password.login-reg__error.invisible Пароль не может быть пустым
+            span.invalid-password.login-reg__error.invisible Пароль слишком короткий
     else if type=='nickname'
-        input(type='text', placeholder='Your username').login-reg__input.nickname
+        input(type='text', placeholder='Ваше никнейм').login-reg__input.nickname
         div.input__errors.flex
-            span.empty-nickname.login-reg__error.invisible Nick not filled
-            span.invalid-nickname.login-reg__error.invisible Nick too short
+            span.empty-nickname.login-reg__error.invisible Никнейм не может быть пустым
+            span.invalid-nickname.login-reg__error.invisible Никнейм слишком короткий
     else if type=='confirm password'
-        input(type='password', placeholder='Confirm password').login-reg__input.confirm-password
+        input(type='password', placeholder='Подтверждение пароля').login-reg__input.confirm-password
         div.input__errors.flex
-            span.empty-confirm-password.login-reg__error.invisible Confirm password not filled
-            span.invalid-confirm-password.login-reg__error.invisible Confirm password not correct
+            span.empty-confirm-password.login-reg__error.invisible Подтверждение пароля не может быть пустым
+            span.invalid-confirm-password.login-reg__error.invisible Подтверждение пароля не сходится с паролем

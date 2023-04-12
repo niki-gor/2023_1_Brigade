@@ -7,6 +7,8 @@ import { createSignUpAction } from "@/actions/authActions";
 import { createMoveToLoginAction, createRenderAction } from "@/actions/routeActions";
 import { DYNAMIC, SIDEBAR, SIGNUP, STATIC } from "@/config/config";
 import { Contacts } from "@containers/contacts/createContacts";
+import { Sidebar } from "../sidebar/createSidebar";
+import { Chats } from "../chatList/createChatList";
 
 
 export interface SmartSignUp {
@@ -79,13 +81,13 @@ export class SmartSignUp extends Container {
             }); 
 
             SIDEBAR.innerHTML = STATIC.innerHTML = DYNAMIC.innerHTML = '';
-            Contacts.componentWillUnmount();
+            
             this.rootNode.insertAdjacentHTML("afterbegin", SignUpUI.render());
 
             this.state.domElements.signUpButton = document.querySelector('.reg-but');
             this.state.domElements.signUpButton?.addEventListener('click', (e) => {
                 e.preventDefault();
-3
+
                 this.handleClickSignUp();
             });
 

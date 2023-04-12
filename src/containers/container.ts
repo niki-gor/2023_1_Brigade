@@ -12,7 +12,7 @@ export class Container {
      * @param {Object} props - необходимые для работы класса свойства
      * @default {Element} rootNode - div, через который происходит взаимодействие с html.
      */
-    constructor(props = { rootNode: ROOT } as componentProps) {
+    constructor(props = { rootNode: ROOT, chatId: undefined } as componentProps) {
         this.state = {};
         this.props = props;
         this.unsubscribe = [];

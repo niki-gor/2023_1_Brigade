@@ -2,7 +2,7 @@ import { Container } from "@containers/container";
 import { store } from "@store/store";
 import { createGetChatsAction, createGetOneChatAction } from "@/actions/chatActions";
 import { DumbChatList } from "@/components/chatList/chatList";
-import { createMoveToCreateGroupAction } from "@/actions/routeActions";
+import { createMoveToChatAction, createMoveToCreateGroupAction } from "@/actions/routeActions";
 
 export interface SmartChatList {
     state: {
@@ -76,11 +76,11 @@ export class SmartChatList extends Container {
 
     handleClickOpenChat(chat: HTMLElement) {
         if (chat.classList.contains('chat-card')) {
-            const chatID = chat.getAttribute('name');
+            const chatId = chat.getAttribute('name');
 
             for (const key in this.props.chats) {
-                if (this.props.chats[key].id == chatID) {
-                    store.dispatch(createGetOneChatAction(this.props.chats[key]));
+                if (this.props.chats[key].id == chatId) {
+                    store.dispatch(createMoveToChatAction({ chatId: this.props.chats[key].id }));
                     break;
                 }
             }

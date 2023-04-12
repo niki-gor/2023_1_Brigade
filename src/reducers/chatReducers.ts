@@ -1,5 +1,22 @@
 import { constantsOfActions } from "@/config/actions";
 
+export const reduceIsNotRendered = (state: anyObject, action: Action) => {
+    switch (action.type) {
+        case constantsOfActions.isNotRendered:
+            return {
+                ...state,
+                openedChat: {
+                    ...state.openedChat,
+                    isNotRendered: false,
+                }
+            }
+        default:
+            return {
+                ...state,
+            }
+    }
+}
+
 export const reduceAddChat = (state: anyObject, action: Action) => {
     switch (action.type) {
         case constantsOfActions.addChat:
@@ -56,12 +73,34 @@ export const reduceOpenChat = (state: anyObject, action: Action) => {
             }
             return {
                 ...state,
-                openedChats: [ action.payload, ],
-                openChatNow: action.payload?.id,
+                openedChat: {
+                    ...action.payload,
+                    isNotRendered: true,
+                },
             };
         default:
             return {
                 ...state,
             }
+    }
+}
+
+export const reduceDeleteChat = (state: anyObject, action: Action) => {
+    switch (action.type) {
+        case constantsOfActions.deleteChat:
+            if (action.payload?.id) {
+                for (const key in state.chats) {
+                    if (state.chats[key].id == action.payload?.id) {
+                        delete state.chats[key];
+                    }
+                }
+            }
+            return {
+                ...state,
+            };
+        default:
+            return {
+                ...state,
+            };
     }
 }

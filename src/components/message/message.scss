@@ -1,0 +1,50 @@
+.messages__message {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    min-width: 90px;
+    background-color: transparent;
+}
+
+.message__avatar {
+    margin-right: 5px;
+}
+
+.message-left {
+    align-self: flex-start;
+}
+
+.message-right {
+    align-self: flex-end;
+}
+
+.message__right-side {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    max-width: 50%;
+}
+
+.message__right-side__username {
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    color: #FFFFFF;
+    padding: 5px;
+}
+
+.message__right-side__text-content {
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    min-width: 500px;
+    min-height: 50px;
+    padding: 10px;
+}

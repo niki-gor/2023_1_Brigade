@@ -1,12 +1,18 @@
 import { constantsOfActions } from "@/config/actions";
 import { ChatTypes } from "@/config/enum";
-import { getWs } from "@/utils/ws";
 import { store } from "@/store/store";
-import { createChat, getChats, getOneChat } from "@/utils/api";
+import { createChat, deleteChat, getChats, getOneChat } from "@/utils/api";
+import { router } from "@/router/router";
+import { createMoveToChatAction } from "./routeActions";
+
+export const createIsNotRenderedAction = () => {
+    return {
+        type: constantsOfActions.isNotRendered,
+        payload: null,
+    }
+}
 
 export const createOpenChatAction = (chat: anyObject) => {
-    //TODO: вызвать роутер на рендер страницы чата
-
     return {
         type: constantsOfActions.openChat,
         payload: chat,
@@ -78,12 +84,11 @@ export const createGetChatsAction = () => {
 }
 
 export const createCreateDialogAction = (contact: anyObject) => {
-    return async (dispatch: (action: Action) => void, state: Function) => {
+    return async (dispatch: (action: Action | AsyncAction) => void, state: Function) => {
         for (const key in state().chats) {
             const st = state().chats[key];
-            console.log(st)
             if (st.type === ChatTypes.Dialog && st.members[0]?.id == contact.id) {
-                return dispatch(createOpenChatAction(st));
+                return dispatch(createMoveToChatAction({ chatId: st.id }));
             }
         }
 
@@ -98,7 +103,7 @@ export const createCreateDialogAction = (contact: anyObject) => {
         switch (status) {
             case 201:
                 dispatch(createAddChatAction(jsonBody));
-                dispatch(createOpenChatAction(jsonBody));
+                dispatch(createMoveToChatAction({ chatId: jsonBody.id }));
                 break;
             case 401:
                 // TODO: отрендерить ошибку
@@ -114,19 +119,46 @@ export const createCreateDialogAction = (contact: anyObject) => {
     };
 }
 
-//? Не уверен, насколько это надо, еще и лишний раз дергать стор
-// export const createSendMessageAction = (message: anyObject) => {
-//     return async (dispatch: (action: Action) => void, state: Function) => {
-//         const ws = getWs();
-//         ws.send(message);
+/**
+ * 
+ * @param chatId - id удаляемого чата
+ * @returns 
+ */
+export const createDeleteChatFromStoreAction = (chat: anyObject) => {
+    return {
+        type: constantsOfActions.deleteChat,
+        payload: chat,
+    }
+}
 
-//         dispatch(createSentMessageAction());
-//     }
-// }
+export const createDeleteChatAction = (deletedChatId: string) => {
+    return async (dispatch: (action: Action) => void, state: Function) => {
+        for (const key in state().chats) {
+            const chat = state().chats[key];
+            if (chat?.id == deletedChatId) {
+                dispatch(createDeleteChatFromStoreAction(chat));
+                break;
+            }
+        }
 
-// export const createSentMessageAction = () => {
-//     return {
-//         type: constantsOfActions.sentMessage,
-//         payload: null,
-//     }
-// }
+        const { status } = await deleteChat(deletedChatId);
+
+        switch (status) {
+            case 204:
+                router.route('/');
+                break;
+            case 401:
+                // TODO: отрендерить ошибку
+            case 403:          
+                // TODO: отрендерить ошибку
+            case 404:
+                // TODO: отрендерить ошибку
+            case 500:
+                // TODO: отрендерить ошибку
+            case 0:
+                // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
+            default:
+               // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
+        }
+    }
+}

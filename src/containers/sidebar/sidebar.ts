@@ -85,7 +85,7 @@ export class SmartSidebar extends Container {
 
     componentDidMount() {
         if (!this.state.isSubscribed) {
-            this.unsubscribe.push(store.subscribe(this.name, (pr: componentProps) => {
+            this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: componentProps) => {
                 this.props = pr;
                 
                 this.render();
