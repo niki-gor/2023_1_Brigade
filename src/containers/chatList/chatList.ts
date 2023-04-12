@@ -38,10 +38,13 @@ export class SmartChatList extends Container {
 
             this.state.domElements.chats = document.querySelector('.chats');
             this.state.domElements.chats?.addEventListener('click', (e) => {
-                e.preventDefault();
-                const chat = e.target as HTMLElement;
+                let chat = e?.target as HTMLElement | null | undefined;
+                chat = chat?.closest('.chat-card');
                 
-                this.handleClickOpenChat(chat);
+                if (chat) {
+                    this.handleClickOpenChat(chat);
+                    e.preventDefault();
+                }
             });
 
             this.state.domElements.createGroup = document.querySelector('.chat-list__header__write-message-button');
@@ -75,16 +78,12 @@ export class SmartChatList extends Container {
     }
 
     handleClickOpenChat(chat: HTMLElement) {
-        if (chat.classList.contains('chat-card')) {
-            const chatId = chat.getAttribute('name');
+        const chatId = chat.getAttribute('name');
 
-            console.log('chats: ', this.props.chats);
-
-            for (const key in this.props.chats) {
-                if (this.props.chats[key].id == chatId) {
-                    store.dispatch(createMoveToChatAction({ chatId: this.props.chats[key].id }));
-                    break;
-                }
+        for (const key in this.props.chats) {
+            if (this.props.chats[key].id == chatId) {
+                store.dispatch(createMoveToChatAction({ chatId: this.props.chats[key].id }));
+                break;
             }
         }
     }

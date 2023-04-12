@@ -6,4 +6,5 @@ export const config = {
     updateUser: '/users/settings/',
     contacts: '/users/contacts/',
     chats: '/chats/',
+    uploadAvatar: '/images/',
 };

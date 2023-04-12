@@ -29,7 +29,7 @@ export class SmartAddUserInGroup extends Container {
             },
         }
 
-        console.log('chat id', this.props?.openedChat.id);
+        this.chatId = this.props.chatId
     }
 
     #contactClicked  = 'rgb(37, 37, 48)';
@@ -37,31 +37,37 @@ export class SmartAddUserInGroup extends Container {
 
     render() {
         if (this.state.isSubscribed) {
-            const addUser = new DumbAddContactInGroup({
-                groupName: this.props?.openedChat?.title,
-                contactList: this.props?.contacts,
-            });
+            for (const key in this.props.chats) {
+                if (this.props.chats[key].id == this.chatId) {
+                    const addUser = new DumbAddContactInGroup({
+                        groupName: this.props.chats[key].title,
+                        contactList: this.props?.contacts,
+                    });
+        
+                    this.rootNode.innerHTML = addUser.render();
+        
+                    this.state.domElements.saveChangesBtn = document.querySelector('.button-submit');
+                    const input = document.querySelector('.groupName') as HTMLInputElement;
+                    input.value = this.props.chats[key].title;
+        
+                    this.state.domElements.saveChangesBtn?.addEventListener('click', (e) => {
+                        e.preventDefault();
+        
+                        this.handleClickSaveButton(input);
+                    });
+        
+                    document.querySelectorAll('.contact').forEach((contact: any) => {
+                        contact.style.backgroundColor = this.#contactUnClicked;
+                        contact.addEventListener('click', (e: any) => {
+                            e.preventDefault()
+        
+                            this.handleClickChooseContact(contact);
+                        });
+                    });
 
-            this.rootNode.innerHTML = addUser.render();
-
-            this.state.domElements.saveChangesBtn = document.querySelector('.button-submit');
-            const input = document.querySelector('.groupName') as HTMLInputElement;
-            input.value = this.props.openedChat.title;
-
-            this.state.domElements.saveChangesBtn?.addEventListener('click', (e) => {
-                e.preventDefault();
-
-                this.handleClickSaveButton(input);
-            });
-
-            document.querySelectorAll('.contact').forEach((contact: any) => {
-                contact.style.backgroundColor = this.#contactUnClicked;
-                contact.addEventListener('click', (e: any) => {
-                    e.preventDefault()
-
-                    this.handleClickChooseContact(contact);
-                });
-            });
+                    break;
+                }
+            }
         }
     }
 
