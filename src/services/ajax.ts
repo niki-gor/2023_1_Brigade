@@ -69,6 +69,7 @@ const ajaxMultipartForm = (
         headers: {
             Host: BACKEND_URL,
             'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundary',
+            // `Content-Disposition`,
         },
         credentials: 'include',
         mode: 'cors',

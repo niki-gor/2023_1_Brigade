@@ -159,6 +159,7 @@ export class SmartProfile extends Container {
 
         input.addEventListener('change', () => {
             this.#image = input?.files?.[0];
+            console.log(this.#image)
             if (this.#image) {
                 const reader = new FileReader();
                 reader.readAsDataURL(this.#image);
