@@ -1,3 +1,4 @@
+import { createGetContactsAction } from "@/actions/contactsActions";
 import { DumbAddContactInGroup } from "@/components/addContactInGroup/addContact";
 import { store } from "@/store/store";
 import { Container } from "@containers/container";
@@ -28,16 +29,29 @@ export class SmartAddUserInGroup extends Container {
     }
 
     render() {
-        console.log('add user component render method has been called: ');
+        // console.log('add user component render method has been called: ');
+        console.log('props: ', this.props);
         if (this.state.isSubscribed) { //&& this.props.contacts && this.props.groupId && this.props.openedChat
             const addUser = new DumbAddContactInGroup({
                 groupName: this.props?.openedChat?.title,
-                groupChangeForm: 'Change group',
-                membersList: this.props?.openedChat?.members,
+                contactList: this.props?.contacts,
             });
 
             this.rootNode.innerHTML = addUser.render();
+
+            this.state.domElements.saveChangesBtn = document.querySelector('.button-submit');
+            const input = document.querySelector('.groupName') as HTMLInputElement;
+
+            this.state.domElements.saveChangesBtn?.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                this.handleClickSaveButton(input);
+            });
         }
+    }
+
+    handleClickSaveButton(input: HTMLInputElement) {
+
     }
 
     componentDidMount() {
@@ -50,7 +64,10 @@ export class SmartAddUserInGroup extends Container {
                 this.render();
             }));
             // TODO: store.dispatch(createAddUserInChatAction());
+            
         }
+
+        store.dispatch(createGetContactsAction());
     }
 
     componentWillUnmount() {

@@ -12,22 +12,22 @@ export class DumbAddContactInGroup extends Component {
         super(props);
     }
 
-    getGroupMembers() {
-        const members: DumbContact[] = [];
-
-        for (let member of this.props?.membersList) {
-            members.push(new DumbContact({
+    getContactList() {
+        const contacts: DumbContact[] = [];
+        for (const contact in this.props?.contactList) {
+        
+            contacts.push(new DumbContact({
                 avatar: smallEllipseIconUI.renderTemplate({
-                    imgSrc: member.avatar,
-                    altMsg: member.nickname,
+                    imgSrc: this.props?.contactList[contact].avatar,
+                    altMsg: this.props?.contactList[contact].nickname,
                 }),
-                nickname: member.nickname,
-                status: member.status,
-                id: member.id,
+                nickname: this.props?.contactList[contact].nickname,
+                status: this.props?.contactList[contact].status,
+                id: this.props?.contactList[contact].id,
             }).render());
         }
 
-        return members;
+        return contacts;
     }
 
     render() {
@@ -43,8 +43,8 @@ export class DumbAddContactInGroup extends Component {
                 className: 'button-submit',
                 buttonValue: 'Сохранить изменения',
             }),
-            GroupMembers:  this.getGroupMembers(),
-            GroupMembersHeader: 'Members',
+            Contacts:  this.getContactList(),
+            GroupMembersHeader: 'Контакты',
         })
     }
 }
