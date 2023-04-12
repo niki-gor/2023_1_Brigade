@@ -3,14 +3,15 @@ import { DumbProfile } from "@/components/profile/profile";
 import { checkPassword, checkNickname, addErrorToClass } from "@/utils/validator";
 import { store } from "@/store/store";
 import { passwordErrorTypes, usernameErrorTypes, nicknameErrorTypes } from "@/config/errors";
-import { createUpdateUserAvatarAction } from "@/actions/userActions";
+import { createUpdateUserAction, createUpdateUserAvatarAction } from "@/actions/userActions";
 import { createRenderAction } from "@/actions/routeActions";
 
 export interface SmartProfile {
     state: {
         isSubscribed: boolean,
         valid: {
-            passwordIsValid: boolean,
+            currentPasswordIsValid: boolean,
+            newPasswordIsValid: boolean,
             nicknameIsValid: boolean,
             isValid: () => boolean,
         },
@@ -40,10 +41,12 @@ export class SmartProfile extends Container {
         this.state = {
             isSubscribed: false,
             valid: {
-                passwordIsValid: false,
+                currentPasswordIsValid: false,
+                newPasswordIsValid: false,
                 nicknameIsValid: false,
                 isValid: () => {
-                    return this.state.valid.passwordIsValid &&
+                    return this.state.valid.currentPasswordIsValid &&
+                           this.state.valid.newPasswordIsValid &&
                            this.state.valid.nicknameIsValid;
                 }
             },
@@ -187,7 +190,9 @@ export class SmartProfile extends Container {
                 current_password: this.state.domElements.current_password?.value,
                 new_password: this.state.domElements.new_password?.value,
             } as anyObject;
-            store.dispatch(createUpdateUserAvatarAction(this.#image))
+
+            // store.dispatch(createUpdateUserAction(user));
+            store.dispatch(createUpdateUserAvatarAction(this.#image));
         // }
     }
 
@@ -203,7 +208,7 @@ export class SmartProfile extends Container {
         if (isError) {
             this.state.domElements.current_password?.classList.add('data-input--error');
             addErrorToClass(errorClass, passwordErrorTypes);
-            this.state.valid.passwordIsValid = false;
+            this.state.valid.currentPasswordIsValid = false;
             return;
         }
 
@@ -211,11 +216,11 @@ export class SmartProfile extends Container {
             // TODO:
             this.state.domElements.current_password?.classList.add('data-input--error');
             addErrorToClass(errorClass, passwordErrorTypes);
-            this.state.valid.passwordIsValid = false;
+            this.state.valid.currentPasswordIsValid = false;
             return;
         }
 
-        this.state.valid.passwordIsValid = true;
+        this.state.valid.currentPasswordIsValid = true;
     }
 
     /**
@@ -230,11 +235,11 @@ export class SmartProfile extends Container {
         if (isError) {
             this.state.domElements.new_password?.classList.add('data-input--error');
             addErrorToClass(errorClass, passwordErrorTypes);
-            this.state.valid.passwordIsValid = false;
+            this.state.valid.newPasswordIsValid = false;
             return;
         }
 
-        this.state.valid.passwordIsValid = true;
+        this.state.valid.newPasswordIsValid = true;
     }
 
     /**
