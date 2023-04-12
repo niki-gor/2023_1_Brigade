@@ -38,7 +38,6 @@ class Router {
      */
     route(path: string) {
         if (this.currentRoute) {
-            console.log('current route has been unmount');
             this.currentRoute.component?.componentWillUnmount();
         }
         
