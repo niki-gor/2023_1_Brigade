@@ -9,7 +9,7 @@ export class inputUi extends Component {
     render() {
         return template({
             InputClassName: this.props.inputClassName,
-            UserImage: this.props.userImage,
+            // UserImage: this.props.userImage,
             SendBtn: this.props.sendBtn,
             PlaceHolder: this.props.placeholder,
         });

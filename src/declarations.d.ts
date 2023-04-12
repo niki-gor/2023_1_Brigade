@@ -22,7 +22,7 @@ interface Action extends anyObject {
 }
 
 interface AsyncAction {
-    (dispatch: (action: Action) => void, state: Function) : Promise<void>,
+    (dispatch: (action: Action | AsyncAction ) => void, state: Function) : Promise<void>,
 }
 
 interface Response extends anyObject {
@@ -53,7 +53,7 @@ interface Middleware {
 }
 
 interface Dispatch {
-    (action: Action) : void,
+    (action: Action | AsyncAction) : void,
 }
 
 interface ErrorTypes {

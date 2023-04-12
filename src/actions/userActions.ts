@@ -35,8 +35,8 @@ export const createOccupiedUsernameAction = () : Action => {
     }
 }
 
-export const createUpdateUserInfoAction = (user: anyObject) : AsyncAction => {
-    return async (dispatch: (action: Action) => void, state: anyObject) => {
+export const createUpdateUserAction = (user: anyObject) : AsyncAction => {
+    return async (dispatch: (action: Action) => void, state: Function) => {
         const { status, body } = await updateUser(user);
         const { jsonBody } = await body;
         

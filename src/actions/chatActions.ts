@@ -1,9 +1,16 @@
 import { constantsOfActions } from "@/config/actions";
 import { ChatTypes } from "@/config/enum";
-import { getWs } from "@/utils/ws";
 import { store } from "@/store/store";
 import { createChat, deleteChat, getChats, getOneChat } from "@/utils/api";
 import { router } from "@/router/router";
+import { createMoveToChatAction } from "./routeActions";
+
+export const createIsNotRenderedAction = () => {
+    return {
+        type: constantsOfActions.isNotRendered,
+        payload: null,
+    }
+}
 
 export const createOpenChatAction = (chat: anyObject) => {
     return {
@@ -77,11 +84,11 @@ export const createGetChatsAction = () => {
 }
 
 export const createCreateDialogAction = (contact: anyObject) => {
-    return async (dispatch: (action: Action) => void, state: Function) => {
+    return async (dispatch: (action: Action | AsyncAction) => void, state: Function) => {
         for (const key in state().chats) {
             const st = state().chats[key];
             if (st.type === ChatTypes.Dialog && st.members[0]?.id == contact.id) {
-                return dispatch(createOpenChatAction(st));
+                return dispatch(createMoveToChatAction({ chatId: st.id }));
             }
         }
 
@@ -96,7 +103,7 @@ export const createCreateDialogAction = (contact: anyObject) => {
         switch (status) {
             case 201:
                 dispatch(createAddChatAction(jsonBody));
-                dispatch(createOpenChatAction(jsonBody));
+                dispatch(createMoveToChatAction({ chatId: jsonBody.id }));
                 break;
             case 401:
                 // TODO: отрендерить ошибку
@@ -124,18 +131,17 @@ export const createDeleteChatFromStoreAction = (chat: anyObject) => {
     }
 }
 
-export const createDeleteChatAction = (deletedChat: anyObject) => {
+export const createDeleteChatAction = (deletedChatId: string) => {
     return async (dispatch: (action: Action) => void, state: Function) => {
         for (const key in state().chats) {
             const chat = state().chats[key];
-            if (chat?.id === deletedChat?.id) {
+            if (chat?.id == deletedChatId) {
                 dispatch(createDeleteChatFromStoreAction(chat));
+                break;
             }
         }
 
-        const { status } = await deleteChat({
-            chat_id: deletedChat.id,
-        });
+        const { status } = await deleteChat(deletedChatId);
 
         switch (status) {
             case 204:

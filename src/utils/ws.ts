@@ -11,11 +11,10 @@ const createWs = () => {
     
         // Обработчик события получения сообщения от сервера
         ws.onmessage = (event) => {
-            console.log('Message received from server:', event.data);
-
-            const cb = subscribers.get(event.data.chat_id);
+            const e = JSON.parse(event.data);
+            const cb = subscribers.get(e.chat_id);
             if (cb) {
-                cb(event.data);
+                cb(e);
             }
         };
     

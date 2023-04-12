@@ -1,6 +1,7 @@
 import {constantsOfActions} from "@config/actions";
 import {createChat} from "@utils/api";
 import {createAddChatAction, createOpenChatAction} from "@actions/chatActions";
+import { createMoveToChatAction } from "./routeActions";
 
 export const createSetCreateGroupAction = (state: anyObject) : Action => {
     return {
@@ -9,15 +10,16 @@ export const createSetCreateGroupAction = (state: anyObject) : Action => {
     }
 }
 
-export const createGetCreateGroupAction = (group: anyObject) : AsyncAction => {
-    return async (dispatch: (action: Action) => void, state: anyObject) => {
+export const createCreateGroupAction = (group: anyObject) : AsyncAction => {
+    return async (dispatch: (action: Action) => void, state: Function) => {
         const { status, body } = await createChat(group);
         const jsonBody = await body;
 
         switch (status) {
             case 201:
                 dispatch(createAddChatAction(jsonBody));
-                dispatch(createOpenChatAction(jsonBody));
+                dispatch(createMoveToChatAction({ chatId: jsonBody.id }));
+                break;
             case 401:
             // TODO: отрендерить ошибку
             case 404:

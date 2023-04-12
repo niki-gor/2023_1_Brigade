@@ -7,7 +7,7 @@ import { Sidebar } from "@/containers/sidebar/createSidebar";
 import { getWs } from "@/utils/ws";
 
 export const createAuthAction = () : AsyncAction => {
-    return async (dispatch: (action: Action) => void, state: anyObject) => {
+    return async (dispatch: (action: Action) => void, state: Function) => {
         const { status, body } = await auth();
         
         switch (status) {
@@ -24,7 +24,11 @@ export const createAuthAction = () : AsyncAction => {
 
             break;
         case 401:
-            router.route('/login');
+            if (window.location.pathname == '/signup') {
+                router.route('/signup');
+            } else {
+                router.route('/login');
+            }
             break;
         case 500:
             // TODO: отрендерить ошибку
@@ -37,7 +41,7 @@ export const createAuthAction = () : AsyncAction => {
 };
 
 export const createLoginAction = (user: anyObject) : AsyncAction => {
-    return async (dispatch: (action: Action) => void, state: anyObject) => {
+    return async (dispatch: (action: Action) => void, state: Function) => {
         const { status, body } = await login(user);
 
         switch (status) {
@@ -69,7 +73,7 @@ export const createLoginAction = (user: anyObject) : AsyncAction => {
 };
 
 export const createSignUpAction = (user: anyObject) : AsyncAction => {
-    return async (dispatch: (action: Action) => void, state: anyObject) => {
+    return async (dispatch: (action: Action) => void, state: Function) => {
         const { status, body } = await signUp(user);
 
         switch (status) {
@@ -101,7 +105,7 @@ export const createSignUpAction = (user: anyObject) : AsyncAction => {
 };
 
 export const createLogoutAction = () : AsyncAction => {
-    return async (dispatch: (action: Action) => void, state: anyObject) => {
+    return async (dispatch: (action: Action) => void, state: Function) => {
         const { status, body } = await logout();
 
         switch (status) {

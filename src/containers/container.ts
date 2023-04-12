@@ -18,7 +18,6 @@ export class Container {
         this.unsubscribe = [];
         if (Object.hasOwnProperty.call(props, 'rootNode')) {
             this.rootNode = props.rootNode ?? ROOT;
-            this.chatId = props.chatId;
         }
     }
 }

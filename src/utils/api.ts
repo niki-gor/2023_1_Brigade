@@ -319,10 +319,9 @@ export const getOneChat = (chat: anyObject) => {
         });
 };
 
-export const deleteChat = (body: anyObject) => {
-    return post(
-        config.chats,
-        body,
+export const deleteChat = (deletedId: string) => {
+    return deleteSession(
+        config.chats+deletedId+'/',
     )
     .then (({ status }) => {
         switch (status) {

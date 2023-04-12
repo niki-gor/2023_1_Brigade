@@ -18,4 +18,5 @@ export const constantsOfActions = {
     setChats: 'setChats',
     createGroup: 'createGroup',
     deleteChat: 'deleteChat',
+    isNotRendered: 'isNotRendered',
 }
