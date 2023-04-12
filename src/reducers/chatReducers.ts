@@ -89,11 +89,10 @@ export const reduceDeleteChat = (state: anyObject, action: Action) => {
     switch (action.type) {
         case constantsOfActions.deleteChat:
             if (action.payload?.id) {
-                console.log('state:', state);
-                const index = state.chats.findIndex((chat: { id: number }) => chat.id === action.payload?.id);
-                if (index !== -1) {
-                    state.chats.splice(index, 1);
-                    console.log('findIndex true state:', state);
+                for (const key in state.chats) {
+                    if (state.chats[key].id == action.payload?.id) {
+                        delete state.chats[key];
+                    }
                 }
             }
             return {

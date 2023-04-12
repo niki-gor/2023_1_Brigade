@@ -80,7 +80,7 @@ export class SmartChatList extends Container {
 
             for (const key in this.props.chats) {
                 if (this.props.chats[key].id == chatId) {
-                    store.dispatch(createMoveToChatAction(this.props.chats[key]));
+                    store.dispatch(createMoveToChatAction({ chatId: this.props.chats[key].id }));
                     break;
                 }
             }

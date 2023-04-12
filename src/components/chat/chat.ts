@@ -40,7 +40,6 @@ export class DumbChat extends Component {
                     messageContent: message.body,
                 }).render());
             }
-            console.log(messages[0])
         }
 
         return messages.reverse();

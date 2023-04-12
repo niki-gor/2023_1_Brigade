@@ -3,9 +3,10 @@ import { store } from "@/store/store";
 import { addErrorToClass, checkNickname } from "@/utils/validator";
 import { countingMembersErrorTypes, nicknameErrorTypes } from "@/config/errors";
 import { DumbCreateGroup } from "@/components/createGroup/createGroup";
-import { createGetCreateGroupAction } from "@actions/groupActions";
+import { createCreateGroupAction } from "@actions/groupActions";
 import { ChatTypes } from "@config/enum";
 import { createGetContactsAction } from "@/actions/contactsActions";
+import { createMoveToChatAction, createMoveToChatsAction } from "@/actions/routeActions";
 
 
 export interface SmartCreateGroup {
@@ -129,7 +130,8 @@ export class SmartCreateGroup extends Container {
                 members: choseContacts,
             }
 
-            store.dispatch(createGetCreateGroupAction(contacts))
+            store.dispatch(createCreateGroupAction(contacts));
+            store.dispatch(createMoveToChatsAction());
         }
     }
 

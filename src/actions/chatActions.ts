@@ -3,6 +3,7 @@ import { ChatTypes } from "@/config/enum";
 import { store } from "@/store/store";
 import { createChat, deleteChat, getChats, getOneChat } from "@/utils/api";
 import { router } from "@/router/router";
+import { createMoveToChatAction } from "./routeActions";
 
 export const createIsNotRenderedAction = () => {
     return {
@@ -41,7 +42,6 @@ export const createGetOneChatAction = (chat: anyObject) => {
         switch (status) {
             case 200:
                 dispatch(createOpenChatAction(jsonBody));
-                console.log('get one chat body: ', jsonBody);
                 break;
             case 401:
                 // TODO: отрендерить ошибку
@@ -84,11 +84,11 @@ export const createGetChatsAction = () => {
 }
 
 export const createCreateDialogAction = (contact: anyObject) => {
-    return async (dispatch: (action: Action) => void, state: Function) => {
+    return async (dispatch: (action: Action | AsyncAction) => void, state: Function) => {
         for (const key in state().chats) {
             const st = state().chats[key];
             if (st.type === ChatTypes.Dialog && st.members[0]?.id == contact.id) {
-                return dispatch(createOpenChatAction(st));
+                return dispatch(createMoveToChatAction({ chatId: st.id }));
             }
         }
 
@@ -103,7 +103,7 @@ export const createCreateDialogAction = (contact: anyObject) => {
         switch (status) {
             case 201:
                 dispatch(createAddChatAction(jsonBody));
-                dispatch(createOpenChatAction(jsonBody));
+                dispatch(createMoveToChatAction({ chatId: jsonBody.id }));
                 break;
             case 401:
                 // TODO: отрендерить ошибку
@@ -135,9 +135,9 @@ export const createDeleteChatAction = (deletedChatId: string) => {
     return async (dispatch: (action: Action) => void, state: Function) => {
         for (const key in state().chats) {
             const chat = state().chats[key];
-            console.log('chat value: ', chat);
-            if (chat?.id === deletedChatId) {
+            if (chat?.id == deletedChatId) {
                 dispatch(createDeleteChatFromStoreAction(chat));
+                break;
             }
         }
 
