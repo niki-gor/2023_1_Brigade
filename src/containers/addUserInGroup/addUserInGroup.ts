@@ -73,8 +73,10 @@ export class SmartAddUserInGroup extends Container {
                 this.props.user.id
             ];
 
+            console.log('openChatId: ', this.props?.openedChat.id);
+
             const updateGroupState = {
-                id: this.props?.openedChat.id,
+                id: this.props?.openedChat.id, // скорее всего id мне чата мне даня должен вернуть
                 type: ChatTypes.Group,
                 title: input?.value,
                 members: choseContacts,

@@ -15,7 +15,6 @@ export class DumbAddContactInGroup extends Component {
     getContactList() {
         const contacts: DumbContact[] = [];
         for (const contact in this.props?.contactList) {
-        
             contacts.push(new DumbContact({
                 avatar: smallEllipseIconUI.renderTemplate({
                     imgSrc: this.props?.contactList[contact].avatar,

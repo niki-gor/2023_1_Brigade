@@ -81,6 +81,6 @@ export const createMoveToEditChatAction = (chat: anyObject) : Action => {
 
     return {
         type: constantsOfActions.moveToEditChat,
-        payload: null,
+        payload: chat.chatId,
     }
 }
