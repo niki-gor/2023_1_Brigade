@@ -13,7 +13,6 @@ const createWs = () => {
         ws.onmessage = (event) => {
             const e = JSON.parse(event.data);
             const cb = subscribers.get(e.chat_id);
-            console.log(e)
             if (cb) {
                 cb(e);
             }
