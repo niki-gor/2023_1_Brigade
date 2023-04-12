@@ -164,29 +164,33 @@ export const createDeleteChatAction = (deletedChatId: string) => {
 }
 
 // Нажимаем на кнопку save changes
-export const createEditChatFromStoreAction = (chat: anyObject) => {
+export const createEditChatFromStoreAction = (updateGroupState: anyObject) => {
     return {
         type: constantsOfActions.editChat,
-        payload: chat,
+        payload: updateGroupState,
     }
 }
 
-export const createEditChatAction = (openedChat: anyObject) => {
+export const createEditChatAction = (updateGroupState: anyObject) => {
     return async (dispatch: (action: Action) => void, state: Function) => {
-
+        if (updateGroupState) {
+            dispatch(createEditChatFromStoreAction(updateGroupState));
+        }
 
         const { status, body } = await editChat({
-            id: openedChat.id,
-            type: openedChat.type,
-            title: openedChat.title,
-            members: openedChat.members,
+            type: updateGroupState.type,
+            title: updateGroupState.title,
+            members: updateGroupState.members,
         });
 
         let jsonBody = await body;
-        
+
         switch (status) {
             case 201:
-                router.route(`/${openedChat.id}`);
+                if (updateGroupState.id) {
+                    router.route(`/${updateGroupState.id}`);
+                }
+                // TODO: обновить стор
                 break;
             case 401:
                 // TODO: отрендерить ошибку

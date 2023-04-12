@@ -109,8 +109,12 @@ export const reduceDeleteChat = (state: anyObject, action: Action) => {
 export const reduceEditChat = (state: anyObject, action: Action) => {
     switch (action.type) {
         case constantsOfActions.editChat:
+            console.log('current chat info: ', ...state.chats[action.payload?.id])
             return {
                 ...state,
+                chats: { 
+                    ...state.chats[action.payload?.id] = action.payload,
+                },
             };
         default:
             return {

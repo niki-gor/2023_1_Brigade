@@ -1,5 +1,7 @@
+import { createEditChatAction } from "@/actions/chatActions";
 import { createGetContactsAction } from "@/actions/contactsActions";
 import { DumbAddContactInGroup } from "@/components/addContactInGroup/addContact";
+import { ChatTypes } from "@/config/enum";
 import { store } from "@/store/store";
 import { Container } from "@containers/container";
 
@@ -26,11 +28,14 @@ export class SmartAddUserInGroup extends Container {
                 saveChangesBtn: null,
             },
         }
+
+        console.log('chat id', this.props?.openedChat.id);
     }
 
+    #contactClicked  = 'rgb(37, 37, 48)';
+    #contactUnClicked = 'rgb(28, 28, 36)';
+
     render() {
-        // console.log('add user component render method has been called: ');
-        console.log('props: ', this.props);
         if (this.state.isSubscribed) { //&& this.props.contacts && this.props.groupId && this.props.openedChat
             const addUser = new DumbAddContactInGroup({
                 groupName: this.props?.openedChat?.title,
@@ -47,6 +52,15 @@ export class SmartAddUserInGroup extends Container {
 
                 this.handleClickSaveButton(input);
             });
+
+            document.querySelectorAll('.contact').forEach((contact: any) => {
+                contact.style.backgroundColor = this.#contactUnClicked;
+                contact.addEventListener('click', (e: any) => {
+                    e.preventDefault()
+
+                    this.handleClickChooseContact(contact);
+                });
+            });
         }
     }
 
@@ -54,13 +68,38 @@ export class SmartAddUserInGroup extends Container {
         let groupTitle = document.querySelector('.change-group__name');
         if (input.value && groupTitle) {
             groupTitle.textContent = input.value;
-            // TODO: store.dispatch(createAddUserInChatAction());
+            const choseContacts = [
+                ...this.getChoseContacts(),
+                this.props.user.id
+            ];
+
+            const updateGroupState = {
+                id: this.props?.openedChat.id,
+                type: ChatTypes.Group,
+                title: input?.value,
+                members: choseContacts,
+            }
+
+            console.log('before state: ', store.getState());
+            store.dispatch(createEditChatAction(updateGroupState)); // TODO: передаем input.value, newMembers[] из выбранных contacts
+            console.log('after state: ', store.getState());
         }
         input.value = '';
     }
 
+    /**
+     * Выбор контакта из списка контактов
+     */
+    handleClickChooseContact(contact: any) {
+        if (contact.style.backgroundColor == this.#contactUnClicked) {
+            contact.style.backgroundColor = this.#contactClicked;
+        } else {
+            contact.style.backgroundColor = this.#contactUnClicked;
+        }
+    }
+
     componentDidMount() {
-        if (!this.state.isSubscribed) { // TODO: && this.props?.contacts
+        if (!this.state.isSubscribed) {
             this.state.isSubscribed = true;
 
             this.unsubscribe.push(store.subscribe(this.name, (pr: componentProps) => {
@@ -78,5 +117,17 @@ export class SmartAddUserInGroup extends Container {
             this.unsubscribe.forEach((uns) => uns());
             this.state.isSubscribed = false;
         }
+    }
+
+    getChoseContacts() {
+        let contacts: number[] = [];
+        document.querySelectorAll('.contact').forEach((contact: any) => {
+            if (contact.style.backgroundColor == this.#contactClicked) {
+                const contactID = contact.getAttribute('name');
+                contacts.push(Number(contactID));
+            }
+        });
+
+        return contacts;
     }
 }
