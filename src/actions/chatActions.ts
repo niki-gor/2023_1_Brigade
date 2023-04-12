@@ -177,7 +177,10 @@ export const createEditChatAction = (updateGroupState: anyObject) => {
             dispatch(createEditChatFromStoreAction(updateGroupState));
         }
 
+        console.log('updatedId: ', updateGroupState.id);
+
         const { status, body } = await editChat({
+            id: updateGroupState.id,
             type: updateGroupState.type,
             title: updateGroupState.title,
             members: updateGroupState.members,

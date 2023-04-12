@@ -66,6 +66,7 @@ export class SmartAddUserInGroup extends Container {
 
     handleClickSaveButton(input: HTMLInputElement) {
         let groupTitle = document.querySelector('.change-group__name');
+        let updateChatId;
         if (input.value && groupTitle) {
             groupTitle.textContent = input.value;
             const choseContacts = [
@@ -73,18 +74,20 @@ export class SmartAddUserInGroup extends Container {
                 this.props.user.id
             ];
 
-            console.log('openChatId: ', this.props?.openedChat.id);
+            for (const index in this.props.chats) {
+                if (this.props.chats[index]?.id == this.props.openedChat?.id) {
+                    updateChatId = this.props.chats[index].id;
+                }
+            }
 
             const updateGroupState = {
-                id: this.props?.openedChat.id, // скорее всего id мне чата мне даня должен вернуть
+                id: updateChatId,
                 type: ChatTypes.Group,
                 title: input?.value,
                 members: choseContacts,
             }
 
-            console.log('before state: ', store.getState());
-            store.dispatch(createEditChatAction(updateGroupState)); // TODO: передаем input.value, newMembers[] из выбранных contacts
-            console.log('after state: ', store.getState());
+            store.dispatch(createEditChatAction(updateGroupState));
         }
         input.value = '';
     }
