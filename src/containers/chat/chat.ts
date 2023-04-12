@@ -86,7 +86,7 @@ export class SmartChat extends Container {
 
                 if (this.props.openedChat.type === ChatTypes.Group) {
                     this.state.domElements.editBtn?.addEventListener('click', (e) => {
-                        e.preventDefault();
+                        console.log('edit button handler: ');
 
                         this.handleClickEditButton();
                     });

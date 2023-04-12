@@ -5,6 +5,7 @@ import { svgButtonUI } from "@components/ui/button/button";
 import { chatAvatarUi } from "@/components/ui/chatAvatar/chatAvatar";
 import { inputUi } from "@components/ui/input/input";
 import { Message } from "@components/message/message";
+import { ChatTypes } from "@/config/enum";
 
 export class DumbChat extends Component {
     constructor(props: any) {
@@ -46,8 +47,12 @@ export class DumbChat extends Component {
     }
 
     render() {
+        let editBtnClassName: string = "";
+        if (this.props.chatData.type === ChatTypes.Group) {
+            editBtnClassName = 'edit-chat';
+        }
         return template({
-            MoreInfoBtn: svgButtonUI.renderTemplate({svgClassName: 'edit-chat'}),
+            MoreInfoBtn: svgButtonUI.renderTemplate({svgClassName: editBtnClassName}),
             SendMessageBtn: svgButtonUI.renderTemplate({svgClassName: 'view-chat__send-message-button'}),
             DeleteChatBtn: svgButtonUI.renderTemplate({svgClassName: 'delete-btn'}),
             HeaderUserAvatar: chatAvatarUi.renderTemplate({
