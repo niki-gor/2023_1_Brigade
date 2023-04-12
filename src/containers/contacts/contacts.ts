@@ -41,10 +41,13 @@ export class SmartContacts extends Container {
 
             this.state.domElements.contacts = document.querySelector('.contacts__contacts');
             this.state.domElements.contacts?.addEventListener('click', (e) => {
-                e.preventDefault();
-                const contact = e.target as HTMLElement;
+                let contact = e?.target as HTMLElement | null | undefined;
+                contact = contact?.closest('.contact');
                 
-                this.handleClickCreateDialog(contact);
+                if (contact) {
+                    this.handleClickCreateDialog(contact);
+                    e.preventDefault();
+                }
             });
 
             // TODO: навесить обработчик на добавление контакта
