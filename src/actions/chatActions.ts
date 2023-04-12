@@ -193,6 +193,7 @@ export const createEditChatAction = (updateGroupState: anyObject) => {
                 if (updateGroupState.id) {
                     router.route(`/${updateGroupState.id}`);
                 }
+                dispatch(createOpenChatAction(jsonBody));
                 break;
             case 401:
                 // TODO: отрендерить ошибку
