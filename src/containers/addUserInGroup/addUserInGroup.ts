@@ -51,7 +51,12 @@ export class SmartAddUserInGroup extends Container {
     }
 
     handleClickSaveButton(input: HTMLInputElement) {
-
+        let groupTitle = document.querySelector('.change-group__name');
+        if (input.value && groupTitle) {
+            groupTitle.textContent = input.value;
+            // TODO: store.dispatch(createAddUserInChatAction());
+        }
+        input.value = '';
     }
 
     componentDidMount() {
@@ -63,8 +68,6 @@ export class SmartAddUserInGroup extends Container {
     
                 this.render();
             }));
-            // TODO: store.dispatch(createAddUserInChatAction());
-            
         }
 
         store.dispatch(createGetContactsAction());
