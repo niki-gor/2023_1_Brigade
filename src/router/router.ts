@@ -64,6 +64,7 @@ class Router {
         } else {
             console.log('/: ', path)
             this.#setCurrentRoute(path);
+            console.log('current route: ', this.currentRoute);
             this.currentRoute?.component?.componentDidMount();
             window.history.pushState({path: this.currentRoute?.path}, '', path);
         }

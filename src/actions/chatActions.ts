@@ -154,6 +154,7 @@ export const createDeleteChatAction = (deletedChatId: string) => {
             case 404:
                 // TODO: отрендерить ошибку
             case 500:
+                router.route('/');
                 // TODO: отрендерить ошибку
             case 0:
                 // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
