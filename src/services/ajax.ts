@@ -38,7 +38,53 @@ const ajax = (
         })
         .catch((err) => {
             const { status } = err;
-            
+
+            let parsedBody;
+            if (status !== 204) {
+                parsedBody = err.json();
+            }
+
+            return { status, parsedBody };
+        });
+}
+
+/**
+ * Отправляет HTTP запросы
+ * @param {string} url - url
+ * @param {string} method - HTTP метод
+ * @param {json} body - тело запроса
+ * @returns {Promise} - промис
+ */
+const ajaxMultipartForm = (
+    url: string,
+    method: string,
+    body: File
+) => {
+    const formData = new FormData();
+    formData.append('image', body);
+    
+    return fetch(BACKEND_URL + '/api/v1' + url, {
+        method,
+        headers: {
+            Host: BACKEND_URL,
+        },
+        credentials: 'include',
+        mode: 'cors',
+        body: formData,
+    })
+        .then((response) => {
+            const { status } = response;
+
+            let parsedBody;
+            if (status !== 204) {
+                parsedBody = response.json();
+            }
+
+            return { status, parsedBody };
+        })
+        .catch((err) => {
+            const { status } = err;
+
             let parsedBody;
             if (status !== 204) {
                 parsedBody = err.json();
@@ -108,6 +154,23 @@ export const put = (
     return ajax(
         url,
         AJAX_METHODS.PUT,
+        body,
+    );
+}
+
+/**
+ * Отправляет PUT-запрос
+ * @param {string} url - url
+ * @param {json} body - тело запроса
+ * @returns {Promise} - промис
+ */
+export const postMultipartForm = (
+    url: string,
+    body: File,
+): Promise<any> => {
+    return ajaxMultipartForm(
+        url,
+        AJAX_METHODS.POST,
         body,
     );
 }

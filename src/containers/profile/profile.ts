@@ -3,18 +3,20 @@ import { DumbProfile } from "@/components/profile/profile";
 import { checkPassword, checkNickname, addErrorToClass } from "@/utils/validator";
 import { store } from "@/store/store";
 import { passwordErrorTypes, usernameErrorTypes, nicknameErrorTypes } from "@/config/errors";
-import { createUpdateUserAction } from "@/actions/userActions";
+import { createUpdateUserAction, createUpdateUserAvatarAction } from "@/actions/userActions";
 import { createRenderAction } from "@/actions/routeActions";
 
 export interface SmartProfile {
     state: {
         isSubscribed: boolean,
         valid: {
-            passwordIsValid: boolean,
+            currentPasswordIsValid: boolean,
+            newPasswordIsValid: boolean,
             nicknameIsValid: boolean,
             isValid: () => boolean,
         },
         domElements: {
+            avatar: HTMLInputElement | null,
             username: HTMLInputElement | null,
             nickname: HTMLInputElement | null,
             status: HTMLInputElement | null,
@@ -39,14 +41,17 @@ export class SmartProfile extends Container {
         this.state = {
             isSubscribed: false,
             valid: {
-                passwordIsValid: false,
+                currentPasswordIsValid: false,
+                newPasswordIsValid: false,
                 nicknameIsValid: false,
                 isValid: () => {
-                    return this.state.valid.passwordIsValid &&
+                    return this.state.valid.currentPasswordIsValid &&
+                           this.state.valid.newPasswordIsValid &&
                            this.state.valid.nicknameIsValid;
                 }
             },
             domElements: {
+                avatar: null,
                 username: null,
                 nickname: null,
                 status: null,
@@ -57,16 +62,23 @@ export class SmartProfile extends Container {
         };
     }
 
+    #image:    File | undefined;
+
     /**
      * Рендерит логин
      */
     render() {
         if (this.state.isSubscribed && this.props.user) {
-            const ProfileUI = new DumbProfile({ 
+            const ProfileUI = new DumbProfile({
                 ...this.props,
-            }); 
+            });
 
             this.rootNode.innerHTML = ProfileUI.render();
+
+            this.state.domElements.avatar = document.querySelector('.ellipse-icon');
+            this.state.domElements.avatar?.addEventListener('click', () => {
+                this.handleClickAvatar()
+            });
 
             this.state.domElements.saveButton = document.querySelector('.button-save');
             this.state.domElements.saveButton?.addEventListener('click', (e) => {
@@ -89,8 +101,8 @@ export class SmartProfile extends Container {
                 this.validateNewPassword();
             });
 
-            this.state.domElements.username = document.querySelector('.nickname');
-            this.state.domElements.username?.addEventListener('input', (e) => {
+            this.state.domElements.nickname = document.querySelector('.nickname');
+            this.state.domElements.nickname?.addEventListener('input', (e) => {
                 e.preventDefault();
 
                 this.validateNickname();
@@ -128,7 +140,7 @@ export class SmartProfile extends Container {
             }));
 
             this.state.isSubscribed = true;
-            
+
             store.dispatch(createRenderAction());
         }
     }
@@ -144,10 +156,33 @@ export class SmartProfile extends Container {
     }
 
     /**
+     * Обрабатывает нажатие кнопки аватарки
+     */
+    handleClickAvatar() {
+        const input = document.createElement('input');
+        input.type = 'file';
+
+        input.addEventListener('change', () => {
+            this.#image = input?.files?.[0];
+            if (this.#image) {
+                const reader = new FileReader();
+                reader.readAsDataURL(this.#image);
+                reader.onload = () => {
+                    const imageUrl = reader.result;
+                    const avatar = document.querySelector('.ellipse-icon') as HTMLImageElement;
+                    avatar.src = imageUrl as string;
+                };
+            }
+        });
+
+        input.click();
+    }
+
+    /**
      * Обрабатывает нажатие кнопки логина
      */
     handleClickSave() {
-        if (this.state.valid.isValid()) {
+        // if (this.state.valid.isValid()) {
             const user = {
                 username: this.state.domElements.username?.value,
                 nickname: this.state.domElements.nickname?.value,
@@ -156,8 +191,9 @@ export class SmartProfile extends Container {
                 new_password: this.state.domElements.new_password?.value,
             } as anyObject;
 
-            store.dispatch(createUpdateUserAction(user))
-        }
+            // store.dispatch(createUpdateUserAction(user));
+            store.dispatch(createUpdateUserAvatarAction(this.#image));
+        // }
     }
 
     /**
@@ -172,15 +208,19 @@ export class SmartProfile extends Container {
         if (isError) {
             this.state.domElements.current_password?.classList.add('data-input--error');
             addErrorToClass(errorClass, passwordErrorTypes);
-            this.state.valid.passwordIsValid = false;
+            this.state.valid.currentPasswordIsValid = false;
             return;
         }
 
         if (this.state.domElements.current_password?.value !== this.props.user.password) {
             // TODO:
+            this.state.domElements.current_password?.classList.add('data-input--error');
+            addErrorToClass(errorClass, passwordErrorTypes);
+            this.state.valid.currentPasswordIsValid = false;
+            return;
         }
 
-        this.state.valid.passwordIsValid = true;
+        this.state.valid.currentPasswordIsValid = true;
     }
 
     /**
@@ -195,11 +235,11 @@ export class SmartProfile extends Container {
         if (isError) {
             this.state.domElements.new_password?.classList.add('data-input--error');
             addErrorToClass(errorClass, passwordErrorTypes);
-            this.state.valid.passwordIsValid = false;
+            this.state.valid.newPasswordIsValid = false;
             return;
         }
 
-        this.state.valid.passwordIsValid = true;
+        this.state.valid.newPasswordIsValid = true;
     }
 
     /**
