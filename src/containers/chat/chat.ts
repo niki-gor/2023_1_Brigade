@@ -2,9 +2,10 @@ import { Container } from "@containers/container";
 import { store } from "@/store/store";
 import { DumbChat } from "@/components/chat/chat";
 import { Message } from "@/components/message/message";
-import { createDeleteChatAction, createGetOneChatAction, createIsNotRenderedAction } from "@/actions/chatActions";
+import { createDeleteChatAction, createEditChatAction, createGetOneChatAction, createIsNotRenderedAction } from "@/actions/chatActions";
 import { getWs } from "@/utils/ws";
 import { DumbEmptyDynamicPage } from "@/components/emptyDynamicPage/emptyDynamicPage";
+import { createMoveToEditChatAction } from "@/actions/routeActions";
 
 
 export interface SmartChat {
@@ -13,6 +14,7 @@ export interface SmartChat {
         domElements: {
             submitBtn: HTMLElement | null;
             deleteBtn: HTMLElement | null;
+            editBtn: HTMLElement | null;
         }
     }
 }
@@ -34,6 +36,7 @@ export class SmartChat extends Container {
             domElements: {
                 submitBtn: null,
                 deleteBtn: null,
+                editBtn: null,
             },
         }
         this.chatId = props.chatId;
@@ -58,6 +61,7 @@ export class SmartChat extends Container {
 
                 this.state.domElements.submitBtn = document.querySelector('.view-chat__send-message-button');
                 this.state.domElements.deleteBtn = document.querySelector('.delete-btn');
+                this.state.domElements.editBtn = document.querySelector('.edit-btn');
 
                 const input = document.querySelector('.input-message__text-field__in') as HTMLInputElement;
 
@@ -75,10 +79,15 @@ export class SmartChat extends Container {
 
                 this.state.domElements.deleteBtn?.addEventListener('click', (e) => {
                     e.preventDefault();
-                    const deleteBtn = e.target as HTMLElement;
 
-                    this.handleClickDeleteButton(deleteBtn);
+                    this.handleClickDeleteButton();
                 });
+
+                this.state.domElements.editBtn?.addEventListener('click', (e) => {
+                    e.preventDefault();
+
+                    this.handleClickEditButton();
+                })
 
                 store.dispatch(createIsNotRenderedAction());
 
@@ -129,8 +138,13 @@ export class SmartChat extends Container {
         input.value = '';
     }
 
-    handleClickDeleteButton(deleteBtn: HTMLElement) {
+    handleClickDeleteButton() {
         store.dispatch(createDeleteChatAction(this.props.openedChat.id));
+    }
+
+    handleClickEditButton() {
+        console.log('handleClickedEditButton has been clicked');
+        store.dispatch(createMoveToEditChatAction(this.props.openedChat));
     }
 
     async componentDidMount() {

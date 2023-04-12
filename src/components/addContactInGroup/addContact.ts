@@ -1,7 +1,11 @@
 import { Component } from "@components/component";
 import template from "@components/addContactInGroup/addContact.pug"
 import { DumbContact } from "@components/contact/contact";
-import { smallEllipseIconUI } from "../ui/small-ellipse-icon/small-ellipse-icon";
+import { smallEllipseIconUI } from "@components/ui/small-ellipse-icon/small-ellipse-icon";
+import "@components/addContactInGroup/addContact.scss"
+import "@components/createGroup/createGroup.scss"
+import { dataInputUI } from "@components/ui/data-input/data-input";
+import { blueButtonUI } from "@components/ui/blue-button/blue-button";
 
 export class DumbAddContactInGroup extends Component {
     constructor(props: any) {
@@ -28,8 +32,19 @@ export class DumbAddContactInGroup extends Component {
 
     render() {
         return template({
-            GroupChangeForm: this.props.groupChangeForm,
+            GroupName: this.props.groupName,
+            GroupNameInput: dataInputUI.renderTemplate({
+                className: 'groupName',
+                inputType: 'text',
+                inputPlaceholder: 'новое имя группы',
+                value: '',
+            }),
+            CreateGroupButton: blueButtonUI.renderTemplate({
+                className: 'button-submit',
+                buttonValue: 'Сохранить изменения',
+            }),
             GroupMembers:  this.getGroupMembers(),
+            GroupMembersHeader: 'Members',
         })
     }
 }
