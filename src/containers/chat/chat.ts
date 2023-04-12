@@ -86,8 +86,6 @@ export class SmartChat extends Container {
 
                 if (this.props.openedChat.type === ChatTypes.Group) {
                     this.state.domElements.editBtn?.addEventListener('click', (e) => {
-                        console.log('edit button handler: ');
-
                         this.handleClickEditButton();
                     });
                 }
@@ -146,7 +144,7 @@ export class SmartChat extends Container {
     }
 
     handleClickEditButton() {
-        console.log('openedChat: ', this.props.openedChat);
+        // console.log('openedChat: ', this.props.openedChat);
         store.dispatch(createMoveToEditChatAction(this.props.openedChat));
     }
 
