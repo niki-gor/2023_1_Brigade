@@ -135,6 +135,7 @@ export const createDeleteChatAction = (deletedChatId: string) => {
     return async (dispatch: (action: Action) => void, state: Function) => {
         for (const key in state().chats) {
             const chat = state().chats[key];
+            console.log('chat value: ', chat);
             if (chat?.id === deletedChatId) {
                 dispatch(createDeleteChatFromStoreAction(chat));
             }

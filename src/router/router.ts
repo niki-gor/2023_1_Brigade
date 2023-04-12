@@ -38,6 +38,7 @@ class Router {
      */
     route(path: string) {
         if (this.currentRoute) {
+            console.log('current route has been unmount');
             this.currentRoute.component?.componentWillUnmount();
         }
         
@@ -60,7 +61,10 @@ class Router {
 
             window.history.pushState({dynamicParam: dynamicUrl.dynamicParam, path: dynamicUrl.path}, '', dynamicUrl.path);
             this.currentRoute?.component?.componentDidMount();
-        } else {            
+        } else {
+            console.log('/: ', path)
+            this.#setCurrentRoute(path);
+            this.currentRoute?.component?.componentDidMount();
             window.history.pushState({path: this.currentRoute?.path}, '', path);
         }
     }

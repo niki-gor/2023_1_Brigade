@@ -220,7 +220,7 @@ export const getContacts = () => {
 
 export const createChat = (body: anyObject) => {
     return post(
-        config.chats + body?.id,
+        config.chats,
         body,
     )
     .then(({ status, parsedBody }) => {
