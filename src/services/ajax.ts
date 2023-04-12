@@ -58,17 +58,21 @@ const ajax = (
 const ajaxMultipartForm = (
     url: string,
     method: string,
-    body: anyObject | null | undefined
+    body: File
 ) => {
+    // const fileInput = document.querySelector('input[type="file"]');
+    const formData = new FormData();
+    formData.append('image', body);
+
     return fetch(BACKEND_URL + '/api/v1' + url, {
         method,
         headers: {
             Host: BACKEND_URL,
-            'Content-Type': 'multipart/form-data',
+            'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundary',
         },
         credentials: 'include',
         mode: 'cors',
-        body: body == null ? null : JSON.stringify(body),
+        body: formData,
     })
         .then((response) => {
             const { status } = response;
@@ -164,7 +168,7 @@ export const put = (
  */
 export const postMultipartForm = (
     url: string,
-    body: anyObject | null | undefined,
+    body: File,
 ): Promise<any> => {
     return ajaxMultipartForm(
         url,

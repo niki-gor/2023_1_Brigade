@@ -58,7 +58,6 @@ export class SmartProfile extends Container {
     }
 
     #image:    File | undefined;
-    #formData: any
 
     /**
      * Рендерит логин
@@ -155,19 +154,12 @@ export class SmartProfile extends Container {
      * Обрабатывает нажатие кнопки аватарки
      */
     handleClickAvatar() {
-        // const fileInput = document.querySelector('input[type="file"]');
-        // const formData = new FormData();
-        //
-        // formData.append('file', fileInput.files[0]);
         const input = document.createElement('input');
         input.type = 'file';
 
         input.addEventListener('change', () => {
             this.#image = input?.files?.[0];
-            // const formData = new FormData();
-            this.#formData = new FormData()
             if (this.#image) {
-                this.#formData.append('file', this.#image);
                 const reader = new FileReader();
                 reader.readAsDataURL(this.#image);
                 reader.onload = () => {
@@ -194,7 +186,7 @@ export class SmartProfile extends Container {
                 new_password: this.state.domElements.new_password?.value,
             } as anyObject;
 
-            store.dispatch(createUpdateUserAction(user, this.#formData))
+            store.dispatch(createUpdateUserAction(user, this.#image))
         }
     }
 
@@ -216,6 +208,10 @@ export class SmartProfile extends Container {
 
         if (this.state.domElements.current_password?.value !== this.props.user.password) {
             // TODO:
+            this.state.domElements.current_password?.classList.add('data-input--error');
+            addErrorToClass(errorClass, passwordErrorTypes);
+            this.state.valid.passwordIsValid = false;
+            return;
         }
 
         this.state.valid.passwordIsValid = true;

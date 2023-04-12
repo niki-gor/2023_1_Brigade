@@ -354,11 +354,12 @@ export const uploadAvatar = (avatar: File | undefined) => {
     if (!avatar) {
         return
     }
-    const formData = new FormData();
-    formData.append('image', avatar);
+    // const formData = new FormData();
+    // formData.append('image', avatar);
+    // console.log(formData)
     return postMultipartForm(
         config.uploadAvatar,
-        formData,
+        avatar,
     )
         .then(({status}) => {
             switch (status) {
