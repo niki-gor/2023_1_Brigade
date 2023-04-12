@@ -78,6 +78,8 @@ export class SmartChatList extends Container {
         if (chat.classList.contains('chat-card')) {
             const chatId = chat.getAttribute('name');
 
+            console.log('chats: ', this.props.chats);
+
             for (const key in this.props.chats) {
                 if (this.props.chats[key].id == chatId) {
                     store.dispatch(createMoveToChatAction({ chatId: this.props.chats[key].id }));
