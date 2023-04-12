@@ -77,10 +77,10 @@ export const createMoveToChatAction = (chat: anyObject) : Action => {
 
 // при нажатие на кнопку редактиования динамическая часть заменяется на компонент SmartAddUserInGroup
 export const createMoveToEditChatAction = (chat: anyObject) : Action => {
-    router.route(`/${chat.chatId}/add`);
+    router.route(`/${chat.id}/add`);
 
     return {
         type: constantsOfActions.moveToEditChat,
-        payload: chat.chatId,
+        payload: chat.id,
     }
 }
