@@ -45,7 +45,6 @@ export class SmartChat extends Container {
     render() {
         if (this.state.isSubscribed && this.chatId) {
             if (this.props?.openedChat?.isNotRendered) {
-                console.log('rendering', this.props.openedChat.title, this.props.openedChat.isNotRendered);
                 const chat = new DumbChat({
                     chatData: this.props.openedChat,
                     userId: this.props?.user?.id,
