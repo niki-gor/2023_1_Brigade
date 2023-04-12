@@ -6,6 +6,7 @@ import { createDeleteChatAction, createEditChatAction, createGetOneChatAction, c
 import { getWs } from "@/utils/ws";
 import { DumbEmptyDynamicPage } from "@/components/emptyDynamicPage/emptyDynamicPage";
 import { createMoveToEditChatAction } from "@/actions/routeActions";
+import { ChatTypes } from "@/config/enum";
 
 
 export interface SmartChat {
@@ -83,11 +84,13 @@ export class SmartChat extends Container {
                     this.handleClickDeleteButton();
                 });
 
-                this.state.domElements.editBtn?.addEventListener('click', (e) => {
-                    e.preventDefault();
+                if (this.props.openedChat.type === ChatTypes.Group) {
+                    this.state.domElements.editBtn?.addEventListener('click', (e) => {
+                        e.preventDefault();
 
-                    this.handleClickEditButton();
-                })
+                        this.handleClickEditButton();
+                    });
+                }
 
                 store.dispatch(createIsNotRenderedAction());
 
