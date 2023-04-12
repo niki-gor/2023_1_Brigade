@@ -3,7 +3,7 @@ import { DumbProfile } from "@/components/profile/profile";
 import { checkPassword, checkNickname, addErrorToClass } from "@/utils/validator";
 import { store } from "@/store/store";
 import { passwordErrorTypes, usernameErrorTypes, nicknameErrorTypes } from "@/config/errors";
-import { createUpdateUserAction } from "@/actions/userActions";
+import { createUpdateUserAvatarAction } from "@/actions/userActions";
 import { createRenderAction } from "@/actions/routeActions";
 
 export interface SmartProfile {
@@ -15,6 +15,7 @@ export interface SmartProfile {
             isValid: () => boolean,
         },
         domElements: {
+            avatar: HTMLInputElement | null,
             username: HTMLInputElement | null,
             nickname: HTMLInputElement | null,
             status: HTMLInputElement | null,
@@ -47,6 +48,7 @@ export class SmartProfile extends Container {
                 }
             },
             domElements: {
+                avatar: null,
                 username: null,
                 nickname: null,
                 status: null,
@@ -70,8 +72,8 @@ export class SmartProfile extends Container {
 
             this.rootNode.innerHTML = ProfileUI.render();
 
-            const avatar = document.querySelector('.ellipse-icon');
-            avatar?.addEventListener('click', () => {
+            this.state.domElements.avatar = document.querySelector('.ellipse-icon');
+            this.state.domElements.avatar?.addEventListener('click', () => {
                 this.handleClickAvatar()
             });
 
@@ -159,14 +161,13 @@ export class SmartProfile extends Container {
 
         input.addEventListener('change', () => {
             this.#image = input?.files?.[0];
-            console.log(this.#image)
             if (this.#image) {
                 const reader = new FileReader();
                 reader.readAsDataURL(this.#image);
                 reader.onload = () => {
                     const imageUrl = reader.result;
-                    const avatar = document.querySelector('.ellipse-icon')
-                    avatar?.src = imageUrl;
+                    const avatar = document.querySelector('.ellipse-icon') as HTMLImageElement;
+                    avatar.src = imageUrl as string;
                 };
             }
         });
@@ -178,7 +179,7 @@ export class SmartProfile extends Container {
      * Обрабатывает нажатие кнопки логина
      */
     handleClickSave() {
-        if (this.state.valid.isValid()) {
+        // if (this.state.valid.isValid()) {
             const user = {
                 username: this.state.domElements.username?.value,
                 nickname: this.state.domElements.nickname?.value,
@@ -186,9 +187,8 @@ export class SmartProfile extends Container {
                 current_password: this.state.domElements.current_password?.value,
                 new_password: this.state.domElements.new_password?.value,
             } as anyObject;
-
-            store.dispatch(createUpdateUserAction(user, this.#image))
-        }
+            store.dispatch(createUpdateUserAvatarAction(this.#image))
+        // }
     }
 
     /**

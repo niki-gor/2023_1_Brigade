@@ -60,16 +60,13 @@ const ajaxMultipartForm = (
     method: string,
     body: File
 ) => {
-    // const fileInput = document.querySelector('input[type="file"]');
     const formData = new FormData();
     formData.append('image', body);
-
+    
     return fetch(BACKEND_URL + '/api/v1' + url, {
         method,
         headers: {
             Host: BACKEND_URL,
-            'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundary',
-            // `Content-Disposition`,
         },
         credentials: 'include',
         mode: 'cors',
