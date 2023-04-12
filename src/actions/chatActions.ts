@@ -177,7 +177,7 @@ export const createEditChatAction = (updateGroupState: anyObject) => {
             dispatch(createEditChatFromStoreAction(updateGroupState));
         }
 
-        console.log('updatedId: ', updateGroupState.id);
+        // console.log('updatedId: ', updateGroupState.id);
 
         const { status, body } = await editChat({
             id: updateGroupState.id,
@@ -193,8 +193,6 @@ export const createEditChatAction = (updateGroupState: anyObject) => {
                 if (updateGroupState.id) {
                     router.route(`/${updateGroupState.id}`);
                 }
-                dispatch(createOpenChatAction(jsonBody));
-                dispatch(createSetChatsAction(jsonBody));
                 break;
             case 401:
                 // TODO: отрендерить ошибку

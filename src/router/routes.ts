@@ -5,8 +5,6 @@ import { SmartProfile } from "@/containers/profile/profile";
 import { store } from "@/store/store";
 import { SmartChat } from "@/containers/chat/chat";
 import { SmartCreateGroup } from "@/containers/createGroup/createGroup";
-import { SmartAddUserInGroup } from "@/containers/addUserInGroup/addUserInGroup";
-import { Container } from "@/containers/container";
 
 export interface ComponentTemplate {
     componentWillUnmount: Function;
