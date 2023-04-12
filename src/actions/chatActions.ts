@@ -103,8 +103,7 @@ export const createCreateDialogAction = (contact: anyObject) => {
         switch (status) {
             case 201:
                 dispatch(createAddChatAction(jsonBody));
-                dispatch(createOpenChatAction(jsonBody));
-                dispatch(createMoveToChatAction({ chatId: state().openedChat.id }));
+                dispatch(createMoveToChatAction({ chatId: jsonBody.id }));
                 break;
             case 401:
                 // TODO: отрендерить ошибку

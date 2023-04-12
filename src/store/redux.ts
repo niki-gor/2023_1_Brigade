@@ -8,6 +8,9 @@ export const createStore = (reducers: Map<string, Reducer>) : Store => {
             const reducer = reducers.get(action.type);
             if (reducer) {
                 state = reducer(state, action);
+                if (reducer.name == 'reduceIsNotRendered') {
+                    console.log('reduced', state.openedChat.title, state.openedChat.isNotRendered)
+                }
             }
             subscribers.forEach((cb) => {
                 cb(state);
