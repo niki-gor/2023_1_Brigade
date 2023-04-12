@@ -161,6 +161,7 @@ export class SmartProfile extends Container {
     handleClickAvatar() {
         const input = document.createElement('input');
         input.type = 'file';
+        input.accept = '.jpg';
 
         input.addEventListener('change', () => {
             this.#image = input?.files?.[0];
