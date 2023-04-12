@@ -104,3 +104,28 @@ export const reduceDeleteChat = (state: anyObject, action: Action) => {
             };
     }
 }
+
+// reducer вызывается при сохранения изменений в chat-е
+export const reduceEditChat = (state: anyObject, action: Action) => {
+    switch (action.type) {
+        case constantsOfActions.editChat:
+            for (const index in state.chats) {
+                if (state.chats[index].id == action.payload?.id) {
+                    return {
+                        ...state,
+                        chats: { 
+                            ...state.chats,
+                            [index]: action.payload,
+                        },
+                    };
+                }
+            }
+            return {
+                ...state,
+            };
+        default:
+            return {
+                ...state,
+            };
+    }
+}

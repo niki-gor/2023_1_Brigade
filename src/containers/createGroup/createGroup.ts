@@ -120,7 +120,7 @@ export class SmartCreateGroup extends Container {
     handleClickCreateGroup() {
         if (this.state.valid.isValid()) {
             const choseContacts = [
-                ...this.getChoseContacts(), 
+                ...this.getChoseContacts(),
                 this.props.user.id
             ];
             

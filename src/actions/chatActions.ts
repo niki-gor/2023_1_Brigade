@@ -1,7 +1,7 @@
 import { constantsOfActions } from "@/config/actions";
 import { ChatTypes } from "@/config/enum";
 import { store } from "@/store/store";
-import { createChat, deleteChat, getChats, getOneChat } from "@/utils/api";
+import { createChat, deleteChat, editChat, getChats, getOneChat } from "@/utils/api";
 import { router } from "@/router/router";
 import { createMoveToChatAction } from "./routeActions";
 
@@ -150,6 +150,53 @@ export const createDeleteChatAction = (deletedChatId: string) => {
             case 401:
                 // TODO: отрендерить ошибку
             case 403:          
+                // TODO: отрендерить ошибку
+            case 404:
+                // TODO: отрендерить ошибку
+            case 500:
+                // TODO: отрендерить ошибку
+            case 0:
+                // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
+            default:
+               // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
+        }
+    }
+}
+
+// Нажимаем на кнопку save changes
+export const createEditChatFromStoreAction = (updateGroupState: anyObject) => {
+    return {
+        type: constantsOfActions.editChat,
+        payload: updateGroupState,
+    }
+}
+
+export const createEditChatAction = (updateGroupState: anyObject) => {
+    return async (dispatch: (action: Action) => void, state: Function) => {
+        if (updateGroupState) {
+            dispatch(createEditChatFromStoreAction(updateGroupState));
+        }
+
+        console.log('updatedId: ', updateGroupState.id);
+
+        const { status, body } = await editChat({
+            id: updateGroupState.id,
+            type: updateGroupState.type,
+            title: updateGroupState.title,
+            members: updateGroupState.members,
+        });
+
+        let jsonBody = await body;
+
+        switch (status) {
+            case 201:
+                if (updateGroupState.id) {
+                    router.route(`/${updateGroupState.id}`);
+                }
+                dispatch(createOpenChatAction(jsonBody));
+                dispatch(createSetChatsAction(jsonBody));
+                break;
+            case 401:
                 // TODO: отрендерить ошибку
             case 404:
                 // TODO: отрендерить ошибку

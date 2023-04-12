@@ -1,5 +1,5 @@
 import { DYNAMIC } from '@/config/config';
-// import { SmartAddUserInGroup } from '@/containers/addUserInGroup/addUserInGroup';
+import { SmartAddUserInGroup } from '@/containers/addUserInGroup/addUserInGroup';
 import { SmartChat } from '@/containers/chat/chat';
 import { store } from '@/store/store';
 import { Route, ComponentTemplate, appRoutes, dynamicUrlsRegex, DynamicUrl, dynamicComponent} from '@router/routes';
@@ -38,6 +38,7 @@ class Router {
      */
     route(path: string) {
         if (this.currentRoute) {
+            console.log('current route has been unmount');
             this.currentRoute.component?.componentWillUnmount();
         }
         
@@ -50,7 +51,7 @@ class Router {
                 if (this.#match(dynamicUrl.path) === dynamicComponent.chatId) {
                     this.currentRoute = {path: dynamicUrl.path, component: new SmartChat({...store.getState(), rootNode: DYNAMIC, chatId: dynamicUrl.dynamicParam})};
                 } else if (this.#match(dynamicUrl.path) === dynamicComponent.chatAdd) {
-                    // this.currentRoute = {path: dynamicUrl.path, component: new SmartAddUserInGroup({...store.getState(), rootNode: DYNAMIC, chatId: dynamicUrl.dynamicParam})};
+                    this.currentRoute = {path: dynamicUrl.path, component: new SmartAddUserInGroup({...store.getState(), rootNode: DYNAMIC, chatId: dynamicUrl.dynamicParam})};
                 }
             }
             

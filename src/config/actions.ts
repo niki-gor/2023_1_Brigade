@@ -10,6 +10,7 @@ export const constantsOfActions = {
     moveToChats: 'moveToChats',
     moveToChat: 'moveToChat',
     moveToCreateGroup: 'moveToCreateGroup',
+    moveToEditChat: 'moveToEditChat',
     deleteState: 'deleteState',
     render: 'render',
     setContacts: 'setContacts',
@@ -18,5 +19,6 @@ export const constantsOfActions = {
     setChats: 'setChats',
     createGroup: 'createGroup',
     deleteChat: 'deleteChat',
+    editChat: 'editChat',
     isNotRendered: 'isNotRendered',
 }

@@ -1,0 +1,37 @@
+.change-group {
+    min-height: 100%;
+}
+
+.change-group__form {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+}
+
+.change-group__name {
+    margin-bottom: 10px;
+}
+
+.change-group__input {
+    margin-bottom: 15px;
+}
+
+.change-group__members-list {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 20%;
+    min-height: 100%;
+    background-color: #1C1C24;
+    padding: 10px;
+}
+
+.chat-group__members-list__header {
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.separator-offset {
+    margin-bottom: 10px;
+}
