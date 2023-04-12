@@ -146,7 +146,7 @@ export class SmartChat extends Container {
     }
 
     handleClickEditButton() {
-        console.log('smart chat props:', this.props);
+        console.log('openedChat: ', this.props.openedChat);
         store.dispatch(createMoveToEditChatAction(this.props.openedChat));
     }
 
