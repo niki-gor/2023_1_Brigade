@@ -350,10 +350,7 @@ export const deleteChat = (body: anyObject) => {
     })
 }
 
-export const uploadAvatar = (avatar: File | undefined) => {
-    if (!avatar) {
-        return
-    }
+export const uploadAvatar = (avatar: File) => {
     return postMultipartForm(
         config.uploadAvatar,
         avatar,

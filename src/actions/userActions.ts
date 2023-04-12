@@ -65,28 +65,28 @@ export const createUpdateUserInfoAction = (user: anyObject) : AsyncAction => {
 
 export const createUpdateUserAvatarAction = (avatar: File | undefined) : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: anyObject) => {
-        const Avatar = await uploadAvatar(avatar);
+        if (!avatar) {
+            return;
+        }
 
-        // switch (Avatar.status) {
-        //     case 200:
-        //         // dispatch(createSetUserAction(jsonBody));
-        //         break;
-        //     case 400:
-        //     // TODO:
-        //     case 401:
-        //     // TODO:
-        //     case 404:
-        //     // TODO:
-        //     case 409:
-        //         // dispatch(createOccupiedUsernameAction());
-        //         break;
-        //     case 500:
-        //     // TODO:
-        //     case 0:
-        //     // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
-        //     default:
-        //     // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
-        // }
+        const { status, body } = await uploadAvatar(avatar);
+        const { jsonBody } = await body;
+        
+        switch (status) {
+            case 201:
+                dispatch(createSetUserAction(jsonBody));
+                break;
+            case 401:
+            // TODO:
+            case 404:
+            // TODO:
+            case 500:
+            // TODO:
+            case 0:
+            // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
+            default:
+            // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
+        }
     };
 }
 
