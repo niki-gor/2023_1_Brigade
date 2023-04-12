@@ -16,10 +16,7 @@ export class DumbAddContactInGroup extends Component {
         const contacts: DumbContact[] = [];
         for (const contact in this.props?.contactList) {
             contacts.push(new DumbContact({
-                avatar: smallEllipseIconUI.renderTemplate({
-                    imgSrc: this.props?.contactList[contact].avatar,
-                    altMsg: this.props?.contactList[contact].nickname,
-                }),
+                avatar: this.props?.contactList[contact].avatar,
                 nickname: this.props?.contactList[contact].nickname,
                 status: this.props?.contactList[contact].status,
                 id: this.props?.contactList[contact].id,
@@ -31,7 +28,7 @@ export class DumbAddContactInGroup extends Component {
 
     render() {
         return template({
-            GroupName: this.props.groupName,
+            GroupName: 'Название', // this.props.groupName
             GroupNameInput: dataInputUI.renderTemplate({
                 className: 'groupName',
                 inputType: 'text',

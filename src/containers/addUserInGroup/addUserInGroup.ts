@@ -36,7 +36,7 @@ export class SmartAddUserInGroup extends Container {
     #contactUnClicked = 'rgb(28, 28, 36)';
 
     render() {
-        if (this.state.isSubscribed) { //&& this.props.contacts && this.props.groupId && this.props.openedChat
+        if (this.state.isSubscribed) {
             const addUser = new DumbAddContactInGroup({
                 groupName: this.props?.openedChat?.title,
                 contactList: this.props?.contacts,
@@ -46,6 +46,7 @@ export class SmartAddUserInGroup extends Container {
 
             this.state.domElements.saveChangesBtn = document.querySelector('.button-submit');
             const input = document.querySelector('.groupName') as HTMLInputElement;
+            input.value = this.props.openedChat.title;
 
             this.state.domElements.saveChangesBtn?.addEventListener('click', (e) => {
                 e.preventDefault();
