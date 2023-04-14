@@ -9,8 +9,8 @@ export class DumbError extends Component {
 
     render() {
         return template({
-            ErrorName: this.props.errorName,
-            ErrorDescr: this.props.errorDescr,
+            ErrorName: this.props.error.errorName,
+            ErrorDescr: this.props.error.errorDescr,
         });
     }
 }

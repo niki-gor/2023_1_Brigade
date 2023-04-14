@@ -164,7 +164,7 @@ export class SmartSignUp extends Container {
             this.unsubscribe.forEach((uns) => uns());
             this.state.isSubscribed = false;
 
-            SIGNUP().remove();
+            SIGNUP()?.remove();
         }
     }
 
@@ -194,7 +194,7 @@ export class SmartSignUp extends Container {
      * Проверяет пользовательский ввод почты
      */
     validateEmail() {
-        this.state.domElements.email?.classList.remove('login-reg__input_error');
+        this.state.domElements.email?.classList?.remove('login-reg__input_error');
         addErrorToClass('', emailErrorTypes);
 
         const { isError, errorClass } = checkEmail(this.state.domElements.email?.value ?? '');
@@ -213,7 +213,7 @@ export class SmartSignUp extends Container {
      * Проверяет пользовательский ввод пароля
      */
     validatePassword() {
-        this.state.domElements.password?.classList.remove('login-reg__input_error');
+        this.state.domElements.password?.classList?.remove('login-reg__input_error');
         addErrorToClass('', passwordErrorTypes);
 
         const { isError, errorClass } = checkPassword(this.state.domElements.password?.value ?? '');
@@ -232,7 +232,7 @@ export class SmartSignUp extends Container {
      * Проверяет пользовательский ввод подтверждения пароля
      */
     validateConfirmPassword() {
-        this.state.domElements.confirmPassword?.classList.remove('login-reg__input_error');
+        this.state.domElements.confirmPassword?.classList?.remove('login-reg__input_error');
         addErrorToClass('', confirmPasswordErrorTypes);
 
         const { isError, errorClass } = checkConfirmPassword(this.state.domElements.password?.value ?? '', this.state.domElements.confirmPassword?.value ?? '');
@@ -251,7 +251,7 @@ export class SmartSignUp extends Container {
      * Проверяет пользовательский ввод имени
      */
     validateNickname() {
-        this.state.domElements.nickname?.classList.remove('login-reg__input_error');
+        this.state.domElements.nickname?.classList?.remove('login-reg__input_error');
         addErrorToClass('', nicknameErrorTypes);
 
         const { isError, errorClass } = checkNickname(this.state.domElements.nickname?.value ?? '');

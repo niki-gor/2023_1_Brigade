@@ -138,7 +138,7 @@ export class SmartLogin extends Container {
             this.unsubscribe.forEach((uns) => uns());
             this.state.isSubscribed = false;
 
-            LOGIN().remove();
+            LOGIN()?.remove();
         }
     }
 
@@ -167,7 +167,7 @@ export class SmartLogin extends Container {
      * Проверяет пользовательский ввод почты
      */
     validateEmail() {
-        this.state.domElements.email?.classList.remove('login-reg__input_error');
+        this.state.domElements.email?.classList?.remove('login-reg__input_error');
         addErrorToClass('', emailErrorTypes);
 
         const { isError, errorClass } = checkEmail(this.state.domElements.email?.value ?? '');
@@ -186,7 +186,7 @@ export class SmartLogin extends Container {
      * Проверяет пользовательский ввод пароля
      */
     validatePassword() {
-        this.state.domElements.password?.classList.remove('login-reg__input_error');
+        this.state.domElements.password?.classList?.remove('login-reg__input_error');
         addErrorToClass('', passwordErrorTypes);
 
         const { isError, errorClass } = checkPassword(this.state.domElements.password?.value ?? '');

@@ -60,13 +60,15 @@ class Router {
 
             window.history.pushState({dynamicParam: dynamicUrl.dynamicParam, path: dynamicUrl.path}, '', dynamicUrl.path);
             this.currentRoute?.component?.componentDidMount();
-        } else if (this.routes?.has(path)){  
+        } else  { // TODO: (this.routes?.has(path)) + else для страницы ошибки
             this.#setCurrentRoute(path);
             this.currentRoute?.component?.componentDidMount();
             window.history.pushState({path: this.currentRoute?.path}, '', path);
-        } else {
-            // TODO: setError component
-        }
+        }  
+            
+        // else {
+        //     // TODO: setError component
+        // }
     }
 
     /**

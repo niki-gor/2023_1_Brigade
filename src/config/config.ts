@@ -4,3 +4,4 @@ export const STATIC = document.querySelector('#static') as HTMLElement;
 export const DYNAMIC = document.querySelector('#dynamic') as HTMLElement;
 export const LOGIN = () => document.querySelector('.login') as HTMLElement;
 export const SIGNUP = () => document.querySelector('.reg') as HTMLElement;
+export const ERROR = () => document.querySelector('.error') as HTMLElement;

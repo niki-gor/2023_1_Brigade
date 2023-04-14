@@ -8,6 +8,7 @@ import { getWs } from "@/utils/ws";
 import { createErrorAction } from "./errorActions";
 import { ErrorComponent } from "@/containers/error/createError";
 import { SmartLogin } from "@/containers/login/login";
+import { LOGIN } from "@/config/config";
 
 export const createAuthAction = () : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: Function) => {
@@ -63,8 +64,8 @@ export const createLoginAction = (user: anyObject) : AsyncAction => {
         case 404:
             // ErrorComponent.componentWillUnmount();
             dispatch(createErrorAction(status, jsonBody));
-            ErrorComponent.componentDidMount();
-            // dispatch(createInvalidEmailAction());
+            ErrorComponent.componentDidMount(); // TODO: router.route('kalnsdln');
+            dispatch(createInvalidEmailAction());
             break;
         default:
             dispatch(createErrorAction(status, jsonBody));

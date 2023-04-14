@@ -1,5 +1,5 @@
 import { DumbError } from "@/components/error/error";
-import { DYNAMIC, LOGIN, SIDEBAR, SIGNUP, STATIC } from "@/config/config";
+import { DYNAMIC, ERROR, LOGIN, SIDEBAR, SIGNUP, STATIC } from "@/config/config";
 import { router } from "@/router/router";
 import { store } from "@/store/store";
 import { Container } from "@containers/container";
@@ -43,27 +43,25 @@ export class SmartError extends Container {
     render() {
         if (this.state.isSubscribed && this.props.error) {
             const error = new DumbError({
-                errorName: this.props.error.errorName,
-                errorDescr: this.props.error.errorDescr,
+                ...this.props,
             });
 
             // SIDEBAR.innerHTML = STATIC.innerHTML = DYNAMIC.innerHTML = '';
+            // this.rootNode.insertAdjacentHTML("afterbegin", error.render());
             // LOGIN().remove();
             // SIGNUP().remove();
             // this.rootNode.insertAdjacentHTML("afterbegin", error.render());
             // TODO: сделать unmount всех текущих замоунитченных компоентов с помощью роутера
             this.rootNode.innerHTML = error.render();
-
             this.state.domElements.backBtn = document.querySelector('.error-back-button');
-            console.log("asdadasd");
             this.state.domElements?.backBtn?.addEventListener('click', () => {
-                console.log("aaaaaaaa");
                 this.handleClickBackBtn();
             });
         }
     }
 
     handleClickBackBtn() {
+        this.componentWillUnmount();
         router.route(window.location.pathname);
     }
 
@@ -75,7 +73,7 @@ export class SmartError extends Container {
             this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: componentProps) => {
                 this.props = pr;
 
-                this.render();
+                this?.render();
             }));
 
             this.state.isSubscribed = true;
@@ -89,6 +87,8 @@ export class SmartError extends Container {
         if (this.state.isSubscribed) {
             this.unsubscribe.forEach((uns) => uns());
             this.state.isSubscribed = false;
+
+            ERROR()?.remove();
         }
     }
 }
