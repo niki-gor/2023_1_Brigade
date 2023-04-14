@@ -23,10 +23,6 @@
     margin-bottom: 33px;
 }
 
-.header__nav {
-    margin-bottom: 0px;
-}
-
 .header__change-theme {
     flex-direction: column;
     align-items: center;

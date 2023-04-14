@@ -24,9 +24,10 @@
 }
 
 .create-group__contacts {
-  height: 100%;
-  width: 20%;
+  min-height: 100%;
+  min-width: 10%;
   background: #1C1C24;
+  padding: 20px;
 }
 
 .contacts__head-create {

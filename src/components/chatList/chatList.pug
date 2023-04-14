@@ -1,8 +1,8 @@
-.chat-list
-    .chats__head
+.chat-list.flex
+    .chats__head.flex
         .font-size-6!= headChats
         !=createCroup
     .chats__separator
-    .chats
+    .chats.flex
         for i in chats
             != i
