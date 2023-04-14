@@ -184,15 +184,16 @@ export class SmartProfile extends Container {
      */
     handleClickSave() {
         // if (this.state.valid.isValid()) {
-            const user = {
-                username: this.state.domElements.username?.value,
-                nickname: this.state.domElements.nickname?.value,
-                status: this.state.domElements.status?.value,
-                current_password: this.state.domElements.current_password?.value,
-                new_password: this.state.domElements.new_password?.value,
-            } as anyObject;
+            // const user = {
+            //     username: this.state.domElements.username?.value,
+            //     nickname: this.state.domElements.nickname?.value,
+            //     status: this.state.domElements.status?.value,
+            //     current_password: this.state.domElements.current_password?.value,
+            //     new_password: this.state.domElements.new_password?.value,
+            // } as anyObject;
 
             // store.dispatch(createUpdateUserAction(user));
+
             store.dispatch(createUpdateUserAvatarAction(this.#image));
         // }
     }

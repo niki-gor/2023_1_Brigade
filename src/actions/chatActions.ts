@@ -87,7 +87,7 @@ export const createCreateDialogAction = (contact: anyObject) => {
     return async (dispatch: (action: Action | AsyncAction) => void, state: Function) => {
         for (const key in state().chats) {
             const st = state().chats[key];
-            if (st.type === ChatTypes.Dialog && st.members[0]?.id == contact.id) {
+            if (st.type === ChatTypes.Dialog && (st.members[0]?.id == contact.id || st.members[1]?.id == contact.id)) {
                 return dispatch(createMoveToChatAction({ chatId: st.id }));
             }
         }
