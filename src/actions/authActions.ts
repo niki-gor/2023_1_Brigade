@@ -62,9 +62,9 @@ export const createLoginAction = (user: anyObject) : AsyncAction => {
             router.route('/');
             break;
         case 404:
-            // ErrorComponent.componentWillUnmount();
-            dispatch(createErrorAction(status, jsonBody));
-            ErrorComponent.componentDidMount(); // TODO: router.route('kalnsdln');
+            ErrorComponent.componentWillUnmount();
+            // dispatch(createErrorAction(status, jsonBody));
+            // ErrorComponent.componentDidMount(); // TODO: router.route('kalnsdln');
             dispatch(createInvalidEmailAction());
             break;
         default:
