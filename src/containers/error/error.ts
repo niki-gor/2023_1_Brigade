@@ -1,3 +1,7 @@
+import { DumbError } from "@/components/error/error";
+import { DYNAMIC, LOGIN, SIDEBAR, SIGNUP, STATIC } from "@/config/config";
+import { router } from "@/router/router";
+import { store } from "@/store/store";
 import { Container } from "@containers/container";
 
 
@@ -5,7 +9,7 @@ export interface SmartError {
     state: {
         isSubscribed: boolean,
         domElements: {
-            backButton: HTMLInputElement | null,
+            backBtn: HTMLInputElement | null,
         }
     }
 }
@@ -28,7 +32,7 @@ export class SmartError extends Container {
         this.state = {
             isSubscribed: false,
             domElements: {
-                backButton: null,
+                backBtn: null,
             },
         };
     }
@@ -37,9 +41,30 @@ export class SmartError extends Container {
      * Рендерит ошибку
      */
     render() {
-        if (this.state.isSubscribed) {
-            
+        if (this.state.isSubscribed && this.props.error) {
+            const error = new DumbError({
+                errorName: this.props.error.errorName,
+                errorDescr: this.props.error.errorDescr,
+            });
+
+            // SIDEBAR.innerHTML = STATIC.innerHTML = DYNAMIC.innerHTML = '';
+            // LOGIN().remove();
+            // SIGNUP().remove();
+            // this.rootNode.insertAdjacentHTML("afterbegin", error.render());
+            // TODO: сделать unmount всех текущих замоунитченных компоентов с помощью роутера
+            this.rootNode.innerHTML = error.render();
+
+            this.state.domElements.backBtn = document.querySelector('.error-back-button');
+            console.log("asdadasd");
+            this.state.domElements?.backBtn?.addEventListener('click', () => {
+                console.log("aaaaaaaa");
+                this.handleClickBackBtn();
+            });
         }
+    }
+
+    handleClickBackBtn() {
+        router.route(window.location.pathname);
     }
 
     /**
@@ -47,11 +72,11 @@ export class SmartError extends Container {
      */
     componentDidMount() {
         if (!this.state.isSubscribed) {
-            // this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: componentProps) => {
-            //     this.props = pr;
+            this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: componentProps) => {
+                this.props = pr;
 
-            //     this.render();
-            // }));
+                this.render();
+            }));
 
             this.state.isSubscribed = true;
         }

@@ -1,5 +1,7 @@
+import { ErrorComponent } from "@/containers/error/createError";
 import {constantsOfActions} from "@config/actions";
-import {createChat, getContacts} from "@utils/api";
+import {getContacts} from "@utils/api";
+import { createErrorAction } from "./errorActions";
 
 export const createSetContactsAction = (state: anyObject) : Action => {
     return {
@@ -15,17 +17,11 @@ export const createGetContactsAction = () : AsyncAction => {
 
         switch (status) {
             case 200:
+                ErrorComponent.componentWillUnmount();
                 return dispatch(createSetContactsAction(jsonBody));
-            case 401:
-                // TODO: отрендерить ошибку
-            case 404:         
-                // TODO: отрендерить ошибку       
-            case 500:
-                // TODO: отрендерить ошибку
-            case 0:
-                // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
             default:
-                // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
+                dispatch(createErrorAction(status, jsonBody));
+                ErrorComponent.componentDidMount();
         }
     };
 }

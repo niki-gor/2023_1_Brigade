@@ -1,0 +1,48 @@
+.error {
+    flex-direction: row;
+    min-width: 100%;
+    // align-items: center;
+    // justify-content: space-around;
+    // padding: 30px;
+}
+
+.error-back {
+    fill:white;
+}
+
+.error-back:hover {
+    fill:#3E3F43;
+}
+
+.error-back-button {
+    align-self: flex-start;
+    margin-top: 30px;
+    margin-left: 20px;
+    fill:#3E3F43;
+}
+
+.error__content {
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.header-error {
+    margin: 0px;
+    padding: 0px;
+    font-size: 100px;
+    font-weight: 800;
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    color: #3E3F43;
+}
+
+.header-error__description {
+    margin: 0px;
+    padding: 0px;
+    font-size: 60px;
+    font-weight: 800;
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    color: #D6D6D6;
+}

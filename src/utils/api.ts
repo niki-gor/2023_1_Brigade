@@ -16,16 +16,16 @@ export const auth = () => {
                 status,
                 body: parsedBody,
             };
-        case 401:
+        // case 401:
         case 500:
             return {
                 status,
-                body: null,
+                body: parsedBody,
             };
         default:
             return {
                 status,
-                body: null,
+                body: parsedBody,
             };
         }
     })
@@ -52,17 +52,17 @@ export const login = (body: anyObject) => {
                 status,
                 body: parsedBody,
             };
-        case 404:
-        case 409:
+        // case 404:
+        // case 409:
         case 500:
             return {
                 status,
-                body: null,
+                body: parsedBody,
             };
         default:
             return {
                 status,
-                body: null,
+                body: parsedBody,
             };
         }
     })
@@ -89,17 +89,17 @@ export const signUp = (body: anyObject) => {
                 status,
                 body: parsedBody,
             };
-        case 400:
-        case 409:
+        // case 400:
+        // case 409:
         case 500:
             return {
                 status,
-                body: null,
+                body: parsedBody,
             };
         default:
             return {
                 status,
-                body: null,
+                body: parsedBody,
             };
         }
     })
@@ -118,20 +118,20 @@ export const logout = () => {
     return deleteSession(
         config.logout,
     )
-    .then(({ status }) => {
+    .then(({ status, parsedBody }) => {
         switch (status) {
-        case 204:
-        case 401:
-        case 404:
+        // case 204:
+        // case 401:
+        // case 404:
         case 500:
             return {
                 status,
-                body: null,
+                body: parsedBody,
             };
         default:
             return {
                 status,
-                body: null,
+                body: parsedBody,
             };
         }
     })
@@ -158,19 +158,19 @@ export const updateUser = (body: anyObject) => {
                 status,
                 body: parsedBody,
             };
-        case 400:
-        case 401:
-        case 404:
-        case 409:
+        // case 400:
+        // case 401:
+        // case 404:
+        // case 409:
         case 500:
             return {
                 status,
-                body: null,
+                body: parsedBody,
             };
         default:
             return {
                 status,
-                body: null,
+                body: parsedBody,
             };
         }
     })
@@ -196,17 +196,17 @@ export const getContacts = () => {
                         status,
                         body: parsedBody,
                     };
-                case 401:
-                case 404:
+                // case 401:
+                // case 404:
                 case 500:
                     return {
                         status,
-                        body: null,
+                        body: parsedBody,
                     };
                 default:
                     return {
                         status,
-                        body: null,
+                        body: parsedBody,
                     };
             }
         })
@@ -230,17 +230,17 @@ export const createChat = (body: anyObject) => {
                 status,
                 body: parsedBody,
             };
-        case 401:
-        case 404:
+        // case 401:
+        // case 404:
         case 500:
             return {
                 status,
-                body: null,
+                body: parsedBody,
             };
         default:
             return {
                 status,
-                body: null,
+                body: parsedBody,
             };
         }
     })
@@ -263,17 +263,17 @@ export const getChats = () => {
                         status,
                         body: parsedBody,
                     };
-                case 401:
-                case 404:
+                // case 401:
+                // case 404:
                 case 500:
                     return {
                         status,
-                        body: null,
+                        body: parsedBody,
                     };
                 default:
                     return {
                         status,
-                        body: null,
+                        body: parsedBody,
                     };
             }
         })
@@ -296,18 +296,18 @@ export const getOneChat = (chat: anyObject) => {
                         status,
                         body: parsedBody,
                     };
-                case 401:
-                case 403:
-                case 404:
+                // case 401:
+                // case 403:
+                // case 404:
                 case 500:
                     return {
                         status,
-                        body: null,
+                        body: parsedBody,
                     };
                 default:
                     return {
                         status,
-                        body: null,
+                        body: parsedBody,
                     };
             }
         })
@@ -323,21 +323,21 @@ export const deleteChat = (deletedId: string) => {
     return deleteSession(
         config.chats+deletedId+'/',
     )
-    .then (({ status }) => {
+    .then (({ status, parsedBody }) => {
         switch (status) {
-            case 204:
-            case 401:
-            case 403:
-            case 404:
+            // case 204:
+            // case 401:
+            // case 403:
+            // case 404:
             case 500:
                 return {
                     status,
-                    body: null,
+                    body: parsedBody,
                 };
             default:
                 return {
                     status,
-                    body: null,
+                    body: parsedBody,
                 };
         }
     })
@@ -361,17 +361,17 @@ export const editChat = (body: anyObject) => {
                     status,
                     body: parsedBody,
                 };
-            case 401:
-            case 404:
+            // case 401:
+            // case 404:
             case 500:
                 return {
                     status,
-                    body: null,
+                    body: parsedBody,
                 };
             default:
                 return {
                     status,
-                    body: null,
+                    body: parsedBody,
                 };
         }
     })
@@ -388,20 +388,20 @@ export const uploadAvatar = (avatar: File) => {
         config.uploadAvatar,
         avatar,
     )
-        .then(({status}) => {
+        .then(({status, parsedBody}) => {
             switch (status) {
-                case 201:
-                case 401:
-                case 404:
+                // case 201:
+                // case 401:
+                // case 404:
                 case 500:
                     return {
                         status,
-                        body: null,
+                        body: parsedBody,
                     };
                 default:
                     return {
                         status,
-                        body: null,
+                        body: parsedBody,
                     };
             }
         })

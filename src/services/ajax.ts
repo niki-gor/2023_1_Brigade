@@ -27,25 +27,27 @@ const ajax = (
         body: body == null ? null : JSON.stringify(body),
     })
         .then((response) => {
-            const { status } = response;
-
+            const { status} = response;
             let parsedBody;
-            if (status !== 204) {
-                parsedBody = response.json();
+
+            if (response) { // TODO: проверить ok не ок
+                if (status !== 204) {
+                    parsedBody = response.json();
+                }            
             }
 
             return { status, parsedBody };
-        })
-        .catch((err) => {
-            const { status } = err;
+        })   
+        // .catch((err) => {
+        //     const { status} = err;
 
-            let parsedBody;
-            if (status !== 204) {
-                parsedBody = err.json();
-            }
+        //     let parsedBody;
+        //     if (status !== 204) {
+        //         parsedBody = err.json();
+        //     }
 
-            return { status, parsedBody };
-        });
+        //     return { status, parsedBody };
+        // });
 }
 
 /**

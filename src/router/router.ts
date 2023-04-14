@@ -38,7 +38,7 @@ class Router {
      */
     route(path: string) {
         if (this.currentRoute) {
-            this.currentRoute.component?.componentWillUnmount();
+            this.currentRoute?.component?.componentWillUnmount();
         }
         
         const dynamicUrl: DynamicUrl | null = this.#handleDynamicUrl(path);
@@ -60,10 +60,12 @@ class Router {
 
             window.history.pushState({dynamicParam: dynamicUrl.dynamicParam, path: dynamicUrl.path}, '', dynamicUrl.path);
             this.currentRoute?.component?.componentDidMount();
-        } else {  
+        } else if (this.routes?.has(path)){  
             this.#setCurrentRoute(path);
-            this.currentRoute?.component?.componentDidMount();          
+            this.currentRoute?.component?.componentDidMount();
             window.history.pushState({path: this.currentRoute?.path}, '', path);
+        } else {
+            // TODO: setError component
         }
     }
 
@@ -128,6 +130,12 @@ class Router {
      */
     #setCurrentRoute(href: string) {
         this.currentRoute = {path: href, component: this.routes?.get(href)};
+    }
+
+    unmountCurrentRoute(href: string) {
+        if (this.currentRoute) {
+            this.currentRoute?.component?.componentWillUnmount();
+        }
     }
 
     /**

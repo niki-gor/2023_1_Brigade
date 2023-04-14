@@ -1,5 +1,7 @@
 import { constantsOfActions } from "@/config/actions"
+import { ErrorComponent } from "@/containers/error/createError"
 import { updateUser, uploadAvatar} from "@/utils/api"
+import { createErrorAction } from "./errorActions"
 
 export const createSetUserAction = (state: anyObject) : Action => {
     return {
@@ -42,23 +44,16 @@ export const createUpdateUserAction = (user: anyObject) : AsyncAction => {
         
         switch (status) {
         case 200:
+            ErrorComponent.componentWillUnmount();
             dispatch(createSetUserAction(jsonBody));
             break;
-        case 400:
-            // TODO:
-        case 401:
-            // TODO:
-        case 404:
-            // TODO:
         case 409:
+            ErrorComponent.componentWillUnmount();
             dispatch(createOccupiedUsernameAction());
             break;
-        case 500:
-            // TODO:
-        case 0:
-            // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
         default:
-            // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
+            dispatch(createErrorAction(status, jsonBody));
+            ErrorComponent.componentDidMount();
         }
     }
 }
@@ -74,18 +69,12 @@ export const createUpdateUserAvatarAction = (avatar: File | undefined) : AsyncAc
         
         switch (status) {
             case 201:
+                ErrorComponent.componentWillUnmount();
                 dispatch(createSetUserAction(jsonBody));
                 break;
-            case 401:
-            // TODO:
-            case 404:
-            // TODO:
-            case 500:
-            // TODO:
-            case 0:
-            // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
             default:
-            // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
+                dispatch(createErrorAction(status, jsonBody));
+                ErrorComponent.componentDidMount();
         }
     };
 }

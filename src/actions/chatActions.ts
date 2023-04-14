@@ -4,6 +4,8 @@ import { store } from "@/store/store";
 import { createChat, deleteChat, editChat, getChats, getOneChat } from "@/utils/api";
 import { router } from "@/router/router";
 import { createMoveToChatAction } from "./routeActions";
+import { createErrorAction } from "./errorActions";
+import { ErrorComponent } from "@/containers/error/createError";
 
 export const createIsNotRenderedAction = () => {
     return {
@@ -41,20 +43,12 @@ export const createGetOneChatAction = (chat: anyObject) => {
 
         switch (status) {
             case 200:
+                ErrorComponent.componentWillUnmount();
                 dispatch(createOpenChatAction(jsonBody));
                 break;
-            case 401:
-                // TODO: отрендерить ошибку
-            case 403:
-                // TODO: отрендерить ошибку
-            case 404:         
-                // TODO: отрендерить ошибку       
-            case 500:
-                // TODO: отрендерить ошибку
-            case 0:
-                // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
             default:
-                // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
+                dispatch(createErrorAction(status, jsonBody));
+                ErrorComponent.componentDidMount();
         }
     };
 }
@@ -67,18 +61,12 @@ export const createGetChatsAction = () => {
 
         switch (status) {
             case 200:
+                ErrorComponent.componentWillUnmount();
                 dispatch(createSetChatsAction(jsonBody));
                 break;
-            case 401:
-                // TODO: отрендерить ошибку
-            case 404:         
-                // TODO: отрендерить ошибку       
-            case 500:
-                // TODO: отрендерить ошибку
-            case 0:
-                // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
             default:
-                // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
+                dispatch(createErrorAction(status, jsonBody));
+                ErrorComponent.componentDidMount();
         }
     };
 }
@@ -102,19 +90,13 @@ export const createCreateDialogAction = (contact: anyObject) => {
 
         switch (status) {
             case 201:
+                ErrorComponent.componentWillUnmount();
                 dispatch(createAddChatAction(jsonBody));
                 dispatch(createMoveToChatAction({ chatId: jsonBody.id }));
                 break;
-            case 401:
-                // TODO: отрендерить ошибку
-            case 404:         
-                // TODO: отрендерить ошибку       
-            case 500:
-                // TODO: отрендерить ошибку
-            case 0:
-                // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
             default:
-                // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
+                dispatch(createErrorAction(status, jsonBody));
+                ErrorComponent.componentDidMount();
         }
     };
 }
@@ -145,20 +127,11 @@ export const createDeleteChatAction = (deletedChatId: string) => {
 
         switch (status) {
             case 204:
+                ErrorComponent.componentWillUnmount();
                 router.route('/');
                 break;
-            case 401:
-                // TODO: отрендерить ошибку
-            case 403:          
-                // TODO: отрендерить ошибку
-            case 404:
-                // TODO: отрендерить ошибку
-            case 500:
-                // TODO: отрендерить ошибку
-            case 0:
-                // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
             default:
-               // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
+                // dispatch(createErrorAction(status, 'Не удалось удалит чат'));
         }
     }
 }
@@ -177,8 +150,6 @@ export const createEditChatAction = (updateGroupState: anyObject) => {
             dispatch(createEditChatFromStoreAction(updateGroupState));
         }
 
-        // console.log('updatedId: ', updateGroupState.id);
-
         const { status, body } = await editChat({
             id: updateGroupState.id,
             type: updateGroupState.type,
@@ -190,21 +161,15 @@ export const createEditChatAction = (updateGroupState: anyObject) => {
 
         switch (status) {
             case 201:
+                ErrorComponent.componentWillUnmount();
                 if (updateGroupState.id) {
                     router.route(`/${updateGroupState.id}`);
                 }
                 dispatch(createOpenChatAction(jsonBody));
                 break;
-            case 401:
-                // TODO: отрендерить ошибку
-            case 404:
-                // TODO: отрендерить ошибку
-            case 500:
-                // TODO: отрендерить ошибку
-            case 0:
-                // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
             default:
-               // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
+                dispatch(createErrorAction(status, body));
+                ErrorComponent.componentDidMount();
         }
     }
 }

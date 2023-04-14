@@ -5,14 +5,18 @@ import { Contacts } from "@/containers/contacts/createContacts";
 import { Chats } from "@/containers/chatList/createChatList";
 import { Sidebar } from "@/containers/sidebar/createSidebar";
 import { getWs } from "@/utils/ws";
+import { createErrorAction } from "./errorActions";
+import { ErrorComponent } from "@/containers/error/createError";
+import { SmartLogin } from "@/containers/login/login";
 
 export const createAuthAction = () : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: Function) => {
         const { status, body } = await auth();
+        const jsonBody = await body;
         
         switch (status) {
         case 200:
-            const jsonBody = await body;
+            ErrorComponent.componentWillUnmount();
             dispatch(createSetUserAction(jsonBody));
 
             getWs();
@@ -24,18 +28,16 @@ export const createAuthAction = () : AsyncAction => {
 
             break;
         case 401:
+            ErrorComponent.componentWillUnmount();
             if (window.location.pathname == '/signup') {
                 router.route('/signup');
             } else {
                 router.route('/login');
             }
             break;
-        case 500:
-            // TODO: отрендерить ошибку
-        case 0:
-            // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
         default:
-            // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
+            dispatch(createErrorAction(status, jsonBody));
+            ErrorComponent.componentDidMount();
         }
     };
 };
@@ -43,31 +45,30 @@ export const createAuthAction = () : AsyncAction => {
 export const createLoginAction = (user: anyObject) : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: Function) => {
         const { status, body } = await login(user);
+        const jsonBody = await body;
 
         switch (status) {
         case 200:
-            const jsonBody = await body;
+            ErrorComponent.componentWillUnmount();
             dispatch(createSetUserAction(jsonBody));
 
             getWs();
 
             Sidebar.componentDidMount();
             Chats.componentDidMount();
+            
 
             router.route('/');
-
             break;
         case 404:
-            dispatch(createInvalidEmailAction());
+            // ErrorComponent.componentWillUnmount();
+            dispatch(createErrorAction(status, jsonBody));
+            ErrorComponent.componentDidMount();
+            // dispatch(createInvalidEmailAction());
             break;
-        case 409:
-            // TODO: отрендерить ошибку
-        case 500:
-            // TODO: отрендерить ошибку
-        case 0:
-            // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
         default:
-            // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
+            dispatch(createErrorAction(status, jsonBody));
+            ErrorComponent.componentDidMount();
         }
     };
 };
@@ -75,31 +76,30 @@ export const createLoginAction = (user: anyObject) : AsyncAction => {
 export const createSignUpAction = (user: anyObject) : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: Function) => {
         const { status, body } = await signUp(user);
+        const jsonBody = await body;
 
         switch (status) {
         case 201:
-            const jsonBody = await body;
+            ErrorComponent.componentWillUnmount();
             dispatch(createSetUserAction(jsonBody));
 
             getWs();
-            
+
             Sidebar.componentDidMount();
             Chats.componentDidMount();
 
             router.route('/');
-
             break;
         case 400:
-            // TODO: отрендерить ошибку
+            dispatch(createErrorAction(status, jsonBody));
+            ErrorComponent.componentDidMount();
         case 409:
+            ErrorComponent.componentWillUnmount();
             dispatch(createOccupiedEmailAction());
             break;
-        case 500:
-            // TODO: отрендерить ошибку
-        case 0:
-            // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
         default:
-            // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
+            dispatch(createErrorAction(status, jsonBody));
+            ErrorComponent.componentDidMount();
         }
     };
 };
@@ -110,6 +110,7 @@ export const createLogoutAction = () : AsyncAction => {
 
         switch (status) {
         case 204:
+            ErrorComponent.componentWillUnmount();
             Sidebar.componentWillUnmount();
             Contacts.componentWillUnmount();
             Chats.componentWillUnmount();
@@ -122,16 +123,9 @@ export const createLogoutAction = () : AsyncAction => {
             dispatch(createDeleteStateAction());
 
             break;
-        case 401:
-            // TODO: вроде на все нужно login отрендерить
-        case 404:
-            // TODO: вроде на все нужно login отрендерить
-        case 500:
-            // TODO: отрендерить ошибку
-        case 0:
-            // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
         default:
-            // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
+            dispatch(createErrorAction(status, body));
+            ErrorComponent.componentDidMount();
         }
     };
 };

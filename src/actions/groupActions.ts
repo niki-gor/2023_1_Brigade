@@ -2,6 +2,8 @@ import {constantsOfActions} from "@config/actions";
 import {createChat} from "@utils/api";
 import {createAddChatAction, createOpenChatAction} from "@actions/chatActions";
 import { createMoveToChatAction } from "./routeActions";
+import { createErrorAction } from "./errorActions";
+import { ErrorComponent } from "@/containers/error/createError";
 
 export const createSetCreateGroupAction = (state: anyObject) : Action => {
     return {
@@ -17,19 +19,13 @@ export const createCreateGroupAction = (group: anyObject) : AsyncAction => {
 
         switch (status) {
             case 201:
+                ErrorComponent.componentWillUnmount();
                 dispatch(createAddChatAction(jsonBody));
                 dispatch(createMoveToChatAction({ chatId: jsonBody.id }));
                 break;
-            case 401:
-            // TODO: отрендерить ошибку
-            case 404:
-            // TODO: отрендерить ошибку
-            case 500:
-            // TODO: отрендерить ошибку
-            case 0:
-            // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
             default:
-            // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
+                dispatch(createErrorAction(status, jsonBody));
+                ErrorComponent.componentDidMount();
         }
     };
 }
