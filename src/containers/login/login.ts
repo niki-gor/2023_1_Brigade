@@ -6,6 +6,7 @@ import { emailErrorTypes, passwordErrorTypes } from "@/config/errors";
 import { createLoginAction } from "@/actions/authActions";
 import { createMoveToSignUpAction, createRenderAction } from "@/actions/routeActions";
 import { DYNAMIC, LOGIN, SIDEBAR, STATIC } from "@/config/config";
+import { SmartHello } from "../hello/hello";
 
 
 export interface SmartLogin {
@@ -23,6 +24,8 @@ export interface SmartLogin {
             isValid: () => boolean,
         },
     }
+
+    hello: SmartHello,
 }
 
 /**
@@ -57,6 +60,8 @@ export class SmartLogin extends Container {
                 moveToSignUp: null
             },
         };
+
+        this.hello = new SmartHello({ rootNode: this.rootNode, });
     }
 
     /**
@@ -69,8 +74,10 @@ export class SmartLogin extends Container {
             });
     
             SIDEBAR.innerHTML = STATIC.innerHTML = DYNAMIC.innerHTML = '';
+
+            this.hello.componentDidMount();
             
-            this.rootNode.insertAdjacentHTML("afterbegin", LoginUI.render());
+            this.rootNode.insertAdjacentHTML("beforeend", LoginUI.render());
 
             this.state.domElements.loginButton = document.querySelector('.login-but');
             this.state.domElements.loginButton?.addEventListener('click', (e) => {
@@ -139,6 +146,8 @@ export class SmartLogin extends Container {
             this.state.isSubscribed = false;
 
             LOGIN().remove();
+
+            this.hello.componentWillUnmount();
         }
     }
 

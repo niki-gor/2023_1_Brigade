@@ -9,6 +9,7 @@ import { DYNAMIC, SIDEBAR, SIGNUP, STATIC } from "@/config/config";
 import { Contacts } from "@containers/contacts/createContacts";
 import { Sidebar } from "../sidebar/createSidebar";
 import { Chats } from "../chatList/createChatList";
+import { SmartHello } from "@containers/hello/hello";
 
 
 export interface SmartSignUp {
@@ -30,6 +31,8 @@ export interface SmartSignUp {
             moveToLogin: HTMLElement | null,
         }
     }
+
+    hello: SmartHello,
 }
 
 /**
@@ -69,6 +72,8 @@ export class SmartSignUp extends Container {
                 moveToLogin: null
             }
         };
+        
+        this.hello = new SmartHello({ rootNode: this.rootNode, });
     }
 
     /**
@@ -81,8 +86,10 @@ export class SmartSignUp extends Container {
             }); 
 
             SIDEBAR.innerHTML = STATIC.innerHTML = DYNAMIC.innerHTML = '';
+
+            this.hello.componentDidMount();
             
-            this.rootNode.insertAdjacentHTML("afterbegin", SignUpUI.render());
+            this.rootNode.insertAdjacentHTML("beforeend", SignUpUI.render());
 
             this.state.domElements.signUpButton = document.querySelector('.reg-but');
             this.state.domElements.signUpButton?.addEventListener('click', (e) => {
@@ -165,6 +172,8 @@ export class SmartSignUp extends Container {
             this.state.isSubscribed = false;
 
             SIGNUP().remove();
+
+            this.hello.componentWillUnmount();
         }
     }
 

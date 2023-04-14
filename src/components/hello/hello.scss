@@ -1,0 +1,15 @@
+.hello {
+    flex-direction: column;
+    grid-column: start / end;
+    min-width: 100%;
+    align-items: center;
+    justify-content: center;
+    padding-top: 5%;
+    margin-bottom: 7%;
+}
+
+.logo {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 5%;
+}

@@ -28,6 +28,8 @@ ul {
 body {
     margin: 0px;
     padding: 0px;
+
+    background-color: #131318;
 }
 
 h2 {
@@ -123,7 +125,7 @@ main {
 
     display: grid;
     grid-template-columns: [start sidebar-start] 104px [sidebar-end static-start] 380px [static-end dynamic-start] auto [dynamic-end end];
-    
+   
     background-color: #131318;
 }
 
