@@ -115,7 +115,11 @@ export const reduceEditChat = (state: anyObject, action: Action) => {
                         ...state,
                         chats: { 
                             ...state.chats,
-                            [index]: action.payload,
+                            [index]: {
+                                ...state.chats[index],
+                                title: action.payload?.title,
+                                members: action.payload?.members,
+                            }
                         },
                     };
                 }
