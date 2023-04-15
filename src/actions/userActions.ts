@@ -70,7 +70,7 @@ export const createUpdateUserAvatarAction = (avatar: File | undefined) : AsyncAc
         }
 
         const { status, body } = await uploadAvatar(avatar);
-        const { jsonBody } = await body;
+        const jsonBody = await body;
         
         switch (status) {
             case 201:

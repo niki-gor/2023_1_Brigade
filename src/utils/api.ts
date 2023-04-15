@@ -388,9 +388,13 @@ export const uploadAvatar = (avatar: File) => {
         config.uploadAvatar,
         avatar,
     )
-        .then(({status}) => {
+        .then(({ status, parsedBody}) => {
             switch (status) {
                 case 201:
+                    return {
+                        status,
+                        body: parsedBody,
+                    };
                 case 401:
                 case 404:
                 case 500:
