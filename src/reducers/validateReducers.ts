@@ -6,6 +6,7 @@ export const reduceValidate = (state: anyObject, action: Action) => {
     case constantsOfActions.invalidEmail:
     case constantsOfActions.occupiedEmail:
     case constantsOfActions.occupiedUsername:
+    case constantsOfActions.incorrectPassword:
         return {
             ...state,
             ...action.payload,

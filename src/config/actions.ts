@@ -3,6 +3,7 @@ export const constantsOfActions = {
     invalidEmail: 'invalidEmail',
     occupiedEmail: 'occupiedEmail',
     occupiedUsername: 'occupiedUsername',
+    incorrectPassword: 'incorrectPassword',
     moveToSignUp: 'moveToSignUp',
     moveToLogin: 'moveToLogin',
     moveToProfile: 'moveToProfile',
