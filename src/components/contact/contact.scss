@@ -1,6 +1,6 @@
 .contact {
   justify-content: start;
-  min-width: 380px;
+  min-width: 100%;
   padding: 10px 20px 0px 20px;
   cursor: pointer;
 }
@@ -8,10 +8,6 @@
 .contact:hover {
   background: #0F0F0F;
 }
-
-// .contact:not(:last-child) {
-//   margin-bottom: 10%;
-// }
 
 .contact-avatar {
   margin-right: 6%;
@@ -31,4 +27,5 @@
 .contact-status {
   font-size: 14px;
   color: #999;
+  min-width: 100%;
 }
