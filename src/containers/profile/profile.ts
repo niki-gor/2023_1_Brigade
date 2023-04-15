@@ -112,9 +112,11 @@ export class SmartProfile extends Container {
             this.state.domElements.username?.addEventListener('input', (e) => {
                 e.preventDefault();
 
-                // if (this.state.domElements.username?.value.charAt(0) !== '@') {
-                //     this.state.domElements.username?.value = '@' + this.state.domElements.username?.value.slice(1);
-                // }
+                if (this.state.domElements.username?.value) {
+                    if (this.state.domElements.username?.value.charAt(0) !== '@') {
+                        this.state.domElements.username.value = '@' + this.state.domElements.username.value;
+                    }     
+                }
 
                 this.validateUsername();
             });
@@ -191,7 +193,7 @@ export class SmartProfile extends Container {
     handleClickSave() {
         if (this.state.valid.isValid()) {
             const user = {
-                username: this.state.domElements.username?.value,
+                username: this.state.domElements.username?.value.slice(1),
                 nickname: this.state.domElements.nickname?.value,
                 status: this.state.domElements.status?.value,
                 current_password: this.state.domElements.current_password?.value,
