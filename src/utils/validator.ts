@@ -54,6 +54,30 @@ export const checkPassword = (password: string) => {
     };
 };
 
+export const checkNewPassword = (password: string) => {
+    const isNotEmpty = password.length > 0;
+    const hasValidLength = password.length >= 8;
+
+    if (!isNotEmpty) {
+        return { 
+            isError: true,
+            errorClass: 'empty-new-password', 
+        };
+    }
+
+    if (!hasValidLength) {
+        return { 
+            isError: true,
+            errorClass: 'invalid-new-password',
+        };
+    }
+
+    return {
+        isError: false,
+        errorClass: '',
+    };
+};
+
 export const checkConfirmPassword = (password: string, confirmPassword: string) => {
     const isNotEmpty = confirmPassword.length > 0;
     const isEqualPassword = confirmPassword === password;

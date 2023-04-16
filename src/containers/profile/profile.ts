@@ -1,8 +1,8 @@
 import { Container } from "@containers/container";
 import { DumbProfile } from "@/components/profile/profile";
-import { checkPassword, checkNickname, addErrorToClass } from "@/utils/validator";
+import { checkPassword, checkNickname, addErrorToClass, checkNewPassword } from "@/utils/validator";
 import { store } from "@/store/store";
-import { passwordErrorTypes, usernameErrorTypes, nicknameErrorTypes } from "@/config/errors";
+import { passwordErrorTypes, usernameErrorTypes, nicknameErrorTypes, newPasswordErrorTypes } from "@/config/errors";
 import { createUpdateUserAction, createUpdateUserAvatarAction } from "@/actions/userActions";
 import { createRenderAction } from "@/actions/routeActions";
 
@@ -43,7 +43,7 @@ export class SmartProfile extends Container {
             valid: {
                 currentPasswordIsValid: false,
                 newPasswordIsValid: false,
-                nicknameIsValid: false,
+                nicknameIsValid: true,
                 isValid: () => {
                     return this.state.valid.currentPasswordIsValid &&
                            this.state.valid.newPasswordIsValid &&
@@ -112,8 +112,16 @@ export class SmartProfile extends Container {
             this.state.domElements.username?.addEventListener('input', (e) => {
                 e.preventDefault();
 
+                if (this.state.domElements.username?.value) {
+                    if (this.state.domElements.username?.value.charAt(0) !== '@') {
+                        this.state.domElements.username.value = '@' + this.state.domElements.username.value;
+                    }     
+                }
+
                 this.validateUsername();
             });
+
+            this.state.domElements.status = document.querySelector('.status');
         }
     }
 
@@ -183,18 +191,20 @@ export class SmartProfile extends Container {
      * Обрабатывает нажатие кнопки логина
      */
     handleClickSave() {
-        // if (this.state.valid.isValid()) {
+        if (this.state.valid.isValid()) {
             const user = {
-                username: this.state.domElements.username?.value,
+                username: this.state.domElements.username?.value.slice(1),
                 nickname: this.state.domElements.nickname?.value,
                 status: this.state.domElements.status?.value,
                 current_password: this.state.domElements.current_password?.value,
                 new_password: this.state.domElements.new_password?.value,
             } as anyObject;
 
-            // store.dispatch(createUpdateUserAction(user));
+            console.log(user)
+
+            store.dispatch(createUpdateUserAction(user));
             store.dispatch(createUpdateUserAvatarAction(this.#image));
-        // }
+        }
     }
 
     /**
@@ -213,15 +223,14 @@ export class SmartProfile extends Container {
             return;
         }
 
-        if (this.state.domElements.current_password?.value !== this.props.user.password) {
-            // TODO:
-            this.state.domElements.current_password?.classList.add('data-input--error');
-            addErrorToClass(errorClass, passwordErrorTypes);
-            this.state.valid.currentPasswordIsValid = false;
-            return;
-        }
-
         this.state.valid.currentPasswordIsValid = true;
+    }
+
+    incorrectPassword() {
+        if (this.state.isSubscribed && this.props?.incorrectPassword) {
+            this.state.domElements.current_password?.classList.add('data-input--error');
+            addErrorToClass('incorrect-password', passwordErrorTypes);
+        }
     }
 
     /**
@@ -229,13 +238,13 @@ export class SmartProfile extends Container {
      */
     validateNewPassword() {
         this.state.domElements.new_password?.classList.remove('data-input--error');
-        addErrorToClass('', passwordErrorTypes);
+        addErrorToClass('', newPasswordErrorTypes);
 
-        const { isError, errorClass } = checkPassword(this.state.domElements.new_password?.value ?? '');
+        const { isError, errorClass } = checkNewPassword(this.state.domElements.new_password?.value ?? '');
 
         if (isError) {
             this.state.domElements.new_password?.classList.add('data-input--error');
-            addErrorToClass(errorClass, passwordErrorTypes);
+            addErrorToClass(errorClass, newPasswordErrorTypes);
             this.state.valid.newPasswordIsValid = false;
             return;
         }
@@ -254,7 +263,7 @@ export class SmartProfile extends Container {
 
         if (isError) {
             this.state.domElements.nickname?.classList.add('data-input--error');
-            addErrorToClass(errorClass, passwordErrorTypes);
+            addErrorToClass(errorClass, nicknameErrorTypes);
             this.state.valid.nicknameIsValid = false;
             return;
         }

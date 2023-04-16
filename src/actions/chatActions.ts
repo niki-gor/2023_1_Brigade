@@ -87,7 +87,7 @@ export const createCreateDialogAction = (contact: anyObject) => {
     return async (dispatch: (action: Action | AsyncAction) => void, state: Function) => {
         for (const key in state().chats) {
             const st = state().chats[key];
-            if (st.type === ChatTypes.Dialog && st.members[0]?.id == contact.id) {
+            if (st.type === ChatTypes.Dialog && (st.members[0]?.id == contact.id || st.members[1]?.id == contact.id)) {
                 return dispatch(createMoveToChatAction({ chatId: st.id }));
             }
         }
@@ -177,8 +177,6 @@ export const createEditChatAction = (updateGroupState: anyObject) => {
             dispatch(createEditChatFromStoreAction(updateGroupState));
         }
 
-        // console.log('updatedId: ', updateGroupState.id);
-
         const { status, body } = await editChat({
             id: updateGroupState.id,
             type: updateGroupState.type,
@@ -190,9 +188,8 @@ export const createEditChatAction = (updateGroupState: anyObject) => {
 
         switch (status) {
             case 201:
-                if (updateGroupState.id) {
-                    router.route(`/${updateGroupState.id}`);
-                }
+                router.route(`/${updateGroupState.id}`);
+                dispatch(createOpenChatAction(jsonBody));
                 break;
             case 401:
                 // TODO: отрендерить ошибку

@@ -32,6 +32,11 @@ export const passwordErrorTypes : ErrorTypes[] = [
         class: 'invalid-password',
         message: 'Пароль должен быть длиннее 8 символов',
     },
+    {
+        param: 'incorrectPassword',
+        class: 'incorrect-password',
+        message: 'Введен неверный пароль'
+    }
 ];
 
 export const confirmPasswordErrorTypes : ErrorTypes[] = [

@@ -16,7 +16,6 @@ export class DumbSidebar extends Component {
         const svgButtons: Map<string, Object> = new Map();
         svgButtons.set('messageButton', {className: 'nav-item__message-btn', value: null});
         svgButtons.set('contactButton', {className: 'nav-item__contact-btn'});
-        svgButtons.set('logoutButton', {className: 'logout-btn'});
 
         let navList: DumbSideItem[] = [];
 
@@ -49,6 +48,7 @@ export class DumbSidebar extends Component {
                     white: 'change-theme__white', 
                     black: 'change-theme__black',
             }).render(),
+            LogoutBtn: svgButtonUI.renderTemplate({svgClassName: 'logout-btn'}),
         })
     }
 }

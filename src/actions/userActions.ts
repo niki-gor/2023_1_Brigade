@@ -35,11 +35,20 @@ export const createOccupiedUsernameAction = () : Action => {
     }
 }
 
+export const createIncorrectPasswordAction = () : Action => {
+    return {
+        type: constantsOfActions.incorrectPassword,
+        payload: {
+            incorrectPassword: true,
+        },
+    }
+}
+
 export const createUpdateUserAction = (user: anyObject) : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: Function) => {
         const { status, body } = await updateUser(user);
-        const { jsonBody } = await body;
-        
+        const jsonBody = await body;
+        console.log(jsonBody);
         switch (status) {
         case 200:
             dispatch(createSetUserAction(jsonBody));
@@ -49,7 +58,7 @@ export const createUpdateUserAction = (user: anyObject) : AsyncAction => {
         case 401:
             // TODO:
         case 404:
-            // TODO:
+            dispatch(createIncorrectPasswordAction());
         case 409:
             dispatch(createOccupiedUsernameAction());
             break;
@@ -70,7 +79,7 @@ export const createUpdateUserAvatarAction = (avatar: File | undefined) : AsyncAc
         }
 
         const { status, body } = await uploadAvatar(avatar);
-        const { jsonBody } = await body;
+        const jsonBody = await body;
         
         switch (status) {
             case 201:

@@ -30,6 +30,7 @@ export class SmartAddUserInGroup extends Container {
         }
 
         this.chatId = this.props.chatId
+        // console.log('chat id', this.props?.openedChat.id);
     }
 
     #contactClicked  = 'rgb(37, 37, 48)';
@@ -56,11 +57,17 @@ export class SmartAddUserInGroup extends Container {
                         this.handleClickSaveButton(input);
                     });
         
+                    const matchesId : number[] | string[] =  this.#findContactsByMessageId();
                     document.querySelectorAll('.contact').forEach((contact: any) => {
                         contact.style.backgroundColor = this.#contactUnClicked;
+                        for (const id of matchesId) {
+                            if (id == contact.getAttribute('name')) {
+                                this.handleClickChooseContact(contact);   
+                            }
+                        }
+                    
                         contact.addEventListener('click', (e: any) => {
                             e.preventDefault()
-        
                             this.handleClickChooseContact(contact);
                         });
                     });
@@ -70,6 +77,20 @@ export class SmartAddUserInGroup extends Container {
             }
         }
     }
+
+    #findContactsByMessageId() : number[] | string[] {
+        // TODO: ужас, но надежно
+        let matchesId: number | string[]= []
+        for (const index in this.props?.openedChat?.members) {
+            for (const contactIndex in this.props?.contacts) {
+                if (this.props?.openedChat?.members[index].id == this.props?.contacts[contactIndex].id) {
+                    matchesId.push(this.props?.openedChat?.members[index].id);
+                }
+            }
+        }
+        return matchesId;
+    }
+      
 
     handleClickSaveButton(input: HTMLInputElement) {
         let groupTitle = document.querySelector('.change-group__name');

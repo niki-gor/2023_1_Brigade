@@ -6,9 +6,6 @@ import { emailErrorTypes, passwordErrorTypes } from "@/config/errors";
 import { createLoginAction } from "@/actions/authActions";
 import { createMoveToSignUpAction, createRenderAction } from "@/actions/routeActions";
 import { DYNAMIC, LOGIN, SIDEBAR, STATIC } from "@/config/config";
-import { Contacts } from "@containers/contacts/createContacts";
-import { Chats } from "../chatList/createChatList";
-import { Sidebar } from "../sidebar/createSidebar";
 
 
 export interface SmartLogin {
