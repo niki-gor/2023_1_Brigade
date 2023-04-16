@@ -2,7 +2,7 @@ import { Container } from "@containers/container";
 import { store } from "@/store/store";
 import { DumbChat } from "@/components/chat/chat";
 import { Message } from "@/components/message/message";
-import { createDeleteChatAction, createEditChatAction, createGetOneChatAction, createIsNotRenderedAction } from "@/actions/chatActions";
+import { createDeleteChatAction, createEditChatAction, createGetOneChatAction, createIsNotRenderedAction, createSetChatsAction } from "@/actions/chatActions";
 import { getWs } from "@/utils/ws";
 import { DumbEmptyDynamicPage } from "@/components/emptyDynamicPage/emptyDynamicPage";
 import { createMoveToEditChatAction } from "@/actions/routeActions";
@@ -128,6 +128,16 @@ export class SmartChat extends Container {
             
             const parent = document.querySelector('.view-chat__messages');
             parent?.insertBefore(newMessage, parent.firstChild);
+            // store.dispatch(createSetChatsAction())
+            console.log('openedChat: ', this.props.openedChat.messages);
+            if (this.props?.openedChat?.last_message) {
+                this.props.openedChar.last_message = {
+                    body: input.value,
+                    author_id: this.props.openedChat[this.props.openedChat.length - 1].author_id,
+                }
+            }
+
+
         }
         
         getWs().send({

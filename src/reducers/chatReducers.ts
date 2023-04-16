@@ -31,7 +31,7 @@ export const reduceAddChat = (state: anyObject, action: Action) => {
                     chats: {
                         [action.payload?.id]: action.payload,
                     },
-                } 
+                }
             }
             
             return {
