@@ -66,7 +66,7 @@ export class SmartChatList extends Container {
 
             this.state.isSubscribed = true;
 
-            store.dispatch(createGetChatsAction())
+            store.dispatch(createGetChatsAction());
         }
     }
     

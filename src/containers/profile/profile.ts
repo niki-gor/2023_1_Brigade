@@ -75,7 +75,7 @@ export class SmartProfile extends Container {
 
             this.rootNode.innerHTML = ProfileUI.render();
 
-            this.state.domElements.avatar = document.querySelector('.ellipse-icon');
+            this.state.domElements.avatar = document.querySelector('.profile__avatar'); // ellipse-icon
             this.state.domElements.avatar?.addEventListener('click', () => {
                 this.handleClickAvatar()
             });
@@ -178,7 +178,7 @@ export class SmartProfile extends Container {
                 reader.readAsDataURL(this.#image);
                 reader.onload = () => {
                     const imageUrl = reader.result;
-                    const avatar = document.querySelector('.ellipse-icon') as HTMLImageElement;
+                    const avatar = document.querySelector('.profile__avatar') as HTMLImageElement;
                     avatar.src = imageUrl as string;
                 };
             }
