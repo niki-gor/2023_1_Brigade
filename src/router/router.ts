@@ -7,12 +7,10 @@ import { Route, ComponentTemplate, appRoutes, dynamicUrlsRegex, DynamicUrl, dyna
 class Router {
     routes: Map<string, ComponentTemplate> | null;
     currentRoute: Route | null | undefined;
-    prevRoute: Route | null | undefined;
 
     constructor() {
         this.routes = new Map<string, ComponentTemplate>();
         this.currentRoute = null;
-        this.prevRoute = null;
 
         for (const rout of appRoutes.values()) {
             this.#register(rout);
@@ -45,7 +43,7 @@ class Router {
         
         const dynamicUrl: DynamicUrl | null = this.#handleDynamicUrl(path);
 
-        if (dynamicUrl && !this.routes?.get(dynamicUrl.path)) {
+        if (dynamicUrl) {
             if (this.routes?.has(dynamicUrl?.path)) {
                 this.#setCurrentRoute(dynamicUrl.path);
             } else {
@@ -54,10 +52,10 @@ class Router {
                 } else if (this.#match(dynamicUrl.path) === dynamicComponent.chatAdd) {
                     this.currentRoute = {path: dynamicUrl.path, component: new SmartAddUserInGroup({...store.getState(), rootNode: DYNAMIC, chatId: dynamicUrl.dynamicParam})};
                 }
-            }
-            
-            if (this.currentRoute) {
-                this.#register(this.currentRoute);
+
+                if (this.currentRoute) {
+                    this.#register(this.currentRoute);
+                }
             }
 
             window.history.pushState({dynamicParam: dynamicUrl.dynamicParam, path: dynamicUrl.path}, '', dynamicUrl.path);
@@ -96,6 +94,8 @@ class Router {
          * Обрабатываем state-ы, которые прокидываем через pushState
          */
         window.addEventListener('popstate', (e) => {
+            console.log('popstate handler');
+            // console.log('history state: ', e.state);
             const path = window.location.pathname;
             const route = this.routes?.get(path);
             if (route) {
@@ -105,6 +105,7 @@ class Router {
             } else {
                 console.log('route not found')
             }
+            console.log('current route: ', this.currentRoute);
         });
     };
 
@@ -113,7 +114,6 @@ class Router {
      * @param href - текущий путь 
      */
     #setCurrentRoute(href: string) {
-        this.prevRoute = this.currentRoute;
         this.currentRoute = {path: href, component: this.routes?.get(href)};
     }
 
@@ -123,13 +123,15 @@ class Router {
      * @returns {DynamicUrl | null} - объект с путем и днамичеким параметром или null, если он отсутствует
      */
     #handleDynamicUrl(url: string) : DynamicUrl | null {
-        for (let dynamicUrl of dynamicUrlsRegex) {
-            const match = url.match(dynamicUrl);
-            if (match && match[0] && match[1]) {
-                return {
-                    path: match[0],
-                    dynamicParam: match[1],
-                };
+        if (!this.routes?.get(url)) {
+            for (let dynamicUrl of dynamicUrlsRegex) {
+                const match = url.match(dynamicUrl);
+                if (match && match[0] && match[1]) {
+                    return {
+                        path: match[0],
+                        dynamicParam: match[1],
+                    };
+                }
             }
         }
 
