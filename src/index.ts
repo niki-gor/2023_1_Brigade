@@ -4,6 +4,7 @@ import { store } from '@store/store';
 import { DYNAMIC, ROOT } from './config/config';
 // import { SmartSidebar } from '@/containers/sidebar/sidebar';
 import { SmartAddUserInGroup } from '@/containers/addUserInGroup/addUserInGroup';
+import { router } from './router/router';
 
 
 // const sidebar = new SmartSidebar({...store.getState(), rootNode: ROOT})
@@ -18,4 +19,5 @@ import { SmartAddUserInGroup } from '@/containers/addUserInGroup/addUserInGroup'
 // addContact.componentDidMount();
 // addContact.render();
 
+router.start();
 store.dispatch(createAuthAction());

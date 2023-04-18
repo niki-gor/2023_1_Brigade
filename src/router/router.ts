@@ -7,10 +7,12 @@ import { Route, ComponentTemplate, appRoutes, dynamicUrlsRegex, DynamicUrl, dyna
 class Router {
     routes: Map<string, ComponentTemplate> | null;
     currentRoute: Route | null | undefined;
+    prevRoute: Route | null | undefined;
 
     constructor() {
         this.routes = new Map<string, ComponentTemplate>();
         this.currentRoute = null;
+        this.prevRoute = null;
 
         for (const rout of appRoutes.values()) {
             this.#register(rout);
@@ -43,7 +45,7 @@ class Router {
         
         const dynamicUrl: DynamicUrl | null = this.#handleDynamicUrl(path);
 
-        if (dynamicUrl) {
+        if (dynamicUrl && !this.routes?.get(dynamicUrl.path)) {
             if (this.routes?.has(dynamicUrl?.path)) {
                 this.#setCurrentRoute(dynamicUrl.path);
             } else {
@@ -60,37 +62,11 @@ class Router {
 
             window.history.pushState({dynamicParam: dynamicUrl.dynamicParam, path: dynamicUrl.path}, '', dynamicUrl.path);
             this.currentRoute?.component?.componentDidMount();
-        } else {  
+        } else {
             this.#setCurrentRoute(path);
-            this.currentRoute?.component?.componentDidMount();          
             window.history.pushState({path: this.currentRoute?.path}, '', path);
+            this.currentRoute?.component?.componentDidMount();
         }
-    }
-
-    /**
-     * метод для перехода на предыдущую страницу в истории браузера.
-     */
-    back() {
-        if (window.history && window.history.back) {
-            window.history.back();
-        }
-    }
-
-    /**
-     * метод для перехода на следующую страницу в истории браузера.
-     */
-    forward() {
-        if (window.history && window.history.forward) {
-            window.history.forward();
-        }
-    }
-
-    /**
-     * метод для перехода на страницу в истории браузера, находящуюся на расстоянии `n` от текущей страницы. 
-     * Если `n` положительное число, то происходит переход вперед, если отрицательное - назад.
-    */
-    go(n: number) {
-        window.history.go(n);
     }
 
     /**
@@ -115,11 +91,21 @@ class Router {
     }
 
     start() {
-        this.currentRoute?.component?.componentWillUnmount();
-        if (this.routes?.has(window.location.pathname)) {
-            this.#setCurrentRoute(window.location.pathname);
-            this.currentRoute?.component?.componentDidMount();
-        }
+        /**
+         * Навигация по браузерной истории
+         * Обрабатываем state-ы, которые прокидываем через pushState
+         */
+        window.addEventListener('popstate', (e) => {
+            const path = window.location.pathname;
+            const route = this.routes?.get(path);
+            if (route) {
+                this.currentRoute?.component?.componentWillUnmount();
+                this.#setCurrentRoute(path);
+                this.currentRoute?.component?.componentDidMount();
+            } else {
+                console.log('route not found')
+            }
+        });
     };
 
     /**
@@ -127,6 +113,7 @@ class Router {
      * @param href - текущий путь 
      */
     #setCurrentRoute(href: string) {
+        this.prevRoute = this.currentRoute;
         this.currentRoute = {path: href, component: this.routes?.get(href)};
     }
 
@@ -139,10 +126,9 @@ class Router {
         for (let dynamicUrl of dynamicUrlsRegex) {
             const match = url.match(dynamicUrl);
             if (match && match[0] && match[1]) {
-                const dynamicParam = match[1];
                 return {
                     path: match[0],
-                    dynamicParam: dynamicParam,
+                    dynamicParam: match[1],
                 };
             }
         }
@@ -161,7 +147,7 @@ class Router {
                 return i;
             }
         }
-        return -1;        
+        return -1;
     }
 }
 
