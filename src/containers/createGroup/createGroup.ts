@@ -7,6 +7,7 @@ import { createCreateGroupAction } from "@actions/groupActions";
 import { ChatTypes } from "@config/enum";
 import { createGetContactsAction } from "@/actions/contactsActions";
 import { createMoveToChatAction, createMoveToChatsAction } from "@/actions/routeActions";
+import { DYNAMIC } from "@/config/config";
 
 
 export interface SmartCreateGroup {
@@ -62,6 +63,8 @@ export class SmartCreateGroup extends Container {
                 },
             },
         };
+
+        this.rootNode = DYNAMIC;
     }
 
     /**

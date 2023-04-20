@@ -5,6 +5,7 @@ import { store } from "@/store/store";
 import { passwordErrorTypes, usernameErrorTypes, nicknameErrorTypes, newPasswordErrorTypes } from "@/config/errors";
 import { createUpdateUserAction, createUpdateUserAvatarAction } from "@/actions/userActions";
 import { createRenderAction } from "@/actions/routeActions";
+import { DYNAMIC } from "@/config/config";
 
 export interface SmartProfile {
     state: {
@@ -60,6 +61,8 @@ export class SmartProfile extends Container {
                 saveButton: null,
             }
         };
+
+        this.rootNode = DYNAMIC;
     }
 
     #image:    File | undefined;

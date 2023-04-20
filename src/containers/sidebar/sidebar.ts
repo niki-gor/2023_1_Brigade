@@ -3,6 +3,7 @@ import { store } from "@/store/store";
 import { DumbSidebar } from "@/components/sidebar/sidebar";
 import { createMoveToChatsAction, createMoveToContactsAction, createMoveToProfileAction, createRenderAction } from "@/actions/routeActions";
 import { createLogoutAction } from "@/actions/authActions";
+import { SIDEBAR } from "@/config/config";
 
 
 export interface SmartSidebar {
@@ -39,6 +40,8 @@ export class SmartSidebar extends Container {
                 avatarButton: null,
             }
         }
+
+        this.rootNode = SIDEBAR;
     }
 
     /**

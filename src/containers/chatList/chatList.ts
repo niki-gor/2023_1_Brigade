@@ -3,6 +3,7 @@ import { store } from "@store/store";
 import { createGetChatsAction, createGetOneChatAction } from "@/actions/chatActions";
 import { DumbChatList } from "@/components/chatList/chatList";
 import { createMoveToChatAction, createMoveToCreateGroupAction } from "@/actions/routeActions";
+import { STATIC } from "@/config/config";
 
 export interface SmartChatList {
     state: {
@@ -24,6 +25,8 @@ export class SmartChatList extends Container {
                 createGroup: null,
             }
         }
+
+        this.rootNode = STATIC;
     }
 
     render() {
