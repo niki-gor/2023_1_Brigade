@@ -7,4 +7,5 @@ export const config = {
     contacts: '/users/contacts/',
     chats: '/chats/',
     uploadAvatar: '/images/',
+    csrf: '/csrf',
 };

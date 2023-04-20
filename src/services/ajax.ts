@@ -13,7 +13,7 @@ const createCSRF = () => {
     }
 }
 
-const CSRF = createCSRF();
+export const CSRF = createCSRF();
 
 /**
  * Отправляет HTTP запросы
@@ -33,7 +33,7 @@ const ajax = (
             Accept: 'application/json',
             Host: BACKEND_URL,
             'Content-Type': 'application/json',
-            'X-CSRF-Token': CSRF.getToken(), 
+            'X-Csrf-Token': CSRF.getToken(), 
         },
         credentials: 'include',
         mode: 'cors',
@@ -46,9 +46,14 @@ const ajax = (
             if (status !== 204) {
                 parsedBody = response.json();
             }
+            
+            for (const [name, value] of response.headers) {
+                console.log(`${name}: ${value}`);
+            }
 
-            if (status == 403) {
-                CSRF.setToken(response.headers.get('X-CSRF-Token') as string);
+            if (response.headers.get('X-Csrf-Token')) {
+                console.log('CSRF:', response.headers.get('X-Csrf-Token'))
+                CSRF.setToken(response.headers.get('X-Csrf-Token') as string);
             }
 
             return { status, parsedBody };

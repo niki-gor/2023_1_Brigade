@@ -1,4 +1,4 @@
-import { auth, login, signUp, logout } from "@/utils/api";
+import { auth, login, signUp, logout, csrf } from "@/utils/api";
 import { createSetUserAction, createInvalidEmailAction, createOccupiedEmailAction, createDeleteStateAction } from "@actions/userActions";
 import { router } from "@/router/router";
 import { Contacts } from "@/containers/contacts/createContacts";
@@ -13,6 +13,7 @@ export const createAuthAction = () : AsyncAction => {
         switch (status) {
         case 200:
             const jsonBody = await body;
+            csrf();
             dispatch(createSetUserAction(jsonBody));
 
             getWs();
@@ -47,6 +48,7 @@ export const createLoginAction = (user: anyObject) : AsyncAction => {
         switch (status) {
         case 200:
             const jsonBody = await body;
+            csrf();
             dispatch(createSetUserAction(jsonBody));
 
             getWs();
@@ -79,6 +81,7 @@ export const createSignUpAction = (user: anyObject) : AsyncAction => {
         switch (status) {
         case 201:
             const jsonBody = await body;
+            csrf();
             dispatch(createSetUserAction(jsonBody));
 
             getWs();
