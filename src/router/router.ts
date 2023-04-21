@@ -1,7 +1,7 @@
 export interface Route {
     path: RegExp,
     component: any,
-    getProps: (params: string[]) => { [key: string]: string },
+    getProps: (params: string[]) => Record<string, string>,
 }
 
 export class Router {
