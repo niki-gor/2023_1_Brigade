@@ -1,13 +1,13 @@
 import { Container } from "@containers/container";
-import { store } from "@/store/store";
-import { DumbChat } from "@/components/chat/chat";
-import { Message } from "@/components/message/message";
-import { createDeleteChatAction, createEditChatAction, createGetChatsAction, createGetOneChatAction, createIsNotRenderedAction, createSetChatsAction } from "@/actions/chatActions";
-import { getWs } from "@/utils/ws";
-import { DumbEmptyDynamicPage } from "@/components/emptyDynamicPage/emptyDynamicPage";
-import { createMoveToEditChatAction } from "@/actions/routeActions";
-import { ChatTypes } from "@/config/enum";
-import { DYNAMIC } from "@/config/config";
+import { store } from "@store/store";
+import { DumbChat } from "@components/chat/chat";
+import { Message } from "@components/message/message";
+import { createDeleteChatAction, createGetChatsAction, createGetOneChatAction, createIsNotRenderedAction } from "@actions/chatActions";
+import { getWs } from "@utils/ws";
+import { DumbEmptyDynamicPage } from "@components/emptyDynamicPage/emptyDynamicPage";
+import { createMoveToEditChatAction } from "@actions/routeActions";
+import { ChatTypes } from "@config/enum";
+import { DYNAMIC } from "@config/config";
 
 
 export interface SmartChat {

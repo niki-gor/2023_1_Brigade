@@ -1,4 +1,4 @@
-import { Component } from "@/components/component";
+import { Component } from "@components/component";
 import "@components/ui/white-button/white-button.scss";
 import template from "@components/ui/white-button/white-button.pug";
 

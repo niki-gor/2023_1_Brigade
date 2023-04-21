@@ -1,9 +1,9 @@
-import { createEditChatAction } from "@/actions/chatActions";
-import { createGetContactsAction } from "@/actions/contactsActions";
-import { DumbAddContactInGroup } from "@/components/addContactInGroup/addContact";
-import { DYNAMIC } from "@/config/config";
-import { ChatTypes } from "@/config/enum";
-import { store } from "@/store/store";
+import { createEditChatAction } from "@actions/chatActions";
+import { createGetContactsAction } from "@actions/contactsActions";
+import { DumbAddContactInGroup } from "@components/addContactInGroup/addContact";
+import { DYNAMIC } from "@config/config";
+import { ChatTypes } from "@config/enum";
+import { store } from "@store/store";
 import { Container } from "@containers/container";
 
 export interface SmartAddUserInGroup {

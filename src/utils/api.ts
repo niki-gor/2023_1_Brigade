@@ -1,6 +1,5 @@
 import {get, post, deleteSession, put, postMultipartForm} from '@services/ajax';
 import { config } from '@config/api';
-import * as timers from "timers";
 
 /**
  * Отправляет запрос авторизации и обрабатывает ответ

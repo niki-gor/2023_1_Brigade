@@ -1,6 +1,6 @@
-import { constantsOfActions } from "@/config/actions";
-import { Chats } from "@/containers/chatList/createChatList";
-import { Contacts } from "@/containers/contacts/createContacts";
+import { constantsOfActions } from "@config/actions";
+import { Chats } from "@containers/chatList/createChatList";
+import { Contacts } from "@containers/contacts/createContacts";
 import { router } from "@router/createRouter";
 
 export const createMoveToSignUpAction = () : Action => {

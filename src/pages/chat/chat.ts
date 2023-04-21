@@ -1,8 +1,7 @@
 import { Page } from "@pages/page";
 import template from "@pages/chat/chat.pug"
-import { svgButtonUI } from "@/components/ui/button/button";
-
-import "@/pages/chat/chat.css"
+import { svgButtonUI } from "@components/ui/button/button";
+import "@pages/chat/chat.css"
 
 export class DumbChat extends Page {
     constructor(props: any) {

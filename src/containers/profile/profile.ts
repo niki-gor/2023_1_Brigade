@@ -1,11 +1,11 @@
 import { Container } from "@containers/container";
-import { DumbProfile } from "@/components/profile/profile";
-import { checkPassword, checkNickname, addErrorToClass, checkNewPassword } from "@/utils/validator";
-import { store } from "@/store/store";
-import { passwordErrorTypes, usernameErrorTypes, nicknameErrorTypes, newPasswordErrorTypes } from "@/config/errors";
-import { createUpdateUserAction, createUpdateUserAvatarAction } from "@/actions/userActions";
-import { createRenderAction } from "@/actions/routeActions";
-import { DYNAMIC } from "@/config/config";
+import { DumbProfile } from "@components/profile/profile";
+import { checkPassword, checkNickname, addErrorToClass, checkNewPassword } from "@utils/validator";
+import { store } from "@store/store";
+import { passwordErrorTypes, usernameErrorTypes, nicknameErrorTypes, newPasswordErrorTypes } from "@config/errors";
+import { createUpdateUserAction, createUpdateUserAvatarAction } from "@actions/userActions";
+import { createRenderAction } from "@actions/routeActions";
+import { DYNAMIC } from "@config/config";
 
 export interface SmartProfile {
     state: {

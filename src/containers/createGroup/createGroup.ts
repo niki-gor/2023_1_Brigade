@@ -1,13 +1,13 @@
 import { Container } from "@containers/container";
-import { store } from "@/store/store";
-import { addErrorToClass, checkNickname } from "@/utils/validator";
-import { countingMembersErrorTypes, nicknameErrorTypes } from "@/config/errors";
-import { DumbCreateGroup } from "@/components/createGroup/createGroup";
+import { store } from "@store/store";
+import { addErrorToClass, checkNickname } from "@utils/validator";
+import { countingMembersErrorTypes, nicknameErrorTypes } from "@config/errors";
+import { DumbCreateGroup } from "@components/createGroup/createGroup";
 import { createCreateGroupAction } from "@actions/groupActions";
 import { ChatTypes } from "@config/enum";
-import { createGetContactsAction } from "@/actions/contactsActions";
-import { createMoveToChatAction, createMoveToChatsAction } from "@/actions/routeActions";
-import { DYNAMIC } from "@/config/config";
+import { createGetContactsAction } from "@actions/contactsActions";
+import { createMoveToChatsAction } from "@actions/routeActions";
+import { DYNAMIC } from "@config/config";
 
 
 export interface SmartCreateGroup {

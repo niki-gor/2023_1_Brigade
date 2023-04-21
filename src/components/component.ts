@@ -1,4 +1,4 @@
-import { ROOT } from "@/config/config";
+import { ROOT } from "@config/config";
 
 export interface Component extends anyObject {
     props: anyObject;

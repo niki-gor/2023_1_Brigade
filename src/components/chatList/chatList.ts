@@ -1,4 +1,4 @@
-import { Component } from "@/components/component";
+import { Component } from "@components/component";
 import template from "@components/chatList/chatList.pug";
 import "@components/chatList/chatList.scss"
 import { DumbChatCard } from "@components/chatCard/chatCard";

@@ -1,4 +1,4 @@
-import { constantsOfActions } from "@/config/actions";
+import { constantsOfActions } from "@config/actions";
 
 export const reduceSetContacts = (state: anyObject, action: Action) => {
     switch (action.type) {

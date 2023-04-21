@@ -1,5 +1,5 @@
-import { constantsOfActions } from "@/config/actions"
-import { updateUser, uploadAvatar} from "@/utils/api"
+import { constantsOfActions } from "@config/actions"
+import { updateUser, uploadAvatar} from "@utils/api"
 
 export const createSetUserAction = (state: anyObject) : Action => {
     return {

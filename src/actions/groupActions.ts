@@ -1,6 +1,6 @@
-import {constantsOfActions} from "@config/actions";
-import {createChat} from "@utils/api";
-import {createAddChatAction, createOpenChatAction} from "@actions/chatActions";
+import { constantsOfActions } from "@config/actions";
+import { createChat } from "@utils/api";
+import { createAddChatAction } from "@actions/chatActions";
 import { createMoveToChatAction } from "./routeActions";
 
 export const createSetCreateGroupAction = (state: anyObject) : Action => {

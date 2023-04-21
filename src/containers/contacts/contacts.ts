@@ -2,9 +2,9 @@ import { Container } from "@containers/container";
 import { store } from "@store/store";
 import { createGetContactsAction } from "@actions/contactsActions";
 import { DumbContacts } from "@components/contacts/contacts";
-import { createCreateDialogAction, createGetOneChatAction } from "@/actions/chatActions";
-import { createMoveToChatAction, createMoveToChatsAction } from "@/actions/routeActions";
-import { STATIC } from "@/config/config";
+import { createCreateDialogAction } from "@actions/chatActions";
+import { createMoveToChatsAction } from "@actions/routeActions";
+import { STATIC } from "@config/config";
 
 export interface SmartContacts {
     state: {

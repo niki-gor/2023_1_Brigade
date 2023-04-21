@@ -1,15 +1,11 @@
 import { Container } from "@containers/container";
-import { DumbSignUp } from "@/pages/signUp/signUp";
-import { checkEmail, checkPassword, checkConfirmPassword, checkNickname, addErrorToClass } from "@/utils/validator";
-import { store } from "@/store/store";
-import { emailErrorTypes, passwordErrorTypes, confirmPasswordErrorTypes, nicknameErrorTypes } from "@/config/errors";
-import { createSignUpAction } from "@/actions/authActions";
-import { createMoveToLoginAction, createRenderAction } from "@/actions/routeActions";
-import { DYNAMIC, SIDEBAR, SIGNUP, STATIC } from "@/config/config";
-import { Contacts } from "@containers/contacts/createContacts";
-import { Sidebar } from "../sidebar/createSidebar";
-import { Chats } from "../chatList/createChatList";
-
+import { DumbSignUp } from "@pages/signUp/signUp";
+import { checkEmail, checkPassword, checkConfirmPassword, checkNickname, addErrorToClass } from "@utils/validator";
+import { store } from "@store/store";
+import { emailErrorTypes, passwordErrorTypes, confirmPasswordErrorTypes, nicknameErrorTypes } from "@config/errors";
+import { createSignUpAction } from "@actions/authActions";
+import { createMoveToLoginAction, createRenderAction } from "@actions/routeActions";
+import { DYNAMIC, SIDEBAR, SIGNUP, STATIC } from "@config/config";
 
 export interface SmartSignUp {
     state: {

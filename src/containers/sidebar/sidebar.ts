@@ -1,9 +1,9 @@
 import { Container } from "@containers/container";
-import { store } from "@/store/store";
-import { DumbSidebar } from "@/components/sidebar/sidebar";
-import { createMoveToChatsAction, createMoveToContactsAction, createMoveToProfileAction, createRenderAction } from "@/actions/routeActions";
-import { createLogoutAction } from "@/actions/authActions";
-import { SIDEBAR } from "@/config/config";
+import { store } from "@store/store";
+import { DumbSidebar } from "@components/sidebar/sidebar";
+import { createMoveToChatsAction, createMoveToContactsAction, createMoveToProfileAction, createRenderAction } from "@actions/routeActions";
+import { createLogoutAction } from "@actions/authActions";
+import { SIDEBAR } from "@config/config";
 
 
 export interface SmartSidebar {

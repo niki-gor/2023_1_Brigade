@@ -1,11 +1,11 @@
 import { Container } from "@containers/container";
-import { DumbLogin } from "@/pages/login/login";
-import { checkEmail, checkPassword, addErrorToClass } from "@/utils/validator";
-import { store } from "@/store/store";
-import { emailErrorTypes, passwordErrorTypes } from "@/config/errors";
-import { createLoginAction } from "@/actions/authActions";
-import { createMoveToSignUpAction, createRenderAction } from "@/actions/routeActions";
-import { DYNAMIC, LOGIN, SIDEBAR, STATIC } from "@/config/config";
+import { DumbLogin } from "@pages/login/login";
+import { checkEmail, checkPassword, addErrorToClass } from "@utils/validator";
+import { store } from "@store/store";
+import { emailErrorTypes, passwordErrorTypes } from "@config/errors";
+import { createLoginAction } from "@actions/authActions";
+import { createMoveToSignUpAction, createRenderAction } from "@actions/routeActions";
+import { DYNAMIC, LOGIN, SIDEBAR, STATIC } from "@config/config";
 
 
 export interface SmartLogin {

@@ -1,11 +1,10 @@
-import { Component } from "@/components/component";
+import { Component } from "@components/component";
 import template from "@components/profile/profile.pug";
 import { blueButtonUI } from "@components/ui/blue-button/blue-button";
 import { dataInputUI } from "@components/ui/data-input/data-input";
-import { ellipseIconUI } from "@components/ui/ellipse-icon/ellipse-icon";
 import { headerInputUI } from "@components/ui/header-input/header-input";
 import { errorInputUI } from "@components/ui/error-input/error-input";
-import { nicknameErrorTypes, passwordErrorTypes, usernameErrorTypes, newPasswordErrorTypes } from "@/config/errors";
+import { nicknameErrorTypes, passwordErrorTypes, usernameErrorTypes, newPasswordErrorTypes } from "@config/errors";
 import "@components/profile/profile.scss"
 import { chatAvatarUi } from "@components/ui/chatAvatar/chatAvatar";
 

@@ -1,7 +1,7 @@
-import { constantsOfActions } from "@/config/actions";
-import { ChatTypes } from "@/config/enum";
-import { store } from "@/store/store";
-import { createChat, deleteChat, editChat, getChats, getOneChat } from "@/utils/api";
+import { constantsOfActions } from "@config/actions";
+import { ChatTypes } from "@config/enum";
+import { store } from "@store/store";
+import { createChat, deleteChat, editChat, getChats, getOneChat } from "@utils/api";
 import { router } from "@router/createRouter";
 import { createMoveToChatAction } from "./routeActions";
 
