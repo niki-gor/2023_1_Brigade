@@ -5,7 +5,7 @@ const createWs = () => {
     const create = () => {
         ws = new WebSocket("wss://technogramm.ru/api/v1/message/");
 
-        ws.onopen = (event) => {
+        ws.onopen = () => {
             console.log("WebSocket connection opened");
         };
 
@@ -37,10 +37,10 @@ const createWs = () => {
         }
 
         return {
-            send: (message: anyObject) => {
+            send: (message: AnyObject) => {
                 ws?.send(JSON.stringify(message));
             },
-            subscribe: (chatId: number, cb: (message: anyObject) => void) => {
+            subscribe: (chatId: number, cb: (message: AnyObject) => void) => {
                 subscribers.set(chatId, cb);
                 return () => {
                     subscribers.delete(chatId);

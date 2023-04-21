@@ -1,6 +1,6 @@
 import { constantsOfActions } from "@config/actions";
 
-export const reduceSetUser = (state: anyObject, action: Action) => {
+export const reduceSetUser = (state: AnyObject, action: Action) => {
     switch (action.type) {
         case constantsOfActions.setUser:
             return {
@@ -16,7 +16,7 @@ export const reduceSetUser = (state: anyObject, action: Action) => {
     }
 };
 
-export const reduceDeleteState = (state: anyObject, action: Action) => {
+export const reduceDeleteState = (state: AnyObject, action: Action) => {
     switch (action.type) {
         case constantsOfActions.deleteState:
             return {};

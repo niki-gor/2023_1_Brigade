@@ -66,7 +66,7 @@ export const createMoveToCreateGroupAction = (): Action => {
     };
 };
 
-export const createMoveToChatAction = (chat: anyObject): Action => {
+export const createMoveToChatAction = (chat: AnyObject): Action => {
     router.route(`/${chat.chatId}`);
 
     return {
@@ -76,7 +76,7 @@ export const createMoveToChatAction = (chat: anyObject): Action => {
 };
 
 // при нажатие на кнопку редактиования динамическая часть заменяется на компонент SmartAddUserInGroup
-export const createMoveToEditChatAction = (chat: anyObject): Action => {
+export const createMoveToEditChatAction = (chat: AnyObject): Action => {
     router.route(`/${chat.id}/add`);
 
     return {

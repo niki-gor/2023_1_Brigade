@@ -13,7 +13,7 @@ const BACKEND_URL = "https://technogramm.ru";
 const ajax = (
     url: string,
     method: string,
-    body: anyObject | null | undefined
+    body: AnyObject | null | undefined
 ) => {
     return fetch(BACKEND_URL + "/api/v1" + url, {
         method,
@@ -105,7 +105,7 @@ export const get = (url: string) => {
  * @param {json} body - тело запроса
  * @returns {Promise} - промис
  */
-export const post = (url: string, body: anyObject | null | undefined) => {
+export const post = (url: string, body: AnyObject | null | undefined) => {
     return ajax(url, AJAX_METHODS.POST, body);
 };
 
@@ -126,8 +126,8 @@ export const deleteSession = (url: string) => {
  */
 export const put = (
     url: string,
-    body: anyObject | null | undefined
-): Promise<any> => {
+    body: AnyObject | null | undefined
+): Promise<AnyObject> => {
     return ajax(url, AJAX_METHODS.PUT, body);
 };
 
@@ -137,6 +137,9 @@ export const put = (
  * @param {json} body - тело запроса
  * @returns {Promise} - промис
  */
-export const postMultipartForm = (url: string, body: File): Promise<any> => {
+export const postMultipartForm = (
+    url: string,
+    body: File
+): Promise<AnyObject> => {
     return ajaxMultipartForm(url, AJAX_METHODS.POST, body);
 };

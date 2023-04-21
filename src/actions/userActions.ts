@@ -1,7 +1,7 @@
 import { constantsOfActions } from "@config/actions";
 import { updateUser, uploadAvatar } from "@utils/api";
 
-export const createSetUserAction = (state: anyObject): Action => {
+export const createSetUserAction = (state: AnyObject): Action => {
     return {
         type: constantsOfActions.setUser,
         payload: state,
@@ -44,7 +44,7 @@ export const createIncorrectPasswordAction = (): Action => {
     };
 };
 
-export const createUpdateUserAction = (user: anyObject): AsyncAction => {
+export const createUpdateUserAction = (user: AnyObject): AsyncAction => {
     return async (dispatch: (action: Action) => void) => {
         const { status, body } = await updateUser(user);
         const jsonBody = await body;

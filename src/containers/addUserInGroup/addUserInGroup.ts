@@ -20,7 +20,7 @@ export class SmartAddUserInGroup extends Container {
      * Сохраняет props
      * @param {Object} props - параметры компонента
      */
-    constructor(props: componentProps) {
+    constructor(props: ComponentProps) {
         super(props);
         this.state = {
             isSubscribed: false,
@@ -65,22 +65,21 @@ export class SmartAddUserInGroup extends Container {
 
                     const matchesId: number[] | string[] =
                         this.#findContactsByMessageId();
-                    document
-                        .querySelectorAll(".contact")
-                        .forEach((contact: any) => {
-                            contact.style.backgroundColor =
-                                this.#contactUnClicked;
-                            for (const id of matchesId) {
-                                if (id == contact.getAttribute("name")) {
-                                    this.handleClickChooseContact(contact);
-                                }
-                            }
+                    document.querySelectorAll(".contact").forEach((ct) => {
+                        const contact = ct as HTMLElement;
 
-                            contact.addEventListener("click", (e: any) => {
-                                e.preventDefault();
+                        contact.style.backgroundColor = this.#contactUnClicked;
+                        for (const id of matchesId) {
+                            if (id == contact.getAttribute("name")) {
                                 this.handleClickChooseContact(contact);
-                            });
+                            }
+                        }
+
+                        contact.addEventListener("click", (e) => {
+                            e.preventDefault();
+                            this.handleClickChooseContact(contact);
                         });
+                    });
 
                     break;
                 }
@@ -135,7 +134,7 @@ export class SmartAddUserInGroup extends Container {
     /**
      * Выбор контакта из списка контактов
      */
-    handleClickChooseContact(contact: any) {
+    handleClickChooseContact(contact: HTMLElement) {
         if (contact.style.backgroundColor == this.#contactUnClicked) {
             contact.style.backgroundColor = this.#contactClicked;
         } else {
@@ -148,7 +147,7 @@ export class SmartAddUserInGroup extends Container {
             this.state.isSubscribed = true;
 
             this.unsubscribe.push(
-                store.subscribe(this.name, (pr: componentProps) => {
+                store.subscribe(this.name, (pr: ComponentProps) => {
                     this.props = pr;
 
                     this.render();
@@ -168,7 +167,9 @@ export class SmartAddUserInGroup extends Container {
 
     getChoseContacts() {
         const contacts: number[] = [];
-        document.querySelectorAll(".contact").forEach((contact: any) => {
+        document.querySelectorAll(".contact").forEach((ct) => {
+            const contact = ct as HTMLElement;
+
             if (contact.style.backgroundColor == this.#contactClicked) {
                 const contactID = contact.getAttribute("name");
                 contacts.push(Number(contactID));

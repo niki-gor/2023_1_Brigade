@@ -1,6 +1,6 @@
 import { constantsOfActions } from "@config/actions";
 
-export const reduceIsNotRendered = (state: anyObject, action: Action) => {
+export const reduceIsNotRendered = (state: AnyObject, action: Action) => {
     switch (action.type) {
         case constantsOfActions.isNotRendered:
             return {
@@ -17,7 +17,7 @@ export const reduceIsNotRendered = (state: anyObject, action: Action) => {
     }
 };
 
-export const reduceAddChat = (state: anyObject, action: Action) => {
+export const reduceAddChat = (state: AnyObject, action: Action) => {
     switch (action.type) {
         case constantsOfActions.addChat:
             if (!action.payload && !state.chats) {
@@ -48,7 +48,7 @@ export const reduceAddChat = (state: anyObject, action: Action) => {
     }
 };
 
-export const reduceSetChats = (state: anyObject, action: Action) => {
+export const reduceSetChats = (state: AnyObject, action: Action) => {
     switch (action.type) {
         case constantsOfActions.setChats:
             return {
@@ -62,7 +62,7 @@ export const reduceSetChats = (state: anyObject, action: Action) => {
     }
 };
 
-export const reduceOpenChat = (state: anyObject, action: Action) => {
+export const reduceOpenChat = (state: AnyObject, action: Action) => {
     switch (action.type) {
         case constantsOfActions.openChat:
             if (!action.payload?.messages) {
@@ -85,7 +85,7 @@ export const reduceOpenChat = (state: anyObject, action: Action) => {
     }
 };
 
-export const reduceDeleteChat = (state: anyObject, action: Action) => {
+export const reduceDeleteChat = (state: AnyObject, action: Action) => {
     switch (action.type) {
         case constantsOfActions.deleteChat:
             if (action.payload?.id) {
@@ -106,7 +106,7 @@ export const reduceDeleteChat = (state: anyObject, action: Action) => {
 };
 
 // reducer вызывается при сохранения изменений в chat-е
-export const reduceEditChat = (state: anyObject, action: Action) => {
+export const reduceEditChat = (state: AnyObject, action: Action) => {
     switch (action.type) {
         case constantsOfActions.editChat:
             for (const index in state.chats) {

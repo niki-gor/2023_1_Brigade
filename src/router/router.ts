@@ -57,11 +57,11 @@ export class Router {
         this.currentComponent = new this.currentRoute.component(
             this.currentDynamicParams
         );
-        this.currentComponent.componentDidMount();
+        this.currentComponent?.componentDidMount();
     };
 
     private routes: Route[];
     private currentRoute: Route | undefined;
-    private currentComponent: any;
-    private currentDynamicParams: any;
+    private currentComponent: AnyObject | undefined;
+    private currentDynamicParams: AnyObject | undefined;
 }

@@ -1,5 +1,5 @@
 declare module "*.pug" {
-    const _: (anyObject) => string;
+    const _: (AnyObject) => string;
     export default _;
 }
 
@@ -8,66 +8,65 @@ declare module "*.svg" {
     export default _;
 }
 
-interface anyObject {
+interface AnyObject {
     [key: string]: any;
 }
 
-interface componentProps extends anyObject {
+interface ComponentProps extends AnyObject {
     rootNode: HTMLElement | null;
 }
 
-interface Action extends anyObject {
+interface Action extends AnyObject {
     type: string;
-    payload: anyObject | null | undefined;
+    payload: AnyObject | null | undefined;
 }
 
 interface AsyncAction {
-    (
-        dispatch: (action: Action | AsyncAction) => void,
-        state: getState
-    ): Promise<void>;
+    (dispatch: Dispatch, state: getState): Promise<void>;
 }
 
-interface Response extends anyObject {
+interface Response extends AnyObject {
     status: number;
-    body: anyObject | null | undefined;
+    body: AnyObject | null | undefined;
 }
 
 interface Reducer {
-    (state: anyObject, action: Action): anyObject;
+    (state: AnyObject, action: Action): AnyObject;
 }
 
 interface GetState {
-    (): anyObject;
+    (): AnyObject;
 }
 
 interface Callback {
-    (anyObject): void;
+    (AnyObject): void;
 }
 
 interface CreateStore {
     (reducers: Map<string, Reducer>): {
-        getState: () => anyObject;
+        getState: () => AnyObject;
         dispatch: (action: Action) => void;
         subscribe: (
             key: string,
-            cb: (pr: componentProps) => void
+            cb: (pr: ComponentProps) => void
         ) => () => void;
     };
 }
 
 interface Store {
-    getState: () => anyObject;
+    getState: () => AnyObject;
     dispatch: (action: Action) => void;
-    subscribe: (key: string, cb: (pr: componentProps) => void) => () => void;
+    subscribe: (key: string, cb: (pr: ComponentProps) => void) => () => void;
 }
 
 interface Middleware {
-    (store: any): (dispatch: any) => (action: any) => any;
+    (store: Store): (
+        dispatch: Dispatch
+    ) => (action: Action | AsyncAction) => void;
 }
 
 interface Dispatch {
-    (action: Action | AsyncAction): void;
+    (action: Action): void;
 }
 
 interface ErrorTypes {

@@ -45,7 +45,7 @@ export const createAuthAction = (): AsyncAction => {
     };
 };
 
-export const createLoginAction = (user: anyObject): AsyncAction => {
+export const createLoginAction = (user: AnyObject): AsyncAction => {
     return async (dispatch: (action: Action) => void) => {
         const { status, body } = await login(user);
 
@@ -77,7 +77,7 @@ export const createLoginAction = (user: anyObject): AsyncAction => {
     };
 };
 
-export const createSignUpAction = (user: anyObject): AsyncAction => {
+export const createSignUpAction = (user: AnyObject): AsyncAction => {
     return async (dispatch: (action: Action) => void) => {
         const { status, body } = await signUp(user);
 

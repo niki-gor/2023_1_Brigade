@@ -1,4 +1,4 @@
-export interface UITool extends anyObject {
+export interface UITool extends AnyObject {
     renderTemplate(args: any): string;
 }
 

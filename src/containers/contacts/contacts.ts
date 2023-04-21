@@ -18,7 +18,7 @@ export interface SmartContacts {
 }
 
 export class SmartContacts extends Container {
-    constructor(props: componentProps) {
+    constructor(props: ComponentProps) {
         super(props);
         this.state = {
             isSubscribed: false,
@@ -62,7 +62,7 @@ export class SmartContacts extends Container {
     componentDidMount() {
         if (!this.state.isSubscribed) {
             this.unsubscribe.push(
-                store.subscribe(this.constructor.name, (pr: componentProps) => {
+                store.subscribe(this.constructor.name, (pr: ComponentProps) => {
                     this.props = pr;
 
                     this.render();

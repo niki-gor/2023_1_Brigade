@@ -35,7 +35,7 @@ export class SmartChat extends Container {
      * Сохраняет props
      * @param {Object} props - параметры компонента
      */
-    constructor(props: componentProps) {
+    constructor(props: ComponentProps) {
         super(props);
         this.state = {
             isSubscribed: false,
@@ -105,7 +105,7 @@ export class SmartChat extends Container {
                 if (this.props.openedChat.type === ChatTypes.Group) {
                     this.state.domElements.editBtn?.addEventListener(
                         "click",
-                        (e) => {
+                        () => {
                             this.handleClickEditButton();
                         }
                     );
@@ -121,7 +121,7 @@ export class SmartChat extends Container {
         }
     }
 
-    renderIncomingMessage(message: anyObject) {
+    renderIncomingMessage(message: AnyObject) {
         for (const member of this.props?.openedChat.members) {
             if (member.id === message.author_id) {
                 const newMessage = new DOMParser().parseFromString(
@@ -198,7 +198,7 @@ export class SmartChat extends Container {
                 this.unsubscribe.push(
                     store.subscribe(
                         this.constructor.name,
-                        (pr: componentProps) => {
+                        (pr: ComponentProps) => {
                             this.props = pr;
 
                             this.render();

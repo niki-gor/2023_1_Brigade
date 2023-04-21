@@ -43,7 +43,7 @@ export const auth = () => {
 /**
  * Отправляет запрос логина и обрабатывает ответ
  */
-export const login = (body: anyObject) => {
+export const login = (body: AnyObject) => {
     return post(config.login, body)
         .then(({ status, parsedBody }) => {
             switch (status) {
@@ -77,7 +77,7 @@ export const login = (body: anyObject) => {
 /**
  * Отправляет запрос регистрации и обрабатывает ответ
  */
-export const signUp = (body: anyObject) => {
+export const signUp = (body: AnyObject) => {
     return post(config.signup, body)
         .then(({ status, parsedBody }) => {
             switch (status) {
@@ -141,7 +141,7 @@ export const logout = () => {
 /**
  * Отправляет запрос обновления пользовательских данных и обрабатывает ответ
  */
-export const updateUser = (body: anyObject) => {
+export const updateUser = (body: AnyObject) => {
     return put(config.updateUser, body)
         .then(({ status, parsedBody }) => {
             switch (status) {
@@ -208,7 +208,7 @@ export const getContacts = () => {
         });
 };
 
-export const createChat = (body: anyObject) => {
+export const createChat = (body: AnyObject) => {
     return post(config.chats, body)
         .then(({ status, parsedBody }) => {
             switch (status) {
@@ -270,7 +270,7 @@ export const getChats = () => {
         });
 };
 
-export const getOneChat = (chat: anyObject) => {
+export const getOneChat = (chat: AnyObject) => {
     return get(config.chats + `${chat.chatId}/`)
         .then(({ status, parsedBody }) => {
             switch (status) {
@@ -330,7 +330,7 @@ export const deleteChat = (deletedId: string) => {
         });
 };
 
-export const editChat = (body: anyObject) => {
+export const editChat = (body: AnyObject) => {
     return put(config.chats, body)
         .then(({ status, parsedBody }) => {
             switch (status) {

@@ -12,7 +12,7 @@ export class DumbSidebar extends Component {
     }
 
     getSidebarList() {
-        const svgButtons: Map<string, anyObject> = new Map();
+        const svgButtons: Map<string, AnyObject> = new Map();
         svgButtons.set("messageButton", {
             className: "nav-item__message-btn",
             value: null,

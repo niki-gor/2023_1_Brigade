@@ -1,7 +1,7 @@
 import { constantsOfActions } from "@config/actions";
 import { getContacts } from "@utils/api";
 
-export const createSetContactsAction = (state: anyObject): Action => {
+export const createSetContactsAction = (state: AnyObject): Action => {
     return {
         type: constantsOfActions.setContacts,
         payload: state,

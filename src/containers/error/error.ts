@@ -21,7 +21,7 @@ export class SmartError extends Container {
      * Cохраняет props
      * @param {Object} props - параметры компонента
      */
-    constructor(props: componentProps) {
+    constructor(props: ComponentProps) {
         super(props);
 
         this.state = {
@@ -45,7 +45,7 @@ export class SmartError extends Container {
      */
     componentDidMount() {
         if (!this.state.isSubscribed) {
-            // this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: componentProps) => {
+            // this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: ComponentProps) => {
             //     this.props = pr;
 
             //     this.render();

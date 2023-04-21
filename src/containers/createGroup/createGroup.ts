@@ -42,7 +42,7 @@ export class SmartCreateGroup extends Container {
     #contactClicked = "rgb(37, 37, 48)";
     #contactUnClicked = "rgb(28, 28, 36)";
 
-    constructor(props: componentProps) {
+    constructor(props: ComponentProps) {
         super(props);
 
         this.state = {
@@ -81,9 +81,11 @@ export class SmartCreateGroup extends Container {
 
             //TODO через target, выбирается только какой-то фрагмент контакта
 
-            document.querySelectorAll(".contact").forEach((contact: any) => {
+            document.querySelectorAll(".contact").forEach((ct) => {
+                const contact = ct as HTMLElement;
                 contact.style.backgroundColor = this.#contactUnClicked;
-                contact.addEventListener("click", (e: any) => {
+
+                contact.addEventListener("click", (e) => {
                     e.preventDefault();
 
                     this.handleClickChooseContact(contact);
@@ -118,7 +120,7 @@ export class SmartCreateGroup extends Container {
     /**
      * Выбор контакта из списка контактов
      */
-    handleClickChooseContact(contact: any) {
+    handleClickChooseContact(contact: HTMLElement) {
         if (contact.style.backgroundColor == this.#contactUnClicked) {
             contact.style.backgroundColor = this.#contactClicked;
         } else {
@@ -153,7 +155,7 @@ export class SmartCreateGroup extends Container {
     componentDidMount() {
         if (!this.state.isSubscribed) {
             this.unsubscribe.push(
-                store.subscribe(this.name, (pr: componentProps) => {
+                store.subscribe(this.name, (pr: ComponentProps) => {
                     this.props = pr;
 
                     this.render();
@@ -229,7 +231,9 @@ export class SmartCreateGroup extends Container {
 
     getChoseContacts() {
         const contacts: number[] = [];
-        document.querySelectorAll(".contact").forEach((contact: any) => {
+        document.querySelectorAll(".contact").forEach((ct) => {
+            const contact = ct as HTMLElement;
+
             if (contact.style.backgroundColor == this.#contactClicked) {
                 const contactID = contact.getAttribute("name");
                 contacts.push(Number(contactID));
