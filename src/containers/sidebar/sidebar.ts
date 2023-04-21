@@ -1,14 +1,14 @@
-import { Container } from "@containers/container";
-import { store } from "@store/store";
-import { DumbSidebar } from "@components/sidebar/sidebar";
+import { Container } from '@containers/container';
+import { store } from '@store/store';
+import { DumbSidebar } from '@components/sidebar/sidebar';
 import {
     createMoveToChatsAction,
     createMoveToContactsAction,
     createMoveToProfileAction,
     createRenderAction,
-} from "@actions/routeActions";
-import { createLogoutAction } from "@actions/authActions";
-import { SIDEBAR } from "@config/config";
+} from '@actions/routeActions';
+import { createLogoutAction } from '@actions/authActions';
+import { SIDEBAR } from '@config/config';
 
 export interface SmartSidebar {
     state: {
@@ -33,7 +33,7 @@ export class SmartSidebar extends Container {
      * Сохраняет props
      * @param {Object} props - параметры компонента
      */
-    constructor(props: ComponentProps) {
+    constructor(props: AnyObject) {
         super(props);
         this.state = {
             isSubscribed: false,
@@ -60,10 +60,10 @@ export class SmartSidebar extends Container {
             this.rootNode.innerHTML = navbar.render();
 
             this.state.domElements.avatarButton = document.querySelector(
-                ".header__user-photo"
+                '.header__user-photo'
             );
             this.state.domElements.avatarButton?.addEventListener(
-                "click",
+                'click',
                 (e) => {
                     e.preventDefault();
 
@@ -72,10 +72,10 @@ export class SmartSidebar extends Container {
             );
 
             this.state.domElements.contactButton = document.querySelector(
-                ".nav-item__contact-btn"
+                '.nav-item__contact-btn'
             );
             this.state.domElements.contactButton?.addEventListener(
-                "click",
+                'click',
                 (e) => {
                     e.preventDefault();
 
@@ -84,10 +84,10 @@ export class SmartSidebar extends Container {
             );
 
             this.state.domElements.messageButton = document.querySelector(
-                ".nav-item__message-btn"
+                '.nav-item__message-btn'
             );
             this.state.domElements.messageButton?.addEventListener(
-                "click",
+                'click',
                 (e) => {
                     e.preventDefault();
 
@@ -96,9 +96,9 @@ export class SmartSidebar extends Container {
             );
 
             this.state.domElements.logoutButton =
-                document.querySelector(".logout-btn");
+                document.querySelector('.logout-btn');
             this.state.domElements.logoutButton?.addEventListener(
-                "click",
+                'click',
                 (e) => {
                     e.preventDefault();
 
@@ -111,7 +111,7 @@ export class SmartSidebar extends Container {
     componentDidMount() {
         if (!this.state.isSubscribed) {
             this.unsubscribe.push(
-                store.subscribe(this.constructor.name, (pr: ComponentProps) => {
+                store.subscribe(this.constructor.name, (pr: AnyObject) => {
                     this.props = pr;
 
                     this.render();

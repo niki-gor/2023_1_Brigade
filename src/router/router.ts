@@ -13,7 +13,7 @@ export class Router {
     }
 
     public start = () => {
-        window.addEventListener("popstate", (e) => {
+        window.addEventListener('popstate', (e) => {
             e.preventDefault();
 
             this.go(window.location.pathname);
@@ -23,7 +23,7 @@ export class Router {
     public route = (path: string) => {
         this.go(path);
 
-        window.history.pushState(this.currentDynamicParams, "", path);
+        window.history.pushState(this.currentDynamicParams, '', path);
     };
 
     private match = (path: string) => {

@@ -13,7 +13,7 @@ export const createStore = (reducers: Map<string, Reducer>): Store => {
                 cb(state);
             });
         },
-        subscribe: (key: string, cb: (state: ComponentProps) => void) => {
+        subscribe: (key: string, cb: (state: AnyObject) => void) => {
             subscribers.set(key, cb);
             return () => {
                 subscribers.delete(key);
@@ -41,7 +41,7 @@ export const thunk =
     (store: Store) =>
     (dispatch: Dispatch) =>
     (action: Action | AsyncAction) => {
-        if (typeof action === "function") {
+        if (typeof action === 'function') {
             return action(dispatch, store.getState);
         }
 

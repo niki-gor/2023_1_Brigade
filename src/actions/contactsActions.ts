@@ -1,5 +1,5 @@
-import { constantsOfActions } from "@config/actions";
-import { getContacts } from "@utils/api";
+import { constantsOfActions } from '@config/actions';
+import { getContacts } from '@utils/api';
 
 export const createSetContactsAction = (state: AnyObject): Action => {
     return {

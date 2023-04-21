@@ -1,13 +1,13 @@
-import { Component } from "@components/component";
-import template from "@components/addContactInGroup/addContact.pug";
-import { DumbContact } from "@components/contact/contact";
-import "@components/addContactInGroup/addContact.scss";
-import "@components/createGroup/createGroup.scss";
-import { dataInputUI } from "@components/ui/data-input/data-input";
-import { blueButtonUI } from "@components/ui/blue-button/blue-button";
+import { Component } from '@components/component';
+import template from '@components/addContactInGroup/addContact.pug';
+import { DumbContact } from '@components/contact/contact';
+import '@components/addContactInGroup/addContact.scss';
+import '@components/createGroup/createGroup.scss';
+import { dataInputUI } from '@components/ui/data-input/data-input';
+import { blueButtonUI } from '@components/ui/blue-button/blue-button';
 
 export class DumbAddContactInGroup extends Component {
-    constructor(props: ComponentProps) {
+    constructor(props: AnyObject) {
         super(props);
     }
 
@@ -29,19 +29,19 @@ export class DumbAddContactInGroup extends Component {
 
     render() {
         return template({
-            GroupName: "Название", // this.props.groupName
+            GroupName: 'Название', // this.props.groupName
             GroupNameInput: dataInputUI.renderTemplate({
-                className: "groupName",
-                inputType: "text",
-                inputPlaceholder: "новое имя группы",
-                value: "",
+                className: 'groupName',
+                inputType: 'text',
+                inputPlaceholder: 'новое имя группы',
+                value: '',
             }),
             CreateGroupButton: blueButtonUI.renderTemplate({
-                className: "button-submit",
-                buttonValue: "Сохранить изменения",
+                className: 'button-submit',
+                buttonValue: 'Сохранить изменения',
             }),
             Contacts: this.getContactList(),
-            GroupMembersHeader: "Контакты",
+            GroupMembersHeader: 'Контакты',
         });
     }
 }

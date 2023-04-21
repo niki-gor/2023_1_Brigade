@@ -4,8 +4,8 @@ import {
     deleteSession,
     put,
     postMultipartForm,
-} from "@services/ajax";
-import { config } from "@config/api";
+} from '@services/ajax';
+import { config } from '@config/api';
 
 /**
  * Отправляет запрос авторизации и обрабатывает ответ
@@ -303,7 +303,7 @@ export const getOneChat = (chat: AnyObject) => {
 };
 
 export const deleteChat = (deletedId: string) => {
-    return deleteSession(config.chats + deletedId + "/")
+    return deleteSession(config.chats + deletedId + '/')
         .then(({ status }) => {
             switch (status) {
                 case 204:

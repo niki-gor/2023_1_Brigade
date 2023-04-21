@@ -1,5 +1,5 @@
 export interface UITool extends AnyObject {
-    renderTemplate(args: any): string;
+    renderTemplate(args: AnyObject): string;
 }
 
 export class UITool {}

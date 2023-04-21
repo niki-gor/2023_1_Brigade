@@ -1,7 +1,8 @@
-import { ROOT } from "@config/config";
+import { ROOT } from '@config/config';
 
-export interface Container extends AnyObject {
-    props: ComponentProps;
+export interface Container {
+    props: AnyObject;
+    state: AnyObject;
     rootNode: HTMLElement;
     unsubscribe: (() => void)[];
 }
@@ -12,9 +13,7 @@ export class Container {
      * @param {Object} props - необходимые для работы класса свойства
      * @default {Element} rootNode - div, через который происходит взаимодействие с html.
      */
-    constructor(
-        props = { rootNode: ROOT, chatId: undefined } as ComponentProps
-    ) {
+    constructor(props: AnyObject) {
         this.state = {};
         this.props = props;
         this.unsubscribe = [];

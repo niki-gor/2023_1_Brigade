@@ -1,10 +1,10 @@
-import { Component } from "@components/component";
-import template from "@components/message/message.pug";
-import "@components/message/message.scss";
-import { smallEllipseIconUI } from "@components/ui/small-ellipse-icon/small-ellipse-icon";
+import { Component } from '@components/component';
+import template from '@components/message/message.pug';
+import '@components/message/message.scss';
+import { smallEllipseIconUI } from '@components/ui/small-ellipse-icon/small-ellipse-icon';
 
 export class Message extends Component {
-    constructor(props: any) {
+    constructor(props: AnyObject) {
         super(props);
     }
 

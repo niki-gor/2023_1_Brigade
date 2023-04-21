@@ -1,15 +1,15 @@
-import { constantsOfActions } from "@config/actions";
-import { ChatTypes } from "@config/enum";
-import { store } from "@store/store";
+import { constantsOfActions } from '@config/actions';
+import { ChatTypes } from '@config/enum';
+import { store } from '@store/store';
 import {
     createChat,
     deleteChat,
     editChat,
     getChats,
     getOneChat,
-} from "@utils/api";
-import { router } from "@router/createRouter";
-import { createMoveToChatAction } from "./routeActions";
+} from '@utils/api';
+import { router } from '@router/createRouter';
+import { createMoveToChatAction } from './routeActions';
 
 export const createIsNotRenderedAction = () => {
     return {
@@ -155,7 +155,7 @@ export const createDeleteChatAction = (deletedChatId: string) => {
 
         switch (status) {
             case 204:
-                router.route("/");
+                router.route('/');
                 break;
             case 401:
             // TODO: отрендерить ошибку

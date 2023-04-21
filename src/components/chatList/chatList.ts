@@ -1,11 +1,11 @@
-import { Component } from "@components/component";
-import template from "@components/chatList/chatList.pug";
-import "@components/chatList/chatList.scss";
-import { DumbChatCard } from "@components/chatCard/chatCard";
-import { svgButtonUI } from "../ui/button/button";
+import { Component } from '@components/component';
+import template from '@components/chatList/chatList.pug';
+import '@components/chatList/chatList.scss';
+import { DumbChatCard } from '@components/chatCard/chatCard';
+import { svgButtonUI } from '../ui/button/button';
 
 export class DumbChatList extends Component {
-    constructor(props: any) {
+    constructor(props: AnyObject) {
         super(props);
     }
 
@@ -23,9 +23,9 @@ export class DumbChatList extends Component {
 
     render() {
         return template({
-            headChats: "Чаты",
+            headChats: 'Чаты',
             createCroup: svgButtonUI.renderTemplate({
-                svgClassName: "chat-list__header__write-message-button",
+                svgClassName: 'chat-list__header__write-message-button',
             }),
             chats: this.getChatList(),
         });

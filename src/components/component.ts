@@ -1,7 +1,6 @@
-import { ROOT } from "@config/config";
-
-export interface Component extends AnyObject {
+export interface Component {
     props: AnyObject;
+    state: AnyObject;
 }
 
 export class Component {
@@ -13,8 +12,5 @@ export class Component {
     constructor(props: AnyObject) {
         this.state = {};
         this.props = props;
-        if (Object.hasOwnProperty.call(props, "rootNode")) {
-            this.rootNode = props.rootNode ?? ROOT;
-        }
     }
 }

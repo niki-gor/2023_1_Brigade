@@ -1,9 +1,9 @@
-declare module "*.pug" {
+declare module '*.pug' {
     const _: (AnyObject) => string;
     export default _;
 }
 
-declare module "*.svg" {
+declare module '*.svg' {
     const _: string;
     export default _;
 }
@@ -12,9 +12,9 @@ interface AnyObject {
     [key: string]: any;
 }
 
-interface ComponentProps extends AnyObject {
-    rootNode: HTMLElement | null;
-}
+// interface ComponentProps extends AnyObject {
+//     rootNode: HTMLElement | null;
+// }
 
 interface Action extends AnyObject {
     type: string;
@@ -46,17 +46,14 @@ interface CreateStore {
     (reducers: Map<string, Reducer>): {
         getState: () => AnyObject;
         dispatch: (action: Action) => void;
-        subscribe: (
-            key: string,
-            cb: (pr: ComponentProps) => void
-        ) => () => void;
+        subscribe: (key: string, cb: (pr: AnyObject) => void) => () => void;
     };
 }
 
 interface Store {
     getState: () => AnyObject;
     dispatch: (action: Action) => void;
-    subscribe: (key: string, cb: (pr: ComponentProps) => void) => () => void;
+    subscribe: (key: string, cb: (pr: AnyObject) => void) => () => void;
 }
 
 interface Middleware {

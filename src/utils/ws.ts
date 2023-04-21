@@ -3,10 +3,10 @@ const createWs = () => {
     const subscribers = new Map<number, Callback>();
 
     const create = () => {
-        ws = new WebSocket("wss://technogramm.ru/api/v1/message/");
+        ws = new WebSocket('wss://technogramm.ru/api/v1/message/');
 
         ws.onopen = () => {
-            console.log("WebSocket connection opened");
+            console.log('WebSocket connection opened');
         };
 
         // Обработчик события получения сообщения от сервера
@@ -20,13 +20,13 @@ const createWs = () => {
 
         // Обработчик события закрытия соединения
         ws.onclose = (event) => {
-            console.log("WebSocket connection closed", event.code);
+            console.log('WebSocket connection closed', event.code);
             ws = undefined;
         };
 
         // Обработчик события ошибки соединения
         ws.onerror = (event) => {
-            console.error("WebSocket connection error:", event);
+            console.error('WebSocket connection error:', event);
             ws = undefined;
         };
     };

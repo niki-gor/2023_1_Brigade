@@ -1,4 +1,4 @@
-import { constantsOfActions } from "@config/actions";
+import { constantsOfActions } from '@config/actions';
 
 export const reduceValidate = (state: AnyObject, action: Action) => {
     switch (action.type) {

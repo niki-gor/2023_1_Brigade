@@ -1,10 +1,10 @@
-import { Route } from "@router/router";
-import { SmartChat } from "@containers/chat/chat";
-import { SmartCreateGroup } from "@containers/createGroup/createGroup";
-import { SmartLogin } from "@containers/login/login";
-import { SmartProfile } from "@containers/profile/profile";
-import { SmartSignUp } from "@containers/signUp/signUp";
-import { SmartAddUserInGroup } from "@containers/addUserInGroup/addUserInGroup";
+import { Route } from '@router/router';
+import { SmartChat } from '@containers/chat/chat';
+import { SmartCreateGroup } from '@containers/createGroup/createGroup';
+import { SmartLogin } from '@containers/login/login';
+import { SmartProfile } from '@containers/profile/profile';
+import { SmartSignUp } from '@containers/signUp/signUp';
+import { SmartAddUserInGroup } from '@containers/addUserInGroup/addUserInGroup';
 
 export const routes: Route[] = [
     { path: /^\/login$/, component: SmartLogin, getProps: () => ({}) },

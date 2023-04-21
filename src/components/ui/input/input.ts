@@ -1,8 +1,8 @@
-import { Component } from "@components/component";
-import template from "@components/ui/input/input.pug";
+import { Component } from '@components/component';
+import template from '@components/ui/input/input.pug';
 
 export class inputUi extends Component {
-    constructor(props: any) {
+    constructor(props: AnyObject) {
         super(props);
     }
 

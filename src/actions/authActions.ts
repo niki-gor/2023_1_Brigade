@@ -1,15 +1,15 @@
-import { auth, login, signUp, logout } from "@utils/api";
+import { auth, login, signUp, logout } from '@utils/api';
 import {
     createSetUserAction,
     createInvalidEmailAction,
     createOccupiedEmailAction,
     createDeleteStateAction,
-} from "@actions/userActions";
-import { router } from "@router/createRouter";
-import { Contacts } from "@containers/contacts/createContacts";
-import { Chats } from "@containers/chatList/createChatList";
-import { Sidebar } from "@containers/sidebar/createSidebar";
-import { getWs } from "@utils/ws";
+} from '@actions/userActions';
+import { router } from '@router/createRouter';
+import { Contacts } from '@containers/contacts/createContacts';
+import { Chats } from '@containers/chatList/createChatList';
+import { Sidebar } from '@containers/sidebar/createSidebar';
+import { getWs } from '@utils/ws';
 
 export const createAuthAction = (): AsyncAction => {
     return async (dispatch: (action: Action) => void) => {
@@ -29,10 +29,10 @@ export const createAuthAction = (): AsyncAction => {
 
                 break;
             case 401:
-                if (window.location.pathname == "/signup") {
-                    router.route("/signup");
+                if (window.location.pathname == '/signup') {
+                    router.route('/signup');
                 } else {
-                    router.route("/login");
+                    router.route('/login');
                 }
                 break;
             case 500:
@@ -59,7 +59,7 @@ export const createLoginAction = (user: AnyObject): AsyncAction => {
                 Sidebar.componentDidMount();
                 Chats.componentDidMount();
 
-                router.route("/");
+                router.route('/');
 
                 break;
             case 404:
@@ -91,7 +91,7 @@ export const createSignUpAction = (user: AnyObject): AsyncAction => {
                 Sidebar.componentDidMount();
                 Chats.componentDidMount();
 
-                router.route("/");
+                router.route('/');
 
                 break;
             case 400:
@@ -122,7 +122,7 @@ export const createLogoutAction = (): AsyncAction => {
                 const ws = getWs();
                 ws.close();
 
-                router.route("/login");
+                router.route('/login');
 
                 dispatch(createDeleteStateAction());
 

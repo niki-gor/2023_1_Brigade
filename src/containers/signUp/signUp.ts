@@ -1,25 +1,25 @@
-import { Container } from "@containers/container";
-import { DumbSignUp } from "@pages/signUp/signUp";
+import { Container } from '@containers/container';
+import { DumbSignUp } from '@pages/signUp/signUp';
 import {
     checkEmail,
     checkPassword,
     checkConfirmPassword,
     checkNickname,
     addErrorToClass,
-} from "@utils/validator";
-import { store } from "@store/store";
+} from '@utils/validator';
+import { store } from '@store/store';
 import {
     emailErrorTypes,
     passwordErrorTypes,
     confirmPasswordErrorTypes,
     nicknameErrorTypes,
-} from "@config/errors";
-import { createSignUpAction } from "@actions/authActions";
+} from '@config/errors';
+import { createSignUpAction } from '@actions/authActions';
 import {
     createMoveToLoginAction,
     createRenderAction,
-} from "@actions/routeActions";
-import { DYNAMIC, SIDEBAR, SIGNUP, STATIC } from "@config/config";
+} from '@actions/routeActions';
+import { DYNAMIC, SIDEBAR, SIGNUP, STATIC } from '@config/config';
 
 export interface SmartSignUp {
     state: {
@@ -53,7 +53,7 @@ export class SmartSignUp extends Container {
      * Cохраняет props
      * @param {Object} props - параметры компонента
      */
-    constructor(props: ComponentProps) {
+    constructor(props: AnyObject) {
         super(props);
         this.state = {
             isSubscribed: false,
@@ -91,14 +91,14 @@ export class SmartSignUp extends Container {
                 ...this.props,
             });
 
-            SIDEBAR.innerHTML = STATIC.innerHTML = DYNAMIC.innerHTML = "";
+            SIDEBAR.innerHTML = STATIC.innerHTML = DYNAMIC.innerHTML = '';
 
-            this.rootNode.insertAdjacentHTML("afterbegin", SignUpUI.render());
+            this.rootNode.insertAdjacentHTML('afterbegin', SignUpUI.render());
 
             this.state.domElements.signUpButton =
-                document.querySelector(".reg-but");
+                document.querySelector('.reg-but');
             this.state.domElements.signUpButton?.addEventListener(
-                "click",
+                'click',
                 (e) => {
                     e.preventDefault();
 
@@ -107,9 +107,9 @@ export class SmartSignUp extends Container {
             );
 
             this.state.domElements.moveToLogin =
-                document.querySelector(".reg-ques");
+                document.querySelector('.reg-ques');
             this.state.domElements.moveToLogin?.addEventListener(
-                "click",
+                'click',
                 (e) => {
                     e.preventDefault();
 
@@ -117,25 +117,25 @@ export class SmartSignUp extends Container {
                 }
             );
 
-            this.state.domElements.email = document.querySelector(".email");
-            this.state.domElements.email?.addEventListener("input", (e) => {
+            this.state.domElements.email = document.querySelector('.email');
+            this.state.domElements.email?.addEventListener('input', (e) => {
                 e.preventDefault();
 
                 this.validateEmail();
             });
 
             this.state.domElements.password =
-                document.querySelector(".password");
-            this.state.domElements.password?.addEventListener("input", (e) => {
+                document.querySelector('.password');
+            this.state.domElements.password?.addEventListener('input', (e) => {
                 e.preventDefault();
 
                 this.validatePassword();
             });
 
             this.state.domElements.confirmPassword =
-                document.querySelector(".confirm-password");
+                document.querySelector('.confirm-password');
             this.state.domElements.confirmPassword?.addEventListener(
-                "input",
+                'input',
                 (e) => {
                     e.preventDefault();
 
@@ -144,8 +144,8 @@ export class SmartSignUp extends Container {
             );
 
             this.state.domElements.nickname =
-                document.querySelector(".nickname");
-            this.state.domElements.nickname?.addEventListener("input", (e) => {
+                document.querySelector('.nickname');
+            this.state.domElements.nickname?.addEventListener('input', (e) => {
                 e.preventDefault();
 
                 this.validateNickname();
@@ -159,9 +159,9 @@ export class SmartSignUp extends Container {
     occupiedEmail() {
         if (this.state.isSubscribed && this.props?.occupiedEmail) {
             this.state.domElements.email?.classList.add(
-                "login-reg__input_error"
+                'login-reg__input_error'
             );
-            addErrorToClass("occupied-email", emailErrorTypes);
+            addErrorToClass('occupied-email', emailErrorTypes);
         }
     }
 
@@ -171,7 +171,7 @@ export class SmartSignUp extends Container {
     componentDidMount() {
         if (!this.state.isSubscribed) {
             this.unsubscribe.push(
-                store.subscribe(this.constructor.name, (pr: ComponentProps) => {
+                store.subscribe(this.constructor.name, (pr: AnyObject) => {
                     this.props = pr;
 
                     this.render();
@@ -224,17 +224,17 @@ export class SmartSignUp extends Container {
      */
     validateEmail() {
         this.state.domElements.email?.classList.remove(
-            "login-reg__input_error"
+            'login-reg__input_error'
         );
-        addErrorToClass("", emailErrorTypes);
+        addErrorToClass('', emailErrorTypes);
 
         const { isError, errorClass } = checkEmail(
-            this.state.domElements.email?.value ?? ""
+            this.state.domElements.email?.value ?? ''
         );
 
         if (isError) {
             this.state.domElements.email?.classList.add(
-                "login-reg__input_error"
+                'login-reg__input_error'
             );
             addErrorToClass(errorClass, emailErrorTypes);
             this.state.valid.emailIsValid = false;
@@ -249,17 +249,17 @@ export class SmartSignUp extends Container {
      */
     validatePassword() {
         this.state.domElements.password?.classList.remove(
-            "login-reg__input_error"
+            'login-reg__input_error'
         );
-        addErrorToClass("", passwordErrorTypes);
+        addErrorToClass('', passwordErrorTypes);
 
         const { isError, errorClass } = checkPassword(
-            this.state.domElements.password?.value ?? ""
+            this.state.domElements.password?.value ?? ''
         );
 
         if (isError) {
             this.state.domElements.password?.classList.add(
-                "login-reg__input_error"
+                'login-reg__input_error'
             );
             addErrorToClass(errorClass, passwordErrorTypes);
             this.state.valid.passwordIsValid = false;
@@ -274,18 +274,18 @@ export class SmartSignUp extends Container {
      */
     validateConfirmPassword() {
         this.state.domElements.confirmPassword?.classList.remove(
-            "login-reg__input_error"
+            'login-reg__input_error'
         );
-        addErrorToClass("", confirmPasswordErrorTypes);
+        addErrorToClass('', confirmPasswordErrorTypes);
 
         const { isError, errorClass } = checkConfirmPassword(
-            this.state.domElements.password?.value ?? "",
-            this.state.domElements.confirmPassword?.value ?? ""
+            this.state.domElements.password?.value ?? '',
+            this.state.domElements.confirmPassword?.value ?? ''
         );
 
         if (isError) {
             this.state.domElements.confirmPassword?.classList.add(
-                "login-reg__input_error"
+                'login-reg__input_error'
             );
             addErrorToClass(errorClass, passwordErrorTypes);
             this.state.valid.confirmPasswordIsValid = false;
@@ -300,17 +300,17 @@ export class SmartSignUp extends Container {
      */
     validateNickname() {
         this.state.domElements.nickname?.classList.remove(
-            "login-reg__input_error"
+            'login-reg__input_error'
         );
-        addErrorToClass("", nicknameErrorTypes);
+        addErrorToClass('', nicknameErrorTypes);
 
         const { isError, errorClass } = checkNickname(
-            this.state.domElements.nickname?.value ?? ""
+            this.state.domElements.nickname?.value ?? ''
         );
 
         if (isError) {
             this.state.domElements.nickname?.classList.add(
-                "login-reg__input_error"
+                'login-reg__input_error'
             );
             addErrorToClass(errorClass, nicknameErrorTypes);
             this.state.valid.nicknameIsValid = false;

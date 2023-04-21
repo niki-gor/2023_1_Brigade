@@ -1,10 +1,10 @@
-import { createEditChatAction } from "@actions/chatActions";
-import { createGetContactsAction } from "@actions/contactsActions";
-import { DumbAddContactInGroup } from "@components/addContactInGroup/addContact";
-import { DYNAMIC } from "@config/config";
-import { ChatTypes } from "@config/enum";
-import { store } from "@store/store";
-import { Container } from "@containers/container";
+import { createEditChatAction } from '@actions/chatActions';
+import { createGetContactsAction } from '@actions/contactsActions';
+import { DumbAddContactInGroup } from '@components/addContactInGroup/addContact';
+import { DYNAMIC } from '@config/config';
+import { ChatTypes } from '@config/enum';
+import { store } from '@store/store';
+import { Container } from '@containers/container';
 
 export interface SmartAddUserInGroup {
     state: {
@@ -13,6 +13,8 @@ export interface SmartAddUserInGroup {
             saveChangesBtn: HTMLElement | null;
         };
     };
+
+    chatId: string | undefined;
 }
 
 export class SmartAddUserInGroup extends Container {
@@ -20,7 +22,7 @@ export class SmartAddUserInGroup extends Container {
      * Сохраняет props
      * @param {Object} props - параметры компонента
      */
-    constructor(props: ComponentProps) {
+    constructor(props: AnyObject) {
         super(props);
         this.state = {
             isSubscribed: false,
@@ -33,8 +35,8 @@ export class SmartAddUserInGroup extends Container {
         this.rootNode = DYNAMIC;
     }
 
-    #contactClicked = "rgb(37, 37, 48)";
-    #contactUnClicked = "rgb(28, 28, 36)";
+    #contactClicked = 'rgb(37, 37, 48)';
+    #contactUnClicked = 'rgb(28, 28, 36)';
 
     render() {
         if (this.state.isSubscribed) {
@@ -48,14 +50,14 @@ export class SmartAddUserInGroup extends Container {
                     this.rootNode.innerHTML = addUser.render();
 
                     this.state.domElements.saveChangesBtn =
-                        document.querySelector(".button-submit");
+                        document.querySelector('.button-submit');
                     const input = document.querySelector(
-                        ".groupName"
+                        '.groupName'
                     ) as HTMLInputElement;
                     input.value = this.props.chats[key].title;
 
                     this.state.domElements.saveChangesBtn?.addEventListener(
-                        "click",
+                        'click',
                         (e) => {
                             e.preventDefault();
 
@@ -65,17 +67,17 @@ export class SmartAddUserInGroup extends Container {
 
                     const matchesId: number[] | string[] =
                         this.#findContactsByMessageId();
-                    document.querySelectorAll(".contact").forEach((ct) => {
+                    document.querySelectorAll('.contact').forEach((ct) => {
                         const contact = ct as HTMLElement;
 
                         contact.style.backgroundColor = this.#contactUnClicked;
                         for (const id of matchesId) {
-                            if (id == contact.getAttribute("name")) {
+                            if (id == contact.getAttribute('name')) {
                                 this.handleClickChooseContact(contact);
                             }
                         }
 
-                        contact.addEventListener("click", (e) => {
+                        contact.addEventListener('click', (e) => {
                             e.preventDefault();
                             this.handleClickChooseContact(contact);
                         });
@@ -104,7 +106,7 @@ export class SmartAddUserInGroup extends Container {
     }
 
     handleClickSaveButton(input: HTMLInputElement) {
-        const groupTitle = document.querySelector(".change-group__name");
+        const groupTitle = document.querySelector('.change-group__name');
         let updateChatId;
         if (input.value && groupTitle) {
             groupTitle.textContent = input.value;
@@ -128,7 +130,7 @@ export class SmartAddUserInGroup extends Container {
 
             store.dispatch(createEditChatAction(updateGroupState));
         }
-        input.value = "";
+        input.value = '';
     }
 
     /**
@@ -147,7 +149,7 @@ export class SmartAddUserInGroup extends Container {
             this.state.isSubscribed = true;
 
             this.unsubscribe.push(
-                store.subscribe(this.name, (pr: ComponentProps) => {
+                store.subscribe(this.constructor.name, (pr: AnyObject) => {
                     this.props = pr;
 
                     this.render();
@@ -167,11 +169,11 @@ export class SmartAddUserInGroup extends Container {
 
     getChoseContacts() {
         const contacts: number[] = [];
-        document.querySelectorAll(".contact").forEach((ct) => {
+        document.querySelectorAll('.contact').forEach((ct) => {
             const contact = ct as HTMLElement;
 
             if (contact.style.backgroundColor == this.#contactClicked) {
-                const contactID = contact.getAttribute("name");
+                const contactID = contact.getAttribute('name');
                 contacts.push(Number(contactID));
             }
         });

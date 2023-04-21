@@ -1,4 +1,4 @@
-import { Container } from "@containers/container";
+import { Container } from '@containers/container';
 
 export interface SmartError {
     state: {
@@ -21,7 +21,7 @@ export class SmartError extends Container {
      * Cохраняет props
      * @param {Object} props - параметры компонента
      */
-    constructor(props: ComponentProps) {
+    constructor(props: AnyObject) {
         super(props);
 
         this.state = {
@@ -45,7 +45,7 @@ export class SmartError extends Container {
      */
     componentDidMount() {
         if (!this.state.isSubscribed) {
-            // this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: ComponentProps) => {
+            // this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: AnyObject) => {
             //     this.props = pr;
 
             //     this.render();

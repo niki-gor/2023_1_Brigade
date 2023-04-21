@@ -6,27 +6,27 @@ export const checkEmail = (email: string) => {
     if (!isNotEmpty) {
         return {
             isError: true,
-            errorClass: "empty-email",
+            errorClass: 'empty-email',
         };
     }
 
     if (!hasDog) {
         return {
             isError: true,
-            errorClass: "missdog-email",
+            errorClass: 'missdog-email',
         };
     }
 
     if (!isValid) {
         return {
             isError: true,
-            errorClass: "invalid-email",
+            errorClass: 'invalid-email',
         };
     }
 
     return {
         isError: false,
-        errorClass: "",
+        errorClass: '',
     };
 };
 
@@ -37,20 +37,20 @@ export const checkPassword = (password: string) => {
     if (!isNotEmpty) {
         return {
             isError: true,
-            errorClass: "empty-password",
+            errorClass: 'empty-password',
         };
     }
 
     if (!hasValidLength) {
         return {
             isError: true,
-            errorClass: "invalid-password",
+            errorClass: 'invalid-password',
         };
     }
 
     return {
         isError: false,
-        errorClass: "",
+        errorClass: '',
     };
 };
 
@@ -61,20 +61,20 @@ export const checkNewPassword = (password: string) => {
     if (!isNotEmpty) {
         return {
             isError: true,
-            errorClass: "empty-new-password",
+            errorClass: 'empty-new-password',
         };
     }
 
     if (!hasValidLength) {
         return {
             isError: true,
-            errorClass: "invalid-new-password",
+            errorClass: 'invalid-new-password',
         };
     }
 
     return {
         isError: false,
-        errorClass: "",
+        errorClass: '',
     };
 };
 
@@ -88,20 +88,20 @@ export const checkConfirmPassword = (
     if (!isNotEmpty) {
         return {
             isError: true,
-            errorClass: "empty-confirm-password",
+            errorClass: 'empty-confirm-password',
         };
     }
 
     if (!isEqualPassword) {
         return {
             isError: true,
-            errorClass: "invalid-confirm-password",
+            errorClass: 'invalid-confirm-password',
         };
     }
 
     return {
         isError: false,
-        errorClass: "",
+        errorClass: '',
     };
 };
 
@@ -112,20 +112,20 @@ export const checkNickname = (nickname: string) => {
     if (!isNotEmpty) {
         return {
             isError: true,
-            errorClass: "empty-nickname",
+            errorClass: 'empty-nickname',
         };
     }
 
     if (!hasValidLength) {
         return {
             isError: true,
-            errorClass: "invalid-nickname",
+            errorClass: 'invalid-nickname',
         };
     }
 
     return {
         isError: false,
-        errorClass: "",
+        errorClass: '',
     };
 };
 
@@ -135,14 +135,14 @@ export const addErrorToClass = (
 ) => {
     classesToAddInvisible.forEach((curClass) => {
         document
-            .querySelector("." + curClass.class)
-            ?.classList.add("invisible");
+            .querySelector('.' + curClass.class)
+            ?.classList.add('invisible');
     });
 
     if (classToRemoveInvisible)
         document
-            .querySelector("." + classToRemoveInvisible)
-            ?.classList.remove("invisible");
+            .querySelector('.' + classToRemoveInvisible)
+            ?.classList.remove('invisible');
 };
 
 // TODO: на будущее для проверки пароля

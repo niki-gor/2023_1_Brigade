@@ -1,24 +1,24 @@
-import { Container } from "@containers/container";
-import { DumbProfile } from "@components/profile/profile";
+import { Container } from '@containers/container';
+import { DumbProfile } from '@components/profile/profile';
 import {
     checkPassword,
     checkNickname,
     addErrorToClass,
     checkNewPassword,
-} from "@utils/validator";
-import { store } from "@store/store";
+} from '@utils/validator';
+import { store } from '@store/store';
 import {
     passwordErrorTypes,
     usernameErrorTypes,
     nicknameErrorTypes,
     newPasswordErrorTypes,
-} from "@config/errors";
+} from '@config/errors';
 import {
     createUpdateUserAction,
     createUpdateUserAvatarAction,
-} from "@actions/userActions";
-import { createRenderAction } from "@actions/routeActions";
-import { DYNAMIC } from "@config/config";
+} from '@actions/userActions';
+import { createRenderAction } from '@actions/routeActions';
+import { DYNAMIC } from '@config/config';
 
 export interface SmartProfile {
     state: {
@@ -50,7 +50,7 @@ export class SmartProfile extends Container {
      * Cохраняет props
      * @param {Object} props - параметры компонента
      */
-    constructor(props: ComponentProps) {
+    constructor(props: AnyObject) {
         super(props);
         this.state = {
             isSubscribed: false,
@@ -94,15 +94,15 @@ export class SmartProfile extends Container {
             this.rootNode.innerHTML = ProfileUI.render();
 
             this.state.domElements.avatar =
-                document.querySelector(".profile__avatar"); // ellipse-icon
-            this.state.domElements.avatar?.addEventListener("click", () => {
+                document.querySelector('.profile__avatar'); // ellipse-icon
+            this.state.domElements.avatar?.addEventListener('click', () => {
                 this.handleClickAvatar();
             });
 
             this.state.domElements.saveButton =
-                document.querySelector(".button-save");
+                document.querySelector('.button-save');
             this.state.domElements.saveButton?.addEventListener(
-                "click",
+                'click',
                 (e) => {
                     e.preventDefault();
 
@@ -111,9 +111,9 @@ export class SmartProfile extends Container {
             );
 
             this.state.domElements.current_password =
-                document.querySelector(".current-password");
+                document.querySelector('.current-password');
             this.state.domElements.current_password?.addEventListener(
-                "input",
+                'input',
                 (e) => {
                     e.preventDefault();
 
@@ -122,9 +122,9 @@ export class SmartProfile extends Container {
             );
 
             this.state.domElements.new_password =
-                document.querySelector(".new-password");
+                document.querySelector('.new-password');
             this.state.domElements.new_password?.addEventListener(
-                "input",
+                'input',
                 (e) => {
                     e.preventDefault();
 
@@ -133,31 +133,31 @@ export class SmartProfile extends Container {
             );
 
             this.state.domElements.nickname =
-                document.querySelector(".nickname");
-            this.state.domElements.nickname?.addEventListener("input", (e) => {
+                document.querySelector('.nickname');
+            this.state.domElements.nickname?.addEventListener('input', (e) => {
                 e.preventDefault();
 
                 this.validateNickname();
             });
 
             this.state.domElements.username =
-                document.querySelector(".username");
-            this.state.domElements.username?.addEventListener("input", (e) => {
+                document.querySelector('.username');
+            this.state.domElements.username?.addEventListener('input', (e) => {
                 e.preventDefault();
 
                 if (this.state.domElements.username?.value) {
                     if (
-                        this.state.domElements.username?.value.charAt(0) !== "@"
+                        this.state.domElements.username?.value.charAt(0) !== '@'
                     ) {
                         this.state.domElements.username.value =
-                            "@" + this.state.domElements.username.value;
+                            '@' + this.state.domElements.username.value;
                     }
                 }
 
                 this.validateUsername();
             });
 
-            this.state.domElements.status = document.querySelector(".status");
+            this.state.domElements.status = document.querySelector('.status');
         }
     }
 
@@ -166,8 +166,8 @@ export class SmartProfile extends Container {
      */
     occupiedUsername() {
         if (this.state.isSubscribed && this.props?.occupiedUsername) {
-            this.state.domElements.username?.classList.add("data-input--error");
-            addErrorToClass("occupied-username", usernameErrorTypes);
+            this.state.domElements.username?.classList.add('data-input--error');
+            addErrorToClass('occupied-username', usernameErrorTypes);
         }
     }
 
@@ -177,7 +177,7 @@ export class SmartProfile extends Container {
     componentDidMount() {
         if (!this.state.isSubscribed) {
             this.unsubscribe.push(
-                store.subscribe(this.constructor.name, (pr: ComponentProps) => {
+                store.subscribe(this.constructor.name, (pr: AnyObject) => {
                     this.props = pr;
 
                     this.render();
@@ -205,11 +205,11 @@ export class SmartProfile extends Container {
      * Обрабатывает нажатие кнопки аватарки
      */
     handleClickAvatar() {
-        const input = document.createElement("input");
-        input.type = "file";
-        input.accept = ".jpg";
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.jpg';
 
-        input.addEventListener("change", () => {
+        input.addEventListener('change', () => {
             this.#image = input?.files?.[0];
             if (this.#image) {
                 const reader = new FileReader();
@@ -217,7 +217,7 @@ export class SmartProfile extends Container {
                 reader.onload = () => {
                     const imageUrl = reader.result;
                     const avatar = document.querySelector(
-                        ".profile__avatar"
+                        '.profile__avatar'
                     ) as HTMLImageElement;
                     avatar.src = imageUrl as string;
                 };
@@ -253,17 +253,17 @@ export class SmartProfile extends Container {
      */
     validateCurrentPassword() {
         this.state.domElements.current_password?.classList.remove(
-            "data-input--error"
+            'data-input--error'
         );
-        addErrorToClass("", passwordErrorTypes);
+        addErrorToClass('', passwordErrorTypes);
 
         const { isError, errorClass } = checkPassword(
-            this.state.domElements.current_password?.value ?? ""
+            this.state.domElements.current_password?.value ?? ''
         );
 
         if (isError) {
             this.state.domElements.current_password?.classList.add(
-                "data-input--error"
+                'data-input--error'
             );
             addErrorToClass(errorClass, passwordErrorTypes);
             this.state.valid.currentPasswordIsValid = false;
@@ -276,9 +276,9 @@ export class SmartProfile extends Container {
     incorrectPassword() {
         if (this.state.isSubscribed && this.props?.incorrectPassword) {
             this.state.domElements.current_password?.classList.add(
-                "data-input--error"
+                'data-input--error'
             );
-            addErrorToClass("incorrect-password", passwordErrorTypes);
+            addErrorToClass('incorrect-password', passwordErrorTypes);
         }
     }
 
@@ -287,17 +287,17 @@ export class SmartProfile extends Container {
      */
     validateNewPassword() {
         this.state.domElements.new_password?.classList.remove(
-            "data-input--error"
+            'data-input--error'
         );
-        addErrorToClass("", newPasswordErrorTypes);
+        addErrorToClass('', newPasswordErrorTypes);
 
         const { isError, errorClass } = checkNewPassword(
-            this.state.domElements.new_password?.value ?? ""
+            this.state.domElements.new_password?.value ?? ''
         );
 
         if (isError) {
             this.state.domElements.new_password?.classList.add(
-                "data-input--error"
+                'data-input--error'
             );
             addErrorToClass(errorClass, newPasswordErrorTypes);
             this.state.valid.newPasswordIsValid = false;
@@ -311,15 +311,15 @@ export class SmartProfile extends Container {
      * Проверяет пользовательский ввод имени
      */
     validateNickname() {
-        this.state.domElements.nickname?.classList.remove("data-input--error");
-        addErrorToClass("", nicknameErrorTypes);
+        this.state.domElements.nickname?.classList.remove('data-input--error');
+        addErrorToClass('', nicknameErrorTypes);
 
         const { isError, errorClass } = checkNickname(
-            this.state.domElements.nickname?.value ?? ""
+            this.state.domElements.nickname?.value ?? ''
         );
 
         if (isError) {
-            this.state.domElements.nickname?.classList.add("data-input--error");
+            this.state.domElements.nickname?.classList.add('data-input--error');
             addErrorToClass(errorClass, nicknameErrorTypes);
             this.state.valid.nicknameIsValid = false;
             return;
@@ -329,7 +329,7 @@ export class SmartProfile extends Container {
     }
 
     validateUsername() {
-        this.state.domElements.username?.classList.remove("data-input--error");
-        addErrorToClass("", usernameErrorTypes);
+        this.state.domElements.username?.classList.remove('data-input--error');
+        addErrorToClass('', usernameErrorTypes);
     }
 }

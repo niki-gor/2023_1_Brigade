@@ -1,14 +1,14 @@
-import template from "@components/chat/chat.pug";
-import "@components/chat/chat.scss";
-import { Component } from "@components/component";
-import { svgButtonUI } from "@components/ui/button/button";
-import { chatAvatarUi } from "@components/ui/chatAvatar/chatAvatar";
-import { inputUi } from "@components/ui/input/input";
-import { Message } from "@components/message/message";
-import { ChatTypes } from "@config/enum";
+import template from '@components/chat/chat.pug';
+import '@components/chat/chat.scss';
+import { Component } from '@components/component';
+import { svgButtonUI } from '@components/ui/button/button';
+import { chatAvatarUi } from '@components/ui/chatAvatar/chatAvatar';
+import { inputUi } from '@components/ui/input/input';
+import { Message } from '@components/message/message';
+import { ChatTypes } from '@config/enum';
 
 export class DumbChat extends Component {
-    constructor(props: any) {
+    constructor(props: AnyObject) {
         super(props);
     }
 
@@ -56,41 +56,41 @@ export class DumbChat extends Component {
     }
 
     render() {
-        let editBtnClassName = "";
+        let editBtnClassName = '';
         if (this.props.chatData.type === ChatTypes.Group) {
-            editBtnClassName = "edit-chat";
+            editBtnClassName = 'edit-chat';
         }
         return template({
             MoreInfoBtn: svgButtonUI.renderTemplate({
                 svgClassName: editBtnClassName,
             }),
             SendMessageBtn: svgButtonUI.renderTemplate({
-                svgClassName: "view-chat__send-message-button",
+                svgClassName: 'view-chat__send-message-button',
             }),
             DeleteChatBtn: svgButtonUI.renderTemplate({
-                svgClassName: "delete-btn",
+                svgClassName: 'delete-btn',
             }),
             HeaderUserAvatar: chatAvatarUi.renderTemplate({
-                ClassName: "header__companion__ava",
+                ClassName: 'header__companion__ava',
                 PathToUserImage: this.props.chatAvatar,
                 UserName: this.props.chatTitle,
-                UserStatus: "",
+                UserStatus: '',
                 Online: false, // нет this.props?.userOnline,
             }),
             MessageList: this.getMessageList(),
             Input: new inputUi({
-                inputClassName: "view-chat__input-message",
+                inputClassName: 'view-chat__input-message',
                 userImage: chatAvatarUi.renderTemplate({
-                    ClassName: "input-message__user-avatar",
+                    ClassName: 'input-message__user-avatar',
                     PathToUserImage: this.props.userAvatar,
-                    UserName: "", // не надо
-                    UserStatus: "", // не надо
+                    UserName: '', // не надо
+                    UserStatus: '', // не надо
                     Online: false, // не надо
                 }),
                 sendBtn: svgButtonUI.renderTemplate({
-                    svgClassName: "view-chat__send-message-button",
+                    svgClassName: 'view-chat__send-message-button',
                 }),
-                placeholder: "Type something...",
+                placeholder: 'Type something...',
             }).render(),
         });
     }

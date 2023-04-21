@@ -1,7 +1,7 @@
-import { reduceSetUser, reduceDeleteState } from "@reducers/userReducers";
-import { constantsOfActions } from "./actions";
-import { reduceValidate } from "@reducers/validateReducers";
-import { reduceSetContacts } from "@reducers/contactReducers";
+import { reduceSetUser, reduceDeleteState } from '@reducers/userReducers';
+import { constantsOfActions } from './actions';
+import { reduceValidate } from '@reducers/validateReducers';
+import { reduceSetContacts } from '@reducers/contactReducers';
 import {
     reduceAddChat,
     reduceDeleteChat,
@@ -9,7 +9,7 @@ import {
     reduceIsNotRendered,
     reduceOpenChat,
     reduceSetChats,
-} from "@reducers/chatReducers";
+} from '@reducers/chatReducers';
 
 /**
  * Устанавливает соответствие между экшенами и редьюсерами

@@ -1,6 +1,6 @@
-import template from "@components/ui/avatar/avatar.pug";
-import "@components/ui/avatar/avatar.scss";
-import { UITool } from "@components/ui/uiTool";
+import template from '@components/ui/avatar/avatar.pug';
+import '@components/ui/avatar/avatar.scss';
+import { UITool } from '@components/ui/uiTool';
 
 export class avatarUi extends UITool {
     static renderTemplate(args: {

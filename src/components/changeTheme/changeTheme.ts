@@ -1,9 +1,9 @@
-import template from "@components/changeTheme/changeTheme.pug";
-import { Component } from "@components/component";
-import { svgButtonUI } from "@components/ui/button/button";
+import template from '@components/changeTheme/changeTheme.pug';
+import { Component } from '@components/component';
+import { svgButtonUI } from '@components/ui/button/button';
 
 export class DumbChangeTheme extends Component {
-    constructor(props: any) {
+    constructor(props: AnyObject) {
         super(props);
     }
 

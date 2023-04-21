@@ -1,12 +1,12 @@
-import { Container } from "@containers/container";
-import { store } from "@store/store";
-import { createGetChatsAction } from "@actions/chatActions";
-import { DumbChatList } from "@components/chatList/chatList";
+import { Container } from '@containers/container';
+import { store } from '@store/store';
+import { createGetChatsAction } from '@actions/chatActions';
+import { DumbChatList } from '@components/chatList/chatList';
 import {
     createMoveToChatAction,
     createMoveToCreateGroupAction,
-} from "@actions/routeActions";
-import { STATIC } from "@config/config";
+} from '@actions/routeActions';
+import { STATIC } from '@config/config';
 
 export interface SmartChatList {
     state: {
@@ -19,7 +19,7 @@ export interface SmartChatList {
 }
 
 export class SmartChatList extends Container {
-    constructor(props: ComponentProps) {
+    constructor(props: AnyObject) {
         super(props);
         this.state = {
             isSubscribed: false,
@@ -42,10 +42,10 @@ export class SmartChatList extends Container {
 
             this.rootNode.innerHTML = ChatListUI.render();
 
-            this.state.domElements.chats = document.querySelector(".chats");
-            this.state.domElements.chats?.addEventListener("click", (e) => {
+            this.state.domElements.chats = document.querySelector('.chats');
+            this.state.domElements.chats?.addEventListener('click', (e) => {
                 let chat = e?.target as HTMLElement | null | undefined;
-                chat = chat?.closest(".chat-card");
+                chat = chat?.closest('.chat-card');
 
                 if (chat) {
                     this.handleClickOpenChat(chat);
@@ -54,10 +54,10 @@ export class SmartChatList extends Container {
             });
 
             this.state.domElements.createGroup = document.querySelector(
-                ".chat-list__header__write-message-button"
+                '.chat-list__header__write-message-button'
             );
             this.state.domElements.createGroup?.addEventListener(
-                "click",
+                'click',
                 (e) => {
                     e.preventDefault();
 
@@ -70,7 +70,7 @@ export class SmartChatList extends Container {
     componentDidMount() {
         if (!this.state.isSubscribed) {
             this.unsubscribe.push(
-                store.subscribe(this.constructor.name, (pr: ComponentProps) => {
+                store.subscribe(this.constructor.name, (pr: AnyObject) => {
                     this.props = pr;
 
                     this.render();
@@ -91,7 +91,7 @@ export class SmartChatList extends Container {
     }
 
     handleClickOpenChat(chat: HTMLElement) {
-        const chatId = chat.getAttribute("name");
+        const chatId = chat.getAttribute('name');
 
         for (const key in this.props.chats) {
             if (this.props.chats[key].id == chatId) {

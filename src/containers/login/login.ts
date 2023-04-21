@@ -1,14 +1,14 @@
-import { Container } from "@containers/container";
-import { DumbLogin } from "@pages/login/login";
-import { checkEmail, checkPassword, addErrorToClass } from "@utils/validator";
-import { store } from "@store/store";
-import { emailErrorTypes, passwordErrorTypes } from "@config/errors";
-import { createLoginAction } from "@actions/authActions";
+import { Container } from '@containers/container';
+import { DumbLogin } from '@pages/login/login';
+import { checkEmail, checkPassword, addErrorToClass } from '@utils/validator';
+import { store } from '@store/store';
+import { emailErrorTypes, passwordErrorTypes } from '@config/errors';
+import { createLoginAction } from '@actions/authActions';
 import {
     createMoveToSignUpAction,
     createRenderAction,
-} from "@actions/routeActions";
-import { DYNAMIC, LOGIN, SIDEBAR, STATIC } from "@config/config";
+} from '@actions/routeActions';
+import { DYNAMIC, LOGIN, SIDEBAR, STATIC } from '@config/config';
 
 export interface SmartLogin {
     state: {
@@ -39,7 +39,7 @@ export class SmartLogin extends Container {
      * Cохраняет props
      * @param {Object} props - параметры компонента
      */
-    constructor(props: ComponentProps) {
+    constructor(props: AnyObject) {
         super(props);
 
         this.state = {
@@ -72,14 +72,14 @@ export class SmartLogin extends Container {
                 ...this.props,
             });
 
-            SIDEBAR.innerHTML = STATIC.innerHTML = DYNAMIC.innerHTML = "";
+            SIDEBAR.innerHTML = STATIC.innerHTML = DYNAMIC.innerHTML = '';
 
-            this.rootNode.insertAdjacentHTML("afterbegin", LoginUI.render());
+            this.rootNode.insertAdjacentHTML('afterbegin', LoginUI.render());
 
             this.state.domElements.loginButton =
-                document.querySelector(".login-but");
+                document.querySelector('.login-but');
             this.state.domElements.loginButton?.addEventListener(
-                "click",
+                'click',
                 (e) => {
                     e.preventDefault();
 
@@ -88,9 +88,9 @@ export class SmartLogin extends Container {
             );
 
             this.state.domElements.moveToSignUp =
-                document.querySelector(".login-ques");
+                document.querySelector('.login-ques');
             this.state.domElements.moveToSignUp?.addEventListener(
-                "click",
+                'click',
                 (e) => {
                     e.preventDefault();
 
@@ -98,16 +98,16 @@ export class SmartLogin extends Container {
                 }
             );
 
-            this.state.domElements.email = document.querySelector(".email");
-            this.state.domElements.email?.addEventListener("input", (e) => {
+            this.state.domElements.email = document.querySelector('.email');
+            this.state.domElements.email?.addEventListener('input', (e) => {
                 e.preventDefault();
 
                 this.validateEmail();
             });
 
             this.state.domElements.password =
-                document.querySelector(".password");
-            this.state.domElements.password?.addEventListener("input", (e) => {
+                document.querySelector('.password');
+            this.state.domElements.password?.addEventListener('input', (e) => {
                 e.preventDefault();
 
                 this.validatePassword();
@@ -121,9 +121,9 @@ export class SmartLogin extends Container {
     invalidEmail() {
         if (this.state.isSubscribed && this.props?.invalidEmail) {
             this.state.domElements.email?.classList.add(
-                "login-reg__input_error"
+                'login-reg__input_error'
             );
-            addErrorToClass("invalid-email", emailErrorTypes);
+            addErrorToClass('invalid-email', emailErrorTypes);
         }
     }
 
@@ -133,7 +133,7 @@ export class SmartLogin extends Container {
     componentDidMount() {
         if (!this.state.isSubscribed) {
             this.unsubscribe.push(
-                store.subscribe(this.constructor.name, (pr: ComponentProps) => {
+                store.subscribe(this.constructor.name, (pr: AnyObject) => {
                     this.props = pr;
 
                     this.render();
@@ -185,17 +185,17 @@ export class SmartLogin extends Container {
      */
     validateEmail() {
         this.state.domElements.email?.classList.remove(
-            "login-reg__input_error"
+            'login-reg__input_error'
         );
-        addErrorToClass("", emailErrorTypes);
+        addErrorToClass('', emailErrorTypes);
 
         const { isError, errorClass } = checkEmail(
-            this.state.domElements.email?.value ?? ""
+            this.state.domElements.email?.value ?? ''
         );
 
         if (isError) {
             this.state.domElements.email?.classList.add(
-                "login-reg__input_error"
+                'login-reg__input_error'
             );
             addErrorToClass(errorClass, emailErrorTypes);
             this.state.valid.emailIsValid = false;
@@ -210,17 +210,17 @@ export class SmartLogin extends Container {
      */
     validatePassword() {
         this.state.domElements.password?.classList.remove(
-            "login-reg__input_error"
+            'login-reg__input_error'
         );
-        addErrorToClass("", passwordErrorTypes);
+        addErrorToClass('', passwordErrorTypes);
 
         const { isError, errorClass } = checkPassword(
-            this.state.domElements.password?.value ?? ""
+            this.state.domElements.password?.value ?? ''
         );
 
         if (isError) {
             this.state.domElements.password?.classList.add(
-                "login-reg__input_error"
+                'login-reg__input_error'
             );
             addErrorToClass(errorClass, passwordErrorTypes);
             this.state.valid.passwordIsValid = false;

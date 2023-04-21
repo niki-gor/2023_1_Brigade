@@ -1,6 +1,6 @@
-import { AJAX_METHODS } from "@config/ajax";
+import { AJAX_METHODS } from '@config/ajax';
 
-const BACKEND_URL = "https://technogramm.ru";
+const BACKEND_URL = 'https://technogramm.ru';
 // const BACKEND_URL_LOCAL = 'http://127.0.0.1:8081'
 
 /**
@@ -15,15 +15,15 @@ const ajax = (
     method: string,
     body: AnyObject | null | undefined
 ) => {
-    return fetch(BACKEND_URL + "/api/v1" + url, {
+    return fetch(BACKEND_URL + '/api/v1' + url, {
         method,
         headers: {
-            Accept: "application/json",
+            Accept: 'application/json',
             Host: BACKEND_URL,
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
-        credentials: "include",
-        mode: "cors",
+        credentials: 'include',
+        mode: 'cors',
         body: body == null ? null : JSON.stringify(body),
     })
         .then((response) => {
@@ -57,15 +57,15 @@ const ajax = (
  */
 const ajaxMultipartForm = (url: string, method: string, body: File) => {
     const formData = new FormData();
-    formData.append("image", body);
+    formData.append('image', body);
 
-    return fetch(BACKEND_URL + "/api/v1" + url, {
+    return fetch(BACKEND_URL + '/api/v1' + url, {
         method,
         headers: {
             Host: BACKEND_URL,
         },
-        credentials: "include",
-        mode: "cors",
+        credentials: 'include',
+        mode: 'cors',
         body: formData,
     })
         .then((response) => {

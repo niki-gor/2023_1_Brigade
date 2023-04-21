@@ -1,10 +1,10 @@
-import { Component } from "@components/component";
-import template from "@components/chatCard/chatCard.pug";
-import "@components/chatCard/chatCard.scss";
-import { smallEllipseIconUI } from "@components/ui/small-ellipse-icon/small-ellipse-icon";
+import { Component } from '@components/component';
+import template from '@components/chatCard/chatCard.pug';
+import '@components/chatCard/chatCard.scss';
+import { smallEllipseIconUI } from '@components/ui/small-ellipse-icon/small-ellipse-icon';
 
 export class DumbChatCard extends Component {
-    constructor(props: any) {
+    constructor(props: AnyObject) {
         super(props);
     }
 

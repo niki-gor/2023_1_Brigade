@@ -1,10 +1,10 @@
-import { constantsOfActions } from "@config/actions";
-import { Chats } from "@containers/chatList/createChatList";
-import { Contacts } from "@containers/contacts/createContacts";
-import { router } from "@router/createRouter";
+import { constantsOfActions } from '@config/actions';
+import { Chats } from '@containers/chatList/createChatList';
+import { Contacts } from '@containers/contacts/createContacts';
+import { router } from '@router/createRouter';
 
 export const createMoveToSignUpAction = (): Action => {
-    router.route("/signup");
+    router.route('/signup');
 
     return {
         type: constantsOfActions.moveToSignUp,
@@ -13,7 +13,7 @@ export const createMoveToSignUpAction = (): Action => {
 };
 
 export const createMoveToLoginAction = (): Action => {
-    router.route("/login");
+    router.route('/login');
 
     return {
         type: constantsOfActions.moveToLogin,
@@ -29,7 +29,7 @@ export const createRenderAction = (): Action => {
 };
 
 export const createMoveToProfileAction = (): Action => {
-    router.route("/profile");
+    router.route('/profile');
 
     return {
         type: constantsOfActions.moveToProfile,
@@ -58,7 +58,7 @@ export const createMoveToChatsAction = (): Action => {
 };
 
 export const createMoveToCreateGroupAction = (): Action => {
-    router.route("/create_group");
+    router.route('/create_group');
 
     return {
         type: constantsOfActions.moveToCreateGroup,

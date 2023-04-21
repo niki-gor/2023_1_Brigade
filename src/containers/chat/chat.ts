@@ -1,18 +1,18 @@
-import { Container } from "@containers/container";
-import { store } from "@store/store";
-import { DumbChat } from "@components/chat/chat";
-import { Message } from "@components/message/message";
+import { Container } from '@containers/container';
+import { store } from '@store/store';
+import { DumbChat } from '@components/chat/chat';
+import { Message } from '@components/message/message';
 import {
     createDeleteChatAction,
     createGetChatsAction,
     createGetOneChatAction,
     createIsNotRenderedAction,
-} from "@actions/chatActions";
-import { getWs } from "@utils/ws";
-import { DumbEmptyDynamicPage } from "@components/emptyDynamicPage/emptyDynamicPage";
-import { createMoveToEditChatAction } from "@actions/routeActions";
-import { ChatTypes } from "@config/enum";
-import { DYNAMIC } from "@config/config";
+} from '@actions/chatActions';
+import { getWs } from '@utils/ws';
+import { DumbEmptyDynamicPage } from '@components/emptyDynamicPage/emptyDynamicPage';
+import { createMoveToEditChatAction } from '@actions/routeActions';
+import { ChatTypes } from '@config/enum';
+import { DYNAMIC } from '@config/config';
 
 export interface SmartChat {
     state: {
@@ -23,6 +23,8 @@ export interface SmartChat {
             editBtn: HTMLElement | null;
         };
     };
+
+    chatId: string | undefined;
 }
 
 /**
@@ -35,7 +37,7 @@ export class SmartChat extends Container {
      * Сохраняет props
      * @param {Object} props - параметры компонента
      */
-    constructor(props: ComponentProps) {
+    constructor(props: AnyObject) {
         super(props);
         this.state = {
             isSubscribed: false,
@@ -67,25 +69,25 @@ export class SmartChat extends Container {
                 this.rootNode.innerHTML = chat.render();
 
                 this.state.domElements.submitBtn = document.querySelector(
-                    ".view-chat__send-message-button"
+                    '.view-chat__send-message-button'
                 );
                 this.state.domElements.deleteBtn =
-                    document.querySelector(".delete-btn");
+                    document.querySelector('.delete-btn');
                 this.state.domElements.editBtn =
-                    document.querySelector(".edit-btn");
+                    document.querySelector('.edit-btn');
 
                 const input = document.querySelector(
-                    ".input-message__text-field__in"
+                    '.input-message__text-field__in'
                 ) as HTMLInputElement;
 
-                input.addEventListener("keydown", (e) => {
-                    if (e.key === "Enter" && e.target) {
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && e.target) {
                         this.handleClickSendButton(input);
                     }
                 });
 
                 this.state.domElements.submitBtn?.addEventListener(
-                    "click",
+                    'click',
                     (e) => {
                         e.preventDefault();
 
@@ -94,7 +96,7 @@ export class SmartChat extends Container {
                 );
 
                 this.state.domElements.deleteBtn?.addEventListener(
-                    "click",
+                    'click',
                     (e) => {
                         e.preventDefault();
 
@@ -104,7 +106,7 @@ export class SmartChat extends Container {
 
                 if (this.props.openedChat.type === ChatTypes.Group) {
                     this.state.domElements.editBtn?.addEventListener(
-                        "click",
+                        'click',
                         () => {
                             this.handleClickEditButton();
                         }
@@ -131,10 +133,10 @@ export class SmartChat extends Container {
                         messageContent: message.body,
                         username: member.nickname,
                     }).render(),
-                    "text/html"
+                    'text/html'
                 ).body.firstChild as ChildNode;
 
-                const parent = document.querySelector(".view-chat__messages");
+                const parent = document.querySelector('.view-chat__messages');
                 parent?.insertBefore(newMessage, parent.firstChild);
                 break;
             }
@@ -150,10 +152,10 @@ export class SmartChat extends Container {
                     messageContent: input.value,
                     username: this.props.user.nickname,
                 }).render(),
-                "text/html"
+                'text/html'
             ).body.firstChild as ChildNode;
 
-            const parent = document.querySelector(".view-chat__messages");
+            const parent = document.querySelector('.view-chat__messages');
             parent?.insertBefore(newMessage, parent.firstChild);
             store.dispatch(createGetChatsAction());
             if (this.props?.openedChat?.last_message) {
@@ -169,10 +171,10 @@ export class SmartChat extends Container {
         getWs().send({
             body: input.value,
             author_id: this.props.user.id,
-            chat_id: parseInt(this.chatId),
+            chat_id: this.chatId ? parseInt(this.chatId) : 0,
         });
 
-        input.value = "";
+        input.value = '';
     }
 
     handleClickDeleteButton() {
@@ -196,14 +198,11 @@ export class SmartChat extends Container {
                 );
 
                 this.unsubscribe.push(
-                    store.subscribe(
-                        this.constructor.name,
-                        (pr: ComponentProps) => {
-                            this.props = pr;
+                    store.subscribe(this.constructor.name, (pr: AnyObject) => {
+                        this.props = pr;
 
-                            this.render();
-                        }
-                    )
+                        this.render();
+                    })
                 );
 
                 store.dispatch(createGetOneChatAction({ chatId: this.chatId }));

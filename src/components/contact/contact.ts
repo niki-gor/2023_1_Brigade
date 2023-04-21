@@ -1,10 +1,10 @@
-import { Component } from "@components/component";
-import template from "@components/contact/contact.pug";
-import "@components/contact/contact.scss";
-import { smallEllipseIconUI } from "@components/ui/small-ellipse-icon/small-ellipse-icon";
+import { Component } from '@components/component';
+import template from '@components/contact/contact.pug';
+import '@components/contact/contact.scss';
+import { smallEllipseIconUI } from '@components/ui/small-ellipse-icon/small-ellipse-icon';
 
 export class DumbContact extends Component {
-    constructor(props: any) {
+    constructor(props: AnyObject) {
         super(props);
     }
 

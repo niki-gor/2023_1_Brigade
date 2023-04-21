@@ -1,25 +1,25 @@
-import { Page } from "@pages/page";
-import template from "@pages/signUp/signUp.pug";
-import { loginRegTopUI } from "@components/ui/loginReg/top/top";
-import { loginRegInputUI } from "@components/ui/loginReg/input/input";
-import { loginRegBottomUI } from "@components/ui/loginReg/bottom/bottom";
-import "@pages/signUp/signUp.css";
+import { Page } from '@pages/page';
+import template from '@pages/signUp/signUp.pug';
+import { loginRegTopUI } from '@components/ui/loginReg/top/top';
+import { loginRegInputUI } from '@components/ui/loginReg/input/input';
+import { loginRegBottomUI } from '@components/ui/loginReg/bottom/bottom';
+import '@pages/signUp/signUp.css';
 
 export class DumbSignUp extends Page {
-    constructor(props: ComponentProps) {
+    constructor(props: AnyObject) {
         super(props);
     }
 
     render() {
         return template({
-            top: loginRegTopUI.renderTemplate({ type: "reg" }),
-            email: loginRegInputUI.renderTemplate({ type: "email" }),
-            nickname: loginRegInputUI.renderTemplate({ type: "nickname" }),
-            password: loginRegInputUI.renderTemplate({ type: "password" }),
+            top: loginRegTopUI.renderTemplate({ type: 'reg' }),
+            email: loginRegInputUI.renderTemplate({ type: 'email' }),
+            nickname: loginRegInputUI.renderTemplate({ type: 'nickname' }),
+            password: loginRegInputUI.renderTemplate({ type: 'password' }),
             confirmPassword: loginRegInputUI.renderTemplate({
-                type: "confirm password",
+                type: 'confirm password',
             }),
-            bottom: loginRegBottomUI.renderTemplate({ type: "reg" }),
+            bottom: loginRegBottomUI.renderTemplate({ type: 'reg' }),
         });
     }
 }
