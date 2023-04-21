@@ -1,18 +1,16 @@
 {
     "plugins": [
-        "prettier",
-        "unicorn"
+        "@typescript-eslint",
+        "prettier"
     ],  
     "env": {
         "browser": true,
         "es6": true
     },
     "extends": [
-        "airbnb-base",
-        "plugin:unicorn/recommended",
+        "plugin:@typescript-eslint/recommended",
         "plugin:prettier/recommended",
-        "prettier",
-        "prettier/unicorn"
+        "prettier"
     ],
     "parserOptions": {
         "ecmaVersion": "latest",
