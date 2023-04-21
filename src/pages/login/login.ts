@@ -12,10 +12,10 @@ export class DumbLogin extends Page {
 
     render() {
         return template({
-            top: loginRegTopUI.renderTemplate({type: 'login'}),
-            email: loginRegInputUI.renderTemplate({type: 'email'}),
-            password: loginRegInputUI.renderTemplate({type: 'password'}),
-            bottom: loginRegBottomUI.renderTemplate({type: 'login'}),
+            top: loginRegTopUI.renderTemplate({ type: "login" }),
+            email: loginRegInputUI.renderTemplate({ type: "email" }),
+            password: loginRegInputUI.renderTemplate({ type: "password" }),
+            bottom: loginRegBottomUI.renderTemplate({ type: "login" }),
         });
     }
 }

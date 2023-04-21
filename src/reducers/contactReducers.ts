@@ -7,7 +7,7 @@ export const reduceSetContacts = (state: anyObject, action: Action) => {
                 return {
                     ...state,
                     contacts: [],
-                }
+                };
             }
             return {
                 ...state,
@@ -16,6 +16,6 @@ export const reduceSetContacts = (state: anyObject, action: Action) => {
         default:
             return {
                 ...state,
-            }
+            };
     }
 };

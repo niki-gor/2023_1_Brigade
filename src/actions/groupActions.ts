@@ -3,15 +3,15 @@ import { createChat } from "@utils/api";
 import { createAddChatAction } from "@actions/chatActions";
 import { createMoveToChatAction } from "./routeActions";
 
-export const createSetCreateGroupAction = (state: anyObject) : Action => {
+export const createSetCreateGroupAction = (state: anyObject): Action => {
     return {
         type: constantsOfActions.createGroup,
         payload: state,
-    }
-}
+    };
+};
 
-export const createCreateGroupAction = (group: anyObject) : AsyncAction => {
-    return async (dispatch: (action: Action) => void, state: Function) => {
+export const createCreateGroupAction = (group: anyObject): AsyncAction => {
+    return async (dispatch: (action: Action) => void) => {
         const { status, body } = await createChat(group);
         const jsonBody = await body;
 
@@ -32,4 +32,4 @@ export const createCreateGroupAction = (group: anyObject) : AsyncAction => {
             // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
         }
     };
-}
+};

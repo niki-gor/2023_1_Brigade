@@ -10,10 +10,10 @@ export class Component {
      * @param {Object} props - необходимые для работы класса свойства
      * @default {Element} rootNode - div, через который происходит взаимодействие с html.
      */
-    constructor(props :anyObject) {
+    constructor(props: anyObject) {
         this.state = {};
         this.props = props;
-        if (Object.hasOwnProperty.call(props, 'rootNode')) {
+        if (Object.hasOwnProperty.call(props, "rootNode")) {
             this.rootNode = props.rootNode ?? ROOT;
         }
     }

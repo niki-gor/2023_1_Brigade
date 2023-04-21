@@ -9,22 +9,21 @@ import { createGetContactsAction } from "@actions/contactsActions";
 import { createMoveToChatsAction } from "@actions/routeActions";
 import { DYNAMIC } from "@config/config";
 
-
 export interface SmartCreateGroup {
     state: {
-        isSubscribed: boolean,
+        isSubscribed: boolean;
         domElements: {
-            groupNameLabel:    HTMLElement      | null,
-            groupNameInput:    HTMLInputElement | null,
-            buttonCreateGroup: HTMLElement      | null,
-            contacts:          HTMLElement      | null,
-        },
+            groupNameLabel: HTMLElement | null;
+            groupNameInput: HTMLInputElement | null;
+            buttonCreateGroup: HTMLElement | null;
+            contacts: HTMLElement | null;
+        };
         valid: {
-            groupNameIsValid: boolean,
-            countersMembers:  boolean,
-            isValid: () => boolean,
-        },
-    }
+            groupNameIsValid: boolean;
+            countersMembers: boolean;
+            isValid: () => boolean;
+        };
+    };
 }
 
 /**
@@ -40,26 +39,28 @@ export class SmartCreateGroup extends Container {
      * @param {Object} props - параметры компонента
      */
 
-    #contactClicked  = 'rgb(37, 37, 48)';
-    #contactUnClicked = 'rgb(28, 28, 36)';
+    #contactClicked = "rgb(37, 37, 48)";
+    #contactUnClicked = "rgb(28, 28, 36)";
 
-    constructor(props :componentProps) {
+    constructor(props: componentProps) {
         super(props);
 
         this.state = {
             isSubscribed: false,
             domElements: {
-                groupNameLabel:    null,
-                groupNameInput:    null,
+                groupNameLabel: null,
+                groupNameInput: null,
                 buttonCreateGroup: null,
-                contacts:          null,
+                contacts: null,
             },
             valid: {
                 groupNameIsValid: false,
-                countersMembers:  false,
+                countersMembers: false,
                 isValid: () => {
-                    return this.state.valid.groupNameIsValid &&
-                           this.state.valid.countersMembers;
+                    return (
+                        this.state.valid.groupNameIsValid &&
+                        this.state.valid.countersMembers
+                    );
                 },
             },
         };
@@ -71,7 +72,7 @@ export class SmartCreateGroup extends Container {
      * Рендерит создание группы
      */
     render() {
-         if (this.state.isSubscribed) {
+        if (this.state.isSubscribed) {
             const CreateGroupUI = new DumbCreateGroup({
                 ...this.props.contacts,
             });
@@ -80,30 +81,38 @@ export class SmartCreateGroup extends Container {
 
             //TODO через target, выбирается только какой-то фрагмент контакта
 
-            document.querySelectorAll('.contact').forEach((contact: any) => {
+            document.querySelectorAll(".contact").forEach((contact: any) => {
                 contact.style.backgroundColor = this.#contactUnClicked;
-                contact.addEventListener('click', (e: any) => {
-                    e.preventDefault()
+                contact.addEventListener("click", (e: any) => {
+                    e.preventDefault();
 
-                this.handleClickChooseContact(contact)
+                    this.handleClickChooseContact(contact);
                 });
             });
 
-            this.state.domElements.buttonCreateGroup = document.querySelector('.button-submit');
-            this.state.domElements.buttonCreateGroup?.addEventListener('click', (e) => {
-                e.preventDefault();
+            this.state.domElements.buttonCreateGroup =
+                document.querySelector(".button-submit");
+            this.state.domElements.buttonCreateGroup?.addEventListener(
+                "click",
+                (e) => {
+                    e.preventDefault();
 
-                this.validateChoseContacts();
-                this.handleClickCreateGroup();
-            });
+                    this.validateChoseContacts();
+                    this.handleClickCreateGroup();
+                }
+            );
 
-            this.state.domElements.groupNameInput = document.querySelector('.groupName');
-            this.state.domElements.groupNameInput?.addEventListener('input', (e) => {
-                e.preventDefault();
+            this.state.domElements.groupNameInput =
+                document.querySelector(".groupName");
+            this.state.domElements.groupNameInput?.addEventListener(
+                "input",
+                (e) => {
+                    e.preventDefault();
 
-                this.validateGroupName();
-            });
-         }
+                    this.validateGroupName();
+                }
+            );
+        }
     }
 
     /**
@@ -124,14 +133,14 @@ export class SmartCreateGroup extends Container {
         if (this.state.valid.isValid()) {
             const choseContacts = [
                 ...this.getChoseContacts(),
-                this.props.user.id
+                this.props.user.id,
             ];
-            
+
             const contacts = {
                 type: ChatTypes.Group,
                 title: this.state.domElements.groupNameInput?.value,
                 members: choseContacts,
-            }
+            };
 
             store.dispatch(createCreateGroupAction(contacts));
             store.dispatch(createMoveToChatsAction());
@@ -143,11 +152,13 @@ export class SmartCreateGroup extends Container {
      */
     componentDidMount() {
         if (!this.state.isSubscribed) {
-            this.unsubscribe.push(store.subscribe(this.name, (pr: componentProps) => {
-                this.props = pr;
+            this.unsubscribe.push(
+                store.subscribe(this.name, (pr: componentProps) => {
+                    this.props = pr;
 
-                this.render();
-            }));
+                    this.render();
+                })
+            );
 
             this.state.isSubscribed = true;
         }
@@ -169,14 +180,21 @@ export class SmartCreateGroup extends Container {
      * Проверяет, что для создания группы выбрано > 0 участников
      */
     validateChoseContacts() {
-        this.state.domElements.groupNameInput?.classList.remove('data-input--error');
-        addErrorToClass('', countingMembersErrorTypes);
+        this.state.domElements.groupNameInput?.classList.remove(
+            "data-input--error"
+        );
+        addErrorToClass("", countingMembersErrorTypes);
 
-        const contacts = this.getChoseContacts()
+        const contacts = this.getChoseContacts();
 
         if (contacts.length === 0) {
-            this.state.domElements.groupNameInput?.classList.add('data-input--error');
-            addErrorToClass('incorrect-emptyCountingMembers', countingMembersErrorTypes);
+            this.state.domElements.groupNameInput?.classList.add(
+                "data-input--error"
+            );
+            addErrorToClass(
+                "incorrect-emptyCountingMembers",
+                countingMembersErrorTypes
+            );
             this.state.valid.groupNameIsValid = false;
             return;
         }
@@ -188,13 +206,19 @@ export class SmartCreateGroup extends Container {
      * Проверяет пользовательский ввод названия чата
      */
     validateGroupName() {
-        this.state.domElements.groupNameInput?.classList.remove('data-input--error');
-        addErrorToClass('', nicknameErrorTypes);
+        this.state.domElements.groupNameInput?.classList.remove(
+            "data-input--error"
+        );
+        addErrorToClass("", nicknameErrorTypes);
 
-        const { isError, errorClass } = checkNickname(this.state.domElements.groupNameInput?.value ?? '');
+        const { isError, errorClass } = checkNickname(
+            this.state.domElements.groupNameInput?.value ?? ""
+        );
 
         if (isError) {
-            this.state.domElements.groupNameInput?.classList.add('data-input--error');
+            this.state.domElements.groupNameInput?.classList.add(
+                "data-input--error"
+            );
             addErrorToClass(errorClass, nicknameErrorTypes);
             this.state.valid.groupNameIsValid = false;
             return;
@@ -204,10 +228,10 @@ export class SmartCreateGroup extends Container {
     }
 
     getChoseContacts() {
-        let contacts: number[] = [];
-        document.querySelectorAll('.contact').forEach((contact: any) => {
+        const contacts: number[] = [];
+        document.querySelectorAll(".contact").forEach((contact: any) => {
             if (contact.style.backgroundColor == this.#contactClicked) {
-                const contactID = contact.getAttribute('name');
+                const contactID = contact.getAttribute("name");
                 contacts.push(Number(contactID));
             }
         });

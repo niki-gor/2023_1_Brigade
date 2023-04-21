@@ -8,14 +8,14 @@ export const reduceIsNotRendered = (state: anyObject, action: Action) => {
                 openedChat: {
                     ...state.openedChat,
                     isNotRendered: false,
-                }
-            }
+                },
+            };
         default:
             return {
                 ...state,
-            }
+            };
     }
-}
+};
 
 export const reduceAddChat = (state: anyObject, action: Action) => {
     switch (action.type) {
@@ -24,27 +24,27 @@ export const reduceAddChat = (state: anyObject, action: Action) => {
                 return {
                     ...state,
                     chats: [],
-                }
+                };
             } else if (!state.chats) {
                 return {
                     ...state,
                     chats: {
                         [action.payload?.id]: action.payload,
                     },
-                }
+                };
             }
-            
+
             return {
                 ...state,
-                chats: { 
-                    ...state.chats, 
+                chats: {
+                    ...state.chats,
                     [action.payload?.id]: action.payload,
                 },
-            }
+            };
         default:
             return {
                 ...state,
-            }
+            };
     }
 };
 
@@ -54,11 +54,11 @@ export const reduceSetChats = (state: anyObject, action: Action) => {
             return {
                 ...state,
                 chats: action.payload,
-            }
+            };
         default:
             return {
                 ...state,
-            }
+            };
     }
 };
 
@@ -81,9 +81,9 @@ export const reduceOpenChat = (state: anyObject, action: Action) => {
         default:
             return {
                 ...state,
-            }
+            };
     }
-}
+};
 
 export const reduceDeleteChat = (state: anyObject, action: Action) => {
     switch (action.type) {
@@ -103,7 +103,7 @@ export const reduceDeleteChat = (state: anyObject, action: Action) => {
                 ...state,
             };
     }
-}
+};
 
 // reducer вызывается при сохранения изменений в chat-е
 export const reduceEditChat = (state: anyObject, action: Action) => {
@@ -113,13 +113,13 @@ export const reduceEditChat = (state: anyObject, action: Action) => {
                 if (state.chats[index].id == action.payload?.id) {
                     return {
                         ...state,
-                        chats: { 
+                        chats: {
                             ...state.chats,
                             [index]: {
                                 ...state.chats[index],
                                 title: action.payload?.title,
                                 members: action.payload?.members,
-                            }
+                            },
                         },
                     };
                 }
@@ -132,4 +132,4 @@ export const reduceEditChat = (state: anyObject, action: Action) => {
                 ...state,
             };
     }
-}
+};

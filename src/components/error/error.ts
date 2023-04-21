@@ -7,8 +7,6 @@ export class DumbContact extends Component {
     }
 
     render() {
-        return template({
-            
-        });
+        return template({});
     }
 }

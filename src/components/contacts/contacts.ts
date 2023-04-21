@@ -1,9 +1,9 @@
 import { Component } from "@components/component";
-import { DumbContact } from "@components/contact/contact"
-import { whiteButtonUI } from "@components/ui/white-button/white-button"
+import { DumbContact } from "@components/contact/contact";
+import { whiteButtonUI } from "@components/ui/white-button/white-button";
 
 import template from "@components/contacts/contacts.pug";
-import "@components/contacts/contacts.scss"
+import "@components/contacts/contacts.scss";
 
 export class DumbContacts extends Component {
     constructor(props: any) {
@@ -11,8 +11,8 @@ export class DumbContacts extends Component {
     }
 
     getContactsList() {
-        let contactsList: string[] = [];
-        
+        const contactsList: string[] = [];
+
         for (const key in this.props) {
             const contactUI = new DumbContact(this.props[key]);
 
@@ -23,7 +23,7 @@ export class DumbContacts extends Component {
     }
 
     render() {
-        let headContactsValue = 'Контакты';
+        let headContactsValue = "Контакты";
         if (this.props.headContactsValue) {
             headContactsValue = this.props.headContactsValue;
         }
@@ -31,8 +31,8 @@ export class DumbContacts extends Component {
             headContacts: headContactsValue,
             contacts: this.getContactsList(),
             addContactButton: whiteButtonUI.renderTemplate({
-                className: 'add-contact-button',
-                buttonValue: 'Добавить контакт',
+                className: "add-contact-button",
+                buttonValue: "Добавить контакт",
             }),
         });
     }

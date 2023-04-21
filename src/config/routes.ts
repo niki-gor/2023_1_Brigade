@@ -10,12 +10,24 @@ export const routes: Route[] = [
     { path: /^\/login$/, component: SmartLogin, getProps: () => ({}) },
     { path: /^\/signup$/, component: SmartSignUp, getProps: () => ({}) },
     { path: /^\/profile$/, component: SmartProfile, getProps: () => ({}) },
-    { path: /^\/create_group$/, component: SmartCreateGroup, getProps: () => ({}) },
+    {
+        path: /^\/create_group$/,
+        component: SmartCreateGroup,
+        getProps: () => ({}),
+    },
     { path: /^\/$/, component: SmartChat, getProps: () => ({}) },
-    { path: /^\/(\d+)$/, component: SmartChat, getProps: (params: string[]) => ({
-        chatId: params[0],
-    }) },
-    { path: /^\/(\d+)\/add$/, component: SmartAddUserInGroup, getProps: (params: string[]) => ({
-        chatId: params[0],
-    }) },
-]
+    {
+        path: /^\/(\d+)$/,
+        component: SmartChat,
+        getProps: (params: string[]) => ({
+            chatId: params[0],
+        }),
+    },
+    {
+        path: /^\/(\d+)\/add$/,
+        component: SmartAddUserInGroup,
+        getProps: (params: string[]) => ({
+            chatId: params[0],
+        }),
+    },
+];

@@ -1,28 +1,27 @@
 import { Container } from "@containers/container";
 
-
 export interface SmartError {
     state: {
-        isSubscribed: boolean,
+        isSubscribed: boolean;
         domElements: {
-            backButton: HTMLInputElement | null,
-        }
-    }
+            backButton: HTMLInputElement | null;
+        };
+    };
 }
 
 /**
-* Отрисовывает логин.
-* Прокидывает actions в стору для логина
-* Также подписывается на изменения статуса логина,
-* для корректного рендера ошибки
-*
-*/
+ * Отрисовывает логин.
+ * Прокидывает actions в стору для логина
+ * Также подписывается на изменения статуса логина,
+ * для корректного рендера ошибки
+ *
+ */
 export class SmartError extends Container {
     /**
      * Cохраняет props
      * @param {Object} props - параметры компонента
      */
-    constructor(props :componentProps) {
+    constructor(props: componentProps) {
         super(props);
 
         this.state = {
@@ -38,7 +37,6 @@ export class SmartError extends Container {
      */
     render() {
         if (this.state.isSubscribed) {
-            
         }
     }
 

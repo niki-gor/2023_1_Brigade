@@ -1,8 +1,8 @@
 import { Component } from "@/components/component";
-import { DumbContact } from "@components/contact/contact"
+import { DumbContact } from "@components/contact/contact";
 import template from "@components/createGroup/createGroup.pug";
-import "@components/createGroup/createGroup.scss"
-import "@components/addContactInGroup/addContact.scss"
+import "@components/createGroup/createGroup.scss";
+import "@components/addContactInGroup/addContact.scss";
 import { dataInputUI } from "@components/ui/data-input/data-input";
 import { blueButtonUI } from "@components/ui/blue-button/blue-button";
 
@@ -12,7 +12,7 @@ export class DumbCreateGroup extends Component {
     }
 
     getContactsList() {
-        let contactsList: string[] = [];
+        const contactsList: string[] = [];
 
         for (const key in this.props) {
             const contactUI = new DumbContact(this.props[key]);
@@ -25,18 +25,18 @@ export class DumbCreateGroup extends Component {
 
     render() {
         return template({
-            groupNameLabel: 'Название группы',
+            groupNameLabel: "Название группы",
             groupNameInput: dataInputUI.renderTemplate({
-                className: 'groupName',
-                inputType: 'text',
-                inputPlaceholder: '',
-                value: '',
+                className: "groupName",
+                inputType: "text",
+                inputPlaceholder: "",
+                value: "",
             }),
             buttonCreateGroup: blueButtonUI.renderTemplate({
-                className: 'button-submit',
-                buttonValue: 'Создать группу',
+                className: "button-submit",
+                buttonValue: "Создать группу",
             }),
-            headContacts: 'Контакты',
+            headContacts: "Контакты",
             contacts: this.getContactsList(),
         });
     }

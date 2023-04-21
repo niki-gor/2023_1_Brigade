@@ -17,6 +17,6 @@
         "sourceType": "module"
     },
     "rules": {
-        "unicorn/prevent-abbreviations": "off"
+        "prettier/prettier": ["error", { "tabWidth": 4 }]
     }
 }

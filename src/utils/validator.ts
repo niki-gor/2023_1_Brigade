@@ -6,28 +6,28 @@ export const checkEmail = (email: string) => {
     if (!isNotEmpty) {
         return {
             isError: true,
-            errorClass: 'empty-email',
-        }
+            errorClass: "empty-email",
+        };
     }
 
     if (!hasDog) {
         return {
             isError: true,
-            errorClass: 'missdog-email',
-        }
+            errorClass: "missdog-email",
+        };
     }
 
     if (!isValid) {
         return {
             isError: true,
-            errorClass: 'invalid-email',
-        }
+            errorClass: "invalid-email",
+        };
     }
 
     return {
         isError: false,
-        errorClass: '',
-    }
+        errorClass: "",
+    };
 };
 
 export const checkPassword = (password: string) => {
@@ -35,22 +35,22 @@ export const checkPassword = (password: string) => {
     const hasValidLength = password.length >= 8;
 
     if (!isNotEmpty) {
-        return { 
+        return {
             isError: true,
-            errorClass: 'empty-password', 
+            errorClass: "empty-password",
         };
     }
 
     if (!hasValidLength) {
-        return { 
+        return {
             isError: true,
-            errorClass: 'invalid-password',
+            errorClass: "invalid-password",
         };
     }
 
     return {
         isError: false,
-        errorClass: '',
+        errorClass: "",
     };
 };
 
@@ -59,48 +59,50 @@ export const checkNewPassword = (password: string) => {
     const hasValidLength = password.length >= 8;
 
     if (!isNotEmpty) {
-        return { 
+        return {
             isError: true,
-            errorClass: 'empty-new-password', 
+            errorClass: "empty-new-password",
         };
     }
 
     if (!hasValidLength) {
-        return { 
+        return {
             isError: true,
-            errorClass: 'invalid-new-password',
+            errorClass: "invalid-new-password",
         };
     }
 
     return {
         isError: false,
-        errorClass: '',
+        errorClass: "",
     };
 };
 
-export const checkConfirmPassword = (password: string, confirmPassword: string) => {
+export const checkConfirmPassword = (
+    password: string,
+    confirmPassword: string
+) => {
     const isNotEmpty = confirmPassword.length > 0;
     const isEqualPassword = confirmPassword === password;
-    
+
     if (!isNotEmpty) {
         return {
             isError: true,
-            errorClass: 'empty-confirm-password',
+            errorClass: "empty-confirm-password",
         };
     }
 
     if (!isEqualPassword) {
         return {
             isError: true,
-            errorClass: 'invalid-confirm-password',
+            errorClass: "invalid-confirm-password",
         };
     }
 
     return {
         isError: false,
-        errorClass: '',
-    }
-    
+        errorClass: "",
+    };
 };
 
 export const checkNickname = (nickname: string) => {
@@ -110,30 +112,38 @@ export const checkNickname = (nickname: string) => {
     if (!isNotEmpty) {
         return {
             isError: true,
-            errorClass: 'empty-nickname',
+            errorClass: "empty-nickname",
         };
     }
 
     if (!hasValidLength) {
         return {
             isError: true,
-            errorClass: 'invalid-nickname',
+            errorClass: "invalid-nickname",
         };
     }
 
     return {
         isError: false,
-        errorClass: '',
-    }
+        errorClass: "",
+    };
 };
 
-export const addErrorToClass = (classToRemoveInvisible: string, classesToAddInvisible: ErrorTypes[]) => {
+export const addErrorToClass = (
+    classToRemoveInvisible: string,
+    classesToAddInvisible: ErrorTypes[]
+) => {
     classesToAddInvisible.forEach((curClass) => {
-        document.querySelector('.' + curClass.class)?.classList.add('invisible');
+        document
+            .querySelector("." + curClass.class)
+            ?.classList.add("invisible");
     });
 
-    if (classToRemoveInvisible) document.querySelector('.' + classToRemoveInvisible)?.classList.remove('invisible');
-}
+    if (classToRemoveInvisible)
+        document
+            .querySelector("." + classToRemoveInvisible)
+            ?.classList.remove("invisible");
+};
 
 // TODO: на будущее для проверки пароля
 // const hasNumber = /\d/.test(password);
@@ -143,7 +153,7 @@ export const addErrorToClass = (classToRemoveInvisible: string, classesToAddInvi
 // TODO: в будущем для мыла можно сделать такую мегауточняющую хрень
 // function validateEmail(email) {
 //     const errors = {};
-  
+
 //     if (!email) {
 //       errors.missing = 'Email address is required';
 //     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -166,6 +176,6 @@ export const addErrorToClass = (classToRemoveInvisible: string, classesToAddInvi
 //           }
 //         }
 //     }
-    
+
 //       return errors;
 // }

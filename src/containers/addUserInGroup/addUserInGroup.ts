@@ -8,13 +8,12 @@ import { Container } from "@containers/container";
 
 export interface SmartAddUserInGroup {
     state: {
-        isSubscribed: boolean,
+        isSubscribed: boolean;
         domElements: {
             saveChangesBtn: HTMLElement | null;
-        }
-    }
+        };
+    };
 }
-
 
 export class SmartAddUserInGroup extends Container {
     /**
@@ -28,14 +27,14 @@ export class SmartAddUserInGroup extends Container {
             domElements: {
                 saveChangesBtn: null,
             },
-        }
+        };
 
-        this.chatId = this.props.chatId
+        this.chatId = this.props.chatId;
         this.rootNode = DYNAMIC;
     }
 
-    #contactClicked  = 'rgb(37, 37, 48)';
-    #contactUnClicked = 'rgb(28, 28, 36)';
+    #contactClicked = "rgb(37, 37, 48)";
+    #contactUnClicked = "rgb(28, 28, 36)";
 
     render() {
         if (this.state.isSubscribed) {
@@ -45,33 +44,43 @@ export class SmartAddUserInGroup extends Container {
                         groupName: this.props.chats[key].title,
                         contactList: this.props?.contacts,
                     });
-        
+
                     this.rootNode.innerHTML = addUser.render();
-        
-                    this.state.domElements.saveChangesBtn = document.querySelector('.button-submit');
-                    const input = document.querySelector('.groupName') as HTMLInputElement;
+
+                    this.state.domElements.saveChangesBtn =
+                        document.querySelector(".button-submit");
+                    const input = document.querySelector(
+                        ".groupName"
+                    ) as HTMLInputElement;
                     input.value = this.props.chats[key].title;
-        
-                    this.state.domElements.saveChangesBtn?.addEventListener('click', (e) => {
-                        e.preventDefault();
-        
-                        this.handleClickSaveButton(input);
-                    });
-        
-                    const matchesId : number[] | string[] =  this.#findContactsByMessageId();
-                    document.querySelectorAll('.contact').forEach((contact: any) => {
-                        contact.style.backgroundColor = this.#contactUnClicked;
-                        for (const id of matchesId) {
-                            if (id == contact.getAttribute('name')) {
-                                this.handleClickChooseContact(contact);   
-                            }
+
+                    this.state.domElements.saveChangesBtn?.addEventListener(
+                        "click",
+                        (e) => {
+                            e.preventDefault();
+
+                            this.handleClickSaveButton(input);
                         }
-                    
-                        contact.addEventListener('click', (e: any) => {
-                            e.preventDefault()
-                            this.handleClickChooseContact(contact);
+                    );
+
+                    const matchesId: number[] | string[] =
+                        this.#findContactsByMessageId();
+                    document
+                        .querySelectorAll(".contact")
+                        .forEach((contact: any) => {
+                            contact.style.backgroundColor =
+                                this.#contactUnClicked;
+                            for (const id of matchesId) {
+                                if (id == contact.getAttribute("name")) {
+                                    this.handleClickChooseContact(contact);
+                                }
+                            }
+
+                            contact.addEventListener("click", (e: any) => {
+                                e.preventDefault();
+                                this.handleClickChooseContact(contact);
+                            });
                         });
-                    });
 
                     break;
                 }
@@ -79,28 +88,30 @@ export class SmartAddUserInGroup extends Container {
         }
     }
 
-    #findContactsByMessageId() : number[] | string[] {
+    #findContactsByMessageId(): number[] | string[] {
         // TODO: ужас, но надежно
-        let matchesId: number | string[]= []
+        const matchesId: number | string[] = [];
         for (const index in this.props?.openedChat?.members) {
             for (const contactIndex in this.props?.contacts) {
-                if (this.props?.openedChat?.members[index].id == this.props?.contacts[contactIndex].id) {
+                if (
+                    this.props?.openedChat?.members[index].id ==
+                    this.props?.contacts[contactIndex].id
+                ) {
                     matchesId.push(this.props?.openedChat?.members[index].id);
                 }
             }
         }
         return matchesId;
     }
-      
 
     handleClickSaveButton(input: HTMLInputElement) {
-        let groupTitle = document.querySelector('.change-group__name');
+        const groupTitle = document.querySelector(".change-group__name");
         let updateChatId;
         if (input.value && groupTitle) {
             groupTitle.textContent = input.value;
             const choseContacts = [
                 ...this.getChoseContacts(),
-                this.props.user.id
+                this.props.user.id,
             ];
 
             for (const index in this.props.chats) {
@@ -114,11 +125,11 @@ export class SmartAddUserInGroup extends Container {
                 type: ChatTypes.Group,
                 title: input?.value,
                 members: choseContacts,
-            }
+            };
 
             store.dispatch(createEditChatAction(updateGroupState));
         }
-        input.value = '';
+        input.value = "";
     }
 
     /**
@@ -136,11 +147,13 @@ export class SmartAddUserInGroup extends Container {
         if (!this.state.isSubscribed) {
             this.state.isSubscribed = true;
 
-            this.unsubscribe.push(store.subscribe(this.name, (pr: componentProps) => {
-                this.props = pr;
-    
-                this.render();
-            }));
+            this.unsubscribe.push(
+                store.subscribe(this.name, (pr: componentProps) => {
+                    this.props = pr;
+
+                    this.render();
+                })
+            );
         }
 
         store.dispatch(createGetContactsAction());
@@ -154,10 +167,10 @@ export class SmartAddUserInGroup extends Container {
     }
 
     getChoseContacts() {
-        let contacts: number[] = [];
-        document.querySelectorAll('.contact').forEach((contact: any) => {
+        const contacts: number[] = [];
+        document.querySelectorAll(".contact").forEach((contact: any) => {
             if (contact.style.backgroundColor == this.#contactClicked) {
-                const contactID = contact.getAttribute('name');
+                const contactID = contact.getAttribute("name");
                 contacts.push(Number(contactID));
             }
         });

@@ -1,22 +1,26 @@
 import { Container } from "@containers/container";
 import { store } from "@store/store";
 import { DumbSidebar } from "@components/sidebar/sidebar";
-import { createMoveToChatsAction, createMoveToContactsAction, createMoveToProfileAction, createRenderAction } from "@actions/routeActions";
+import {
+    createMoveToChatsAction,
+    createMoveToContactsAction,
+    createMoveToProfileAction,
+    createRenderAction,
+} from "@actions/routeActions";
 import { createLogoutAction } from "@actions/authActions";
 import { SIDEBAR } from "@config/config";
 
-
 export interface SmartSidebar {
     state: {
-        isSubscribed: boolean,
+        isSubscribed: boolean;
         domElements: {
-            messageButton: HTMLElement | null,
-            contactButton: HTMLElement | null,
-            logoutButton: HTMLElement | null,
-            avatarButton: HTMLElement | null,
+            messageButton: HTMLElement | null;
+            contactButton: HTMLElement | null;
+            logoutButton: HTMLElement | null;
+            avatarButton: HTMLElement | null;
             //TODO: themeButton
-        } 
-    }
+        };
+    };
 }
 
 /**
@@ -38,8 +42,8 @@ export class SmartSidebar extends Container {
                 contactButton: null,
                 logoutButton: null,
                 avatarButton: null,
-            }
-        }
+            },
+        };
 
         this.rootNode = SIDEBAR;
     }
@@ -49,50 +53,70 @@ export class SmartSidebar extends Container {
      */
     render() {
         if (this.state.isSubscribed) {
-            const navbar = new DumbSidebar({ 
+            const navbar = new DumbSidebar({
                 ...this.props.user,
             });
 
             this.rootNode.innerHTML = navbar.render();
 
-            this.state.domElements.avatarButton = document.querySelector('.header__user-photo');
-            this.state.domElements.avatarButton?.addEventListener('click', (e) => {
-                e.preventDefault();
+            this.state.domElements.avatarButton = document.querySelector(
+                ".header__user-photo"
+            );
+            this.state.domElements.avatarButton?.addEventListener(
+                "click",
+                (e) => {
+                    e.preventDefault();
 
-                store.dispatch(createMoveToProfileAction());
-            });
+                    store.dispatch(createMoveToProfileAction());
+                }
+            );
 
-            this.state.domElements.contactButton = document.querySelector('.nav-item__contact-btn');
-            this.state.domElements.contactButton?.addEventListener('click', (e) => {
-                e.preventDefault();
+            this.state.domElements.contactButton = document.querySelector(
+                ".nav-item__contact-btn"
+            );
+            this.state.domElements.contactButton?.addEventListener(
+                "click",
+                (e) => {
+                    e.preventDefault();
 
-                store.dispatch(createMoveToContactsAction());
-            });
-            
-            this.state.domElements.messageButton = document.querySelector('.nav-item__message-btn');
-            this.state.domElements.messageButton?.addEventListener('click', (e) => {
-                e.preventDefault();
+                    store.dispatch(createMoveToContactsAction());
+                }
+            );
 
-                store.dispatch(createMoveToChatsAction());
-            });
+            this.state.domElements.messageButton = document.querySelector(
+                ".nav-item__message-btn"
+            );
+            this.state.domElements.messageButton?.addEventListener(
+                "click",
+                (e) => {
+                    e.preventDefault();
 
-            this.state.domElements.logoutButton = document.querySelector('.logout-btn');
-            this.state.domElements.logoutButton?.addEventListener('click', (e) => {
-                e.preventDefault();
+                    store.dispatch(createMoveToChatsAction());
+                }
+            );
 
-                store.dispatch(createLogoutAction());
-            });
+            this.state.domElements.logoutButton =
+                document.querySelector(".logout-btn");
+            this.state.domElements.logoutButton?.addEventListener(
+                "click",
+                (e) => {
+                    e.preventDefault();
+
+                    store.dispatch(createLogoutAction());
+                }
+            );
         }
     }
 
-
     componentDidMount() {
         if (!this.state.isSubscribed) {
-            this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: componentProps) => {
-                this.props = pr;
-                
-                this.render();
-            }))
+            this.unsubscribe.push(
+                store.subscribe(this.constructor.name, (pr: componentProps) => {
+                    this.props = pr;
+
+                    this.render();
+                })
+            );
 
             this.state.isSubscribed = true;
 

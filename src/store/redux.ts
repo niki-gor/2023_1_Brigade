@@ -1,6 +1,6 @@
-export const createStore = (reducers: Map<string, Reducer>) : Store => {
+export const createStore = (reducers: Map<string, Reducer>): Store => {
     let state: anyObject = {};
-    let subscribers = new Map<string, Function>();
+    const subscribers = new Map<string, Callback>();
 
     return {
         getState: () => state,
@@ -17,24 +17,33 @@ export const createStore = (reducers: Map<string, Reducer>) : Store => {
             subscribers.set(key, cb);
             return () => {
                 subscribers.delete(key);
-            }
+            };
         },
     };
 };
 
-export const applyMiddleware = (middleware: Middleware) => (createStoreFunc: CreateStore) => (reducers: Map<string, (state: anyObject, action: Action) => anyObject>) => {
-    const store = createStoreFunc(reducers);
-    return {
-        getState: store.getState,
-        dispatch: (action: Action | AsyncAction) => middleware(store)(store.dispatch)(action),
-        subscribe: store.subscribe,
+export const applyMiddleware =
+    (middleware: Middleware) =>
+    (createStoreFunc: CreateStore) =>
+    (
+        reducers: Map<string, (state: anyObject, action: Action) => anyObject>
+    ) => {
+        const store = createStoreFunc(reducers);
+        return {
+            getState: store.getState,
+            dispatch: (action: Action | AsyncAction) =>
+                middleware(store)(store.dispatch)(action),
+            subscribe: store.subscribe,
+        };
     };
-};
 
-export const thunk = (store: Store) => (dispatch: Dispatch) => (action: Action | AsyncAction) => {
-    if (typeof action === 'function') {
-        return action(dispatch, store.getState);
-    }
+export const thunk =
+    (store: Store) =>
+    (dispatch: Dispatch) =>
+    (action: Action | AsyncAction) => {
+        if (typeof action === "function") {
+            return action(dispatch, store.getState);
+        }
 
-    return dispatch(action);
-};
+        return dispatch(action);
+    };

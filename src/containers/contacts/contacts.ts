@@ -8,26 +8,26 @@ import { STATIC } from "@config/config";
 
 export interface SmartContacts {
     state: {
-        isSubscribed: boolean,
+        isSubscribed: boolean;
         domElements: {
-            headContacts: HTMLElement | null,
-            contacts: HTMLElement | null,
-            addContactButton: HTMLElement | null,
-        },
-    }
+            headContacts: HTMLElement | null;
+            contacts: HTMLElement | null;
+            addContactButton: HTMLElement | null;
+        };
+    };
 }
 
 export class SmartContacts extends Container {
-    constructor(props :componentProps) {
+    constructor(props: componentProps) {
         super(props);
         this.state = {
             isSubscribed: false,
             domElements: {
-                headContacts:  null,
+                headContacts: null,
                 contacts: null,
-                addContactButton:  null,
-            }
-        }
+                addContactButton: null,
+            },
+        };
 
         this.rootNode = STATIC;
     }
@@ -37,16 +37,18 @@ export class SmartContacts extends Container {
             if (!this.props.contacts) {
                 this.props.contacts = [];
             }
-            
+
             const ContactsUI = new DumbContacts(this.props.contacts);
 
             this.rootNode.innerHTML = ContactsUI.render();
 
-            this.state.domElements.contacts = document.querySelector('.contacts__contacts');
-            this.state.domElements.contacts?.addEventListener('click', (e) => {
+            this.state.domElements.contacts = document.querySelector(
+                ".contacts__contacts"
+            );
+            this.state.domElements.contacts?.addEventListener("click", (e) => {
                 let contact = e?.target as HTMLElement | null | undefined;
-                contact = contact?.closest('.contact');
-                
+                contact = contact?.closest(".contact");
+
                 if (contact) {
                     this.handleClickCreateDialog(contact);
                     e.preventDefault();
@@ -59,18 +61,20 @@ export class SmartContacts extends Container {
 
     componentDidMount() {
         if (!this.state.isSubscribed) {
-            this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: componentProps) => {
-                this.props = pr;
-    
-                this.render();
-            }));
+            this.unsubscribe.push(
+                store.subscribe(this.constructor.name, (pr: componentProps) => {
+                    this.props = pr;
+
+                    this.render();
+                })
+            );
 
             this.state.isSubscribed = true;
 
-            store.dispatch(createGetContactsAction())
+            store.dispatch(createGetContactsAction());
         }
     }
-    
+
     componentWillUnmount() {
         if (this.state.isSubscribed) {
             this.unsubscribe.forEach((uns) => uns());
@@ -79,12 +83,14 @@ export class SmartContacts extends Container {
     }
 
     handleClickCreateDialog(contact: HTMLElement) {
-        if (contact.classList.contains('contact')) {
-            const contactID = contact.getAttribute('name');
+        if (contact.classList.contains("contact")) {
+            const contactID = contact.getAttribute("name");
 
             for (const key in this.props.contacts) {
                 if (this.props.contacts[key].id == contactID) {
-                    store.dispatch(createCreateDialogAction(this.props.contacts[key]));
+                    store.dispatch(
+                        createCreateDialogAction(this.props.contacts[key])
+                    );
                     store.dispatch(createMoveToChatsAction());
                     break;
                 }

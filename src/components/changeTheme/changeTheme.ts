@@ -1,4 +1,4 @@
-import template from "@components/changeTheme/changeTheme.pug"
+import template from "@components/changeTheme/changeTheme.pug";
 import { Component } from "@components/component";
 import { svgButtonUI } from "@components/ui/button/button";
 
@@ -9,8 +9,12 @@ export class DumbChangeTheme extends Component {
 
     render() {
         return template({
-            WhiteBtn: svgButtonUI.renderTemplate({svgClassName: this.props.white}),
-            BlackBtn: svgButtonUI.renderTemplate({svgClassName: this.props.black}),
+            WhiteBtn: svgButtonUI.renderTemplate({
+                svgClassName: this.props.white,
+            }),
+            BlackBtn: svgButtonUI.renderTemplate({
+                svgClassName: this.props.black,
+            }),
         });
     }
 }
