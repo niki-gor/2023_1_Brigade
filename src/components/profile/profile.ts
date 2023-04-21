@@ -7,6 +7,7 @@ import { headerInputUI } from "@components/ui/header-input/header-input";
 import { errorInputUI } from "@components/ui/error-input/error-input";
 import { nicknameErrorTypes, passwordErrorTypes, usernameErrorTypes, newPasswordErrorTypes } from "@/config/errors";
 import "@components/profile/profile.scss"
+import { chatAvatarUi } from "@components/ui/chatAvatar/chatAvatar";
 
 export class DumbProfile extends Component {
     constructor(props: any) {
@@ -39,9 +40,17 @@ export class DumbProfile extends Component {
 
     render() {
         return template({
-            avatar: ellipseIconUI.renderTemplate({
-                imgSrc: this.props.user.avatar, 
-                altMsg: 'avatar'
+            // avatar: ellipseIconUI.renderTemplate({
+            //     imgSrc: this.props.user.avatar, 
+            //     altMsg: 'avatar'
+            // }),
+
+            avatar: chatAvatarUi.renderTemplate({
+                ClassName: 'profile__avatar',
+                PathToUserImage: this.props.user.avatar,
+                UserName: '',
+                UserStatus: '',
+                Online: false,
             }),
 
             nickname: this.props.user.nickname,

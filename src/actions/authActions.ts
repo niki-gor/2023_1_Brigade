@@ -1,6 +1,6 @@
 import { auth, login, signUp, logout } from "@/utils/api";
 import { createSetUserAction, createInvalidEmailAction, createOccupiedEmailAction, createDeleteStateAction } from "@actions/userActions";
-import { router } from "@/router/router";
+import { router } from "@router/createRouter";
 import { Contacts } from "@/containers/contacts/createContacts";
 import { Chats } from "@/containers/chatList/createChatList";
 import { Sidebar } from "@/containers/sidebar/createSidebar";

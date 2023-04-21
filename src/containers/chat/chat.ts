@@ -2,11 +2,12 @@ import { Container } from "@containers/container";
 import { store } from "@/store/store";
 import { DumbChat } from "@/components/chat/chat";
 import { Message } from "@/components/message/message";
-import { createDeleteChatAction, createEditChatAction, createGetOneChatAction, createIsNotRenderedAction } from "@/actions/chatActions";
+import { createDeleteChatAction, createEditChatAction, createGetChatsAction, createGetOneChatAction, createIsNotRenderedAction, createSetChatsAction } from "@/actions/chatActions";
 import { getWs } from "@/utils/ws";
 import { DumbEmptyDynamicPage } from "@/components/emptyDynamicPage/emptyDynamicPage";
 import { createMoveToEditChatAction } from "@/actions/routeActions";
 import { ChatTypes } from "@/config/enum";
+import { DYNAMIC } from "@/config/config";
 
 
 export interface SmartChat {
@@ -41,6 +42,7 @@ export class SmartChat extends Container {
             },
         }
         this.chatId = props.chatId;
+        this.rootNode = DYNAMIC;
     }
 
     /**
@@ -57,7 +59,7 @@ export class SmartChat extends Container {
                     chatAvatar: this.props?.openedChat?.avatar,
                     chatTitle: this.props?.openedChat?.title,
                 });
-
+                
                 this.rootNode.innerHTML = chat.render();
 
                 this.state.domElements.submitBtn = document.querySelector('.view-chat__send-message-button');
@@ -128,6 +130,13 @@ export class SmartChat extends Container {
             
             const parent = document.querySelector('.view-chat__messages');
             parent?.insertBefore(newMessage, parent.firstChild);
+            store.dispatch(createGetChatsAction());
+            if (this.props?.openedChat?.last_message) {
+                this.props.openedChar.last_message = {
+                    body: input.value,
+                    author_id: this.props.openedChat[this.props.openedChat.length - 1].author_id,
+                }
+            }
         }
         
         getWs().send({
@@ -144,11 +153,10 @@ export class SmartChat extends Container {
     }
 
     handleClickEditButton() {
-        // console.log('openedChat: ', this.props.openedChat);
         store.dispatch(createMoveToEditChatAction(this.props.openedChat));
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         if (!this.state.isSubscribed) {
             this.state.isSubscribed = true;
             
@@ -166,7 +174,7 @@ export class SmartChat extends Container {
                 const emptyUI = new DumbEmptyDynamicPage({ 
                     ...this.props,
                 }); 
-    
+                
                 this.rootNode.innerHTML = emptyUI.render();
             }
         }

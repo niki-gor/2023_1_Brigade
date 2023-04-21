@@ -5,6 +5,7 @@ import { store } from "@/store/store";
 import { passwordErrorTypes, usernameErrorTypes, nicknameErrorTypes, newPasswordErrorTypes } from "@/config/errors";
 import { createUpdateUserAction, createUpdateUserAvatarAction } from "@/actions/userActions";
 import { createRenderAction } from "@/actions/routeActions";
+import { DYNAMIC } from "@/config/config";
 
 export interface SmartProfile {
     state: {
@@ -60,6 +61,8 @@ export class SmartProfile extends Container {
                 saveButton: null,
             }
         };
+
+        this.rootNode = DYNAMIC;
     }
 
     #image:    File | undefined;
@@ -75,7 +78,7 @@ export class SmartProfile extends Container {
 
             this.rootNode.innerHTML = ProfileUI.render();
 
-            this.state.domElements.avatar = document.querySelector('.ellipse-icon');
+            this.state.domElements.avatar = document.querySelector('.profile__avatar'); // ellipse-icon
             this.state.domElements.avatar?.addEventListener('click', () => {
                 this.handleClickAvatar()
             });
@@ -178,7 +181,7 @@ export class SmartProfile extends Container {
                 reader.readAsDataURL(this.#image);
                 reader.onload = () => {
                     const imageUrl = reader.result;
-                    const avatar = document.querySelector('.ellipse-icon') as HTMLImageElement;
+                    const avatar = document.querySelector('.profile__avatar') as HTMLImageElement;
                     avatar.src = imageUrl as string;
                 };
             }
