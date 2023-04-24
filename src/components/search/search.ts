@@ -10,8 +10,8 @@ export class searchUi extends Component {
 
     render() {
         return template({
-            InputClassName: this.props.inputClassName,
             SearchIcon: svgButtonUI.renderTemplate({svgClassName: "search-icon"}),
+            InputClassName: this.props.inputClassName,
             PlaceHolder: this.props.placeholder,
         });
     }

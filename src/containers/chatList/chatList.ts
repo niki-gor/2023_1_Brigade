@@ -9,7 +9,7 @@ export interface SmartChatList {
         isSubscribed: boolean,
         domElements: {
             chats: HTMLElement | null,
-            createGroup: HTMLElement | null,
+            createBtn: HTMLElement | null,
         },
     }
 }
@@ -21,7 +21,7 @@ export class SmartChatList extends Container {
             isSubscribed: false,
             domElements: {
                 chats:  null,
-                createGroup: null,
+                createBtn: null,
             }
         }
     }
@@ -33,8 +33,23 @@ export class SmartChatList extends Container {
             }
             
             const ChatListUI = new DumbChatList(this.props.chats);
-
             this.rootNode.innerHTML = ChatListUI.render();
+
+            // **** dropdown component
+            const dropdownToggle = document.querySelector('.dropdown-toggle');
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+
+            dropdownToggle?.addEventListener('click', () => {
+                dropdownMenu?.classList.toggle('show');
+            });
+              
+            // Закрываем выпадающее меню при клике вне его области
+            window.addEventListener('click', (event) => {
+                if (event.target instanceof Node && !dropdownToggle?.contains(event.target) && !dropdownMenu?.contains(event.target)) {
+                    dropdownMenu?.classList.remove('show');
+                }
+            });
+            // ****
 
             this.state.domElements.chats = document.querySelector('.chats');
             this.state.domElements.chats?.addEventListener('click', (e) => {
@@ -47,9 +62,9 @@ export class SmartChatList extends Container {
                 }
             });
 
-            this.state.domElements.createGroup = document.querySelector('.chat-list__header__write-message-button');
-            this.state.domElements.createGroup?.addEventListener('click', (e) => {
-                e.preventDefault();
+            this.state.domElements.createBtn = document.querySelector('.chat-list__header__write-message-button');
+            this.state.domElements.createBtn?.addEventListener('click', (e) => {
+                
                 
                 store.dispatch(createMoveToCreateGroupAction());
             });
