@@ -10,6 +10,8 @@ export interface SmartChatList {
         domElements: {
             chats: HTMLElement | null,
             createBtn: HTMLElement | null,
+            dropdownToggle: HTMLElement | null,
+            dropdownMenu: HTMLElement | null,
         },
     }
 }
@@ -22,6 +24,8 @@ export class SmartChatList extends Container {
             domElements: {
                 chats:  null,
                 createBtn: null,
+                dropdownToggle: null,
+                dropdownMenu: null,
             }
         }
     }
@@ -35,21 +39,19 @@ export class SmartChatList extends Container {
             const ChatListUI = new DumbChatList(this.props.chats);
             this.rootNode.innerHTML = ChatListUI.render();
 
-            // **** dropdown component
-            const dropdownToggle = document.querySelector('.dropdown-toggle');
-            const dropdownMenu = document.querySelector('.dropdown-menu');
+            this.state.domElements.dropdownToggle = document.querySelector('.dropdown-toggle');
+            this.state.domElements.dropdownMenu = document.querySelector('.dropdown-menu');
 
-            dropdownToggle?.addEventListener('click', () => {
-                dropdownMenu?.classList.toggle('show');
+            this.state.domElements.dropdownToggle?.addEventListener('click', () => {
+                this.state.domElements.dropdownMenu?.classList.toggle('show');
             });
               
-            // Закрываем выпадающее меню при клике вне его области
             window.addEventListener('click', (event) => {
-                if (event.target instanceof Node && !dropdownToggle?.contains(event.target) && !dropdownMenu?.contains(event.target)) {
-                    dropdownMenu?.classList.remove('show');
+                if (event.target instanceof Node && !this.state.domElements.dropdownToggle?.contains(event.target)
+                    && !this.state.domElements.dropdownMenu?.contains(event.target)) {
+                    this.state.domElements.dropdownMenu?.classList.remove('show');
                 }
             });
-            // ****
 
             this.state.domElements.chats = document.querySelector('.chats');
             this.state.domElements.chats?.addEventListener('click', (e) => {
@@ -62,12 +64,16 @@ export class SmartChatList extends Container {
                 }
             });
 
-            this.state.domElements.createBtn = document.querySelector('.chat-list__header__write-message-button');
-            this.state.domElements.createBtn?.addEventListener('click', (e) => {
-                
-                
+            const group = window.document.querySelector('.dropdown-menu__item-group');
+            const channel = window.document.querySelector('.dropdown-menu__item-channel');
+
+            group?.addEventListener('click', () => {
                 store.dispatch(createMoveToCreateGroupAction());
-            });
+            })
+            
+            channel?.addEventListener('click', () => {
+                store.dispatch(createMoveToCreateGroupAction()); // TODO: channel action
+            })
         }
     }
 

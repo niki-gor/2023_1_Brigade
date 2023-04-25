@@ -128,7 +128,7 @@ export class SmartChat extends Container {
             
             const parent = document.querySelector('.view-chat__messages');
             parent?.insertBefore(newMessage, parent.firstChild);
-            store.dispatch(createGetChatsAction());
+            
             if (this.props?.openedChat?.last_message) {
                 this.props.openedChar.last_message = {
                     body: input.value,
