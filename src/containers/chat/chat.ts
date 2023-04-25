@@ -7,6 +7,7 @@ import { getWs } from "@/utils/ws";
 import { DumbEmptyDynamicPage } from "@/components/emptyDynamicPage/emptyDynamicPage";
 import { createMoveToEditChatAction } from "@/actions/routeActions";
 import { ChatTypes } from "@/config/enum";
+import { DYNAMIC } from "@/config/config";
 
 
 export interface SmartChat {
@@ -41,6 +42,7 @@ export class SmartChat extends Container {
             },
         }
         this.chatId = props.chatId;
+        this.rootNode = DYNAMIC;
     }
 
     /**
@@ -57,7 +59,7 @@ export class SmartChat extends Container {
                     chatAvatar: this.props?.openedChat?.avatar,
                     chatTitle: this.props?.openedChat?.title,
                 });
-
+                
                 this.rootNode.innerHTML = chat.render();
 
                 this.state.domElements.submitBtn = document.querySelector('.view-chat__send-message-button');
@@ -151,11 +153,10 @@ export class SmartChat extends Container {
     }
 
     handleClickEditButton() {
-        // console.log('openedChat: ', this.props.openedChat);
         store.dispatch(createMoveToEditChatAction(this.props.openedChat));
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         if (!this.state.isSubscribed) {
             this.state.isSubscribed = true;
             
@@ -173,7 +174,7 @@ export class SmartChat extends Container {
                 const emptyUI = new DumbEmptyDynamicPage({ 
                     ...this.props,
                 }); 
-    
+                
                 this.rootNode.innerHTML = emptyUI.render();
             }
         }

@@ -4,6 +4,7 @@ import { createGetContactsAction } from "@actions/contactsActions";
 import { DumbContacts } from "@components/contacts/contacts";
 import { createCreateDialogAction, createGetOneChatAction } from "@/actions/chatActions";
 import { createMoveToChatAction, createMoveToChatsAction } from "@/actions/routeActions";
+import { STATIC } from "@/config/config";
 
 export interface SmartContacts {
     state: {
@@ -27,6 +28,8 @@ export class SmartContacts extends Container {
                 addContactButton:  null,
             }
         }
+
+        this.rootNode = STATIC;
     }
 
     render() {
