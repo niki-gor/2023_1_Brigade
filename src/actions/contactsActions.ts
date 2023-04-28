@@ -1,6 +1,11 @@
 import {constantsOfActions} from "@config/actions";
 import {createChat, getContacts} from "@utils/api";
 
+/**
+ * Создает экшен setContacts
+ * @param {object} state - Объект, содержащий данные о контактах
+ * @returns {Action} - Экшен
+ */
 export const createSetContactsAction = (state: anyObject) : Action => {
     return {
         type: constantsOfActions.setContacts,
@@ -8,6 +13,10 @@ export const createSetContactsAction = (state: anyObject) : Action => {
     }
 }
 
+/**
+ * Создает асинхронный экшен для получения контактов
+ * @returns {AsyncAction} - Асинхронная функция, которая вызывает экшен для установки контактов или отображает ошибку
+ */
 export const createGetContactsAction = () : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: Function) => {
         const { status, body } = await getContacts();

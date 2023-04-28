@@ -6,6 +6,13 @@ import { Chats } from "@/containers/chatList/createChatList";
 import { Sidebar } from "@/containers/sidebar/createSidebar";
 import { getWs } from "@/utils/ws";
 
+/**
+ * Создает экшн для авторизации пользователя.
+ * @param {Object} credentials - Информация для авторизации пользователя.
+ * @param {string} credentials.email - E-mail пользователя.
+ * @param {string} credentials.password - Пароль пользователя.
+ * @returns {AsyncAction} Возвращает асинхронную функцию, выполняющую обновление состояния.
+ */
 export const createAuthAction = () : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: Function) => {
         const { status, body } = await auth();
@@ -40,6 +47,13 @@ export const createAuthAction = () : AsyncAction => {
     };
 };
 
+/**
+ * Создает экшн для входа пользователя в систему.
+ * @param {Object} credentials - Информация для входа пользователя.
+ * @param {string} credentials.email - E-mail пользователя.
+ * @param {string} credentials.password - Пароль пользователя.
+ * @returns {AsyncAction} Возвращает асинхронную функцию, выполняющую действие при успешном входе или сообщение об ошибке.
+ */
 export const createLoginAction = (user: anyObject) : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: Function) => {
         const { status, body } = await login(user);
@@ -72,6 +86,15 @@ export const createLoginAction = (user: anyObject) : AsyncAction => {
     };
 };
 
+/**
+ * Создает экшн для регистрации нового пользователя.
+ * @param {Object} user - Информация о пользователе.
+ * @param {string} user.firstName - Имя нового пользователя.
+ * @param {string} user.lastName - Фамилия нового пользователя.
+ * @param {string} user.email — E-mail нового пользователя.
+ * @param {string} user.password — Пароль нового пользователя.
+ * @returns {AsyncAction} Возвращает асинхронную функцию, выполняющую обработку регистрации или сообщение об ошибке.
+ */ 
 export const createSignUpAction = (user: anyObject) : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: Function) => {
         const { status, body } = await signUp(user);
@@ -104,6 +127,10 @@ export const createSignUpAction = (user: anyObject) : AsyncAction => {
     };
 };
 
+/**
+ * Создает экшн для выхода текущего пользователя из системы.
+ * @returns {AsyncAction} Возвращает асинхронную функцию, выполняющую действие при успешном выходе или сообщение об ошибке.
+ */
 export const createLogoutAction = () : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: Function) => {
         const { status, body } = await logout();

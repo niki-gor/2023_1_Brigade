@@ -5,6 +5,10 @@ import { createChat, deleteChat, editChat, getChats, getOneChat } from "@/utils/
 import { router } from "@router/createRouter";
 import { createMoveToChatAction } from "./routeActions";
 
+/**
+ * Создает экшен "isNotRendered".
+ * @returns {{ type: string, payload: null }} - Экшен
+ */
 export const createIsNotRenderedAction = () => {
     return {
         type: constantsOfActions.isNotRendered,
@@ -12,6 +16,11 @@ export const createIsNotRenderedAction = () => {
     }
 }
 
+/**
+ * Создает экшен "openChat".
+ * @param {Object} chat - Чат, который нужно открыть.
+ * @returns {{ type: string, payload: Object }} - Экшен
+ */
 export const createOpenChatAction = (chat: anyObject) => {
     return {
         type: constantsOfActions.openChat,
@@ -19,6 +28,11 @@ export const createOpenChatAction = (chat: anyObject) => {
     }
 }
 
+/**
+ * Создает экшен "addChat".
+ * @param {Object} chat - Чат, который нужно добавить.
+ * @returns {{ type: string, payload: Object }} - Экшен
+ */
 export const createAddChatAction = (chat: anyObject) => {
     return {
         type: constantsOfActions.addChat,
@@ -26,6 +40,11 @@ export const createAddChatAction = (chat: anyObject) => {
     }
 }
 
+/**
+ * Создает экшен "setChats".
+ * @param {Object} chat - Список чатов, которые нужно установить.
+ * @returns {{ type: string, payload: Object }} - Экшен
+ */
 export const createSetChatsAction = (chat: anyObject) => {
     return {
         type: constantsOfActions.setChats,
@@ -33,6 +52,11 @@ export const createSetChatsAction = (chat: anyObject) => {
     }
 }
 
+/**
+ * Создает экшен "getOneChat".
+ * @param {Object} chat - Чат, который нужно получить.
+ * @returns {function} - Функция, которая делает запрос и возвращает промис с результатом.
+ */
 export const createGetOneChatAction = (chat: anyObject) => {
     return async (dispatch: (action: Action) => void, state: Function) => {
         const { status, body } = await getOneChat(chat);
@@ -59,6 +83,11 @@ export const createGetOneChatAction = (chat: anyObject) => {
     };
 }
 
+/**
+ * Создает экшен "getOneChat".
+ * @param {Object} chat - Чат, который нужно получить.
+ * @returns {function} - Функция, которая делает запрос и возвращает промис с результатом.
+ */
 export const createGetChatsAction = () => {
     return async (dispatch: (action: Action) => void, state: Function) => {
         const { status, body } = await getChats();
@@ -83,6 +112,10 @@ export const createGetChatsAction = () => {
     };
 }
 
+/**
+ * Создает экшен "getChats".
+ * @returns {function} - Функция, которая делает запрос и возвращает промис с результатом.
+ */
 export const createCreateDialogAction = (contact: anyObject) => {
     return async (dispatch: (action: Action | AsyncAction) => void, state: Function) => {
         for (const key in state().chats) {
@@ -120,9 +153,9 @@ export const createCreateDialogAction = (contact: anyObject) => {
 }
 
 /**
- * 
- * @param chatId - id удаляемого чата
- * @returns 
+ * Создает action для удаления чата из хранилища.
+ * @param {anyObject} chat - Чат, который нужно удалить.
+ * @returns {Object} - Экшен
  */
 export const createDeleteChatFromStoreAction = (chat: anyObject) => {
     return {
@@ -131,6 +164,11 @@ export const createDeleteChatFromStoreAction = (chat: anyObject) => {
     }
 }
 
+/**
+ * Создает асинхронный экшен для удаления чата.
+ * @param {string} deletedChatId - id чата, который нужно удалить.
+ * @returns {Function} - асинхронная функция, которая принимает dispatch и возвращает Promise.
+ */
 export const createDeleteChatAction = (deletedChatId: string) => {
     return async (dispatch: (action: Action) => void, state: Function) => {
         for (const key in state().chats) {
@@ -163,7 +201,11 @@ export const createDeleteChatAction = (deletedChatId: string) => {
     }
 }
 
-// Нажимаем на кнопку save changes
+/**
+ * Создает action для изменения чата в хранилище.
+ * @param {anyObject} updateGroupState - объект с обновленной информацией о чате.
+ * @returns {Object} - Экшен
+ */
 export const createEditChatFromStoreAction = (updateGroupState: anyObject) => {
     return {
         type: constantsOfActions.editChat,
@@ -171,6 +213,11 @@ export const createEditChatFromStoreAction = (updateGroupState: anyObject) => {
     }
 }
 
+/**
+ * Создает асинхронный action для изменения чата.
+ * @param {anyObject} updateGroupState - объект с обновленной информацией о чате.
+ * @returns {Function} - асинхронная функция, которая принимает dispatch и возвращает Promise.
+ */
 export const createEditChatAction = (updateGroupState: anyObject) => {
     return async (dispatch: (action: Action) => void, state: Function) => {
         if (updateGroupState) {

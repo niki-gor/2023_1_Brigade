@@ -1,6 +1,11 @@
 import { constantsOfActions } from "@/config/actions"
 import { updateUser, uploadAvatar} from "@/utils/api"
 
+/** 
+ * Создает экшен для установки состояния пользователя.
+ * @param {anyObject} state - Состояние пользователя.
+ * @returns {Action} экшен с типом "setUser" и полезной нагрузкой "state".
+ **/
 export const createSetUserAction = (state: anyObject) : Action => {
     return {
         type: constantsOfActions.setUser,
@@ -8,6 +13,10 @@ export const createSetUserAction = (state: anyObject) : Action => {
     }
 }
 
+/** 
+ * Создает экшен для неверной электронной почты.
+ * @returns {Action} экшен с типом "invalidEmail".
+ **/
 export const createInvalidEmailAction = () : Action => {
     return {
         type: constantsOfActions.invalidEmail,
@@ -17,6 +26,10 @@ export const createInvalidEmailAction = () : Action => {
     }
 }
 
+/** 
+ * Создает экшен для занятой электронной почты.
+ * @returns {Action} экшен с типом "occupiedEmail".
+ **/
 export const createOccupiedEmailAction = () : Action => {
     return {
         type: constantsOfActions.occupiedEmail,
@@ -26,6 +39,10 @@ export const createOccupiedEmailAction = () : Action => {
     }
 }
 
+/** 
+ * Создает экшен для занятого имени пользователя.
+ * @returns {Action} экшен с типом "occupiedUsername".
+ **/
 export const createOccupiedUsernameAction = () : Action => {
     return {
         type: constantsOfActions.occupiedUsername,
@@ -35,6 +52,10 @@ export const createOccupiedUsernameAction = () : Action => {
     }
 }
 
+/** 
+ * Создает экшен для неправильного пароля.
+ * @returns {Action} экшен с типом "incorrectPassword".
+ **/
 export const createIncorrectPasswordAction = () : Action => {
     return {
         type: constantsOfActions.incorrectPassword,
@@ -44,6 +65,11 @@ export const createIncorrectPasswordAction = () : Action => {
     }
 }
 
+/** 
+ * Создает асинхронное действие для обновления состояния пользователя.
+ * @param {anyObject} user - Объект пользователя для обновления.
+ * @returns {AsyncAction} Асинхронное действие, которое вызывает "createSetUserAction" или другие действия с ошибками.
+ **/
 export const createUpdateUserAction = (user: anyObject) : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: Function) => {
         const { status, body } = await updateUser(user);
@@ -72,6 +98,11 @@ export const createUpdateUserAction = (user: anyObject) : AsyncAction => {
     }
 }
 
+/** 
+ * Создает асинхронный экшен для обновления аватара пользователя.
+ * @param {File | undefined} avatar - Новый файл аватара для загрузки.
+ * @returns {AsyncAction} Асихронный экшен, который либо вызывает "createSetUserAction", либо другие действия с ошибками.
+ **/
 export const createUpdateUserAvatarAction = (avatar: File | undefined) : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: anyObject) => {
         if (!avatar) {
@@ -99,6 +130,10 @@ export const createUpdateUserAvatarAction = (avatar: File | undefined) : AsyncAc
     };
 }
 
+/** 
+ * Создает экшен для удаления состояния пользователя.
+ * @returns {Action} экшен с типом "deleteState" и пустой нагрузкой.
+ **/
 export const createDeleteStateAction = () => {
     return {
         type: constantsOfActions.deleteState,

@@ -3,6 +3,11 @@ import {createChat} from "@utils/api";
 import {createAddChatAction, createOpenChatAction} from "@actions/chatActions";
 import { createMoveToChatAction } from "./routeActions";
 
+/**
+ * Создает экшен для создания группы
+ * @param {object} state - Объект, содержащий данные о создаваемой группе чатов
+ * @returns {Action} - Экшен
+ */
 export const createSetCreateGroupAction = (state: anyObject) : Action => {
     return {
         type: constantsOfActions.createGroup,
@@ -10,6 +15,11 @@ export const createSetCreateGroupAction = (state: anyObject) : Action => {
     }
 }
 
+/**
+ * Создает асинхронный экшен для создания группы
+ * @param {object} group - Объект, содержащий данные создаваемой группы чата
+ * @returns {AsyncAction} - Асинхронная функция, которая вызывает экшены для добавления чата и перехода на него или отображает ошибку
+ */
 export const createCreateGroupAction = (group: anyObject) : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: Function) => {
         const { status, body } = await createChat(group);

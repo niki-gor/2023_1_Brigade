@@ -3,6 +3,10 @@ import { Chats } from "@/containers/chatList/createChatList";
 import { Contacts } from "@/containers/contacts/createContacts";
 import { router } from "@router/createRouter";
 
+/**
+ * Создает экшен для перехода на страницу регистрации
+ * @returns {Action} - Экшен
+ */
 export const createMoveToSignUpAction = () : Action => {
     router.route('/signup');
 
@@ -12,6 +16,10 @@ export const createMoveToSignUpAction = () : Action => {
     }
 };
 
+/**
+ * Создает экшен для перехода на страницу авторизации
+ * @returns {Action} - Экшен
+ */
 export const createMoveToLoginAction = () : Action => {
     router.route('/login');
 
@@ -21,6 +29,10 @@ export const createMoveToLoginAction = () : Action => {
     }
 };
 
+/**
+ * Создает экшен для рендеринга компонента
+ * @returns {Action} - Экшен
+ */
 export const createRenderAction = () : Action => {
     return {
         type: constantsOfActions.render,
@@ -28,6 +40,10 @@ export const createRenderAction = () : Action => {
     }
 }
 
+/**
+ * Создает экшен для перехода на страницу профиля
+ * @returns {Action} - Экшен
+ */
 export const createMoveToProfileAction = () : Action => {
     router.route('/profile');
 
@@ -37,6 +53,10 @@ export const createMoveToProfileAction = () : Action => {
     }
 };
 
+/**
+ * Создает экшен для перехода на страницу контактов
+ * @returns {Action} - Экшен
+ */
 export const createMoveToContactsAction = () : Action => {
     Chats.componentWillUnmount();
     Contacts.componentDidMount();
@@ -47,6 +67,10 @@ export const createMoveToContactsAction = () : Action => {
     }
 };
 
+/**
+ * Создает экшен для перехода на страницу чатов
+ * @returns {Action} - Экшен
+ */
 export const createMoveToChatsAction = () : Action => {
     Contacts.componentWillUnmount();
     Chats.componentDidMount();
@@ -57,6 +81,10 @@ export const createMoveToChatsAction = () : Action => {
     }
 };
 
+/**
+ * Создает экшен для перехода на страницу создания группы чата
+ * @returns {Action} - Экшен
+ */
 export const createMoveToCreateGroupAction = () : Action => {
     router.route('/create_group');
 
@@ -66,6 +94,11 @@ export const createMoveToCreateGroupAction = () : Action => {
     }
 };
 
+/**
+ * Создает экшен для перехода на страницу определенного чата
+ * @param {object} chat - Объект, содержащий id чата
+ * @returns {Action} - Экшен
+ */
 export const createMoveToChatAction = (chat: anyObject) : Action => {
     router.route(`/${chat.chatId}`);
 
@@ -75,8 +108,11 @@ export const createMoveToChatAction = (chat: anyObject) : Action => {
     }
 }
 
-// при нажатие на кнопку редактиования динамическая часть заменяется на компонент SmartAddUserInGroup
-export const createMoveToEditChatAction = (chat: anyObject) : Action => {
+/**
+ * Создает экшен для перехода на страницу редактирования группы чата
+ * @param {object} chat - Объект, содержащий id чата
+ * @returns {Action} - Экшен
+ */export const createMoveToEditChatAction = (chat: anyObject) : Action => {
     router.route(`/${chat.id}/add`);
 
     return {
