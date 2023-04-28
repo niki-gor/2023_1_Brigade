@@ -1,3 +1,9 @@
+/**
+ * Проверяет электронную почту на пустое значение, наличие символа @ и соответствие формату.
+ *
+ * @param {string} email - Электронная почта.
+ * @returns {{isError: boolean, errorClass: string}} - Объект с параметрами isError и errorClass.
+ */
 export const checkEmail = (email: string) => {
     const isNotEmpty = email.length > 0;
     const hasDog = /@/.test(email);
@@ -30,6 +36,12 @@ export const checkEmail = (email: string) => {
     }
 };
 
+/**
+ * Проверяет пароль на пустое значение и наличие не менее 8 символов
+ *
+ * @param {string} password - Пароль.
+ * @returns {{isError: boolean, errorClass: string}} - Объект с параметрами isError и errorClass.
+ */
 export const checkPassword = (password: string) => {
     const isNotEmpty = password.length > 0;
     const hasValidLength = password.length >= 8;
@@ -54,6 +66,12 @@ export const checkPassword = (password: string) => {
     };
 };
 
+/**
+ * Проверяет новый пароль на пустое значение и наличие не менее 8 символов
+ *
+ * @param {string} password - Пароль.
+ * @returns {{isError: boolean, errorClass: string}} - Объект с параметрами isError и errorClass.
+ */
 export const checkNewPassword = (password: string) => {
     const isNotEmpty = password.length > 0;
     const hasValidLength = password.length >= 8;
@@ -78,6 +96,13 @@ export const checkNewPassword = (password: string) => {
     };
 };
 
+/**
+ * Проверяет подтвержденный пароль на пустое значение и соответствие значению пароля.
+ *
+ * @param {string} password - Пароль.
+ * @param {string} confirmPassword - Подтверждение пароля.
+ * @returns {{isError: boolean, errorClass: string}} - Объект с параметрами isError и errorClass.
+ */
 export const checkConfirmPassword = (password: string, confirmPassword: string) => {
     const isNotEmpty = confirmPassword.length > 0;
     const isEqualPassword = confirmPassword === password;
@@ -103,6 +128,11 @@ export const checkConfirmPassword = (password: string, confirmPassword: string) 
     
 };
 
+/**
+ * Проверяет корректность никнейма. 
+ * @param {string} nickname - Никнейм, который будет проверен.
+ * @returns {Object} - Объект с параметрами isError и errorClass.
+ */
 export const checkNickname = (nickname: string) => {
     const isNotEmpty = nickname.length > 0;
     const hasValidLength = nickname.length > 1;

@@ -12,6 +12,10 @@ export class Router {
         this.currentComponent = undefined;
     }
 
+    /**
+     * Запускает Router.
+     * Вызывается при изменении URL в адресной строке.
+     */
     public start = () => {
         window.addEventListener('popstate', (e) => {
             e.preventDefault();
@@ -20,12 +24,20 @@ export class Router {
         })
     }
 
+    /**
+     * Изменяет текущий маршрут.
+     * @param {string} path - Новый путь.
+     */
     public route = (path: string) => {
         this.go(path);
         
         window.history.pushState(this.currentDynamicParams, '', path);
     }
 
+    /**
+     * Ищет маршрут, соответствующий текущему пути.
+     * @param {string} path - Текущий путь.
+     */
     private match = (path: string) => {
         this.currentRoute = this.routes.find((route) => {
             const match = path.match(route.path);
@@ -40,6 +52,10 @@ export class Router {
         });
     }
 
+    /**
+     * Обновляет состояние Router в соответствии с новым маршрутом.
+     * @param {string} path - Новый путь.
+     */
     private go = (path: string) => {
         this.match(path);
 

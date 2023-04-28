@@ -1,3 +1,9 @@
+/**
+ * Создает хранилище Redux.
+ *
+ * @param {Map<string, Reducer>} reducers - Коллекция редьюсеров.
+ * @returns {Store} - Объект со свойствами getState, dispatch, subscribe.
+ */
 export const createStore = (reducers: Map<string, Reducer>) : Store => {
     let state: anyObject = {};
     let subscribers = new Map<string, Function>();
@@ -22,6 +28,12 @@ export const createStore = (reducers: Map<string, Reducer>) : Store => {
     };
 };
 
+/**
+ * Применяет middleware к функции createStore.
+ *
+ * @param {Middleware} middleware - Middleware, который будет применен.
+ * @returns {Store} - Объект со свойствами getState, dispatch, subscribe.
+ */
 export const applyMiddleware = (middleware: Middleware) => (createStoreFunc: CreateStore) => (reducers: Map<string, (state: anyObject, action: Action) => anyObject>) => {
     const store = createStoreFunc(reducers);
     return {
