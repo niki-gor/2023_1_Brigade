@@ -57,6 +57,15 @@ export const createMoveToChatsAction = () : Action => {
     }
 };
 
+export const createMoveToHomePageAction = () : Action => {
+    router.route('/');
+
+    return {
+        type: constantsOfActions.moveToHomePage,
+        payload: null,
+    }
+};
+
 export const createMoveToCreateGroupAction = () : Action => {
     router.route('/create_group');
 

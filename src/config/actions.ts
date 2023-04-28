@@ -23,4 +23,5 @@ export const constantsOfActions = {
     deleteChat: 'deleteChat',
     editChat: 'editChat',
     isNotRendered: 'isNotRendered',
+    moveToHomePage: 'moveToHomePage',
 }
