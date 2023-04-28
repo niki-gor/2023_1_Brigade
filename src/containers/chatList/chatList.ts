@@ -2,7 +2,7 @@ import { Container } from "@containers/container";
 import { store } from "@store/store";
 import { createGetChatsAction, createGetOneChatAction } from "@/actions/chatActions";
 import { DumbChatList } from "@/components/chatList/chatList";
-import { createMoveToChatAction, createMoveToCreateGroupAction } from "@/actions/routeActions";
+import { createMoveToChatAction, createMoveToCreateChannelAction, createMoveToCreateGroupAction } from "@/actions/routeActions";
 import { STATIC } from "@/config/config";
 
 export interface SmartChatList {
@@ -75,7 +75,7 @@ export class SmartChatList extends Container {
             })
             
             channel?.addEventListener('click', () => {
-                store.dispatch(createMoveToCreateGroupAction()); // TODO: channel action
+                store.dispatch(createMoveToCreateChannelAction());
             })
         }
     }

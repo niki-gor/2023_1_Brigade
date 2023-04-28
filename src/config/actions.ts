@@ -11,6 +11,7 @@ export const constantsOfActions = {
     moveToChats: 'moveToChats',
     moveToChat: 'moveToChat',
     moveToCreateGroup: 'moveToCreateGroup',
+    moveToCreateChannel: 'moveToCreateChannel',
     moveToEditChat: 'moveToEditChat',
     deleteState: 'deleteState',
     render: 'render',

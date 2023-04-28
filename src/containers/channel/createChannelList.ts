@@ -1,4 +1,4 @@
 import { STATIC } from "@/config/config";
-import { SmartChannelList } from "@containers/channel/channel";
+import { SmartCreateChannel } from "@containers/channel/channel";
 
-export const Channel = new SmartChannelList({ rootNode: STATIC });
+export const Channel = new SmartCreateChannel({ rootNode: STATIC });

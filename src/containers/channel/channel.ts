@@ -1,25 +1,31 @@
-import { DumbChatList } from "@/components/chatList/chatList";
-import { store } from "@/store/store";
+import { DumbChatList } from "@components/chatList/chatList";
+import { DYNAMIC } from "@config/config";
+import { store } from "@store/store";
 import { Container } from "@containers/container";
+import { DumbCreateChannel } from "@components/channelCreation/channel";
 
-export interface SmartChannelList {
+export interface SmartCreateChannel {
     state: {
         isSubscribed: boolean,
         domElements: {
-            list: HTMLElement | null,
+            headerBackBtn: HTMLElement | null,
+            headerDoneBtn: HTMLElement | null,
         },
     }
 }
 
-export class SmartChannelList extends Container {
+export class SmartCreateChannel extends Container {
     constructor(props :componentProps) {
         super(props);
         this.state = {
             isSubscribed: false,
             domElements: {
-                list:  null,
+                headerBackBtn: null,
+                headerDoneBtn: null,
             }
         }
+
+        this.rootNode = DYNAMIC;
     }
 
     render() {
@@ -28,8 +34,11 @@ export class SmartChannelList extends Container {
                 this.props.channels = [];
             }
             
-            const ChannelListUI = new DumbChatList(this.props.channel);
-            this.rootNode.innerHTML = ChannelListUI.render();
+            const ChannelUI = new DumbCreateChannel({
+                ...this.props.contacts,
+            });
+
+            this.rootNode.innerHTML = ChannelUI.render();
         }
     }
 

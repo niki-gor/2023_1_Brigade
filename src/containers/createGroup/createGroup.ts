@@ -6,7 +6,7 @@ import { DumbCreateGroup } from "@/components/createGroup/createGroup";
 import { createCreateGroupAction } from "@actions/groupActions";
 import { ChatTypes } from "@config/enum";
 import { createGetContactsAction } from "@/actions/contactsActions";
-import { createMoveToChatAction, createMoveToChatsAction } from "@/actions/routeActions";
+import { createMoveToChatsAction } from "@/actions/routeActions";
 import { DYNAMIC } from "@/config/config";
 
 
