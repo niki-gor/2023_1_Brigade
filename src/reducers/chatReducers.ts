@@ -146,7 +146,8 @@ export const reduceDeleteChat = (state: anyObject, action: Action) => {
  * @param {object} state - Текущее состояние
  * @param {object} action - Экшен
  * @return {object} Обновленное состояние после редактирования чата
- */export const reduceEditChat = (state: anyObject, action: Action) => {
+ */
+export const reduceEditChat = (state: anyObject, action: Action) => {
     switch (action.type) {
         case constantsOfActions.editChat:
             for (const index in state.chats) {
