@@ -17,6 +17,14 @@ export interface SmartContacts {
     }
 }
 
+/**
+ * Компонент для отображения контактов пользователей
+ * @extends {Container}
+ * @constructor
+ * @param {Object} props - объект свойств компонента
+ * @param {Object} props.user - информация о пользователе
+ * @param {Array} props.contacts - массив контактов
+ */
 export class SmartContacts extends Container {
     constructor(props :componentProps) {
         super(props);
@@ -32,6 +40,10 @@ export class SmartContacts extends Container {
         this.rootNode = STATIC;
     }
 
+    /**
+     * Отображает компонент
+     * @returns {void}
+     */
     render() {
         if (this.state.isSubscribed && this.props.user) {
             if (!this.props.contacts) {
@@ -78,6 +90,11 @@ export class SmartContacts extends Container {
         }
     }
 
+    /**
+     * Обработчик клика на контакте
+     * @param {HTMLElement} contact - контакт, на который был клик
+     * @returns {void}
+     */
     handleClickCreateDialog(contact: HTMLElement) {
         if (contact.classList.contains('contact')) {
             const contactID = contact.getAttribute('name');

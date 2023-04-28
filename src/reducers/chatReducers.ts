@@ -1,5 +1,12 @@
 import { constantsOfActions } from "@/config/actions";
 
+/**
+ * Обрабатывает экшен на установку флага isNotRendered в false
+ *
+ * @param {object} state - Текущее состояние
+ * @param {object} action - Экшен
+ * @return {object} Обновленное состояние
+ */
 export const reduceIsNotRendered = (state: anyObject, action: Action) => {
     switch (action.type) {
         case constantsOfActions.isNotRendered:
@@ -17,6 +24,13 @@ export const reduceIsNotRendered = (state: anyObject, action: Action) => {
     }
 }
 
+/**
+ * Обрабатывает экшен на добавление нового чата
+ *
+ * @param {object} state - Текущее состояние
+ * @param {object} action - Экшен
+ * @return {object} Обновленное состояние после добавления нового чата
+ */
 export const reduceAddChat = (state: anyObject, action: Action) => {
     switch (action.type) {
         case constantsOfActions.addChat:
@@ -48,6 +62,13 @@ export const reduceAddChat = (state: anyObject, action: Action) => {
     }
 };
 
+/**
+ * Обрабатывает экшен на установку значения chats в State
+ *
+ * @param {object} state - Текущее состояние
+ * @param {object} action - Экшен
+ * @return {object} Обновленное состояние
+ */
 export const reduceSetChats = (state: anyObject, action: Action) => {
     switch (action.type) {
         case constantsOfActions.setChats:
@@ -62,6 +83,13 @@ export const reduceSetChats = (state: anyObject, action: Action) => {
     }
 };
 
+/**
+ * Обрабатывает экшен на открытие нового чата
+ *
+ * @param {object} state - Текущее состояние
+ * @param {object} action - Экшен
+ * @return {object} Обновленное состояние после открытия нового чата
+ */
 export const reduceOpenChat = (state: anyObject, action: Action) => {
     switch (action.type) {
         case constantsOfActions.openChat:
@@ -85,6 +113,13 @@ export const reduceOpenChat = (state: anyObject, action: Action) => {
     }
 }
 
+/**
+ * Обрабатывает экшен на удаление чата из State
+ *
+ * @param {object} state - Текущее состояние
+ * @param {object} action - Экшен
+ * @return {object} Обновленное состояние после удаления чата
+ */
 export const reduceDeleteChat = (state: anyObject, action: Action) => {
     switch (action.type) {
         case constantsOfActions.deleteChat:
@@ -105,8 +140,13 @@ export const reduceDeleteChat = (state: anyObject, action: Action) => {
     }
 }
 
-// reducer вызывается при сохранения изменений в chat-е
-export const reduceEditChat = (state: anyObject, action: Action) => {
+/**
+ * Обработывает экшен на редактирование чата в State
+ *
+ * @param {object} state - Текущее состояние
+ * @param {object} action - Экшен
+ * @return {object} Обновленное состояние после редактирования чата
+ */export const reduceEditChat = (state: anyObject, action: Action) => {
     switch (action.type) {
         case constantsOfActions.editChat:
             for (const index in state.chats) {
