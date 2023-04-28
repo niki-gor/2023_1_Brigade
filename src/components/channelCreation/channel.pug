@@ -5,12 +5,13 @@ main.main.flex
             .create-channel__header__text Новый канал
             button.btn-reset.create-channel__heder__done-btn Готово
         .create-channel__form.flex
-            .create-channel__form__name-section.flex
-                img(src="./assets/img/logo.png").input__avatar
-                .name-section__input.flex
-                    .name-section__header Имя канала
-                    input(type="text" placeholder="Введите имя канала").input__text
-            .create-channel__form__description-section.flex
-                .description-section__header Описание
-                .description-section__input.flex
-                    input(type="text" placeholder="Введите описание канала").input__text
+            img(src="./assets/img/logo.png").create-channel__form__image
+            .create__channel__form__fields.flex
+                .create-channel__form__name-section.flex
+                    .name-section__input.flex
+                        .name-section__header Название канала
+                        input(type="text" placeholder="Введите название канала").input__text
+                .create-channel__form__description-section.flex
+                    .description-section__header Описание
+                    .description-section__input.flex
+                        input(type="text" placeholder="Введите описание канала").input__text
