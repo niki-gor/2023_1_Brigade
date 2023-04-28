@@ -39,6 +39,8 @@ export class SmartCreateChannel extends Container {
             });
 
             this.rootNode.innerHTML = ChannelUI.render();
+
+            
         }
     }
 
