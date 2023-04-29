@@ -1,3 +1,3 @@
-import { Component } from '@/framework/component';
+import { Component } from '@framework/component';
 
-export class Page extends Component {}
+export class Page extends Component<Props> {}

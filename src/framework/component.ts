@@ -3,18 +3,21 @@ interface IComponent {
     componentWillUnmount(): void;
 }
 
-export abstract class Component implements IComponent {
+export abstract class Component<Props, State> implements IComponent {
     /**
      * Cохраняет переданные параметры props.
      * @param {Object} props - необходимые для работы класса свойства
      * @default {Element} rootNode - div, через который происходит взаимодействие с html.
      */
-    constructor(props: Record<string, unknown>) {
+    constructor(props: Props) {
         this.props = props;
     }
 
     abstract componentDidMount(): void;
     abstract componentWillUnmount(): void;
 
-    protected props: Record<string, unknown>;
+    protected props: Props | undefined;
+    protected state: State | undefined;
+    protected node: HTMLElement | undefined;
+    protected unsubscribe: () => void = () => {};
 }

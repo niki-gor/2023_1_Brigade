@@ -1,11 +1,19 @@
-import { Component } from '@/framework/component';
+import { Component } from '@framework/component';
 import template from '@components/message/message.pug';
 import '@components/message/message.scss';
 import { smallEllipseIconUI } from '@components/ui/small-ellipse-icon/small-ellipse-icon';
 
-export class Message extends Component {
+export class Message extends Component<Props> {
     constructor(props: Record<string, unknown>) {
         super(props);
+    }
+
+    componentDidMount(): void {
+        //TODO
+    }
+
+    componentWillUnmount(): void {
+        //TODO
     }
 
     render() {

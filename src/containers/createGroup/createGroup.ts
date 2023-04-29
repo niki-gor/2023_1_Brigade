@@ -1,4 +1,4 @@
-import { Container } from '@containers/container';
+import { Component } from '@framework/component';
 import { store } from '@store/store';
 import { addErrorToClass, checkNickname } from '@utils/validator';
 import { countingMembersErrorTypes, nicknameErrorTypes } from '@config/errors';
@@ -35,7 +35,7 @@ export interface SmartCreateGroup {
  * для корректного рендера ошибки
  *
  */
-export class SmartCreateGroup extends Container {
+export class SmartCreateGroup extends Component<Props> {
     /**
      * Cохраняет props
      * @param {Object} props - параметры компонента

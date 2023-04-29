@@ -1,4 +1,4 @@
-import { Container } from '@containers/container';
+import { Component } from '@framework/component';
 
 export interface SmartError {
     state: {
@@ -16,7 +16,7 @@ export interface SmartError {
  * для корректного рендера ошибки
  *
  */
-export class SmartError extends Container {
+export class SmartError extends Component<Props> {
     /**
      * Cохраняет props
      * @param {Object} props - параметры компонента

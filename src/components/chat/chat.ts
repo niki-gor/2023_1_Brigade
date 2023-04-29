@@ -1,15 +1,23 @@
 import template from '@components/chat/chat.pug';
 import '@components/chat/chat.scss';
-import { Component } from '@/framework/component';
+import { Component } from '@framework/component';
 import { svgButtonUI } from '@components/ui/button/button';
 import { chatAvatarUi } from '@components/ui/chatAvatar/chatAvatar';
 import { inputUi } from '@components/ui/input/input';
 import { Message } from '@components/message/message';
 import { ChatTypes } from '@config/enum';
 
-export class DumbChat extends Component {
+export class DumbChat extends Component<Props> {
     constructor(props: Record<string, unknown>) {
         super(props);
+    }
+
+    componentDidMount(): void {
+        //TODO
+    }
+
+    componentWillUnmount(): void {
+        //TODO
     }
 
     #getMessageData(message: { author_id: number }): {

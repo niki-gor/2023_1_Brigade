@@ -1,4 +1,4 @@
-import { Container } from '@containers/container';
+import { Component } from '@framework/component';
 import { DumbProfile } from '@components/profile/profile';
 import {
     checkPassword,
@@ -45,7 +45,7 @@ export interface SmartProfile {
  * Отрисовывает страницу пользователя.
  * Прокидывает actions в стору для изменения данных о пользователе
  */
-export class SmartProfile extends Container {
+export class SmartProfile extends Component<Props> {
     /**
      * Cохраняет props
      * @param {Object} props - параметры компонента

@@ -1,11 +1,19 @@
-import { Component } from '@/framework/component';
+import { Component } from '@framework/component';
 import template from '@components/contact/contact.pug';
 import '@components/contact/contact.scss';
 import { smallEllipseIconUI } from '@components/ui/small-ellipse-icon/small-ellipse-icon';
 
-export class DumbContact extends Component {
+export class DumbContact extends Component<Props> {
     constructor(props: Record<string, unknown>) {
         super(props);
+    }
+
+    componentDidMount(): void {
+        //TODO
+    }
+
+    componentWillUnmount(): void {
+        //TODO
     }
 
     render() {

@@ -1,4 +1,4 @@
-import { Container } from '@containers/container';
+import { Component } from '@framework/component';
 import { DumbSignUp } from '@pages/signUp/signUp';
 import {
     checkEmail,
@@ -19,26 +19,28 @@ import {
     createMoveToLoginAction,
     createRenderAction,
 } from '@actions/routeActions';
-import { DYNAMIC, SIDEBAR, SIGNUP, STATIC } from '@config/config';
+import { DYNAMIC, ROOT, SIDEBAR, SIGNUP, STATIC } from '@config/config';
 
-export interface SmartSignUp {
-    state: {
-        isSubscribed: boolean;
-        valid: {
-            emailIsValid: boolean;
-            passwordIsValid: boolean;
-            confirmPasswordIsValid: boolean;
-            nicknameIsValid: boolean;
-            isValid: () => boolean;
-        };
-        domElements: {
-            email: HTMLInputElement | null;
-            password: HTMLInputElement | null;
-            confirmPassword: HTMLInputElement | null;
-            nickname: HTMLInputElement | null;
-            signUpButton: HTMLButtonElement | null;
-            moveToLogin: HTMLElement | null;
-        };
+interface Props {
+    occupiedEmail?: boolean;
+}
+
+interface State {
+    isSubscribed: boolean;
+    valid: {
+        emailIsValid: boolean;
+        passwordIsValid: boolean;
+        confirmPasswordIsValid: boolean;
+        nicknameIsValid: boolean;
+        isValid: () => boolean | undefined;
+    };
+    domElements: {
+        email: HTMLInputElement | null;
+        password: HTMLInputElement | null;
+        confirmPassword: HTMLInputElement | null;
+        nickname: HTMLInputElement | null;
+        signUpButton: HTMLButtonElement | null;
+        moveToLogin: HTMLElement | null;
     };
 }
 
@@ -48,13 +50,14 @@ export interface SmartSignUp {
  * Также подписывается на изменения статуса логина,
  * для корректного рендера ошибки
  */
-export class SmartSignUp extends Container {
+export class SmartSignUp extends Component<Props, State> {
     /**
      * Cохраняет props
      * @param {Object} props - параметры компонента
      */
-    constructor(props: Record<string, unknown>) {
+    constructor(props: Props) {
         super(props);
+
         this.state = {
             isSubscribed: false,
             valid: {
@@ -64,10 +67,10 @@ export class SmartSignUp extends Container {
                 nicknameIsValid: false,
                 isValid: () => {
                     return (
-                        this.state.valid.emailIsValid &&
-                        this.state.valid.passwordIsValid &&
-                        this.state.valid.confirmPasswordIsValid &&
-                        this.state.valid.nicknameIsValid
+                        this.state?.valid.emailIsValid &&
+                        this.state?.valid.passwordIsValid &&
+                        this.state?.valid.confirmPasswordIsValid &&
+                        this.state?.valid.nicknameIsValid
                     );
                 },
             },
@@ -80,20 +83,22 @@ export class SmartSignUp extends Container {
                 moveToLogin: null,
             },
         };
+
+        this.node = ROOT;
     }
 
     /**
      * Рендерит логин
      */
     render() {
-        if (this.state.isSubscribed && !SIGNUP()) {
+        if (this.state?.isSubscribed && !SIGNUP()) {
             const SignUpUI = new DumbSignUp({
                 ...this.props,
             });
 
             SIDEBAR.innerHTML = STATIC.innerHTML = DYNAMIC.innerHTML = '';
 
-            this.rootNode.insertAdjacentHTML('afterbegin', SignUpUI.render());
+            this.node?.insertAdjacentHTML('afterbegin', SignUpUI.render());
 
             this.state.domElements.signUpButton =
                 document.querySelector('.reg-but');
@@ -157,7 +162,7 @@ export class SmartSignUp extends Container {
      * Показывает, что была введа занятая почта
      */
     occupiedEmail() {
-        if (this.state.isSubscribed && this.props?.occupiedEmail) {
+        if (this.state?.isSubscribed && this.props?.occupiedEmail) {
             this.state.domElements.email?.classList.add(
                 'login-reg__input_error'
             );
@@ -169,20 +174,19 @@ export class SmartSignUp extends Container {
      * Навешивает переданные обработчики на валидацию и кнопки
      */
     componentDidMount() {
-        if (!this.state.isSubscribed) {
-            this.unsubscribe.push(
-                store.subscribe(
-                    this.constructor.name,
-                    (pr: Record<string, unknown>) => {
-                        this.props = pr;
+        if (!this.state?.isSubscribed) {
+            this.unsubscribe = store.subscribe(
+                this.constructor.name,
+                (pr: Props) => {
+                    this.props = pr;
 
-                        this.render();
-                        this.occupiedEmail();
-                    }
-                )
+                    this.occupiedEmail();
+                }
             );
 
-            this.state.isSubscribed = true;
+            if (this.state?.isSubscribed === false) {
+                this.state.isSubscribed = true;
+            }
 
             store.dispatch(createRenderAction());
         }
@@ -192,8 +196,8 @@ export class SmartSignUp extends Container {
      * Удаляет все подписки
      */
     componentWillUnmount() {
-        if (this.state.isSubscribed) {
-            this.unsubscribe.forEach((uns) => uns());
+        if (this.state?.isSubscribed) {
+            this.unsubscribe();
             this.state.isSubscribed = false;
 
             SIGNUP().remove();
@@ -204,7 +208,7 @@ export class SmartSignUp extends Container {
      * Обрабатывает нажатие кнопки логина
      */
     handleClickSignUp() {
-        if (this.state.valid.isValid()) {
+        if (this.state?.valid.isValid()) {
             const user = {
                 nickname: this.state.domElements.nickname?.value,
                 email: this.state.domElements.email?.value,
@@ -226,100 +230,116 @@ export class SmartSignUp extends Container {
      * Проверяет пользовательский ввод почты
      */
     validateEmail() {
-        this.state.domElements.email?.classList.remove(
+        this.state?.domElements.email?.classList.remove(
             'login-reg__input_error'
         );
         addErrorToClass('', emailErrorTypes);
 
         const { isError, errorClass } = checkEmail(
-            this.state.domElements.email?.value ?? ''
+            this.state?.domElements.email?.value ?? ''
         );
 
         if (isError) {
-            this.state.domElements.email?.classList.add(
+            this.state?.domElements.email?.classList.add(
                 'login-reg__input_error'
             );
             addErrorToClass(errorClass, emailErrorTypes);
-            this.state.valid.emailIsValid = false;
+            if (this.state?.valid.emailIsValid) {
+                this.state.valid.passwordIsValid = false;
+            }
             return;
         }
 
-        this.state.valid.emailIsValid = true;
+        if (this.state?.valid.emailIsValid === false) {
+            this.state.valid.passwordIsValid = true;
+        }
     }
 
     /**
      * Проверяет пользовательский ввод пароля
      */
     validatePassword() {
-        this.state.domElements.password?.classList.remove(
+        this.state?.domElements.password?.classList.remove(
             'login-reg__input_error'
         );
         addErrorToClass('', passwordErrorTypes);
 
         const { isError, errorClass } = checkPassword(
-            this.state.domElements.password?.value ?? ''
+            this.state?.domElements.password?.value ?? ''
         );
 
         if (isError) {
-            this.state.domElements.password?.classList.add(
+            this.state?.domElements.password?.classList.add(
                 'login-reg__input_error'
             );
             addErrorToClass(errorClass, passwordErrorTypes);
-            this.state.valid.passwordIsValid = false;
+            if (this.state?.valid.passwordIsValid) {
+                this.state.valid.passwordIsValid = false;
+            }
             return;
         }
 
-        this.state.valid.passwordIsValid = true;
+        if (this.state?.valid.passwordIsValid === false) {
+            this.state.valid.passwordIsValid = true;
+        }
     }
 
     /**
      * Проверяет пользовательский ввод подтверждения пароля
      */
     validateConfirmPassword() {
-        this.state.domElements.confirmPassword?.classList.remove(
+        this.state?.domElements.confirmPassword?.classList.remove(
             'login-reg__input_error'
         );
         addErrorToClass('', confirmPasswordErrorTypes);
 
         const { isError, errorClass } = checkConfirmPassword(
-            this.state.domElements.password?.value ?? '',
-            this.state.domElements.confirmPassword?.value ?? ''
+            this.state?.domElements.password?.value ?? '',
+            this.state?.domElements.confirmPassword?.value ?? ''
         );
 
         if (isError) {
-            this.state.domElements.confirmPassword?.classList.add(
+            this.state?.domElements.confirmPassword?.classList.add(
                 'login-reg__input_error'
             );
             addErrorToClass(errorClass, passwordErrorTypes);
-            this.state.valid.confirmPasswordIsValid = false;
+            if (this.state?.valid.confirmPasswordIsValid) {
+                this.state.valid.confirmPasswordIsValid = false;
+            }
             return;
         }
 
-        this.state.valid.confirmPasswordIsValid = true;
+        if (this.state?.valid.confirmPasswordIsValid === false) {
+            this.state.valid.confirmPasswordIsValid = true;
+        }
     }
 
     /**
      * Проверяет пользовательский ввод имени
      */
     validateNickname() {
-        this.state.domElements.nickname?.classList.remove(
+        this.state?.domElements.nickname?.classList.remove(
             'login-reg__input_error'
         );
         addErrorToClass('', nicknameErrorTypes);
 
         const { isError, errorClass } = checkNickname(
-            this.state.domElements.nickname?.value ?? ''
+            this.state?.domElements.nickname?.value ?? ''
         );
 
         if (isError) {
-            this.state.domElements.nickname?.classList.add(
+            this.state?.domElements.nickname?.classList.add(
                 'login-reg__input_error'
             );
             addErrorToClass(errorClass, nicknameErrorTypes);
-            this.state.valid.nicknameIsValid = false;
+            if (this.state?.valid.nicknameIsValid) {
+                this.state.valid.nicknameIsValid = false;
+            }
             return;
         }
 
-        this.state.valid.nicknameIsValid = true;
+        if (this.state?.valid.nicknameIsValid === false) {
+            this.state.valid.nicknameIsValid = true;
+        }
     }
 }

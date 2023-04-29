@@ -1,4 +1,4 @@
-import { Container } from '@containers/container';
+import { Component } from '@framework/component';
 import { store } from '@store/store';
 import { createGetChatsAction } from '@actions/chatActions';
 import { DumbChatList } from '@components/chatList/chatList';
@@ -18,7 +18,7 @@ export interface SmartChatList {
     };
 }
 
-export class SmartChatList extends Container {
+export class SmartChatList extends Component<Props> {
     constructor(props: Record<string, unknown>) {
         super(props);
         this.state = {

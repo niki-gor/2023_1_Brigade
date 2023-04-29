@@ -1,8 +1,8 @@
-import { Component } from '@/framework/component';
+import { Component } from '@framework/component';
 
 export interface Route {
     path: RegExp;
-    component: (props: Record<string, unknown> | undefined) => Component;
+    component: (props: Record<string, unknown> | undefined) => Component<Props>;
     getProps: (params: string[]) => Record<string, string>;
 }
 
@@ -64,6 +64,6 @@ export class Router {
 
     private routes: Route[];
     private currentRoute: Route | undefined;
-    private currentComponent: Component | undefined;
+    private currentComponent: Component<Props> | undefined;
     private currentDynamicParams: Record<string, unknown> | undefined;
 }

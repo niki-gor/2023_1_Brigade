@@ -1,4 +1,4 @@
-import { Container } from '@containers/container';
+import { Component } from '@framework/component';
 import { store } from '@store/store';
 import { DumbSidebar } from '@components/sidebar/sidebar';
 import {
@@ -28,7 +28,7 @@ export interface SmartSidebar {
  * Прокидывает actions стору для создания диалога, удаление диалога, открыть диалог для просмотра
  * Также подписывается на изменения активного диалога и статуса диалога
  */
-export class SmartSidebar extends Container {
+export class SmartSidebar extends Component<Props> {
     /**
      * Сохраняет props
      * @param {Object} props - параметры компонента

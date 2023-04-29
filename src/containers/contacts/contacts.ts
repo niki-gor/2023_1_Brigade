@@ -1,4 +1,4 @@
-import { Container } from '@containers/container';
+import { Component } from '@framework/component';
 import { store } from '@store/store';
 import { createGetContactsAction } from '@actions/contactsActions';
 import { DumbContacts } from '@components/contacts/contacts';
@@ -17,7 +17,7 @@ export interface SmartContacts {
     };
 }
 
-export class SmartContacts extends Container {
+export class SmartContacts extends Component<Props> {
     constructor(props: Record<string, unknown>) {
         super(props);
         this.state = {

@@ -1,4 +1,4 @@
-import { Component } from '@/framework/component';
+import { Component } from '@framework/component';
 import template from '@components/addContactInGroup/addContact.pug';
 import { DumbContact } from '@components/contact/contact';
 import '@components/addContactInGroup/addContact.scss';
@@ -6,7 +6,7 @@ import '@components/createGroup/createGroup.scss';
 import { dataInputUI } from '@components/ui/data-input/data-input';
 import { blueButtonUI } from '@components/ui/blue-button/blue-button';
 
-export class DumbAddContactInGroup extends Component {
+export class DumbAddContactInGroup extends Component<Props> {
     constructor(props: Record<string, unknown>) {
         super(props);
     }
@@ -25,6 +25,14 @@ export class DumbAddContactInGroup extends Component {
         }
 
         return contacts;
+    }
+
+    componentDidMount(): void {
+        //TODO
+    }
+
+    componentWillUnmount(): void {
+        //TODO
     }
 
     render() {

@@ -1,4 +1,4 @@
-import { Container } from '@containers/container';
+import { Component } from '@framework/component';
 import { store } from '@store/store';
 import { DumbChat } from '@components/chat/chat';
 import { Message } from '@components/message/message';
@@ -32,7 +32,7 @@ export interface SmartChat {
  * Прокидывает actions стору для создания диалога, удаление диалога, открыть диалог для просмотра
  * Также подписывается на изменения активного диалога и статуса диалога
  */
-export class SmartChat extends Container {
+export class SmartChat extends Component<Props> {
     /**
      * Сохраняет props
      * @param {Object} props - параметры компонента

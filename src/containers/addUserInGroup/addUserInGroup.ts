@@ -4,7 +4,7 @@ import { DumbAddContactInGroup } from '@components/addContactInGroup/addContact'
 import { DYNAMIC } from '@config/config';
 import { ChatTypes } from '@config/enum';
 import { store } from '@store/store';
-import { Container } from '@containers/container';
+import { Component } from '@framework/component';
 
 export interface SmartAddUserInGroup {
     state: {
@@ -17,7 +17,7 @@ export interface SmartAddUserInGroup {
     chatId: string | undefined;
 }
 
-export class SmartAddUserInGroup extends Container {
+export class SmartAddUserInGroup extends Component<Props> {
     /**
      * Сохраняет props
      * @param {Object} props - параметры компонента
