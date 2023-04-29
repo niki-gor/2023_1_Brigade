@@ -1,4 +1,4 @@
-import { Component } from '@components/component';
+import { Component } from '@/framework/component';
 import template from '@components/profile/profile.pug';
 import { blueButtonUI } from '@components/ui/blue-button/blue-button';
 import { dataInputUI } from '@components/ui/data-input/data-input';

@@ -1,6 +1,6 @@
 import template from '@components/chat/chat.pug';
 import '@components/chat/chat.scss';
-import { Component } from '@components/component';
+import { Component } from '@/framework/component';
 import { svgButtonUI } from '@components/ui/button/button';
 import { chatAvatarUi } from '@components/ui/chatAvatar/chatAvatar';
 import { inputUi } from '@components/ui/input/input';

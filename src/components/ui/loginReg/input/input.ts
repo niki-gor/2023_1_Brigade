@@ -1,4 +1,4 @@
-import { Component } from '@components/component';
+import { Component } from '@/framework/component';
 import template from '@components/ui/loginReg/input/input.pug';
 import '@components/ui/loginReg/input/input.css';
 

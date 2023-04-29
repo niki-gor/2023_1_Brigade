@@ -1,4 +1,4 @@
-import { Component } from '@/components/component';
+import { Component } from '@/framework/component';
 import { DumbContact } from '@components/contact/contact';
 import template from '@components/createGroup/createGroup.pug';
 import '@components/createGroup/createGroup.scss';

@@ -1,6 +1,6 @@
 import template from '@components/sideItem/sideItem.pug';
 import '@components/sideItem/sideItem.scss';
-import { Component } from '@components/component';
+import { Component } from '@/framework/component';
 
 export class DumbSideItem extends Component {
     constructor(props: AnyObject) {

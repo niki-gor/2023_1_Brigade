@@ -1,6 +1,8 @@
+import { Component } from '@/framework/component';
+
 export interface Route {
     path: RegExp;
-    component: any;
+    component: (props: Record<string, unknown> | undefined) => Component;
     getProps: (params: string[]) => Record<string, string>;
 }
 
@@ -54,7 +56,7 @@ export class Router {
         // }
 
         this.currentComponent?.componentWillUnmount();
-        this.currentComponent = new this.currentRoute.component(
+        this.currentComponent = this.currentRoute.component(
             this.currentDynamicParams
         );
         this.currentComponent?.componentDidMount();
@@ -62,6 +64,6 @@ export class Router {
 
     private routes: Route[];
     private currentRoute: Route | undefined;
-    private currentComponent: AnyObject | undefined;
-    private currentDynamicParams: AnyObject | undefined;
+    private currentComponent: Component | undefined;
+    private currentDynamicParams: Record<string, unknown> | undefined;
 }

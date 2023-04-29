@@ -1,4 +1,4 @@
-import { Component } from '@components/component';
+import { Component } from '@/framework/component';
 import { DumbContact } from '@components/contact/contact';
 import { whiteButtonUI } from '@components/ui/white-button/white-button';
 

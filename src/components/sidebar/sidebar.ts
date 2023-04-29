@@ -2,7 +2,7 @@ import template from '@components/sidebar/sidebar.pug';
 import { svgButtonUI } from '@components/ui/button/button';
 import '@components/sidebar/sidebar.scss';
 import { avatarUi } from '@components/ui/avatar/avatar';
-import { Component } from '@components/component';
+import { Component } from '@/framework/component';
 import { DumbSideItem } from '../sideItem/sideItem';
 import { DumbChangeTheme } from '@components/changeTheme/changeTheme';
 

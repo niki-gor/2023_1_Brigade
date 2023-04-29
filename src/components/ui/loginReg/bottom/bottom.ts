@@ -1,4 +1,4 @@
-import { Component } from '@components/component';
+import { Component } from '@/framework/component';
 import template from '@components/ui/loginReg/bottom/bottom.pug';
 import '@components/ui/loginReg/bottom/bottom.css';
 

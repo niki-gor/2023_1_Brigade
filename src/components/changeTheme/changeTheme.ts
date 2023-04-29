@@ -1,5 +1,5 @@
 import template from '@components/changeTheme/changeTheme.pug';
-import { Component } from '@components/component';
+import { Component } from '@/framework/component';
 import { svgButtonUI } from '@components/ui/button/button';
 
 export class DumbChangeTheme extends Component {

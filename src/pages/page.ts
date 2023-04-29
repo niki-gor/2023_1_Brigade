@@ -1,3 +1,3 @@
-import { Component } from '@components/component';
+import { Component } from '@/framework/component';
 
 export class Page extends Component {}

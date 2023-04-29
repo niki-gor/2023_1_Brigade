@@ -1,4 +1,4 @@
-import { Component } from '@components/component';
+import { Component } from '@/framework/component';
 import template from '@components/emptyDynamicPage/emptyDynamicPage.pug';
 import '@components/emptyDynamicPage/emptyDynamicPage.scss';
 

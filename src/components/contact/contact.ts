@@ -1,4 +1,4 @@
-import { Component } from '@components/component';
+import { Component } from '@/framework/component';
 import template from '@components/contact/contact.pug';
 import '@components/contact/contact.scss';
 import { smallEllipseIconUI } from '@components/ui/small-ellipse-icon/small-ellipse-icon';
