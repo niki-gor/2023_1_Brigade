@@ -62,7 +62,7 @@ const ajaxMultipartForm = (
 ) => {
     const formData = new FormData();
     formData.append('image', body);
-    
+
     return fetch(BACKEND_URL + '/api/v1' + url, {
         method,
         headers: {

@@ -1,6 +1,8 @@
 .contacts.flex
     .contacts__head.flex
-        .font-size-6!= headContacts
+        !=headContacts
+        !=dropdown
+        //.font-size-6!= headContacts
     .contacts__separator
     .contacts__contacts.flex
         for i in contacts

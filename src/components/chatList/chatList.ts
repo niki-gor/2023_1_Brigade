@@ -13,7 +13,7 @@ export class DumbChatList extends Component {
 
     getChatList() {
         let chatsList: string[] = [];
-        
+
         for (const key in this.props) {
             const chatCardUI = new DumbChatCard(this.props[key]);
 
@@ -25,7 +25,6 @@ export class DumbChatList extends Component {
 
     render() {
         return template({
-            headChats: 'Чаты',
             dropdown: new Dropdown({}).render(),
             chatInput: new searchUi({
                 inputClassName: "chats__header__input",
