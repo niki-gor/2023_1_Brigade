@@ -1,9 +1,8 @@
-import { Component } from '@framework/component';
+import { IComponent } from '@framework/component';
 
 export interface Route {
     path: RegExp;
-    component: (props: Record<string, unknown> | undefined) => Component<Props>;
-    getProps: (params: string[]) => Record<string, string>;
+    component: (params: string[] | undefined) => IComponent | undefined;
 }
 
 export class Router {
@@ -33,7 +32,7 @@ export class Router {
             const match = path.match(route.path);
 
             if (match) {
-                this.currentDynamicParams = route.getProps(match.slice(1));
+                this.currentDynamicParams = match.slice(1);
 
                 return true;
             }
@@ -64,6 +63,6 @@ export class Router {
 
     private routes: Route[];
     private currentRoute: Route | undefined;
-    private currentComponent: Component<Props> | undefined;
-    private currentDynamicParams: Record<string, unknown> | undefined;
+    private currentComponent: IComponent | undefined;
+    private currentDynamicParams: string[] | undefined;
 }

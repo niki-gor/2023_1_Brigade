@@ -7,27 +7,58 @@ import { SmartSignUp } from '@containers/signUp/signUp';
 import { SmartAddUserInGroup } from '@containers/addUserInGroup/addUserInGroup';
 
 export const routes: Route[] = [
-    { path: /^\/login$/, component: SmartLogin, getProps: () => ({}) },
-    { path: /^\/signup$/, component: SmartSignUp, getProps: () => ({}) },
-    { path: /^\/profile$/, component: SmartProfile, getProps: () => ({}) },
+    {
+        path: /^\/login$/,
+        component: () => {
+            return new SmartLogin({});
+        },
+    },
+    {
+        path: /^\/signup$/,
+        component: () => {
+            return new SmartSignUp({});
+        },
+    },
+    {
+        path: /^\/profile$/,
+        component: () => {
+            return new SmartProfile({});
+        },
+    },
     {
         path: /^\/create_group$/,
-        component: SmartCreateGroup,
-        getProps: () => ({}),
+        component: () => {
+            return new SmartCreateGroup({});
+        },
     },
-    { path: /^\/$/, component: SmartChat, getProps: () => ({}) },
+    {
+        path: /^\/$/,
+        component: () => {
+            return new SmartChat({});
+        },
+    },
     {
         path: /^\/(\d+)$/,
-        component: SmartChat,
-        getProps: (params: string[]) => ({
-            chatId: params[0],
-        }),
+        component: (params: string[] | undefined) => {
+            if (params) {
+                const props = {
+                    chatId: parseInt(params[0]),
+                };
+
+                return new SmartChat(props);
+            }
+        },
     },
     {
         path: /^\/(\d+)\/add$/,
-        component: SmartAddUserInGroup,
-        getProps: (params: string[]) => ({
-            chatId: params[0],
-        }),
+        component: (params: string[] | undefined) => {
+            if (params) {
+                const props = {
+                    chatId: parseInt(params[0]),
+                };
+
+                return new SmartAddUserInGroup(props);
+            }
+        },
     },
 ];
