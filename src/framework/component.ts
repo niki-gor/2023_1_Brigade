@@ -9,12 +9,12 @@ export abstract class Component implements IComponent {
      * @param {Object} props - необходимые для работы класса свойства
      * @default {Element} rootNode - div, через который происходит взаимодействие с html.
      */
-    constructor(props: AnyObject) {
+    constructor(props: Record<string, unknown>) {
         this.props = props;
     }
 
     abstract componentDidMount(): void;
     abstract componentWillUnmount(): void;
 
-    protected props: AnyObject;
+    protected props: Record<string, unknown>;
 }

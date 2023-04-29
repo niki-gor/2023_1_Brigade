@@ -3,7 +3,7 @@ import '@components/sideItem/sideItem.scss';
 import { Component } from '@/framework/component';
 
 export class DumbSideItem extends Component {
-    constructor(props: AnyObject) {
+    constructor(props: Record<string, unknown>) {
         super(props);
     }
 

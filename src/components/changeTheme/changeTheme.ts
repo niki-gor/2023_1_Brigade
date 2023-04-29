@@ -3,7 +3,7 @@ import { Component } from '@/framework/component';
 import { svgButtonUI } from '@components/ui/button/button';
 
 export class DumbChangeTheme extends Component {
-    constructor(props: AnyObject) {
+    constructor(props: Record<string, unknown>) {
         super(props);
     }
 

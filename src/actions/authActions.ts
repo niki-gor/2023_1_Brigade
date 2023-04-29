@@ -45,7 +45,9 @@ export const createAuthAction = (): AsyncAction => {
     };
 };
 
-export const createLoginAction = (user: AnyObject): AsyncAction => {
+export const createLoginAction = (
+    user: Record<string, unknown>
+): AsyncAction => {
     return async (dispatch: (action: Action) => void) => {
         const { status, body } = await login(user);
 
@@ -77,7 +79,9 @@ export const createLoginAction = (user: AnyObject): AsyncAction => {
     };
 };
 
-export const createSignUpAction = (user: AnyObject): AsyncAction => {
+export const createSignUpAction = (
+    user: Record<string, unknown>
+): AsyncAction => {
     return async (dispatch: (action: Action) => void) => {
         const { status, body } = await signUp(user);
 

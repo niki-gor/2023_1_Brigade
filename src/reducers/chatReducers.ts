@@ -1,6 +1,9 @@
 import { constantsOfActions } from '@config/actions';
 
-export const reduceIsNotRendered = (state: AnyObject, action: Action) => {
+export const reduceIsNotRendered = (
+    state: Record<string, unknown>,
+    action: Action
+) => {
     switch (action.type) {
         case constantsOfActions.isNotRendered:
             return {
@@ -17,7 +20,10 @@ export const reduceIsNotRendered = (state: AnyObject, action: Action) => {
     }
 };
 
-export const reduceAddChat = (state: AnyObject, action: Action) => {
+export const reduceAddChat = (
+    state: Record<string, unknown>,
+    action: Action
+) => {
     switch (action.type) {
         case constantsOfActions.addChat:
             if (!action.payload && !state.chats) {
@@ -48,7 +54,10 @@ export const reduceAddChat = (state: AnyObject, action: Action) => {
     }
 };
 
-export const reduceSetChats = (state: AnyObject, action: Action) => {
+export const reduceSetChats = (
+    state: Record<string, unknown>,
+    action: Action
+) => {
     switch (action.type) {
         case constantsOfActions.setChats:
             return {
@@ -62,7 +71,10 @@ export const reduceSetChats = (state: AnyObject, action: Action) => {
     }
 };
 
-export const reduceOpenChat = (state: AnyObject, action: Action) => {
+export const reduceOpenChat = (
+    state: Record<string, unknown>,
+    action: Action
+) => {
     switch (action.type) {
         case constantsOfActions.openChat:
             if (!action.payload?.messages) {
@@ -85,7 +97,10 @@ export const reduceOpenChat = (state: AnyObject, action: Action) => {
     }
 };
 
-export const reduceDeleteChat = (state: AnyObject, action: Action) => {
+export const reduceDeleteChat = (
+    state: Record<string, unknown>,
+    action: Action
+) => {
     switch (action.type) {
         case constantsOfActions.deleteChat:
             if (action.payload?.id) {
@@ -106,7 +121,10 @@ export const reduceDeleteChat = (state: AnyObject, action: Action) => {
 };
 
 // reducer вызывается при сохранения изменений в chat-е
-export const reduceEditChat = (state: AnyObject, action: Action) => {
+export const reduceEditChat = (
+    state: Record<string, unknown>,
+    action: Action
+) => {
     switch (action.type) {
         case constantsOfActions.editChat:
             for (const index in state.chats) {

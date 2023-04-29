@@ -39,7 +39,7 @@ export class SmartLogin extends Container {
      * Cохраняет props
      * @param {Object} props - параметры компонента
      */
-    constructor(props: AnyObject) {
+    constructor(props: Record<string, unknown>) {
         super(props);
 
         this.state = {
@@ -133,12 +133,15 @@ export class SmartLogin extends Container {
     componentDidMount() {
         if (!this.state.isSubscribed) {
             this.unsubscribe.push(
-                store.subscribe(this.constructor.name, (pr: AnyObject) => {
-                    this.props = pr;
+                store.subscribe(
+                    this.constructor.name,
+                    (pr: Record<string, unknown>) => {
+                        this.props = pr;
 
-                    this.render();
-                    this.invalidEmail();
-                })
+                        this.render();
+                        this.invalidEmail();
+                    }
+                )
             );
 
             this.state.isSubscribed = true;
@@ -167,7 +170,7 @@ export class SmartLogin extends Container {
             const user = {
                 email: this.state.domElements.email?.value,
                 password: this.state.domElements.password?.value,
-            } as AnyObject;
+            } as Record<string, unknown>;
 
             store.dispatch(createLoginAction(user));
         }

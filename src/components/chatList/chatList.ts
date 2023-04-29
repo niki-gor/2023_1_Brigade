@@ -5,7 +5,7 @@ import { DumbChatCard } from '@components/chatCard/chatCard';
 import { svgButtonUI } from '../ui/button/button';
 
 export class DumbChatList extends Component {
-    constructor(props: AnyObject) {
+    constructor(props: Record<string, unknown>) {
         super(props);
     }
 

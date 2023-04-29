@@ -3,7 +3,7 @@ import template from '@components/emptyDynamicPage/emptyDynamicPage.pug';
 import '@components/emptyDynamicPage/emptyDynamicPage.scss';
 
 export class DumbEmptyDynamicPage extends Component {
-    constructor(props: AnyObject) {
+    constructor(props: Record<string, unknown>) {
         super(props);
     }
 

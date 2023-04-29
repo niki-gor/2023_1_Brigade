@@ -3,7 +3,7 @@ import template from '@components/ui/loginReg/input/input.pug';
 import '@components/ui/loginReg/input/input.css';
 
 export class loginRegInputUI extends Component {
-    static renderTemplate(args: AnyObject) {
+    static renderTemplate(args: Record<string, unknown>) {
         return template(args);
     }
 }

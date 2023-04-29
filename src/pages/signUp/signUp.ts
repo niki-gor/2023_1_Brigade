@@ -6,7 +6,7 @@ import { loginRegBottomUI } from '@components/ui/loginReg/bottom/bottom';
 import '@pages/signUp/signUp.css';
 
 export class DumbSignUp extends Page {
-    constructor(props: AnyObject) {
+    constructor(props: Record<string, unknown>) {
         super(props);
     }
 

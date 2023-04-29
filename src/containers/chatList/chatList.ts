@@ -19,7 +19,7 @@ export interface SmartChatList {
 }
 
 export class SmartChatList extends Container {
-    constructor(props: AnyObject) {
+    constructor(props: Record<string, unknown>) {
         super(props);
         this.state = {
             isSubscribed: false,
@@ -70,11 +70,14 @@ export class SmartChatList extends Container {
     componentDidMount() {
         if (!this.state.isSubscribed) {
             this.unsubscribe.push(
-                store.subscribe(this.constructor.name, (pr: AnyObject) => {
-                    this.props = pr;
+                store.subscribe(
+                    this.constructor.name,
+                    (pr: Record<string, unknown>) => {
+                        this.props = pr;
 
-                    this.render();
-                })
+                        this.render();
+                    }
+                )
             );
 
             this.state.isSubscribed = true;

@@ -1,12 +1,18 @@
 export const combineReducers = (
     reducers: {
         type: string;
-        reducer: (state: AnyObject, action: Action) => AnyObject;
+        reducer: (
+            state: Record<string, unknown>,
+            action: Action
+        ) => Record<string, unknown>;
     }[]
 ) => {
     const reducersMap = new Map<
         string,
-        (state: AnyObject, action: Action) => AnyObject
+        (
+            state: Record<string, unknown>,
+            action: Action
+        ) => Record<string, unknown>
     >();
     for (const { type, reducer } of reducers) {
         reducersMap.set(type, reducer);

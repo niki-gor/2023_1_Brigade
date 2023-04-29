@@ -1,5 +1,5 @@
 declare module '*.pug' {
-    const _: (AnyObject) => string;
+    const _: (params: Record<string, unknown> | undefined) => string;
     export default _;
 }
 
@@ -8,52 +8,44 @@ declare module '*.svg' {
     export default _;
 }
 
-interface AnyObject {
-    [key: string]: any;
-}
-
-// interface ComponentProps extends AnyObject {
-//     rootNode: HTMLElement | null;
-// }
-
-interface Action extends AnyObject {
+interface Action {
     type: string;
-    payload: AnyObject | null | undefined;
+    payload: Record<string, unknown> | null | undefined;
 }
 
 interface AsyncAction {
     (dispatch: Dispatch, state: getState): Promise<void>;
 }
 
-interface Response extends AnyObject {
+interface Response {
     status: number;
-    body: AnyObject | null | undefined;
+    body: Record<string, unknown> | null | undefined;
 }
 
 interface Reducer {
-    (state: AnyObject, action: Action): AnyObject;
+    (state: Record<string, unknown>, action: Action): Record<string, unknown>;
 }
 
 interface GetState {
-    (): AnyObject;
+    (): Record<string, unknown>;
 }
 
 interface Callback {
-    (AnyObject): void;
+    (props: Record<string, unknown>): void;
 }
 
 interface CreateStore {
     (reducers: Map<string, Reducer>): {
-        getState: () => AnyObject;
+        getState: () => Record<string, unknown>;
         dispatch: (action: Action) => void;
-        subscribe: (key: string, cb: (pr: AnyObject) => void) => () => void;
+        subscribe: (key: string, cb: Callback) => () => void;
     };
 }
 
 interface Store {
-    getState: () => AnyObject;
+    getState: () => Record<string, unknown>;
     dispatch: (action: Action) => void;
-    subscribe: (key: string, cb: (pr: AnyObject) => void) => () => void;
+    subscribe: (key: string, cb: Callback) => () => void;
 }
 
 interface Middleware {

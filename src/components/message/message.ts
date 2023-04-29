@@ -4,7 +4,7 @@ import '@components/message/message.scss';
 import { smallEllipseIconUI } from '@components/ui/small-ellipse-icon/small-ellipse-icon';
 
 export class Message extends Component {
-    constructor(props: AnyObject) {
+    constructor(props: Record<string, unknown>) {
         super(props);
     }
 

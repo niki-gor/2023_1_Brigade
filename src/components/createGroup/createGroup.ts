@@ -7,7 +7,7 @@ import { dataInputUI } from '@components/ui/data-input/data-input';
 import { blueButtonUI } from '@components/ui/blue-button/blue-button';
 
 export class DumbCreateGroup extends Component {
-    constructor(props: AnyObject) {
+    constructor(props: Record<string, unknown>) {
         super(props);
     }
 

@@ -43,7 +43,7 @@ export const auth = () => {
 /**
  * Отправляет запрос логина и обрабатывает ответ
  */
-export const login = (body: AnyObject) => {
+export const login = (body: Record<string, unknown>) => {
     return post(config.login, body)
         .then(({ status, parsedBody }) => {
             switch (status) {
@@ -77,7 +77,7 @@ export const login = (body: AnyObject) => {
 /**
  * Отправляет запрос регистрации и обрабатывает ответ
  */
-export const signUp = (body: AnyObject) => {
+export const signUp = (body: Record<string, unknown>) => {
     return post(config.signup, body)
         .then(({ status, parsedBody }) => {
             switch (status) {
@@ -141,7 +141,7 @@ export const logout = () => {
 /**
  * Отправляет запрос обновления пользовательских данных и обрабатывает ответ
  */
-export const updateUser = (body: AnyObject) => {
+export const updateUser = (body: Record<string, unknown>) => {
     return put(config.updateUser, body)
         .then(({ status, parsedBody }) => {
             switch (status) {
@@ -208,7 +208,7 @@ export const getContacts = () => {
         });
 };
 
-export const createChat = (body: AnyObject) => {
+export const createChat = (body: Record<string, unknown>) => {
     return post(config.chats, body)
         .then(({ status, parsedBody }) => {
             switch (status) {
@@ -270,7 +270,7 @@ export const getChats = () => {
         });
 };
 
-export const getOneChat = (chat: AnyObject) => {
+export const getOneChat = (chat: Record<string, unknown>) => {
     return get(config.chats + `${chat.chatId}/`)
         .then(({ status, parsedBody }) => {
             switch (status) {
@@ -330,7 +330,7 @@ export const deleteChat = (deletedId: string) => {
         });
 };
 
-export const editChat = (body: AnyObject) => {
+export const editChat = (body: Record<string, unknown>) => {
     return put(config.chats, body)
         .then(({ status, parsedBody }) => {
             switch (status) {

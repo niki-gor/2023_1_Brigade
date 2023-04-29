@@ -4,7 +4,7 @@ import '@components/contact/contact.scss';
 import { smallEllipseIconUI } from '@components/ui/small-ellipse-icon/small-ellipse-icon';
 
 export class DumbContact extends Component {
-    constructor(props: AnyObject) {
+    constructor(props: Record<string, unknown>) {
         super(props);
     }
 

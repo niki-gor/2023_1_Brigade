@@ -7,12 +7,12 @@ import { DumbSideItem } from '../sideItem/sideItem';
 import { DumbChangeTheme } from '@components/changeTheme/changeTheme';
 
 export class DumbSidebar extends Component {
-    constructor(props: AnyObject) {
+    constructor(props: Record<string, unknown>) {
         super(props);
     }
 
     getSidebarList() {
-        const svgButtons: Map<string, AnyObject> = new Map();
+        const svgButtons: Map<string, Record<string, unknown>> = new Map();
         svgButtons.set('messageButton', {
             className: 'nav-item__message-btn',
             value: null,
@@ -21,7 +21,7 @@ export class DumbSidebar extends Component {
 
         const navList: string[] = [];
 
-        svgButtons.forEach((buttonProperty: AnyObject) => {
+        svgButtons.forEach((buttonProperty: Record<string, unknown>) => {
             let navValue = '';
             if (buttonProperty.value) {
                 navValue = buttonProperty.value;

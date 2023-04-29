@@ -22,7 +22,7 @@ export class SmartAddUserInGroup extends Container {
      * Сохраняет props
      * @param {Object} props - параметры компонента
      */
-    constructor(props: AnyObject) {
+    constructor(props: Record<string, unknown>) {
         super(props);
         this.state = {
             isSubscribed: false,
@@ -149,11 +149,14 @@ export class SmartAddUserInGroup extends Container {
             this.state.isSubscribed = true;
 
             this.unsubscribe.push(
-                store.subscribe(this.constructor.name, (pr: AnyObject) => {
-                    this.props = pr;
+                store.subscribe(
+                    this.constructor.name,
+                    (pr: Record<string, unknown>) => {
+                        this.props = pr;
 
-                    this.render();
-                })
+                        this.render();
+                    }
+                )
             );
         }
 

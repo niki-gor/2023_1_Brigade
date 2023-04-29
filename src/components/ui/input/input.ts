@@ -2,7 +2,7 @@ import { Component } from '@/framework/component';
 import template from '@components/ui/input/input.pug';
 
 export class inputUi extends Component {
-    constructor(props: AnyObject) {
+    constructor(props: Record<string, unknown>) {
         super(props);
     }
 

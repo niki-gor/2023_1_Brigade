@@ -6,7 +6,7 @@ import template from '@components/contacts/contacts.pug';
 import '@components/contacts/contacts.scss';
 
 export class DumbContacts extends Component {
-    constructor(props: AnyObject) {
+    constructor(props: Record<string, unknown>) {
         super(props);
     }
 

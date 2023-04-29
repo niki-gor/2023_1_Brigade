@@ -18,28 +18,28 @@ export const createIsNotRenderedAction = () => {
     };
 };
 
-export const createOpenChatAction = (chat: AnyObject) => {
+export const createOpenChatAction = (chat: Record<string, unknown>) => {
     return {
         type: constantsOfActions.openChat,
         payload: chat,
     };
 };
 
-export const createAddChatAction = (chat: AnyObject) => {
+export const createAddChatAction = (chat: Record<string, unknown>) => {
     return {
         type: constantsOfActions.addChat,
         payload: chat,
     };
 };
 
-export const createSetChatsAction = (chat: AnyObject) => {
+export const createSetChatsAction = (chat: Record<string, unknown>) => {
     return {
         type: constantsOfActions.setChats,
         payload: chat,
     };
 };
 
-export const createGetOneChatAction = (chat: AnyObject) => {
+export const createGetOneChatAction = (chat: Record<string, unknown>) => {
     return async (dispatch: (action: Action) => void) => {
         const { status, body } = await getOneChat(chat);
 
@@ -89,7 +89,7 @@ export const createGetChatsAction = () => {
     };
 };
 
-export const createCreateDialogAction = (contact: AnyObject) => {
+export const createCreateDialogAction = (contact: Record<string, unknown>) => {
     return async (dispatch: Dispatch, state: GetState) => {
         for (const key in state().chats) {
             const st = state().chats[key];
@@ -134,7 +134,9 @@ export const createCreateDialogAction = (contact: AnyObject) => {
  * @param chatId - id удаляемого чата
  * @returns
  */
-export const createDeleteChatFromStoreAction = (chat: AnyObject) => {
+export const createDeleteChatFromStoreAction = (
+    chat: Record<string, unknown>
+) => {
     return {
         type: constantsOfActions.deleteChat,
         payload: chat,
@@ -174,14 +176,18 @@ export const createDeleteChatAction = (deletedChatId: string) => {
 };
 
 // Нажимаем на кнопку save changes
-export const createEditChatFromStoreAction = (updateGroupState: AnyObject) => {
+export const createEditChatFromStoreAction = (
+    updateGroupState: Record<string, unknown>
+) => {
     return {
         type: constantsOfActions.editChat,
         payload: updateGroupState,
     };
 };
 
-export const createEditChatAction = (updateGroupState: AnyObject) => {
+export const createEditChatAction = (
+    updateGroupState: Record<string, unknown>
+) => {
     return async (dispatch: (action: Action) => void) => {
         if (updateGroupState) {
             dispatch(createEditChatFromStoreAction(updateGroupState));

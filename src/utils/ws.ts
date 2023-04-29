@@ -37,10 +37,13 @@ const createWs = () => {
         }
 
         return {
-            send: (message: AnyObject) => {
+            send: (message: Record<string, unknown>) => {
                 ws?.send(JSON.stringify(message));
             },
-            subscribe: (chatId: number, cb: (message: AnyObject) => void) => {
+            subscribe: (
+                chatId: number,
+                cb: (message: Record<string, unknown>) => void
+            ) => {
                 subscribers.set(chatId, cb);
                 return () => {
                     subscribers.delete(chatId);

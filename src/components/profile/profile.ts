@@ -14,7 +14,7 @@ import '@components/profile/profile.scss';
 import { chatAvatarUi } from '@components/ui/chatAvatar/chatAvatar';
 
 export class DumbProfile extends Component {
-    constructor(props: AnyObject) {
+    constructor(props: Record<string, unknown>) {
         super(props);
     }
 

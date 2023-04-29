@@ -8,7 +8,7 @@ import { Message } from '@components/message/message';
 import { ChatTypes } from '@config/enum';
 
 export class DumbChat extends Component {
-    constructor(props: AnyObject) {
+    constructor(props: Record<string, unknown>) {
         super(props);
     }
 

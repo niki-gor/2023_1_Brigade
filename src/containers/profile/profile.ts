@@ -50,7 +50,7 @@ export class SmartProfile extends Container {
      * Cохраняет props
      * @param {Object} props - параметры компонента
      */
-    constructor(props: AnyObject) {
+    constructor(props: Record<string, unknown>) {
         super(props);
         this.state = {
             isSubscribed: false,
@@ -177,12 +177,15 @@ export class SmartProfile extends Container {
     componentDidMount() {
         if (!this.state.isSubscribed) {
             this.unsubscribe.push(
-                store.subscribe(this.constructor.name, (pr: AnyObject) => {
-                    this.props = pr;
+                store.subscribe(
+                    this.constructor.name,
+                    (pr: Record<string, unknown>) => {
+                        this.props = pr;
 
-                    this.render();
-                    this.occupiedUsername();
-                })
+                        this.render();
+                        this.occupiedUsername();
+                    }
+                )
             );
 
             this.state.isSubscribed = true;
@@ -239,7 +242,7 @@ export class SmartProfile extends Container {
                 current_password:
                     this.state.domElements.current_password?.value,
                 new_password: this.state.domElements.new_password?.value,
-            } as AnyObject;
+            } as Record<string, unknown>;
 
             console.log(user);
 

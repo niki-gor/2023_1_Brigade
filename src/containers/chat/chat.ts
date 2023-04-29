@@ -37,7 +37,7 @@ export class SmartChat extends Container {
      * Сохраняет props
      * @param {Object} props - параметры компонента
      */
-    constructor(props: AnyObject) {
+    constructor(props: Record<string, unknown>) {
         super(props);
         this.state = {
             isSubscribed: false,
@@ -123,7 +123,7 @@ export class SmartChat extends Container {
         }
     }
 
-    renderIncomingMessage(message: AnyObject) {
+    renderIncomingMessage(message: Record<string, unknown>) {
         for (const member of this.props?.openedChat.members) {
             if (member.id === message.author_id) {
                 const newMessage = new DOMParser().parseFromString(
@@ -198,11 +198,14 @@ export class SmartChat extends Container {
                 );
 
                 this.unsubscribe.push(
-                    store.subscribe(this.constructor.name, (pr: AnyObject) => {
-                        this.props = pr;
+                    store.subscribe(
+                        this.constructor.name,
+                        (pr: Record<string, unknown>) => {
+                            this.props = pr;
 
-                        this.render();
-                    })
+                            this.render();
+                        }
+                    )
                 );
 
                 store.dispatch(createGetOneChatAction({ chatId: this.chatId }));

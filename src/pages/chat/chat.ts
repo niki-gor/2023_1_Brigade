@@ -4,7 +4,7 @@ import { svgButtonUI } from '@components/ui/button/button';
 import '@pages/chat/chat.css';
 
 export class DumbChat extends Page {
-    constructor(props: AnyObject) {
+    constructor(props: Record<string, unknown>) {
         super(props);
     }
 

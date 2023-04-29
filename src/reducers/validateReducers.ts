@@ -1,6 +1,9 @@
 import { constantsOfActions } from '@config/actions';
 
-export const reduceValidate = (state: AnyObject, action: Action) => {
+export const reduceValidate = (
+    state: Record<string, unknown>,
+    action: Action
+) => {
     switch (action.type) {
         case constantsOfActions.invalidEmail:
         case constantsOfActions.occupiedEmail:
