@@ -9,23 +9,24 @@ import { createGetContactsAction } from '@actions/contactsActions';
 import { createMoveToChatsAction } from '@actions/routeActions';
 import { DYNAMIC } from '@config/config';
 
-export interface SmartCreateGroup {
-    state: {
-        isSubscribed: boolean;
-        domElements: {
-            groupNameLabel: HTMLElement | null;
-            groupNameInput: HTMLInputElement | null;
-            buttonCreateGroup: HTMLElement | null;
-            contacts: HTMLElement | null;
-        };
-        valid: {
-            groupNameIsValid: boolean;
-            countersMembers: boolean;
-            isValid: () => boolean;
-        };
-    };
+interface Props {
+    user?: User;
+    contacts?: Contact[];
+}
 
-    chatId: string | undefined;
+interface State {
+    isSubscribed: boolean;
+    domElements: {
+        groupNameLabel: HTMLElement | null;
+        groupNameInput: HTMLInputElement | null;
+        buttonCreateGroup: HTMLElement | null;
+        contacts: HTMLElement | null;
+    };
+    valid: {
+        groupNameIsValid: boolean;
+        countersMembers: boolean;
+        isValid: () => boolean | undefined;
+    };
 }
 
 /**
@@ -35,7 +36,7 @@ export interface SmartCreateGroup {
  * для корректного рендера ошибки
  *
  */
-export class SmartCreateGroup extends Component<Props> {
+export class SmartCreateGroup extends Component<Props, State> {
     /**
      * Cохраняет props
      * @param {Object} props - параметры компонента
@@ -43,6 +44,8 @@ export class SmartCreateGroup extends Component<Props> {
 
     #contactClicked = 'rgb(37, 37, 48)';
     #contactUnClicked = 'rgb(28, 28, 36)';
+
+    private readonly newProperty = this;
 
     constructor(props: Record<string, unknown>) {
         super(props);
@@ -60,28 +63,28 @@ export class SmartCreateGroup extends Component<Props> {
                 countersMembers: false,
                 isValid: () => {
                     return (
-                        this.state.valid.groupNameIsValid &&
+                        this.state?.valid.groupNameIsValid &&
                         this.state.valid.countersMembers
                     );
                 },
             },
         };
 
-        this.rootNode = DYNAMIC;
+        this.node = DYNAMIC;
     }
 
     /**
      * Рендерит создание группы
      */
     render() {
-        if (this.state.isSubscribed) {
+        if (this.state?.isSubscribed) {
             const CreateGroupUI = new DumbCreateGroup({
-                ...this.props.contacts,
+                ...this.props?.contacts,
             });
 
-            this.rootNode.innerHTML = CreateGroupUI.render();
-
-            //TODO через target, выбирается только какой-то фрагмент контакта
+            if (this.node) {
+                this.node.innerHTML = CreateGroupUI.render();
+            }
 
             document.querySelectorAll('.contact').forEach((ct) => {
                 const contact = ct as HTMLElement;
@@ -134,10 +137,10 @@ export class SmartCreateGroup extends Component<Props> {
      * Обрабатывает нажатие кнопки создания чата
      */
     handleClickCreateGroup() {
-        if (this.state.valid.isValid()) {
+        if (this.state?.valid.isValid()) {
             const choseContacts = [
                 ...this.getChoseContacts(),
-                this.props.user.id,
+                this.props?.user?.id,
             ];
 
             const contacts = {
@@ -155,19 +158,19 @@ export class SmartCreateGroup extends Component<Props> {
      * Навешивает переданные обработчики на валидацию и кнопки
      */
     componentDidMount() {
-        if (!this.state.isSubscribed) {
-            this.unsubscribe.push(
-                store.subscribe(
-                    this.constructor.name,
-                    (pr: Record<string, unknown>) => {
-                        this.props = pr;
+        if (!this.state?.isSubscribed) {
+            this.unsubscribe = store.subscribe(
+                this.constructor.name,
+                (pr: Props) => {
+                    this.props = pr;
 
-                        this.render();
-                    }
-                )
+                    this.newProperty.render();
+                }
             );
 
-            this.state.isSubscribed = true;
+            if (this.state?.isSubscribed === false) {
+                this.state.isSubscribed = true;
+            }
         }
 
         store.dispatch(createGetContactsAction());
@@ -177,8 +180,8 @@ export class SmartCreateGroup extends Component<Props> {
      * Удаляет все подписки
      */
     componentWillUnmount() {
-        if (this.state.isSubscribed) {
-            this.unsubscribe.forEach((uns) => uns());
+        if (this.state?.isSubscribed) {
+            this.unsubscribe();
             this.state.isSubscribed = false;
         }
     }
@@ -187,7 +190,7 @@ export class SmartCreateGroup extends Component<Props> {
      * Проверяет, что для создания группы выбрано > 0 участников
      */
     validateChoseContacts() {
-        this.state.domElements.groupNameInput?.classList.remove(
+        this.state?.domElements.groupNameInput?.classList.remove(
             'data-input--error'
         );
         addErrorToClass('', countingMembersErrorTypes);
@@ -195,43 +198,51 @@ export class SmartCreateGroup extends Component<Props> {
         const contacts = this.getChoseContacts();
 
         if (contacts.length === 0) {
-            this.state.domElements.groupNameInput?.classList.add(
+            this.state?.domElements.groupNameInput?.classList.add(
                 'data-input--error'
             );
             addErrorToClass(
                 'incorrect-emptyCountingMembers',
                 countingMembersErrorTypes
             );
-            this.state.valid.groupNameIsValid = false;
+            if (this.state?.valid.countersMembers) {
+                this.state.valid.countersMembers = false;
+            }
             return;
         }
 
-        this.state.valid.countersMembers = true;
+        if (this.state?.valid.countersMembers === false) {
+            this.state.valid.countersMembers = true;
+        }
     }
 
     /**
      * Проверяет пользовательский ввод названия чата
      */
     validateGroupName() {
-        this.state.domElements.groupNameInput?.classList.remove(
+        this.state?.domElements.groupNameInput?.classList.remove(
             'data-input--error'
         );
         addErrorToClass('', nicknameErrorTypes);
 
         const { isError, errorClass } = checkNickname(
-            this.state.domElements.groupNameInput?.value ?? ''
+            this.state?.domElements.groupNameInput?.value ?? ''
         );
 
         if (isError) {
-            this.state.domElements.groupNameInput?.classList.add(
+            this.state?.domElements.groupNameInput?.classList.add(
                 'data-input--error'
             );
             addErrorToClass(errorClass, nicknameErrorTypes);
-            this.state.valid.groupNameIsValid = false;
+            if (this.state?.valid.groupNameIsValid) {
+                this.state.valid.groupNameIsValid = false;
+            }
             return;
         }
 
-        this.state.valid.groupNameIsValid = true;
+        if (this.state?.valid.groupNameIsValid === false) {
+            this.state.valid.groupNameIsValid = true;
+        }
     }
 
     getChoseContacts() {

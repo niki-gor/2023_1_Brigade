@@ -10,16 +10,19 @@ import {
 import { createLogoutAction } from '@actions/authActions';
 import { SIDEBAR } from '@config/config';
 
-export interface SmartSidebar {
-    state: {
-        isSubscribed: boolean;
-        domElements: {
-            messageButton: HTMLElement | null;
-            contactButton: HTMLElement | null;
-            logoutButton: HTMLElement | null;
-            avatarButton: HTMLElement | null;
-            //TODO: themeButton
-        };
+interface Props {
+    user?: {
+        avatar: string;
+    };
+}
+
+interface State {
+    isSubscribed: boolean;
+    domElements: {
+        messageButton: HTMLElement | null;
+        contactButton: HTMLElement | null;
+        logoutButton: HTMLElement | null;
+        avatarButton: HTMLElement | null;
     };
 }
 
@@ -28,13 +31,14 @@ export interface SmartSidebar {
  * Прокидывает actions стору для создания диалога, удаление диалога, открыть диалог для просмотра
  * Также подписывается на изменения активного диалога и статуса диалога
  */
-export class SmartSidebar extends Component<Props> {
+export class SmartSidebar extends Component<Props, State> {
     /**
      * Сохраняет props
      * @param {Object} props - параметры компонента
      */
-    constructor(props: Record<string, unknown>) {
+    constructor(props: Props) {
         super(props);
+
         this.state = {
             isSubscribed: false,
             domElements: {
@@ -45,19 +49,21 @@ export class SmartSidebar extends Component<Props> {
             },
         };
 
-        this.rootNode = SIDEBAR;
+        this.node = SIDEBAR;
     }
 
     /**
      * Рендерит чат
      */
     render() {
-        if (this.state.isSubscribed) {
+        if (this.state?.isSubscribed) {
             const navbar = new DumbSidebar({
-                ...this.props.user,
+                ...this.props?.user,
             });
 
-            this.rootNode.innerHTML = navbar.render();
+            if (this.node) {
+                this.node.innerHTML = navbar.render();
+            }
 
             this.state.domElements.avatarButton = document.querySelector(
                 '.header__user-photo'
@@ -109,19 +115,19 @@ export class SmartSidebar extends Component<Props> {
     }
 
     componentDidMount() {
-        if (!this.state.isSubscribed) {
-            this.unsubscribe.push(
-                store.subscribe(
-                    this.constructor.name,
-                    (pr: Record<string, unknown>) => {
-                        this.props = pr;
+        if (!this.state?.isSubscribed) {
+            this.unsubscribe = store.subscribe(
+                this.constructor.name,
+                (pr: Props) => {
+                    this.props = pr;
 
-                        this.render();
-                    }
-                )
+                    this.render();
+                }
             );
 
-            this.state.isSubscribed = true;
+            if (this.state?.isSubscribed === false) {
+                this.state.isSubscribed = true;
+            }
 
             store.dispatch(createRenderAction());
         }
@@ -131,8 +137,8 @@ export class SmartSidebar extends Component<Props> {
      * Удаляет все подписки
      */
     componentWillUnmount() {
-        if (this.state.isSubscribed) {
-            this.unsubscribe.forEach((uns) => uns());
+        if (this.state?.isSubscribed) {
+            this.unsubscribe();
             this.state.isSubscribed = false;
         }
     }

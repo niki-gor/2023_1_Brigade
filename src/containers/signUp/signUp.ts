@@ -180,6 +180,7 @@ export class SmartSignUp extends Component<Props, State> {
                 (pr: Props) => {
                     this.props = pr;
 
+                    this.render();
                     this.occupiedEmail();
                 }
             );

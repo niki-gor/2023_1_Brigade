@@ -8,19 +8,23 @@ import {
 } from '@actions/routeActions';
 import { STATIC } from '@config/config';
 
-export interface SmartChatList {
-    state: {
-        isSubscribed: boolean;
-        domElements: {
-            chats: HTMLElement | null;
-            createGroup: HTMLElement | null;
-        };
+interface Props {
+    user?: User;
+    chats?: Chat[];
+}
+
+interface State {
+    isSubscribed: boolean;
+    domElements: {
+        chats: HTMLElement | null;
+        createGroup: HTMLElement | null;
     };
 }
 
-export class SmartChatList extends Component<Props> {
-    constructor(props: Record<string, unknown>) {
+export class SmartChatList extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
+
         this.state = {
             isSubscribed: false,
             domElements: {
@@ -29,18 +33,20 @@ export class SmartChatList extends Component<Props> {
             },
         };
 
-        this.rootNode = STATIC;
+        this.node = STATIC;
     }
 
     render() {
-        if (this.state.isSubscribed && this.props.user) {
-            if (!this.props.chats) {
+        if (this.state?.isSubscribed && this.props?.user) {
+            if (!this.props?.chats) {
                 this.props.chats = [];
             }
 
-            const ChatListUI = new DumbChatList(this.props.chats);
+            const ChatListUI = new DumbChatList(this.props?.chats);
 
-            this.rootNode.innerHTML = ChatListUI.render();
+            if (this.node) {
+                this.node.innerHTML = ChatListUI.render();
+            }
 
             this.state.domElements.chats = document.querySelector('.chats');
             this.state.domElements.chats?.addEventListener('click', (e) => {
@@ -68,41 +74,42 @@ export class SmartChatList extends Component<Props> {
     }
 
     componentDidMount() {
-        if (!this.state.isSubscribed) {
-            this.unsubscribe.push(
-                store.subscribe(
-                    this.constructor.name,
-                    (pr: Record<string, unknown>) => {
-                        this.props = pr;
+        if (!this.state?.isSubscribed) {
+            this.unsubscribe = store.subscribe(
+                this.constructor.name,
+                (pr: Props) => {
+                    this.props = pr;
 
-                        this.render();
-                    }
-                )
+                    this.render();
+                }
             );
 
-            this.state.isSubscribed = true;
+            if (this.state?.isSubscribed === false) {
+                this.state.isSubscribed = true;
+            }
 
             store.dispatch(createGetChatsAction());
         }
     }
 
     componentWillUnmount() {
-        if (this.state.isSubscribed) {
-            this.unsubscribe.forEach((uns) => uns());
+        if (this.state?.isSubscribed) {
+            this.unsubscribe();
             this.state.isSubscribed = false;
         }
     }
 
     handleClickOpenChat(chat: HTMLElement) {
-        const chatId = chat.getAttribute('name');
+        const chatStringId = chat.getAttribute('name');
 
-        for (const key in this.props.chats) {
-            if (this.props.chats[key].id == chatId) {
-                store.dispatch(
-                    createMoveToChatAction({ chatId: this.props.chats[key].id })
-                );
-                break;
-            }
+        if (chatStringId) {
+            const chatId = parseInt(chatStringId);
+
+            this.props?.chats?.forEach((chat) => {
+                if (chat.id === chatId) {
+                    store.dispatch(createMoveToChatAction({ chatId }));
+                }
+            });
         }
     }
 }

@@ -141,6 +141,7 @@ export class SmartLogin extends Component<Props, State> {
                 (pr: Props) => {
                     this.props = pr;
 
+                    this.render();
                     this.invalidEmail();
                 }
             );

@@ -6,23 +6,30 @@ import { ChatTypes } from '@config/enum';
 import { store } from '@store/store';
 import { Component } from '@framework/component';
 
-export interface SmartAddUserInGroup {
-    state: {
-        isSubscribed: boolean;
-        domElements: {
-            saveChangesBtn: HTMLElement | null;
-        };
-    };
-
-    chatId: string | undefined;
+interface Props {
+    chatId?: number;
+    user?: User;
+    chats?: Chat[];
+    contacts?: Contact[];
+    openedChat?: OpenedChat;
 }
 
-export class SmartAddUserInGroup extends Component<Props> {
+interface State {
+    isSubscribed: boolean;
+    domElements: {
+        saveChangesBtn: HTMLElement | null;
+    };
+}
+
+export class SmartAddUserInGroup extends Component<Props, State> {
     /**
      * Сохраняет props
      * @param {Object} props - параметры компонента
      */
-    constructor(props: Record<string, unknown>) {
+
+    private chatId: number | undefined;
+
+    constructor(props: Props) {
         super(props);
         this.state = {
             isSubscribed: false,
@@ -31,32 +38,36 @@ export class SmartAddUserInGroup extends Component<Props> {
             },
         };
 
-        this.chatId = this.props.chatId;
-        this.rootNode = DYNAMIC;
+        this.chatId = this.props?.chatId;
+        this.node = DYNAMIC;
     }
 
     #contactClicked = 'rgb(37, 37, 48)';
     #contactUnClicked = 'rgb(28, 28, 36)';
 
     render() {
-        if (this.state.isSubscribed) {
-            for (const key in this.props.chats) {
-                if (this.props.chats[key].id == this.chatId) {
+        if (this.state?.isSubscribed) {
+            this.props?.chats?.forEach((chat) => {
+                if (chat.id == this.chatId) {
                     const addUser = new DumbAddContactInGroup({
-                        groupName: this.props.chats[key].title,
+                        groupName: chat.title,
                         contactList: this.props?.contacts,
                     });
 
-                    this.rootNode.innerHTML = addUser.render();
+                    if (this.node) {
+                        this.node.innerHTML = addUser.render();
+                    }
 
-                    this.state.domElements.saveChangesBtn =
-                        document.querySelector('.button-submit');
+                    if (this.state?.domElements) {
+                        this.state.domElements.saveChangesBtn =
+                            document.querySelector('.button-submit');
+                    }
                     const input = document.querySelector(
                         '.groupName'
                     ) as HTMLInputElement;
-                    input.value = this.props.chats[key].title;
+                    input.value = chat.title;
 
-                    this.state.domElements.saveChangesBtn?.addEventListener(
+                    this.state?.domElements.saveChangesBtn?.addEventListener(
                         'click',
                         (e) => {
                             e.preventDefault();
@@ -82,26 +93,21 @@ export class SmartAddUserInGroup extends Component<Props> {
                             this.handleClickChooseContact(contact);
                         });
                     });
-
-                    break;
                 }
-            }
+            });
         }
     }
 
     #findContactsByMessageId(): number[] | string[] {
         // TODO: ужас, но надежно
-        const matchesId: number | string[] = [];
-        for (const index in this.props?.openedChat?.members) {
-            for (const contactIndex in this.props?.contacts) {
-                if (
-                    this.props?.openedChat?.members[index].id ==
-                    this.props?.contacts[contactIndex].id
-                ) {
-                    matchesId.push(this.props?.openedChat?.members[index].id);
+        const matchesId: number[] = [];
+        this.props?.openedChat?.members.forEach((member) => {
+            this.props?.contacts?.forEach((contact) => {
+                if (member.id == contact.id) {
+                    matchesId.push(member.id);
                 }
-            }
-        }
+            });
+        });
         return matchesId;
     }
 
@@ -112,14 +118,14 @@ export class SmartAddUserInGroup extends Component<Props> {
             groupTitle.textContent = input.value;
             const choseContacts = [
                 ...this.getChoseContacts(),
-                this.props.user.id,
+                this.props?.user?.id,
             ];
 
-            for (const index in this.props.chats) {
-                if (this.props.chats[index]?.id == this.props.openedChat?.id) {
-                    updateChatId = this.props.chats[index].id;
+            this.props?.chats?.forEach((chat) => {
+                if (chat.id == this.props?.openedChat?.id) {
+                    updateChatId = chat.id;
                 }
-            }
+            });
 
             const updateGroupState = {
                 id: updateChatId,
@@ -145,18 +151,18 @@ export class SmartAddUserInGroup extends Component<Props> {
     }
 
     componentDidMount() {
-        if (!this.state.isSubscribed) {
-            this.state.isSubscribed = true;
+        if (!this.state?.isSubscribed) {
+            if (this.state?.isSubscribed === false) {
+                this.state.isSubscribed = true;
+            }
 
-            this.unsubscribe.push(
-                store.subscribe(
-                    this.constructor.name,
-                    (pr: Record<string, unknown>) => {
-                        this.props = pr;
+            this.unsubscribe = store.subscribe(
+                this.constructor.name,
+                (pr: Props) => {
+                    this.props = pr;
 
-                        this.render();
-                    }
-                )
+                    this.render();
+                }
             );
         }
 
@@ -164,8 +170,8 @@ export class SmartAddUserInGroup extends Component<Props> {
     }
 
     componentWillUnmount() {
-        if (this.state.isSubscribed) {
-            this.unsubscribe.forEach((uns) => uns());
+        if (this.state?.isSubscribed) {
+            this.unsubscribe();
             this.state.isSubscribed = false;
         }
     }

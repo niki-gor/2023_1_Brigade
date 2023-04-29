@@ -63,3 +63,80 @@ interface ErrorTypes {
     class: string;
     message: string;
 }
+
+interface User {
+    id: number;
+    username: string;
+    nickname: string;
+    email: string;
+    status: string;
+    avatar: string;
+}
+
+interface Contact {
+    id: number;
+    username: string;
+    nickname: string;
+    email: string;
+    status: string;
+    avatar: string;
+}
+
+interface Chat {
+    id: number;
+    type: number;
+    title: string;
+    avatar: string;
+    members: [
+        {
+            id: number;
+            username: string;
+            nickname: string;
+            email: string;
+            status: string;
+            avatar: string;
+        }
+    ];
+    last_message: {
+        id: number;
+        body: string;
+        chat_id: number;
+        author_id: number;
+    };
+    last_message_author: {
+        id: number;
+        username: string;
+        nickname: string;
+        email: string;
+        status: string;
+        avatar: string;
+    };
+}
+
+interface OpenedChat {
+    id: number;
+    master_id: number;
+    type: number;
+    title: string;
+    avatar: string;
+    description: string;
+    members: [
+        {
+            id: number;
+            username: string;
+            nickname: string;
+            email: string;
+            status: string;
+            avatar: string;
+        }
+    ];
+    messages: [
+        {
+            id: number;
+            body: string;
+            chat_id: number;
+            author_id: number;
+        }
+    ];
+    isNotRendered: boolean;
+}
