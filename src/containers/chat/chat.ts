@@ -1,7 +1,7 @@
 import { Component } from '@framework/component';
 import { store } from '@store/store';
 import { DumbChat } from '@components/chat/chat';
-import { Message } from '@components/message/message';
+import { DumpMessage } from '@components/message/message';
 import {
     createDeleteChatAction,
     createGetChatsAction,
@@ -67,9 +67,8 @@ export class SmartChat extends Component<Props, State> {
             if (this.props?.openedChat?.isNotRendered) {
                 const chat = new DumbChat({
                     chatData: this.props.openedChat,
-                    userId: this.props?.user?.id,
-                    userAvatar: this.props?.user?.avatar,
-                    nickname: this.props?.user?.nickname,
+                    userId: this.props?.user?.id ?? 0,
+                    userAvatar: this.props?.user?.avatar ?? '',
                     chatAvatar: this.props?.openedChat?.avatar,
                     chatTitle: this.props?.openedChat?.title,
                 });
@@ -130,11 +129,11 @@ export class SmartChat extends Component<Props, State> {
         }
     }
 
-    renderIncomingMessage(message: Record<string, unknown>) {
+    renderIncomingMessage(message: Message) {
         this.props?.openedChat?.members.forEach((member) => {
             if (member.id === message.author_id) {
                 const newMessage = new DOMParser().parseFromString(
-                    new Message({
+                    new DumpMessage({
                         messageSide: false,
                         messageAvatar: member.avatar,
                         messageContent: message.body,
@@ -152,11 +151,11 @@ export class SmartChat extends Component<Props, State> {
     handleClickSendButton(input: HTMLInputElement) {
         if (input.value) {
             const newMessage = new DOMParser().parseFromString(
-                new Message({
+                new DumpMessage({
                     messageSide: true,
-                    messageAvatar: this.props?.user?.avatar,
+                    messageAvatar: this.props?.user?.avatar ?? '',
                     messageContent: input.value,
-                    username: this.props?.user?.nickname,
+                    username: this.props?.user?.nickname ?? '',
                 }).render(),
                 'text/html'
             ).body.firstChild as ChildNode;
@@ -167,8 +166,9 @@ export class SmartChat extends Component<Props, State> {
         }
 
         getWs().send({
+            id: 0,
             body: input.value,
-            author_id: this.props?.user?.id,
+            author_id: this.props?.user?.id ?? 0,
             chat_id: this.chatId ? this.chatId : 0,
         });
 

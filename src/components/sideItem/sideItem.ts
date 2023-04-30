@@ -2,8 +2,17 @@ import template from '@components/sideItem/sideItem.pug';
 import '@components/sideItem/sideItem.scss';
 import { Component } from '@framework/component';
 
-export class DumbSideItem extends Component<Props> {
-    constructor(props: Record<string, unknown>) {
+interface Props {
+    navSvgIcon: string;
+    navItemValue: string;
+}
+
+interface State {
+    isSubscribed: boolean;
+}
+
+export class DumbSideItem extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
     }
 
@@ -17,8 +26,8 @@ export class DumbSideItem extends Component<Props> {
 
     render() {
         return template({
-            SideButton: this.props.navSvgIcon,
-            ItemValue: this.props.navItemValue,
+            SideButton: this.props?.navSvgIcon,
+            ItemValue: this.props?.navItemValue,
         });
     }
 }

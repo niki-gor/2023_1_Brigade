@@ -1,13 +1,27 @@
-import { Page } from '@pages/page';
-import template from '@pages/login/login.pug';
+import { Component } from '@/framework/component';
+import template from '@components/login/login.pug';
 import { loginRegTopUI } from '@components/ui/loginReg/top/top';
 import { loginRegInputUI } from '@components/ui/loginReg/input/input';
 import { loginRegBottomUI } from '@components/ui/loginReg/bottom/bottom';
-import '@pages/login/login.css';
+import '@components/login/login.scss';
 
-export class DumbLogin extends Page {
-    constructor(props: Record<string, unknown>) {
+interface Props {}
+
+interface State {
+    isRendered: boolean;
+}
+
+export class DumbLogin extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
+    }
+
+    componentDidMount(): void {
+        //
+    }
+
+    componentWillUnmount(): void {
+        //
     }
 
     render() {

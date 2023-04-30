@@ -1,4 +1,4 @@
-import '@/index.css';
+import '@/index.scss';
 import { createAuthAction } from '@actions/authActions';
 import { store } from '@store/store';
 import { router } from '@router/createRouter';

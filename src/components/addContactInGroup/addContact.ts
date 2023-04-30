@@ -6,23 +6,25 @@ import '@components/createGroup/createGroup.scss';
 import { dataInputUI } from '@components/ui/data-input/data-input';
 import { blueButtonUI } from '@components/ui/blue-button/blue-button';
 
-export class DumbAddContactInGroup extends Component<Props> {
-    constructor(props: Record<string, unknown>) {
+interface Props {
+    groupName?: string;
+    contactList?: User[];
+}
+
+interface State {
+    isRendered: boolean;
+}
+
+export class DumbAddContactInGroup extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
     }
 
     getContactList() {
         const contacts: string[] = [];
-        for (const contact in this.props?.contactList) {
-            contacts.push(
-                new DumbContact({
-                    avatar: this.props?.contactList[contact].avatar,
-                    nickname: this.props?.contactList[contact].nickname,
-                    status: this.props?.contactList[contact].status,
-                    id: this.props?.contactList[contact].id,
-                }).render()
-            );
-        }
+        this.props?.contactList?.forEach((contact) => {
+            contacts.push(new DumbContact({ contact }).render());
+        });
 
         return contacts;
     }

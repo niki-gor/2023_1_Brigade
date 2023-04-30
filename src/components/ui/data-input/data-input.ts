@@ -1,8 +1,20 @@
-import { UITool } from '@components/ui/uiTool';
 import '@components/ui/data-input/data-input.scss';
 import template from '@components/ui/data-input/data-input.pug';
+import { Component } from '@framework/component';
 
-export class dataInputUI extends UITool {
+interface Props {}
+
+interface State {}
+
+export class dataInputUI extends Component<Props, State> {
+    componentDidMount(): void {
+        //
+    }
+
+    componentWillUnmount(): void {
+        //
+    }
+
     static renderTemplate(args: {
         className: string;
         inputType: string;

@@ -1,5 +1,5 @@
 import { Component } from '@framework/component';
-import { DumbSignUp } from '@pages/signUp/signUp';
+import { DumbSignUp } from '@/components/signUp/signUp';
 import {
     checkEmail,
     checkPassword,

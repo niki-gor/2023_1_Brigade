@@ -1,5 +1,5 @@
 import { Component } from '@framework/component';
-import { DumbLogin } from '@pages/login/login';
+import { DumbLogin } from '@components/login/login';
 import { checkEmail, checkPassword, addErrorToClass } from '@utils/validator';
 import { store } from '@store/store';
 import { emailErrorTypes, passwordErrorTypes } from '@config/errors';

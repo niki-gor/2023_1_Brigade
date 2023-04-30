@@ -42,7 +42,9 @@ export class SmartChatList extends Component<Props, State> {
                 this.props.chats = [];
             }
 
-            const ChatListUI = new DumbChatList(this.props?.chats);
+            const ChatListUI = new DumbChatList({
+                chats: this.props?.chats,
+            });
 
             if (this.node) {
                 this.node.innerHTML = ChatListUI.render();

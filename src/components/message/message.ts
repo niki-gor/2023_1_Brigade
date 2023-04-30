@@ -3,8 +3,19 @@ import template from '@components/message/message.pug';
 import '@components/message/message.scss';
 import { smallEllipseIconUI } from '@components/ui/small-ellipse-icon/small-ellipse-icon';
 
-export class Message extends Component<Props> {
-    constructor(props: Record<string, unknown>) {
+interface Props {
+    messageSide: boolean;
+    messageAvatar: string;
+    username: string;
+    messageContent: string;
+}
+
+interface State {
+    isSubscribed: boolean;
+}
+
+export class DumpMessage extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
     }
 
@@ -18,13 +29,13 @@ export class Message extends Component<Props> {
 
     render() {
         return template({
-            Side: this.props.messageSide,
+            Side: this.props?.messageSide,
             MessageAvatar: smallEllipseIconUI.renderTemplate({
-                imgSrc: this.props.messageAvatar,
-                altMsg: this.props.username,
+                imgSrc: this.props?.messageAvatar ?? '',
+                altMsg: this.props?.username ?? '',
             }),
-            MessageText: this.props.messageContent,
-            Username: this.props.username,
+            MessageText: this.props?.messageContent,
+            Username: this.props?.username,
         });
     }
 }

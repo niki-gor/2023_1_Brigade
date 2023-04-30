@@ -1,8 +1,20 @@
-import { Component } from '@framework/component';
 import template from '@components/ui/loginReg/top/top.pug';
 import '@components/ui/loginReg/top/top.css';
+import { Component } from '@framework/component';
 
-export class loginRegTopUI extends Component<Props> {
+interface Props {}
+
+interface State {}
+
+export class loginRegTopUI extends Component<Props, State> {
+    componentDidMount(): void {
+        //
+    }
+
+    componentWillUnmount(): void {
+        //
+    }
+
     static renderTemplate(args: Record<string, unknown>) {
         return template(args);
     }

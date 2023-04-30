@@ -3,7 +3,7 @@ import { Chats } from '@containers/chatList/createChatList';
 import { Contacts } from '@containers/contacts/createContacts';
 import { router } from '@router/createRouter';
 
-export const createMoveToSignUpAction = (): Action => {
+export const createMoveToSignUpAction = () => {
     router.route('/signup');
 
     return {
@@ -12,7 +12,7 @@ export const createMoveToSignUpAction = (): Action => {
     };
 };
 
-export const createMoveToLoginAction = (): Action => {
+export const createMoveToLoginAction = () => {
     router.route('/login');
 
     return {
@@ -21,14 +21,14 @@ export const createMoveToLoginAction = (): Action => {
     };
 };
 
-export const createRenderAction = (): Action => {
+export const createRenderAction = () => {
     return {
         type: constantsOfActions.render,
         payload: null,
     };
 };
 
-export const createMoveToProfileAction = (): Action => {
+export const createMoveToProfileAction = () => {
     router.route('/profile');
 
     return {
@@ -37,7 +37,7 @@ export const createMoveToProfileAction = (): Action => {
     };
 };
 
-export const createMoveToContactsAction = (): Action => {
+export const createMoveToContactsAction = () => {
     Chats.componentWillUnmount();
     Contacts.componentDidMount();
 
@@ -47,7 +47,7 @@ export const createMoveToContactsAction = (): Action => {
     };
 };
 
-export const createMoveToChatsAction = (): Action => {
+export const createMoveToChatsAction = () => {
     Contacts.componentWillUnmount();
     Chats.componentDidMount();
 
@@ -57,7 +57,7 @@ export const createMoveToChatsAction = (): Action => {
     };
 };
 
-export const createMoveToCreateGroupAction = (): Action => {
+export const createMoveToCreateGroupAction = () => {
     router.route('/create_group');
 
     return {
@@ -78,13 +78,13 @@ export const createMoveToChatAction = (
 };
 
 // при нажатие на кнопку редактиования динамическая часть заменяется на компонент SmartAddUserInGroup
-export const createMoveToEditChatAction = (
-    chat: Record<string, unknown>
-): Action => {
-    router.route(`/${chat.id}/add`);
+export const createMoveToEditChatAction = (chat: OpenedChat | undefined) => {
+    if (chat) {
+        router.route(`/${chat.id}/add`);
+    }
 
     return {
         type: constantsOfActions.moveToEditChat,
-        payload: chat.id,
+        payload: null,
     };
 };

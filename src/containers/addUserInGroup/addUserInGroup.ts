@@ -10,7 +10,7 @@ interface Props {
     chatId?: number;
     user?: User;
     chats?: Chat[];
-    contacts?: Contact[];
+    contacts?: User[];
     openedChat?: OpenedChat;
 }
 
@@ -113,7 +113,7 @@ export class SmartAddUserInGroup extends Component<Props, State> {
 
     handleClickSaveButton(input: HTMLInputElement) {
         const groupTitle = document.querySelector('.change-group__name');
-        let updateChatId;
+        let updateChatId = 0;
         if (input.value && groupTitle) {
             groupTitle.textContent = input.value;
             const choseContacts = [

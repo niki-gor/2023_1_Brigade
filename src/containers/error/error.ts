@@ -1,11 +1,11 @@
 import { Component } from '@framework/component';
 
-export interface SmartError {
-    state: {
-        isSubscribed: boolean;
-        domElements: {
-            backButton: HTMLInputElement | null;
-        };
+interface Props {}
+
+interface State {
+    isSubscribed: boolean;
+    domElements: {
+        backButton: HTMLInputElement | null;
     };
 }
 
@@ -16,7 +16,7 @@ export interface SmartError {
  * для корректного рендера ошибки
  *
  */
-export class SmartError extends Component<Props> {
+export class SmartError extends Component<Props, State> {
     /**
      * Cохраняет props
      * @param {Object} props - параметры компонента
@@ -36,7 +36,7 @@ export class SmartError extends Component<Props> {
      * Рендерит ошибку
      */
     render() {
-        if (this.state.isSubscribed) {
+        if (this.state?.isSubscribed) {
         }
     }
 
@@ -44,14 +44,15 @@ export class SmartError extends Component<Props> {
      * Навешивает переданные обработчики на валидацию и кнопки
      */
     componentDidMount() {
-        if (!this.state.isSubscribed) {
+        if (!this.state?.isSubscribed) {
             // this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: Record<string, unknown>) => {
             //     this.props = pr;
 
             //     this.render();
             // }));
-
-            this.state.isSubscribed = true;
+            if (this.state?.isSubscribed === false) {
+                this.state.isSubscribed = true;
+            }
         }
     }
 
@@ -59,8 +60,8 @@ export class SmartError extends Component<Props> {
      * Удаляет все подписки
      */
     componentWillUnmount() {
-        if (this.state.isSubscribed) {
-            this.unsubscribe.forEach((uns) => uns());
+        if (this.state?.isSubscribed) {
+            this.unsubscribe();
             this.state.isSubscribed = false;
         }
     }

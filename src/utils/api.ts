@@ -270,7 +270,7 @@ export const getChats = () => {
         });
 };
 
-export const getOneChat = (chat: Record<string, unknown>) => {
+export const getOneChat = (chat: Record<string, number>) => {
     return get(config.chats + `${chat.chatId}/`)
         .then(({ status, parsedBody }) => {
             switch (status) {
@@ -302,8 +302,8 @@ export const getOneChat = (chat: Record<string, unknown>) => {
         });
 };
 
-export const deleteChat = (deletedId: string) => {
-    return deleteSession(config.chats + deletedId + '/')
+export const deleteChat = (deletedId: number) => {
+    return deleteSession(config.chats + `${deletedId}/`)
         .then(({ status }) => {
             switch (status) {
                 case 204:

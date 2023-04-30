@@ -1,9 +1,21 @@
 import template from '@components/ui/chatAvatar/chatAvatar.pug';
 import '@components/ui/avatar/avatar.scss';
-import { UITool } from '@components/ui/uiTool';
 import '@components/ui/chatAvatar/chatAvatar.scss';
+import { Component } from '@framework/component';
 
-export class chatAvatarUi extends UITool {
+interface Props {}
+
+interface State {}
+
+export class chatAvatarUi extends Component<Props, State> {
+    componentDidMount(): void {
+        //
+    }
+
+    componentWillUnmount(): void {
+        //
+    }
+
     static renderTemplate(args: {
         ClassName: string;
         PathToUserImage: string;

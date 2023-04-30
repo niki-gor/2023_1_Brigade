@@ -1,9 +1,6 @@
 import { constantsOfActions } from '@config/actions';
 
-export const reduceIsNotRendered = (
-    state: Record<string, unknown>,
-    action: Action
-) => {
+export const reduceIsNotRendered = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.isNotRendered:
             return {
@@ -11,7 +8,7 @@ export const reduceIsNotRendered = (
                 openedChat: {
                     ...state.openedChat,
                     isNotRendered: false,
-                },
+                } as OpenedChat,
             };
         default:
             return {
@@ -20,33 +17,20 @@ export const reduceIsNotRendered = (
     }
 };
 
-export const reduceAddChat = (
-    state: Record<string, unknown>,
-    action: Action
-) => {
+export const reduceAddChat = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.addChat:
-            if (!action.payload && !state.chats) {
-                return {
-                    ...state,
-                    chats: [],
-                };
-            } else if (!state.chats) {
-                return {
-                    ...state,
-                    chats: {
-                        [action.payload?.id]: action.payload,
-                    },
-                };
-            }
+            const payload = action.payload as Chat;
+            if (!action.payload) {
+                if (!state.chats) {
+                    return {
+                        ...state,
+                        chats: [payload] as Chat[],
+                    };
+                }
 
-            return {
-                ...state,
-                chats: {
-                    ...state.chats,
-                    [action.payload?.id]: action.payload,
-                },
-            };
+                state.chats.push(payload);
+            }
         default:
             return {
                 ...state,
@@ -54,15 +38,12 @@ export const reduceAddChat = (
     }
 };
 
-export const reduceSetChats = (
-    state: Record<string, unknown>,
-    action: Action
-) => {
+export const reduceSetChats = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.setChats:
             return {
                 ...state,
-                chats: action.payload,
+                chats: action.payload as Chat[],
             };
         default:
             return {
@@ -71,24 +52,15 @@ export const reduceSetChats = (
     }
 };
 
-export const reduceOpenChat = (
-    state: Record<string, unknown>,
-    action: Action
-) => {
+export const reduceOpenChat = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.openChat:
-            if (!action.payload?.messages) {
-                action.payload = {
-                    ...action.payload,
-                    messages: [],
-                };
-            }
             return {
                 ...state,
                 openedChat: {
                     ...action.payload,
                     isNotRendered: true,
-                },
+                } as OpenedChat,
             };
         default:
             return {
@@ -97,22 +69,14 @@ export const reduceOpenChat = (
     }
 };
 
-export const reduceDeleteChat = (
-    state: Record<string, unknown>,
-    action: Action
-) => {
+export const reduceDeleteChat = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.deleteChat:
-            if (action.payload?.id) {
-                for (const key in state.chats) {
-                    if (state.chats[key].id == action.payload?.id) {
-                        delete state.chats[key];
-                    }
-                }
+            const payload = action.payload as Chat;
+
+            if (payload?.id) {
+                state.chats?.filter((chat) => chat.id != payload?.id);
             }
-            return {
-                ...state,
-            };
         default:
             return {
                 ...state,
@@ -121,27 +85,23 @@ export const reduceDeleteChat = (
 };
 
 // reducer вызывается при сохранения изменений в chat-е
-export const reduceEditChat = (
-    state: Record<string, unknown>,
-    action: Action
-) => {
+export const reduceEditChat = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.editChat:
-            for (const index in state.chats) {
-                if (state.chats[index].id == action.payload?.id) {
-                    return {
-                        ...state,
-                        chats: {
-                            ...state.chats,
-                            [index]: {
-                                ...state.chats[index],
-                                title: action.payload?.title,
-                                members: action.payload?.members,
-                            },
-                        },
-                    };
-                }
+            const payload = action.payload as Chat;
+
+            const index = state.chats?.findIndex((chat) => {
+                return chat.id == payload?.id;
+            });
+
+            if (index && index !== -1) {
+                state.chats?.splice(index, 1, {
+                    ...state.chats[index],
+                    title: payload?.title,
+                    members: payload?.members,
+                });
             }
+
             return {
                 ...state,
             };

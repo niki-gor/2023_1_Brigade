@@ -1,14 +1,14 @@
 import { constantsOfActions } from '@config/actions';
 import { updateUser, uploadAvatar } from '@utils/api';
 
-export const createSetUserAction = (state: Record<string, unknown>): Action => {
+export const createSetUserAction = (state: User) => {
     return {
         type: constantsOfActions.setUser,
         payload: state,
     };
 };
 
-export const createInvalidEmailAction = (): Action => {
+export const createInvalidEmailAction = () => {
     return {
         type: constantsOfActions.invalidEmail,
         payload: {
@@ -17,7 +17,7 @@ export const createInvalidEmailAction = (): Action => {
     };
 };
 
-export const createOccupiedEmailAction = (): Action => {
+export const createOccupiedEmailAction = () => {
     return {
         type: constantsOfActions.occupiedEmail,
         payload: {
@@ -26,7 +26,7 @@ export const createOccupiedEmailAction = (): Action => {
     };
 };
 
-export const createOccupiedUsernameAction = (): Action => {
+export const createOccupiedUsernameAction = () => {
     return {
         type: constantsOfActions.occupiedUsername,
         payload: {
@@ -35,7 +35,7 @@ export const createOccupiedUsernameAction = (): Action => {
     };
 };
 
-export const createIncorrectPasswordAction = (): Action => {
+export const createIncorrectPasswordAction = () => {
     return {
         type: constantsOfActions.incorrectPassword,
         payload: {
@@ -47,7 +47,7 @@ export const createIncorrectPasswordAction = (): Action => {
 export const createUpdateUserAction = (
     user: Record<string, unknown>
 ): AsyncAction => {
-    return async (dispatch: (action: Action) => void) => {
+    return async (dispatch: Dispatch) => {
         const { status, body } = await updateUser(user);
         const jsonBody = await body;
         console.log(jsonBody);
@@ -77,7 +77,7 @@ export const createUpdateUserAction = (
 export const createUpdateUserAvatarAction = (
     avatar: File | undefined
 ): AsyncAction => {
-    return async (dispatch: (action: Action) => void) => {
+    return async (dispatch: Dispatch) => {
         if (!avatar) {
             return;
         }

@@ -1,6 +1,6 @@
 const createWs = () => {
     let ws: WebSocket | undefined;
-    const subscribers = new Map<number, Callback>();
+    const subscribers = new Map<number, (message: Message) => void>();
 
     const create = () => {
         ws = new WebSocket('wss://technogramm.ru/api/v1/message/');
@@ -37,13 +37,10 @@ const createWs = () => {
         }
 
         return {
-            send: (message: Record<string, unknown>) => {
+            send: (message: Message) => {
                 ws?.send(JSON.stringify(message));
             },
-            subscribe: (
-                chatId: number,
-                cb: (message: Record<string, unknown>) => void
-            ) => {
+            subscribe: (chatId: number, cb: (message: Message) => void) => {
                 subscribers.set(chatId, cb);
                 return () => {
                     subscribers.delete(chatId);

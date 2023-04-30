@@ -12,7 +12,7 @@ import { Sidebar } from '@containers/sidebar/createSidebar';
 import { getWs } from '@utils/ws';
 
 export const createAuthAction = (): AsyncAction => {
-    return async (dispatch: (action: Action) => void) => {
+    return async (dispatch: Dispatch) => {
         const { status, body } = await auth();
 
         switch (status) {
@@ -48,7 +48,7 @@ export const createAuthAction = (): AsyncAction => {
 export const createLoginAction = (
     user: Record<string, unknown>
 ): AsyncAction => {
-    return async (dispatch: (action: Action) => void) => {
+    return async (dispatch: Dispatch) => {
         const { status, body } = await login(user);
 
         switch (status) {
@@ -82,7 +82,7 @@ export const createLoginAction = (
 export const createSignUpAction = (
     user: Record<string, unknown>
 ): AsyncAction => {
-    return async (dispatch: (action: Action) => void) => {
+    return async (dispatch: Dispatch) => {
         const { status, body } = await signUp(user);
 
         switch (status) {
@@ -114,7 +114,7 @@ export const createSignUpAction = (
 };
 
 export const createLogoutAction = (): AsyncAction => {
-    return async (dispatch: (action: Action) => void) => {
+    return async (dispatch: Dispatch) => {
         const { status } = await logout();
 
         switch (status) {

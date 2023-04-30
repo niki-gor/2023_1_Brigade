@@ -1,8 +1,20 @@
 import template from '@components/ui/avatar/avatar.pug';
 import '@components/ui/avatar/avatar.scss';
-import { UITool } from '@components/ui/uiTool';
+import { Component } from '@framework/component';
 
-export class avatarUi extends UITool {
+interface Props {}
+
+interface State {}
+
+export class avatarUi extends Component<Props, State> {
+    componentDidMount(): void {
+        //
+    }
+
+    componentWillUnmount(): void {
+        //
+    }
+
     static renderTemplate(args: {
         ClassName: string;
         PathToUserImage: string;

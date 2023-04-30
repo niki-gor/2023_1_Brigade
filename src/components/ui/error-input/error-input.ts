@@ -1,8 +1,20 @@
-import { UITool } from '@components/ui/uiTool';
 import '@components/ui/error-input/error-input.scss';
 import template from '@components/ui/error-input/error-input.pug';
+import { Component } from '@framework/component';
 
-export class errorInputUI extends UITool {
+interface Props {}
+
+interface State {}
+
+export class errorInputUI extends Component<Props, State> {
+    componentDidMount(): void {
+        //
+    }
+
+    componentWillUnmount(): void {
+        //
+    }
+
     static renderTemplate(args: { className: string; message: string }) {
         return template(args);
     }

@@ -1,5 +1,5 @@
 export const createStore = (reducers: Map<string, Reducer>): Store => {
-    let state: Record<string, unknown> = {};
+    let state: State = {};
     const subscribers = new Map<string, Callback>();
 
     return {
@@ -13,10 +13,7 @@ export const createStore = (reducers: Map<string, Reducer>): Store => {
                 cb(state);
             });
         },
-        subscribe: (
-            key: string,
-            cb: (state: Record<string, unknown>) => void
-        ) => {
+        subscribe: (key: string, cb: (state: State) => void) => {
             subscribers.set(key, cb);
             return () => {
                 subscribers.delete(key);
@@ -28,15 +25,7 @@ export const createStore = (reducers: Map<string, Reducer>): Store => {
 export const applyMiddleware =
     (middleware: Middleware) =>
     (createStoreFunc: CreateStore) =>
-    (
-        reducers: Map<
-            string,
-            (
-                state: Record<string, unknown>,
-                action: Action
-            ) => Record<string, unknown>
-        >
-    ) => {
+    (reducers: Map<string, Reducer>) => {
         const store = createStoreFunc(reducers);
         return {
             getState: store.getState,

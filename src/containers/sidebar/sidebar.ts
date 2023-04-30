@@ -58,7 +58,7 @@ export class SmartSidebar extends Component<Props, State> {
     render() {
         if (this.state?.isSubscribed) {
             const navbar = new DumbSidebar({
-                ...this.props?.user,
+                avatar: this.props?.user?.avatar ?? '',
             });
 
             if (this.node) {

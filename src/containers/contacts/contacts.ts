@@ -8,7 +8,7 @@ import { STATIC } from '@config/config';
 
 interface Props {
     user?: User;
-    contacts?: Contact[];
+    contacts?: User[];
 }
 
 interface State {
@@ -42,7 +42,9 @@ export class SmartContacts extends Component<Props, State> {
                 this.props.contacts = [];
             }
 
-            const ContactsUI = new DumbContacts(this.props?.contacts);
+            const ContactsUI = new DumbContacts({
+                contacts: this.props?.contacts,
+            });
 
             if (this.node) {
                 this.node.innerHTML = ContactsUI.render();

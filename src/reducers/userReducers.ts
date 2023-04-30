@@ -1,17 +1,14 @@
 import { constantsOfActions } from '@config/actions';
 
-export const reduceSetUser = (
-    state: Record<string, unknown>,
-    action: Action
-) => {
+export const reduceSetUser = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.setUser:
-            return {
-                ...state,
-                user: {
-                    ...action.payload,
-                },
-            };
+            if (action.payload) {
+                return {
+                    ...state,
+                    user: action.payload as User,
+                };
+            }
         default:
             return {
                 ...state,
@@ -19,10 +16,7 @@ export const reduceSetUser = (
     }
 };
 
-export const reduceDeleteState = (
-    state: Record<string, unknown>,
-    action: Action
-) => {
+export const reduceDeleteState = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.deleteState:
             return {};

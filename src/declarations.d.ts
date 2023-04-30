@@ -1,5 +1,5 @@
 declare module '*.pug' {
-    const _: (params: Record<string, unknown> | undefined) => string;
+    const _: (any) => string;
     export default _;
 }
 
@@ -10,11 +10,26 @@ declare module '*.svg' {
 
 interface Action {
     type: string;
-    payload: Record<string, unknown> | null | undefined;
+    payload:
+        | User
+        | User[]
+        | Chat
+        | Chat[]
+        | OpenedChat
+        | Message
+        | Record<string, boolean>
+        | null
+        | undefined
+        | {
+              id: number;
+              type: ChatTypes;
+              title: string;
+              members: (number | undefined)[];
+          };
 }
 
 interface AsyncAction {
-    (dispatch: Dispatch, state: getState): Promise<void>;
+    (dispatch: Dispatch, state: GetState): Promise<void>;
 }
 
 interface Response {
@@ -23,28 +38,24 @@ interface Response {
 }
 
 interface Reducer {
-    (state: Record<string, unknown>, action: Action): Record<string, unknown>;
+    (state: State, action: Action): State;
 }
 
 interface GetState {
-    (): Record<string, unknown>;
+    (): State;
 }
 
 interface Callback {
-    (props: Record<string, unknown>): void;
+    (props: State): void;
 }
 
 interface CreateStore {
-    (reducers: Map<string, Reducer>): {
-        getState: () => Record<string, unknown>;
-        dispatch: (action: Action) => void;
-        subscribe: (key: string, cb: Callback) => () => void;
-    };
+    (reducers: Map<string, Reducer>): Store;
 }
 
 interface Store {
-    getState: () => Record<string, unknown>;
-    dispatch: (action: Action) => void;
+    getState: GetState;
+    dispatch: Dispatch;
     subscribe: (key: string, cb: Callback) => () => void;
 }
 
@@ -64,16 +75,20 @@ interface ErrorTypes {
     message: string;
 }
 
-interface User {
-    id: number;
-    username: string;
-    nickname: string;
-    email: string;
-    status: string;
-    avatar: string;
+interface State {
+    user?: User;
+    chats?: Chat[];
+    contacts?: User[];
+    openedChat?: OpenedChat;
+
+    // Флаги, которые могут установиться на ответ от сервера
+    invalidEmail?: boolean;
+    occupiedEmail?: boolean;
+    occupiedUsername?: boolean;
+    incorrectPassword?: boolean;
 }
 
-interface Contact {
+interface User {
     id: number;
     username: string;
     nickname: string;
@@ -87,30 +102,9 @@ interface Chat {
     type: number;
     title: string;
     avatar: string;
-    members: [
-        {
-            id: number;
-            username: string;
-            nickname: string;
-            email: string;
-            status: string;
-            avatar: string;
-        }
-    ];
-    last_message: {
-        id: number;
-        body: string;
-        chat_id: number;
-        author_id: number;
-    };
-    last_message_author: {
-        id: number;
-        username: string;
-        nickname: string;
-        email: string;
-        status: string;
-        avatar: string;
-    };
+    members: User[];
+    last_message: Message;
+    last_message_author: User;
 }
 
 interface OpenedChat {
@@ -120,23 +114,14 @@ interface OpenedChat {
     title: string;
     avatar: string;
     description: string;
-    members: [
-        {
-            id: number;
-            username: string;
-            nickname: string;
-            email: string;
-            status: string;
-            avatar: string;
-        }
-    ];
-    messages: [
-        {
-            id: number;
-            body: string;
-            chat_id: number;
-            author_id: number;
-        }
-    ];
+    members: User[];
+    messages: Message[];
     isNotRendered: boolean;
+}
+
+interface Message {
+    id: number;
+    body: string;
+    chat_id: number;
+    author_id: number;
 }

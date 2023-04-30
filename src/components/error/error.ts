@@ -1,7 +1,15 @@
-import { Component } from '@framework/component';
 import template from '@components/error/error.pug';
+import { Component } from '@framework/component';
 
-export class DumbContact extends Component<Props> {
+interface Props {
+    contacts?: User[];
+}
+
+interface State {
+    isRendered: boolean;
+}
+
+export class DumbContact extends Component<Props, State> {
     constructor(props: Record<string, unknown>) {
         super(props);
     }

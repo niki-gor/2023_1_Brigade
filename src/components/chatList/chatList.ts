@@ -4,8 +4,16 @@ import '@components/chatList/chatList.scss';
 import { DumbChatCard } from '@components/chatCard/chatCard';
 import { svgButtonUI } from '../ui/button/button';
 
-export class DumbChatList extends Component<Props> {
-    constructor(props: Record<string, unknown>) {
+interface Props {
+    chats: Chat[];
+}
+
+interface State {
+    isRendered: boolean;
+}
+
+export class DumbChatList extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
     }
 
@@ -20,13 +28,11 @@ export class DumbChatList extends Component<Props> {
     getChatList() {
         const contactsList: string[] = [];
 
-        for (const key in this.props) {
-            const chatCardUI = new DumbChatCard(
-                this.props[key] as Record<string, unknown>
-            );
+        this.props?.chats.forEach((chat) => {
+            const chatCardUI = new DumbChatCard({ chat });
 
             contactsList.push(chatCardUI.render());
-        }
+        });
 
         return contactsList;
     }

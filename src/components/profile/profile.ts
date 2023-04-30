@@ -13,8 +13,16 @@ import {
 import '@components/profile/profile.scss';
 import { chatAvatarUi } from '@components/ui/chatAvatar/chatAvatar';
 
-export class DumbProfile extends Component<Props> {
-    constructor(props: Record<string, unknown>) {
+interface Props {
+    user: User;
+}
+
+interface State {
+    isSubscribed: boolean;
+}
+
+export class DumbProfile extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
     }
 
@@ -45,31 +53,26 @@ export class DumbProfile extends Component<Props> {
     }
 
     getUsername() {
-        if (this.props.user.username == this.props.user.id) {
+        if (this.props?.user.username == this.props?.user.id) {
             return '@';
         }
 
-        return '@' + this.props.user.username;
+        return '@' + this.props?.user.username;
     }
 
     render() {
         return template({
-            // avatar: ellipseIconUI.renderTemplate({
-            //     imgSrc: this.props.user.avatar,
-            //     altMsg: 'avatar'
-            // }),
-
             avatar: chatAvatarUi.renderTemplate({
                 ClassName: 'profile__avatar',
-                PathToUserImage: this.props.user.avatar,
+                PathToUserImage: this.props?.user.avatar ?? '',
                 UserName: '',
                 UserStatus: '',
                 Online: false,
             }),
 
-            nickname: this.props.user.nickname,
+            nickname: this.props?.user.nickname,
             username: this.getUsername(),
-            status: this.props.user.status,
+            status: this.props?.user.status,
 
             nicknameHeader: headerInputUI.renderTemplate({
                 headerInputText: 'Никнейм',
@@ -78,7 +81,7 @@ export class DumbProfile extends Component<Props> {
                 className: 'nickname',
                 inputType: 'text',
                 inputPlaceholder: '',
-                value: this.props.user.nickname,
+                value: this.props?.user.nickname ?? '',
             }),
             ...this.getValidateErrors(nicknameErrorTypes),
 
@@ -100,7 +103,7 @@ export class DumbProfile extends Component<Props> {
                 className: 'status',
                 inputType: 'text',
                 inputPlaceholder: '',
-                value: this.props.user.status,
+                value: this.props?.user.status ?? '',
             }),
 
             currentPasswordHeader: headerInputUI.renderTemplate({

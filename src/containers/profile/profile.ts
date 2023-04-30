@@ -93,7 +93,7 @@ export class SmartProfile extends Component<Props, State> {
     render() {
         if (this.state?.isSubscribed && this.props?.user) {
             const ProfileUI = new DumbProfile({
-                ...this.props,
+                user: this.props?.user,
             });
 
             if (this.node) {

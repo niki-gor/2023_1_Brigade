@@ -3,12 +3,24 @@ import '@components/chat/chat.scss';
 import { Component } from '@framework/component';
 import { svgButtonUI } from '@components/ui/button/button';
 import { chatAvatarUi } from '@components/ui/chatAvatar/chatAvatar';
-import { inputUi } from '@components/ui/input/input';
-import { Message } from '@components/message/message';
+import { inputUI } from '@components/ui/input/input';
+import { DumpMessage } from '@components/message/message';
 import { ChatTypes } from '@config/enum';
 
-export class DumbChat extends Component<Props> {
-    constructor(props: Record<string, unknown>) {
+interface Props {
+    chatData: OpenedChat;
+    chatAvatar: string;
+    chatTitle: string;
+    userId: number;
+    userAvatar: string;
+}
+
+interface State {
+    isRendered: boolean;
+}
+
+export class DumbChat extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
     }
 
@@ -21,18 +33,18 @@ export class DumbChat extends Component<Props> {
     }
 
     #getMessageData(message: { author_id: number }): {
-        messageAvatar: string;
-        messageUsername: string;
+        messageAvatar: string | undefined;
+        messageUsername: string | undefined;
     } {
         let messageAvatar;
         let messageUsername;
-        for (const member of this.props.chatData.members) {
+        this.props?.chatData.members.forEach((member) => {
             // TODO: можно лучше
             if (member.id === message.author_id) {
                 messageAvatar = member.avatar;
                 messageUsername = member.nickname;
             }
-        }
+        });
 
         return {
             messageAvatar: messageAvatar,
@@ -43,21 +55,19 @@ export class DumbChat extends Component<Props> {
     getMessageList() {
         const messages: string[] = [];
 
-        if (this.props.chatData?.messages) {
-            for (const message of this.props.chatData.messages) {
-                const messageData: {
-                    messageAvatar: string;
-                    messageUsername: string;
-                } = this.#getMessageData(message);
+        if (this.props?.chatData?.messages) {
+            this.props.chatData.messages.forEach((message) => {
+                const messageData = this.#getMessageData(message);
+
                 messages.push(
-                    new Message({
-                        messageSide: message.author_id === this.props.userId,
-                        messageAvatar: messageData.messageAvatar,
-                        username: messageData.messageUsername,
+                    new DumpMessage({
+                        messageSide: message.author_id === this.props?.userId,
+                        messageAvatar: messageData.messageAvatar ?? '',
+                        username: messageData.messageUsername ?? '',
                         messageContent: message.body,
                     }).render()
                 );
-            }
+            });
         }
 
         return messages.reverse();
@@ -65,7 +75,7 @@ export class DumbChat extends Component<Props> {
 
     render() {
         let editBtnClassName = '';
-        if (this.props.chatData.type === ChatTypes.Group) {
+        if (this.props?.chatData.type === ChatTypes.Group) {
             editBtnClassName = 'edit-chat';
         }
         return template({
@@ -80,21 +90,14 @@ export class DumbChat extends Component<Props> {
             }),
             HeaderUserAvatar: chatAvatarUi.renderTemplate({
                 ClassName: 'header__companion__ava',
-                PathToUserImage: this.props.chatAvatar,
-                UserName: this.props.chatTitle,
+                PathToUserImage: this.props?.chatAvatar ?? '',
+                UserName: this.props?.chatTitle ?? '',
                 UserStatus: '',
                 Online: false, // нет this.props?.userOnline,
             }),
             MessageList: this.getMessageList(),
-            Input: new inputUi({
+            Input: new inputUI({
                 inputClassName: 'view-chat__input-message',
-                userImage: chatAvatarUi.renderTemplate({
-                    ClassName: 'input-message__user-avatar',
-                    PathToUserImage: this.props.userAvatar,
-                    UserName: '', // не надо
-                    UserStatus: '', // не надо
-                    Online: false, // не надо
-                }),
                 sendBtn: svgButtonUI.renderTemplate({
                     svgClassName: 'view-chat__send-message-button',
                 }),

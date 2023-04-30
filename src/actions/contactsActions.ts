@@ -1,17 +1,15 @@
 import { constantsOfActions } from '@config/actions';
 import { getContacts } from '@utils/api';
 
-export const createSetContactsAction = (
-    state: Record<string, unknown>
-): Action => {
+export const createSetContactsAction = (state: User[]) => {
     return {
         type: constantsOfActions.setContacts,
         payload: state,
     };
 };
 
-export const createGetContactsAction = (): AsyncAction => {
-    return async (dispatch: (action: Action) => void) => {
+export const createGetContactsAction = () => {
+    return async (dispatch: Dispatch) => {
         const { status, body } = await getContacts();
         const jsonBody = await body;
 

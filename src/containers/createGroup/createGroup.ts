@@ -11,7 +11,7 @@ import { DYNAMIC } from '@config/config';
 
 interface Props {
     user?: User;
-    contacts?: Contact[];
+    contacts?: User[];
 }
 
 interface State {
@@ -79,7 +79,7 @@ export class SmartCreateGroup extends Component<Props, State> {
     render() {
         if (this.state?.isSubscribed) {
             const CreateGroupUI = new DumbCreateGroup({
-                ...this.props?.contacts,
+                contacts: this.props?.contacts,
             });
 
             if (this.node) {

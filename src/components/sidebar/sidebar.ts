@@ -4,10 +4,17 @@ import '@components/sidebar/sidebar.scss';
 import { avatarUi } from '@components/ui/avatar/avatar';
 import { Component } from '@framework/component';
 import { DumbSideItem } from '../sideItem/sideItem';
-import { DumbChangeTheme } from '@components/changeTheme/changeTheme';
 
-export class DumbSidebar extends Component<Props> {
-    constructor(props: Record<string, unknown>) {
+interface Props {
+    avatar: string;
+}
+
+interface State {
+    isSubscribed: boolean;
+}
+
+export class DumbSidebar extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
     }
 
@@ -20,7 +27,13 @@ export class DumbSidebar extends Component<Props> {
     }
 
     getSidebarList() {
-        const svgButtons: Map<string, Record<string, unknown>> = new Map();
+        const svgButtons: Map<
+            string,
+            {
+                className: string;
+                value?: string | null | undefined;
+            }
+        > = new Map();
         svgButtons.set('messageButton', {
             className: 'nav-item__message-btn',
             value: null,
@@ -29,17 +42,12 @@ export class DumbSidebar extends Component<Props> {
 
         const navList: string[] = [];
 
-        svgButtons.forEach((buttonProperty: Record<string, unknown>) => {
-            let navValue = '';
-            if (buttonProperty.value) {
-                navValue = buttonProperty.value;
-            }
-
+        svgButtons.forEach((buttonProperty) => {
             const navItem = new DumbSideItem({
                 navSvgIcon: svgButtonUI.renderTemplate({
-                    svgClassName: buttonProperty.className,
+                    svgClassName: buttonProperty?.className ?? '',
                 }),
-                navItemValue: navValue,
+                navItemValue: buttonProperty.value ?? '',
             });
 
             navList.push(navItem.render());
@@ -52,14 +60,10 @@ export class DumbSidebar extends Component<Props> {
         return template({
             UserImage: avatarUi.renderTemplate({
                 ClassName: 'header__user-photo',
-                PathToUserImage: this.props.avatar,
+                PathToUserImage: this.props?.avatar ?? '',
                 Online: true,
             }),
             NavList: this.getSidebarList(),
-            ChangeTheme: new DumbChangeTheme({
-                white: 'change-theme__white',
-                black: 'change-theme__black',
-            }).render(),
             LogoutBtn: svgButtonUI.renderTemplate({
                 svgClassName: 'logout-btn',
             }),

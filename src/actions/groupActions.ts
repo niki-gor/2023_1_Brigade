@@ -3,9 +3,7 @@ import { createChat } from '@utils/api';
 import { createAddChatAction } from '@actions/chatActions';
 import { createMoveToChatAction } from './routeActions';
 
-export const createSetCreateGroupAction = (
-    state: Record<string, unknown>
-): Action => {
+export const createSetCreateGroupAction = (state: State) => {
     return {
         type: constantsOfActions.createGroup,
         payload: state,
@@ -15,7 +13,7 @@ export const createSetCreateGroupAction = (
 export const createCreateGroupAction = (
     group: Record<string, unknown>
 ): AsyncAction => {
-    return async (dispatch: (action: Action) => void) => {
+    return async (dispatch: Dispatch) => {
         const { status, body } = await createChat(group);
         const jsonBody = await body;
 
