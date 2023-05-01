@@ -3,7 +3,7 @@ import { DYNAMIC } from "@config/config";
 import { store } from "@store/store";
 import { Container } from "@containers/container";
 import { DumbCreateChannel } from "@components/channelCreation/channel";
-import { createMoveToHomePageAction } from "@actions/routeActions";
+import { createMoveToChatsAction, createMoveToHomePageAction } from "@actions/routeActions";
 import { addErrorToClass, checkNickname } from "@utils/validator";
 import { nicknameErrorTypes } from "@config/errors";
 import { ChatTypes } from "@config/enum";
@@ -14,15 +14,14 @@ export interface SmartCreateChannel {
         isSubscribed: boolean,
         valid: {
             channelNameIsValid: boolean,
-            channelDescrIsValid: boolean,
             isValid: () => boolean,
         },
         domElements: {
             headerBackBtn: HTMLElement | null,
             headerDoneBtn: HTMLElement | null,
             channelImage: HTMLElement | null,
-            channelname: HTMLInputElement | null,
-            channeldescription: HTMLInputElement | null,
+            channelName: HTMLInputElement | null,
+            channelDescription: HTMLInputElement | null,
         },
     }
 }
@@ -34,18 +33,16 @@ export class SmartCreateChannel extends Container {
             isSubscribed: false,
             valid: {
                 channelNameIsValid: true,
-                channelDescrIsValid: true,
                 isValid: () => {
-                    return this.state.valid.channelNameIsValid &&
-                    this.state.valid.channelDescrIsValid;
+                    return this.state.valid.channelNameIsValid
                 }
             },
             domElements: {
                 headerBackBtn: null,
                 headerDoneBtn: null,
                 channelImage: null,
-                channelname: null,
-                channeldescription: null,
+                channelName: null,
+                channelDescription: null,
             }
         }
 
@@ -74,9 +71,9 @@ export class SmartCreateChannel extends Container {
                 store.dispatch(createMoveToHomePageAction());
             });
 
-            this.state.domElements.channelname = document.querySelector('.channel-name__input');
-            this.state.domElements.channelname?.addEventListener('input', () => {
-                this.validateChannelName(this.state.domElements.channelname);
+            this.state.domElements.channelName = document.querySelector('.channel-name__input');
+            this.state.domElements.channelName?.addEventListener('input', () => {
+                this.validateChannelName(this.state.domElements.channelName);
             });
 
             this.state.domElements.channelImage?.addEventListener('click', () => {
@@ -84,22 +81,7 @@ export class SmartCreateChannel extends Container {
             })
 
             this.state.domElements.headerDoneBtn?.addEventListener('click', () => {
-                if (this.state.valid.isValid()) {
-                    const newChannel = {
-                        type: ChatTypes.Channel,
-                        title: this.state.domElements.channelname?.value,
-                        members: [],
-                        // image: this.state.domElements.channelImage?.,
-                        // description: this.state.domElements.channeldescription?.value,
-                    } as anyObject;
-                    
-                    store.dispatch(createMoveToHomePageAction());
-                    store.dispatch(createCreateChannelAction(newChannel));
-                    // TODO: store.dispatch(createChannelAvatarAction(this.#image));
-                } else {
-                    console.log('не удалось создать канал');
-                }
-
+                this.handleClickDone();
             })
         }
     }
@@ -167,5 +149,22 @@ export class SmartCreateChannel extends Container {
 
         input.click();
     }
-}
 
+    handleClickDone() {
+        if (this.state.valid.isValid()) {
+                    const newChannel = {
+                        type: ChatTypes.Channel,
+                        title: this.state.domElements.channelName?.value,
+                        members: [this.props.user.id],
+                        // TODO: когда на бэке сделают ручки 
+                        // avatar: this.state.domElements.channelImage,
+                        // description: this.state.domElements.channelDescription?.value,
+                        // master_id: this.props.user.id,
+                    } as anyObject;
+                    
+                    store.dispatch(createCreateChannelAction(newChannel));
+                    store.dispatch(createMoveToChatsAction());
+                    // TODO: store.dispatch(createChannelAvatarAction(this.#image));
+        }
+    }
+}
