@@ -12,6 +12,7 @@ export class Dropdown extends Component {
         return template({
             icon: svgButtonUI.renderTemplate({svgClassName: this.props.icon}),
             list: this.props.list,
+            id: this.props.id ?? '',
         })
     }
 }

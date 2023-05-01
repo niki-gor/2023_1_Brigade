@@ -29,8 +29,10 @@ export class Message extends Component {
                         className: "delete-message",
                         value: "Удалить",
                     }
-                ]
+                ],
+                id: this.props.id
             }).render(),
+            id: this.props.id,
         })
     }
 }
