@@ -1,4 +1,5 @@
 import template from '@components/ui/input/input.pug';
+import '@components/ui/input/input.scss';
 import { Component } from '@framework/component';
 
 interface Props {

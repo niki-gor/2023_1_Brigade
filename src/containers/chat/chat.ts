@@ -162,15 +162,16 @@ export class SmartChat extends Component<Props, State> {
 
             const parent = document.querySelector('.view-chat__messages');
             parent?.insertBefore(newMessage, parent.firstChild);
-            store.dispatch(createGetChatsAction());
         }
 
         getWs().send({
-            id: 0,
+            // id: 0,
             body: input.value,
             author_id: this.props?.user?.id ?? 0,
             chat_id: this.chatId ? this.chatId : 0,
         });
+
+        //TODO: обновление ластмесседжа
 
         input.value = '';
     }

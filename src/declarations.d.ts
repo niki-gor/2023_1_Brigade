@@ -120,7 +120,7 @@ interface OpenedChat {
 }
 
 interface Message {
-    id: number;
+    // id: number;
     body: string;
     chat_id: number;
     author_id: number;

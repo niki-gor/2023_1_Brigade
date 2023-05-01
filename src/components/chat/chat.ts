@@ -101,7 +101,7 @@ export class DumbChat extends Component<Props, State> {
                 sendBtn: svgButtonUI.renderTemplate({
                     svgClassName: 'view-chat__send-message-button',
                 }),
-                placeholder: 'Type something...',
+                placeholder: 'Сообщение',
             }).render(),
         });
     }

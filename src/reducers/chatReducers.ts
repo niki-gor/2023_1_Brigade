@@ -21,11 +21,11 @@ export const reduceAddChat = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.addChat:
             const payload = action.payload as Chat;
-            if (!action.payload) {
+            if (action.payload) {
                 if (!state.chats) {
                     return {
                         ...state,
-                        chats: [payload] as Chat[],
+                        chats: [payload],
                     };
                 }
 
@@ -75,7 +75,9 @@ export const reduceDeleteChat = (state: State, action: Action) => {
             const payload = action.payload as Chat;
 
             if (payload?.id) {
-                state.chats?.filter((chat) => chat.id != payload?.id);
+                state.chats = state.chats?.filter(
+                    (chat) => chat.id != payload?.id
+                );
             }
         default:
             return {
@@ -91,15 +93,19 @@ export const reduceEditChat = (state: State, action: Action) => {
             const payload = action.payload as Chat;
 
             const index = state.chats?.findIndex((chat) => {
-                return chat.id == payload?.id;
+                return chat.id == payload.id;
             });
 
-            if (index && index !== -1) {
+            console.log(index);
+
+            if ((index && index !== -1) || index === 0) {
                 state.chats?.splice(index, 1, {
                     ...state.chats[index],
-                    title: payload?.title,
-                    members: payload?.members,
+                    title: payload.title,
+                    members: payload.members,
                 });
+
+                console.log(state.chats?.[index]);
             }
 
             return {

@@ -209,8 +209,8 @@ export const createEditChatAction = (updateGroupState: {
 
         switch (status) {
             case 201:
-                router.route(`/${updateGroupState.id}`);
                 dispatch(createOpenChatAction(jsonBody));
+                router.route(`/${updateGroupState.id}`);
                 break;
             case 401:
             // TODO: отрендерить ошибку

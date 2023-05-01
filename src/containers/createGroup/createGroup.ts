@@ -79,7 +79,7 @@ export class SmartCreateGroup extends Component<Props, State> {
     render() {
         if (this.state?.isSubscribed) {
             const CreateGroupUI = new DumbCreateGroup({
-                contacts: this.props?.contacts,
+                contacts: this.props?.contacts ?? [],
             });
 
             if (this.node) {
@@ -138,18 +138,15 @@ export class SmartCreateGroup extends Component<Props, State> {
      */
     handleClickCreateGroup() {
         if (this.state?.valid.isValid()) {
-            const choseContacts = [
-                ...this.getChoseContacts(),
-                this.props?.user?.id,
-            ];
+            const contacts = [...this.getChoseContacts(), this.props?.user?.id];
 
-            const contacts = {
+            const chat = {
                 type: ChatTypes.Group,
                 title: this.state.domElements.groupNameInput?.value,
-                members: choseContacts,
+                members: contacts,
             };
 
-            store.dispatch(createCreateGroupAction(contacts));
+            store.dispatch(createCreateGroupAction(chat));
             store.dispatch(createMoveToChatsAction());
         }
     }
