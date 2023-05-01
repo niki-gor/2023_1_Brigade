@@ -154,7 +154,7 @@ export class SmartChat extends Container {
     
     handleClickSendButton() {        
         getWs().send({
-            id: '',
+            id: 0,
             type: MessageTypes.Create,
             body: this.state.domElements.input?.value,
             author_id: this.props.user.id,
