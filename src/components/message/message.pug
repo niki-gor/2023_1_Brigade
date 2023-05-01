@@ -5,8 +5,9 @@ if Side
             .message__right-side.flex
                 .message__right-side__username
                     !=Username
-                .message__right-side__text-content
+                .message__right-side__text-content.flex
                     !=MessageText
+                    .message-three-dots!=TreeDots
 else
     .messages__message.message-left.flex
         .message__avatar.flex
@@ -14,5 +15,6 @@ else
             .message__right-side.flex
                 .message__right-side__username
                     !=Username
-                .message__right-side__text-content
+                .message__right-side__text-content.flex
                     !=MessageText
+                    .message-three-dots!=TreeDots
