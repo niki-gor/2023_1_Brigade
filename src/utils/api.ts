@@ -218,6 +218,42 @@ export const getContacts = () => {
         });
 };
 
+/**
+ * implementation find contacts by string
+ */
+export const getContactsByString = (string : string) => {
+    return get(
+        config.searchContacts + string + "/",
+    )
+        .then(({ status, parsedBody }) => {
+            switch (status) {
+                case 200:
+                    return {
+                        status,
+                        body: parsedBody,
+                    };
+                case 401:
+                case 404:
+                case 500:
+                    return {
+                        status,
+                        body: null,
+                    };
+                default:
+                    return {
+                        status,
+                        body: null,
+                    };
+            }
+        })
+        .catch((error) => {
+            return {
+                status: 0,
+                body: error,
+            }
+        });
+};
+
 export const createChat = (body: anyObject) => {
     return post(
         config.chats,
