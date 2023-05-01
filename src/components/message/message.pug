@@ -16,5 +16,5 @@ else
                 .message__right-side__username
                     !=Username
                 .message__right-side__text-content.flex
-                    .message__right-side__text-content-text(name = id)!= MessageText
+                    .message__right-side__text-content-text(name = id)!= MessageText.replace(/(.{50})/g, '$1<br>')
                     .message-three-dots!=TreeDots

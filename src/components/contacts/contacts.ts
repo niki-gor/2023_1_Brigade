@@ -26,7 +26,6 @@ export class DumbContacts extends Component {
 
     render() {
         return template({
-            dropdown: new Dropdown({}).render(),
             headContacts: new searchUi({
                 inputClassName: "chats__header__input",
                 placeholder: "Поиск"

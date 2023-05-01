@@ -1,11 +1,3 @@
 .list.flex
-    .list__header.flex
-        .list__header__icon
-            !=HeaderIcon
-        .list__header__text 
-            !=HeaderText
-        .list__header__button
-            !=HeaderButton
-    .list__main-area.flex
-        for i in List
-            != i
+    for i in items
+        != i

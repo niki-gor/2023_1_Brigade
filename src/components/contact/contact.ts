@@ -11,11 +11,6 @@ export class DumbContact extends Component {
 
     render() {
         return template({
-            // avatar: avatarUi.renderTemplate({
-            //     ClassName: 'contact__item__img',
-            //     PathToUserImage: this.props.avatar,
-            //     Online: false,
-            // }),
             avatar: smallEllipseIconUI.renderTemplate({
                 imgSrc: this.props.avatar,
                 altMsg: this.props.nickname,

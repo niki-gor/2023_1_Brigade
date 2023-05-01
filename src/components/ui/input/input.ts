@@ -1,5 +1,6 @@
 import { Component } from "@/components/component";
 import template from "@components/ui/input/input.pug";
+import '@components/ui/input/input.scss';
 
 export class inputUi extends Component {
     constructor(props: any) {
