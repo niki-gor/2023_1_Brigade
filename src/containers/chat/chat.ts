@@ -4,7 +4,6 @@ import { DumbChat } from '@components/chat/chat';
 import { DumpMessage } from '@components/message/message';
 import {
     createDeleteChatAction,
-    createGetChatsAction,
     createGetOneChatAction,
     createIsNotRenderedAction,
 } from '@actions/chatActions';
