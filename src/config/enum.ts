@@ -3,3 +3,9 @@ export enum ChatTypes {
     Group,
     Channel,
 }
+
+export enum MessageTypes {
+    Create,
+    Edit,
+    Delete,
+}

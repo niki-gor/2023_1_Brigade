@@ -2,7 +2,8 @@ import { Component } from "@/components/component";
 import template from "@components/chatList/chatList.pug";
 import "@components/chatList/chatList.scss"
 import { DumbChatCard } from "@components/chatCard/chatCard";
-import { svgButtonUI } from "../ui/button/button";
+import { searchUi } from "@components/search/search";
+import { Dropdown } from "@components/dropdown/dropdown";
 
 export class DumbChatList extends Component {
     constructor(props: any) {
@@ -10,21 +11,35 @@ export class DumbChatList extends Component {
     }
 
     getChatList() {
-        let contactsList: string[] = [];
+        let chatsList: string[] = [];
         
         for (const key in this.props) {
             const chatCardUI = new DumbChatCard(this.props[key]);
 
-            contactsList.push(chatCardUI.render());
+            chatsList.push(chatCardUI.render());
         }
 
-        return contactsList;
+        return chatsList;
     }
 
     render() {
         return template({
             headChats: 'Чаты',
-            createCroup: svgButtonUI.renderTemplate({ svgClassName: 'chat-list__header__write-message-button' }),
+            dropdown: new Dropdown({
+                icon: "create-btn",
+                list: [{
+                    className: "dropdown-menu__item-group",
+                    value: "Создать группу",
+                },
+                {
+                    className: "dropdown-menu__item-channel",
+                    value: "Создать канал",
+                }],
+            }).render(),
+            chatInput: new searchUi({
+                inputClassName: "chats__header__input",
+                placeholder: "Поиск"
+            }).render(),
             chats: this.getChatList(),
         });
     }

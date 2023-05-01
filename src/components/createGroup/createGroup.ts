@@ -2,7 +2,7 @@ import { Component } from "@/components/component";
 import { DumbContact } from "@components/contact/contact"
 import template from "@components/createGroup/createGroup.pug";
 import "@components/createGroup/createGroup.scss"
-import "@components/addContactInGroup/addContact.scss"
+import "@components/group/group.scss"
 import {dataInputUI} from "@components/ui/data-input/data-input";
 import {blueButtonUI} from "@components/ui/blue-button/blue-button";
 
@@ -25,7 +25,7 @@ export class DumbCreateGroup extends Component {
 
     render() {
         return template({
-            groupNameLabel: 'Название группы',
+            groupNameLabel: 'Название',
             groupNameInput: dataInputUI.renderTemplate({
                 className: 'groupName',
                 inputType: 'text',

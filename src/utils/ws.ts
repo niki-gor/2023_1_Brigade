@@ -38,7 +38,10 @@ const createWs = () => {
 
         return {
             send: (message: anyObject) => {
-                ws?.send(JSON.stringify(message));
+                if (ws) {
+                    ws.send(JSON.stringify(message));
+                    console.log('send message')
+                }
             },
             subscribe: (chatId: number, cb: (message: anyObject) => void) => {
                 subscribers.set(chatId, cb);

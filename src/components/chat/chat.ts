@@ -39,6 +39,7 @@ export class DumbChat extends Component {
                     messageAvatar: messageData.messageAvatar,
                     username: messageData.messageUsername,
                     messageContent: message.body,
+                    id: message.id,
                 }).render());
             }
         }

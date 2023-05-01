@@ -69,12 +69,12 @@ export const nicknameErrorTypes : ErrorTypes[] = [
     {
         param: 'emptyNickname',
         class: 'empty-nickname',
-        message: 'Никнейм не может быть пустым',
+        message: 'Поле не может быть пустым',
     },
     {
         param: 'invalidNickname',
         class: 'invalid-nickname',
-        message: 'Никнейм должен быть длиннее двух символов'
+        message: 'Поле должно содержать не менее двух символов'
     },
 ];
 

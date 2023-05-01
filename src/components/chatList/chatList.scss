@@ -7,12 +7,17 @@
     min-width: 380px;
 }
 
-.chats__head {
+.chats__header {
     align-items: center;
     justify-content: space-between;
     padding: 0px 20px;
     min-height: 8%;
     min-width: 100%;
+}
+
+.chats__header__input {
+    align-items: center;
+    justify-content: center;
 }
 
 .chats {
@@ -28,4 +33,3 @@
     border: 1px solid #4A4E50;
     background: #1C1C24;
 }
-  

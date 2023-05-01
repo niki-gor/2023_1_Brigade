@@ -1,17 +1,9 @@
 .chat-list.flex
-    .chats__head.flex
+    .chats__header.flex
         .font-size-6!= headChats
-        !=createCroup
+        !=chatInput
+        !=dropdown
     .chats__separator
     .chats.flex
         for i in chats
             != i
-
-
-//- .contacts.flex
-//-     .contacts__head.flex
-//-         .font-size-6!= headContacts
-//-     .contacts__separator
-//-     .contacts__contacts.flex
-//-         for i in contacts
-//-             != i

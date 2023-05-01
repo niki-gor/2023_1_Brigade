@@ -40,11 +40,6 @@ export class DumbProfile extends Component {
 
     render() {
         return template({
-            // avatar: ellipseIconUI.renderTemplate({
-            //     imgSrc: this.props.user.avatar, 
-            //     altMsg: 'avatar'
-            // }),
-
             avatar: chatAvatarUi.renderTemplate({
                 ClassName: 'profile__avatar',
                 PathToUserImage: this.props.user.avatar,
