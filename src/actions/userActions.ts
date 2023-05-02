@@ -58,10 +58,13 @@ export const createUpdateUserAction = (user: anyObject) : AsyncAction => {
             // TODO:
         case 404:
             dispatch(createIncorrectPasswordAction());
+            break;
         case 409:
             dispatch(createOccupiedUsernameAction());
             break;
         case 500:
+            dispatch(createIncorrectPasswordAction());
+            break;
             // TODO:
         case 0:
             // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
