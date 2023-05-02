@@ -2,7 +2,7 @@ import { reduceSetUser, reduceDeleteState } from "@/reducers/userReducers";
 import { constantsOfActions } from "./actions";
 import { reduceValidate } from "@/reducers/validateReducers";
 import { reduceSetContacts } from "@/reducers/contactReducers";
-import { reduceAddChat, reduceDeleteChat, reduceEditChat, reduceIsNotRendered, reduceOpenChat, reduceSetChats } from "@/reducers/chatReducers";
+import { reduceAddChat, reduceDeleteChat, reduceDeleteSearchedChats, reduceEditChat, reduceIsNotRendered, reduceOpenChat, reduceSetChats, reduceSetSearchedChats } from "@/reducers/chatReducers";
 
 /**
 * Устанавливает соответствие между экшенами и редьюсерами
@@ -20,4 +20,6 @@ export const reducers = [
     { type: constantsOfActions.deleteChat, reducer: reduceDeleteChat },
     { type: constantsOfActions.editChat, reducer: reduceEditChat },
     { type: constantsOfActions.isNotRendered, reducer: reduceIsNotRendered },
+    { type: constantsOfActions.setSearchedChats, reducer: reduceSetSearchedChats },
+    { type: constantsOfActions.deleteSearchedChats, reducer: reduceDeleteSearchedChats },
 ];

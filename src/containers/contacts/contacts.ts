@@ -97,7 +97,6 @@ export class SmartContacts extends Container {
 
     handleFindContactsInput(string : string) {
         store.dispatch(createFindContactsByString(string))
-        // console.log(string)
         // if (contact.classList.contains('contact')) {
         //     const contactID = contact.getAttribute('name');
         //
@@ -118,7 +117,6 @@ export class SmartContacts extends Container {
             for (const key in this.props.contacts) {
                 if (this.props.contacts[key].id == contactID) {
                     store.dispatch(createCreateDialogAction(this.props.contacts[key]));
-                    store.dispatch(createMoveToChatsAction());
                     break;
                 }
             }

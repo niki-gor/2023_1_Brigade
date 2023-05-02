@@ -1,5 +1,5 @@
 import { Component } from "@/components/component";
-import { DumbContact } from "@components/contact/contact"
+import { DumbContact } from "@/components/contact/contact"
 import { whiteButtonUI } from "@components/ui/white-button/white-button"
 
 import template from "@components/contacts/contacts.pug";

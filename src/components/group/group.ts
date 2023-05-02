@@ -1,6 +1,6 @@
 import { Component } from "@components/component";
 import template from "@components/group/group.pug"
-import { DumbContact } from "@components/contact/contact";
+import { DumbContact } from "@/components/contact/contact";
 import "@components/group/group.scss"
 import "@components/createGroup/createGroup.scss"
 import { dataInputUI } from "@components/ui/data-input/data-input";

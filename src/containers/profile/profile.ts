@@ -203,8 +203,6 @@ export class SmartProfile extends Container {
                 new_password: this.state.domElements.new_password?.value,
             } as anyObject;
 
-            console.log(user)
-
             store.dispatch(createUpdateUserAction(user));
             store.dispatch(createUpdateUserAvatarAction(this.#image));
         }

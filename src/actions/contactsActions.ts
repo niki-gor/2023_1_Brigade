@@ -12,7 +12,6 @@ export const createFindContactsByString = (string : string) : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: Function) => {
         const { status, body } = await getContactsByString(string);
         let jsonBody = await body;
-        console.log(jsonBody)
         switch (status) {
             case 200:
                 // return dispatch(createSetContactsAction(jsonBody));

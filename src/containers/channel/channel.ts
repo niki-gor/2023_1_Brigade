@@ -115,7 +115,6 @@ export class SmartCreateChannel extends Container {
         const { isError, errorClass } = checkNickname(validateInput?.value ?? '');
 
         if (isError) {
-            console.log('error exist');
             validateInput?.classList.add('data-input--error');
             addErrorToClass(errorClass, nicknameErrorTypes);
             this.state.valid.channelNameIsValid = false;

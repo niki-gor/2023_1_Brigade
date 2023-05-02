@@ -115,7 +115,6 @@ export class SmartAddUserInGroup extends Container {
                 title: input?.value,
                 members: choseContacts,
             }
-
             store.dispatch(createEditChatAction(updateGroupState));
         }
         input.value = '';

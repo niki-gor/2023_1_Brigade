@@ -1,7 +1,7 @@
 import { Component } from "@/components/component";
 import { store } from "@/store/store";
-import template from "@components/chatCard/chatCard.pug";
-import "@components/chatCard/chatCard.scss";
+import template from "@components/chat-item/chat-item.pug";
+import "@components/chat-item/chat-item.scss";
 import { smallEllipseIconUI } from "@components/ui/small-ellipse-icon/small-ellipse-icon";
 
 export class ChatItem extends Component {
@@ -14,6 +14,7 @@ export class ChatItem extends Component {
             isSubscribed: false,
             onClick: this.props.onClick,
             chatId: this.props.chat.id,
+            observe: this.props.observe
         }
 
         this.unsubscribe = () => {};
@@ -22,17 +23,24 @@ export class ChatItem extends Component {
     componentDidMount() {
         if (!this.state.isSubscribed) {
             this.state.node = this.render();
+            if (this.props.isCurrent) {
+                this.state.node.classList.add('is_current');
+            }
             this.state.node.addEventListener('click', (e: Event) => {
                 this.state.onClick(e);
             });
 
             this.unsubscribe = store.subscribe(this.constructor.name + `:${this.state.chatId}`, (props: anyObject) => {
-                const index = props.chats.findIndex((chat: { id: number }) => {
+                let prop = props;
+                this.state.observe.forEach((item: string) => {
+                    prop = prop[item];
+                })
+                const index = prop.findIndex((chat: { id: number }) => {
                     return chat.id === this.state.chatId;
                 })
 
-                if (this.props.chat != props.chats[index]) {
-                    this.props.chat = props.chats[index];
+                if (this.props.chat != prop[index]) {
+                    this.props.chat = prop[index];
 
                     this.update();
                 }
@@ -43,7 +51,7 @@ export class ChatItem extends Component {
         }
     }
 
-    componentWillMount() {
+    componentWillUnmount() {
         if (this.state.isSubscribed) {
             this.unsubscribe();
             this.state.node.remove();
@@ -53,7 +61,9 @@ export class ChatItem extends Component {
 
     update() {
         const updatedNode = this.render();
-
+        if (this.props.isCurrent) {
+            this.state.node.classList.add('is_current');
+        }
         this.state.node.replaceWith(updatedNode);
         this.state.node = updatedNode;
     }
@@ -67,6 +77,6 @@ export class ChatItem extends Component {
             title: this.props.chat?.title,
             lastMessage: this.props.chat?.last_message?.body ?? '',
             id: this.props.chat?.id,
-        }), 'text/html').body;
+        }), 'text/html').body.firstChild;
     }
 }

@@ -1,19 +1,27 @@
 import { Container } from "@containers/container";
 import { store } from "@store/store";
-import { createGetChatsAction, createGetOneChatAction } from "@/actions/chatActions";
+import { createDeleteSearchedChatsAction, createGetChatsAction, createGetOneChatAction, createSearchChatsAction } from "@/actions/chatActions";
 import { DumbChatList } from "@/components/chatList/chatList";
 import { createMoveToChatAction, createMoveToCreateChannelAction, createMoveToCreateGroupAction } from "@/actions/routeActions";
 import { STATIC } from "@/config/config";
+import { List } from "@/components/list/list";
+import { Component } from "@/components/component";
+import { ChatItem } from "@/components/chat-item/chat-item";
 
 export interface SmartChatList {
     state: {
         isSubscribed: boolean,
         domElements: {
+            list: Component | null,
+            items: Component[],
+            input: HTMLInputElement | null,
+            inputValue: string;
             chats: HTMLElement | null,
             createBtn: HTMLElement | null,
             dropdownToggle: HTMLElement | null,
             dropdownMenu: HTMLElement | null,
         },
+        currentChat: number
     }
 }
 
@@ -23,11 +31,16 @@ export class SmartChatList extends Container {
         this.state = {
             isSubscribed: false,
             domElements: {
+                list: null,
+                items: [],
+                input: null,
+                inputValue: '',
                 chats:  null,
                 createBtn: null,
                 dropdownToggle: null,
                 dropdownMenu: null,
-            }
+            },
+            currentChat: 0,
         }
 
         this.rootNode = STATIC;
@@ -49,7 +62,15 @@ export class SmartChatList extends Container {
             if (!this.props.chats) {
                 this.props.chats = [];
             }
+            
+            this.state.domElements.inputValue = this.state.domElements.input?.value ?? '';
 
+            this.state.domElements.items?.forEach((item) => {
+                item.componentWillUnmount();
+            });
+            if (this.state.domElements.items) {
+                this.state.domElements.items = [];
+            }
             // const list = new List({
             //     parent: this.rootNode,
             // })
@@ -84,33 +105,167 @@ export class SmartChatList extends Container {
             //     console.log(findChatsInput?.value);
             // }, 1000))
 
-            const ChatListUI = new DumbChatList(this.props.chats);
+            const ChatListUI = new DumbChatList({});
             this.rootNode.innerHTML = ChatListUI.render();
 
-            this.state.domElements.dropdownToggle = document.querySelector('.dropdown-toggle');
-            this.state.domElements.dropdownMenu = document.querySelector('.dropdown-menu');
+            this.state.domElements.input = document.querySelector('.chats__header__input');
+            if (this.state.domElements.input) {
+                this.state.domElements.input.value = this.state.domElements.inputValue;
+            }
+            // this.state.domElements.dropdownToggle = document.querySelector('.dropdown-toggle');
+            // this.state.domElements.dropdownMenu = document.querySelector('.dropdown-menu');
+            
+            this.state.domElements.input?.addEventListener('input', () => {
+                this.handleSearch();
+            })
 
-            this.state.domElements.dropdownToggle?.addEventListener('click', () => {
-                this.state.domElements.dropdownMenu?.classList.toggle('show');
-            });
+            this.state.domElements.input?.addEventListener('focus', () => {
+                this.handleInputFocus();
+            })
 
-            window.addEventListener('click', (event) => {
-                if (event.target instanceof Node && !this.state.domElements.dropdownToggle?.contains(event.target)
-                    && !this.state.domElements.dropdownMenu?.contains(event.target)) {
-                    this.state.domElements.dropdownMenu?.classList.remove('show');
+            this.state.domElements.input?.addEventListener('blur', () => {
+                this.handleInputBlur();
+            })
+
+            // this.state.domElements.dropdownToggle?.addEventListener('click', () => {
+            //     this.state.domElements.dropdownMenu?.classList.toggle('show');
+            // });
+
+            // window.addEventListener('click', (event) => {
+            //     if (event.target instanceof Node && !this.state.domElements.dropdownToggle?.contains(event.target)
+            //         && !this.state.domElements.dropdownMenu?.contains(event.target)) {
+            //         this.state.domElements.dropdownMenu?.classList.remove('show');
+            //     }
+            // });
+
+            this.state.domElements.chats = document.querySelector('.empty_chats');
+            if (this.state.domElements.chats) {
+                this.state.domElements.chats.innerHTML = '';
+
+                this.state.domElements.list = new List({
+                    parent: this.state.domElements.chats
+                });
+
+                this.state.domElements.list?.componentDidMount();
+
+                if (this.props.founded_channels ||
+                    this.props.founded_chats   ||
+                    this.props.founded_messages) {
+                        this.state.domElements.items.forEach((item) => {
+                            item.componentWillUnmount();
+                        });
+                        if (this.state.domElements.items) {
+                            this.state.domElements.items = [];
+                        }
+                        this.props.founded_channels?.forEach((chat: anyObject) => {
+                            let isCurrent = false;
+                            if (chat.id == this.state.currentChat) {
+                                isCurrent = true;
+                            }
+                            const chatItem = new ChatItem({
+                                chat,
+                                onClick: () => { 
+                                    store.dispatch(
+                                        createMoveToChatAction({ 
+                                            chatId: chat.id 
+                                        }));
+                                    this.state.currentChat = chat.id;
+                                },
+                                parent: this.state.domElements.list?.getNode(),
+                                observe: ['founded_channels'],
+                                isCurrent
+                            });
+            
+                            chatItem.componentDidMount();
+        
+                            this.state.domElements.items.push(chatItem);
+                        });
+
+                        this.props.founded_chats?.forEach((chat: anyObject) => {
+                            let isCurrent = false;
+                            if (chat.id == this.state.currentChat) {
+                                isCurrent = true;
+                            }
+                            const chatItem = new ChatItem({
+                                chat,
+                                onClick: () => { 
+                                    store.dispatch(
+                                        createMoveToChatAction({ 
+                                            chatId: chat.id 
+                                        }));
+                                    this.state.currentChat = chat.id;
+                                },
+                                parent: this.state.domElements.list?.getNode(),
+                                observe: ['founded_chats'],
+                                isCurrent
+                            });
+            
+                            chatItem.componentDidMount();
+        
+                            this.state.domElements.items.push(chatItem);
+                        });
+
+                        this.props.founded_messages?.forEach((chat: anyObject) => {
+                            let isCurrent = false;
+                            if (chat.id == this.state.currentChat) {
+                                isCurrent = true;
+                            }
+                            const chatItem = new ChatItem({
+                                chat,
+                                onClick: () => { 
+                                    store.dispatch(
+                                        createMoveToChatAction({ 
+                                            chatId: chat.id 
+                                        }));
+                                    this.state.currentChat = chat.id;
+                                },
+                                parent: this.state.domElements.list?.getNode(),
+                                observe: ['founded_messages'],
+                                isCurrent
+                            });
+            
+                            chatItem.componentDidMount();
+        
+                            this.state.domElements.items.push(chatItem);
+                        });
+
+                        this.state.domElements.input?.focus();
+                } else {
+                    this.props.chats?.forEach((chat: anyObject) => {
+                        let isCurrent = false;
+                        if (chat.id == this.state.currentChat) {
+                            isCurrent = true;
+                        }
+                        const chatItem = new ChatItem({
+                            chat,
+                            onClick: () => { 
+                                this.state.currentChat = chat.id;
+                                store.dispatch(
+                                    createMoveToChatAction({ 
+                                        chatId: chat.id 
+                                    }));
+                            },
+                            parent: this.state.domElements.list?.getNode(),
+                            observe: ['chats'],
+                            isCurrent
+                        });
+        
+                        chatItem.componentDidMount();
+    
+                        this.state.domElements.items.push(chatItem);
+                    })
                 }
-            });
+            }
+            
+            // this.state.domElements.chats?.addEventListener('click', (e) => {
+            //     let chat = e?.target as HTMLElement | null | undefined;
+            //     chat = chat?.closest('.chat-card');
 
-            this.state.domElements.chats = document.querySelector('.chats');
-            this.state.domElements.chats?.addEventListener('click', (e) => {
-                let chat = e?.target as HTMLElement | null | undefined;
-                chat = chat?.closest('.chat-card');
-
-                if (chat) {
-                    this.handleClickOpenChat(chat);
-                    e.preventDefault();
-                }
-            });
+            //     if (chat) {
+            //         this.handleClickOpenChat(chat);
+            //         e.preventDefault();
+            //     }
+            // });
 
             const group = window.document.querySelector('.dropdown-menu__item-group');
             const channel = window.document.querySelector('.dropdown-menu__item-channel');
@@ -125,6 +280,20 @@ export class SmartChatList extends Container {
         }
     }
 
+    handleInputFocus() {
+    }
+
+    handleInputBlur() {
+    }
+
+    handleSearch() {
+        if (this.state.domElements.input?.value.trim()) {
+            store.dispatch(createSearchChatsAction(this.state.domElements.input?.value.trim()));
+        } else {
+            store.dispatch(createDeleteSearchedChatsAction());
+        }
+    }
+
     componentDidMount() {
         if (!this.state.isSubscribed) {
             this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: componentProps) => {
@@ -134,13 +303,21 @@ export class SmartChatList extends Container {
             }));
 
             this.state.isSubscribed = true;
-
             store.dispatch(createGetChatsAction());
         }
     }
 
     componentWillUnmount() {
         if (this.state.isSubscribed) {
+            store.dispatch(createDeleteSearchedChatsAction());
+            this.state.domElements.items?.forEach((item) => {
+                item.componentWillUnmount();
+            });
+            if (this.state.domElements.items) {
+                this.state.domElements.items = [];
+            }
+            this.state.domElements.list?.componentWillUnmount();
+            this.state.domElements.list = null;
             this.unsubscribe.forEach((uns) => uns());
             this.state.isSubscribed = false;
         }

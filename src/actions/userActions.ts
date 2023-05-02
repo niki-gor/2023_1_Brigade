@@ -48,7 +48,6 @@ export const createUpdateUserAction = (user: anyObject) : AsyncAction => {
     return async (dispatch: (action: Action) => void, state: Function) => {
         const { status, body } = await updateUser(user);
         const jsonBody = await body;
-        console.log(jsonBody);
         switch (status) {
         case 200:
             dispatch(createSetUserAction(jsonBody));
