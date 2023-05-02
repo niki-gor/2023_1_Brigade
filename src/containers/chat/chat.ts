@@ -2,7 +2,7 @@ import { Container } from "@containers/container";
 import { store } from "@/store/store";
 import { DumbChat } from "@/components/chat/chat";
 import { Message } from "@/components/message/message";
-import { createDeleteChatAction, createEditChatAction, createGetChatsAction, createGetOneChatAction, createIsNotRenderedAction, createSetChatsAction } from "@/actions/chatActions";
+import { createDeleteChatAction, createGetOneChatAction, createIsNotRenderedAction } from "@/actions/chatActions";
 import { getWs } from "@/utils/ws";
 import { DumbEmptyDynamicPage } from "@/components/emptyDynamicPage/emptyDynamicPage";
 import { createMoveToEditChatAction } from "@/actions/routeActions";
@@ -169,7 +169,6 @@ export class SmartChat extends Container {
                         username: member.nickname,
                         id: message.id,
                     }).render(), 'text/html').body.firstChild as ChildNode;
-
                     break;
                 }
             }
@@ -255,6 +254,7 @@ export class SmartChat extends Container {
     }
 
     handleClickEditButton() {
+        console.log('edit has been clicked');
         store.dispatch(createMoveToEditChatAction(this.props.openedChat));
     }
 

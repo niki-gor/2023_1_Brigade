@@ -2,7 +2,7 @@ import { Component } from "@/components/component";
 import template from "@components/channelInput/channelInput.pug";
 import "@components/channelInput/channelInput.scss";
 
-export class DumbChatCard extends Component {
+export class ChannelInput extends Component {
     constructor(props: any) {
         super(props);
     }

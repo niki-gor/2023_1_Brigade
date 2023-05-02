@@ -24,3 +24,15 @@ $online-circle-color: #5FD641;
     border-radius: 50%;
     background: #112235;
 }
+
+.create-channel__form__image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    image-rendering: pixelated;
+    background-repeat: no-repeat;
+    background: none;
+    object-fit: cover;
+    cursor: pointer;
+    margin-right: 20px;
+}
