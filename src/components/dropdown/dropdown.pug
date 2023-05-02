@@ -1,5 +1,5 @@
 .dropdown
-    !=createButton
+    !=icon
     ul.dropdown-menu.flex
-        li.a(href="#").dropdown-menu__item-group New Group
-        li.a(href="#").dropdown-menu__item-channel New Channel
+        for i in list 
+            li(class = i.className, name = id).dropdown-toggle!= i.value

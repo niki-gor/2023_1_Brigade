@@ -6,17 +6,20 @@ import { createDeleteChatAction, createEditChatAction, createGetChatsAction, cre
 import { getWs } from "@/utils/ws";
 import { DumbEmptyDynamicPage } from "@/components/emptyDynamicPage/emptyDynamicPage";
 import { createMoveToEditChatAction } from "@/actions/routeActions";
-import { ChatTypes } from "@/config/enum";
+import { ChatTypes, MessageTypes } from "@/config/enum";
 import { DYNAMIC } from "@/config/config";
 
 
 export interface SmartChat {
     state: {
         isSubscribed: boolean,
+        editingMessageId: string | undefined,
         domElements: {
+            input: HTMLInputElement | null;
             submitBtn: HTMLElement | null;
             deleteBtn: HTMLElement | null;
             editBtn: HTMLElement | null;
+            message: HTMLElement | null;
         }
     }
 }
@@ -35,10 +38,13 @@ export class SmartChat extends Container {
         super(props);
         this.state = {
             isSubscribed: false,
+            editingMessageId: undefined,
             domElements: {
+                input: null,
                 submitBtn: null,
                 deleteBtn: null,
                 editBtn: null,
+                message: null,
             },
         }
         this.chatId = props.chatId;
@@ -62,22 +68,38 @@ export class SmartChat extends Container {
                 
                 this.rootNode.innerHTML = chat.render();
 
+                this.state.domElements.input = document.querySelector('.input-message__text-field__in') as HTMLInputElement;
                 this.state.domElements.submitBtn = document.querySelector('.view-chat__send-message-button');
                 this.state.domElements.deleteBtn = document.querySelector('.delete-btn');
                 this.state.domElements.editBtn = document.querySelector('.edit-btn');
+                const messages = document.querySelector('.view-chat__messages');
 
-                const input = document.querySelector('.input-message__text-field__in') as HTMLInputElement;
+                messages?.addEventListener('click', (e) => {
+                    const message = e?.target as HTMLElement | null | undefined;
 
-                input.addEventListener('keydown', e => {
+                    const messageEdit = message?.closest('.edit-message') as HTMLElement;
+                    if (messageEdit) {
+                        this.handleEditMessage(messageEdit)
+                        e.preventDefault();
+                    }
+
+                    const messageDelete = message?.closest('.delete-message') as HTMLElement;
+                    if (messageDelete) {
+                        this.handleDeleteMessage(messageDelete)
+                        e.preventDefault();
+                    }
+                }); 
+
+                this.state.domElements.input.addEventListener('keydown', e => {
                     if (e.key === 'Enter' && e.target) {
-                        this.handleClickSendButton(input);
+                        this.handleClickSendButton();
                     }
                 });
 
                 this.state.domElements.submitBtn?.addEventListener('click', (e) => {
                     e.preventDefault();
 
-                    this.handleClickSendButton(input);
+                    this.handleClickSendButton();
                 });
 
                 this.state.domElements.deleteBtn?.addEventListener('click', (e) => {
@@ -98,54 +120,134 @@ export class SmartChat extends Container {
                 if (uns) {
                     uns();
                 }
+
+                this.state.domElements.input.focus();
             };
         }
     }
 
     renderIncomingMessage(message: anyObject) {
-        for (const member of this.props?.openedChat.members) {
-            if (member.id === message.author_id) {
-                const newMessage = new DOMParser().parseFromString(new Message({
-                    messageSide: false,
-                    messageAvatar: member.avatar,
-                    messageContent: message.body,
-                    username: member.nickname,
-                }).render(), 'text/html').body.firstChild as ChildNode;
-                
-                const parent = document.querySelector('.view-chat__messages');
-                parent?.insertBefore(newMessage, parent.firstChild);
-                break;
-            }
+        if (message.type === MessageTypes.Edit) {
+            document.querySelectorAll('.message__right-side__text-content-text').forEach((mes) => {
+                if (mes.getAttribute('name') === message.id) {
+                    if (mes.textContent) {
+                        mes.textContent = message.body;
+                    }
+                }
+            })
+
+            return;
         }
-    }    
-    
-    handleClickSendButton(input: HTMLInputElement) {
-        if (input.value) {
-            const newMessage = new DOMParser().parseFromString(new Message({
+
+        if (message.type === MessageTypes.Delete) {
+            document.querySelectorAll('.messages__message').forEach((mes) => {
+                if (mes.getAttribute('name') === message.id) {
+                    mes.remove();
+                }
+            })
+
+            return;
+        }
+
+        let newMessage;
+
+        if (message.author_id === this.props.user.id) {
+            newMessage = new DOMParser().parseFromString(new Message({
                 messageSide: true,
                 messageAvatar: this.props.user.avatar,
-                messageContent: input.value,
+                messageContent: message.body,
                 username: this.props.user.nickname,
+                id: message.id,
             }).render(), 'text/html').body.firstChild as ChildNode;
-            
-            const parent = document.querySelector('.view-chat__messages');
-            parent?.insertBefore(newMessage, parent.firstChild);
-            
-            if (this.props?.openedChat?.last_message) {
-                this.props.openedChar.last_message = {
-                    body: input.value,
-                    author_id: this.props.openedChat[this.props.openedChat.length - 1].author_id,
+        } else {
+            for (const member of this.props?.openedChat.members) {
+                if (member.id === message.author_id) {
+                    newMessage = new DOMParser().parseFromString(new Message({
+                        messageSide: false,
+                        messageAvatar: member.avatar,
+                        messageContent: message.body,
+                        username: member.nickname,
+                        id: message.id,
+                    }).render(), 'text/html').body.firstChild as ChildNode;
+
+                    break;
                 }
             }
         }
-        
+
+        if (newMessage) {
+            const parent = document.querySelector('.view-chat__messages');
+            parent?.insertBefore(newMessage, parent.firstChild);
+        }
+    }    
+    
+    handleClickSendButton() {      
+        const body = this.state.domElements.input?.value.trim();
+        if (!body) {
+            return;
+        }
+
+        if (this.state.editingMessageId) {
+            getWs().send({
+                id: this.state.editingMessageId,
+                type: MessageTypes.Edit,
+                body: this.state.domElements.input?.value,
+                author_id: 0,
+                chat_id: parseInt(this.chatId),
+            })
+
+            this.state.editingMessageId = undefined;
+        } else {
+            getWs().send({
+                id: '',
+                type: MessageTypes.Create,
+                body: this.state.domElements.input?.value,
+                author_id: this.props.user.id,
+                chat_id: parseInt(this.chatId),
+            })
+        }
+
+        if (this.state.domElements.input) {
+            this.state.domElements.input.value = '';
+        }
+    }
+
+    handleDeleteMessage(e: HTMLElement) {
+        const id = e.getAttribute('name');
+        if (!id) {
+            return;
+        }
+
         getWs().send({
-            body: input.value,
-            author_id: this.props.user.id,
+            id,
+            type: MessageTypes.Delete,
+            body: '',
+            author_id: 0,
             chat_id: parseInt(this.chatId),
         })
+    }
 
-        input.value = '';
+    handleEditMessage(e: HTMLElement) {
+        const id = e.getAttribute('name');
+        if (!id) {
+            return;
+        }
+
+        this.state.editingMessageId = id;
+        
+        if (!this.state.domElements.input) {
+            return;
+        }
+
+        document.querySelectorAll('.message__right-side__text-content-text').forEach((message) => {
+            if (message.getAttribute('name') == this.state.editingMessageId) {
+                if (message.textContent && this.state.domElements.input) {
+                    this.state.domElements.input.value = message.textContent;
+                }
+            }
+        })
+
+        this.state.domElements.input.focus();
     }
 
     handleClickDeleteButton() {

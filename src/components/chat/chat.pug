@@ -7,5 +7,6 @@ main.main.flex
                 !=MoreInfoBtn
                 !=DeleteChatBtn
         .view-chat__messages.flex
-            !=MessageList
+            for i in MessageList
+                !=i
         !=Input
