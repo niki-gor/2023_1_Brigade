@@ -16,8 +16,8 @@
 }
 
 .chats__header__input {
-    align-items: center;
-    justify-content: center;
+    align-items: start;
+    justify-content: start;
 }
 
 .chats {
@@ -32,4 +32,8 @@
     min-width: 100%;
     border: 1px solid #4A4E50;
     background: #1C1C24;
+}
+
+.empty_chats {
+    min-width: 100%;
 }

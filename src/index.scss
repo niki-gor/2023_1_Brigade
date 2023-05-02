@@ -2,6 +2,24 @@ html {
     box-sizing: border-box;
 }
 
+/* Стилизация полосы прокрутки */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #222;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #666;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #999;
+}
+
 *,
 *::before,
 *::after {
@@ -199,12 +217,3 @@ main {
 
     color: #FFFFFF;
 }
-
-@import "./assets/fonts/fonts.css";
-@import "./pages/chat/chat.css";
-@import "./pages/error/error.css";
-@import "./components/header/header.css";
-@import "./components/ui/input/input.css";
-@import "./components/ui/header/header.css";
-@import "./components/list/list.css";
-@import "./components/chatType/chatType.css";

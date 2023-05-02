@@ -1,24 +1,39 @@
 import { Component } from "@/components/component";
-import template from "@components/templateList/templateList.pug";
-import "@components/chatList/chatList.scss"
-import { svgButtonUI } from "@components/ui/button/button";
+import template from "@components/list/list.pug";
+import "@components/list/list.scss"
 
 export class List extends Component {
     constructor(props: any) {
         super(props);
-        // TODO: присваивать в пропсы тип листа
+
+        this.state = {
+            parent: this.props.parent,
+            node: undefined,
+            isSubscribed: false,
+        };
     }
 
-    getList(itemType: Component) {
+    componentDidMount() {
+        if (!this.state.isSubscribed) {
+            this.state.node = this.render();
 
+            this.state.parent.appendChild(this.state.node);
+            this.state.isSubscribed = true;
+        }
+    }
+
+    componentWillUnmount() {
+        if (!this.state.isSubscribed) {
+            this.state.node.remove();
+            this.state.isSubscribed = false;
+        }
+    }
+
+    getNode() {
+        return this.state.node;
     }
 
     render() {
-        return template({
-            HeaderIcon: svgButtonUI.renderTemplate({svgClassName: this.props.headerIcon}),
-            HeaderText: this.props.headerText,
-            HeaderButton: svgButtonUI.renderTemplate({svgClassName: "arrow-down"}),
-            List: this.getList(this.props.itemType),
-        })
+        return new DOMParser().parseFromString(template({}), 'text/html').body;
     }
 }

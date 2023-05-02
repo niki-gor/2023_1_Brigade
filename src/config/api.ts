@@ -5,6 +5,8 @@ export const config = {
     logout: '/logout/',
     updateUser: '/users/settings/',
     contacts: '/users/contacts/',
+    searchContacts: '/users/search/',
+    searchChats: '/chats/search/',
     chats: '/chats/',
     uploadAvatar: '/images/',
 };

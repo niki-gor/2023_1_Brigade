@@ -1,5 +1,5 @@
 import { Component } from "@/components/component";
-import { DumbContact } from "@components/contact/contact"
+import { DumbContact } from "@/components/contact/contact"
 import template from "@components/createGroup/createGroup.pug";
 import "@components/createGroup/createGroup.scss"
 import "@components/group/group.scss"
