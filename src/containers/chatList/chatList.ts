@@ -268,15 +268,15 @@ export class SmartChatList extends Container {
             // });
 
             const group = window.document.querySelector('.dropdown-menu__item-group');
-            const channel = window.document.querySelector('.dropdown-menu__item-channel');
+            // const channel = window.document.querySelector('.dropdown-menu__item-channel');
 
             group?.addEventListener('click', () => {
                 store.dispatch(createMoveToCreateGroupAction());
             })
 
-            channel?.addEventListener('click', () => {
-                store.dispatch(createMoveToCreateChannelAction());
-            })
+            // channel?.addEventListener('click', () => {
+            //     store.dispatch(createMoveToCreateChannelAction());
+            // })
         }
     }
 

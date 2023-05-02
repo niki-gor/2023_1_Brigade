@@ -31,10 +31,11 @@ export class DumbChatList extends Component {
                     className: "dropdown-menu__item-group",
                     value: "Создать группу",
                 },
-                {
-                    className: "dropdown-menu__item-channel",
-                    value: "Создать канал",
-                }],
+                // {
+                //     className: "dropdown-menu__item-channel",
+                //     value: "Создать канал",
+                // }
+            ],
             }).render(),
             chatInput: new searchUi({
                 inputClassName: "chats__header__input",
