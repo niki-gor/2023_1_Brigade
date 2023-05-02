@@ -50,6 +50,8 @@ export class DumbChat extends Component {
         let editBtnClassName: string = "";
         if (this.props.chatData.type === ChatTypes.Group) {
             editBtnClassName = 'edit-chat';
+        } else if (this.props.chatData.type === ChatTypes.Channel) {
+            editBtnClassName = 'edit-chat'; // TODO: edit-channel добавить класс в svg button
         }
         return template({
             MoreInfoBtn: svgButtonUI.renderTemplate({svgClassName: editBtnClassName}),
