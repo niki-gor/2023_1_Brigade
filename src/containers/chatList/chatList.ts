@@ -50,6 +50,27 @@ export class SmartChatList extends Container {
                 this.props.chats = [];
             }
 
+            // const list = new List({
+            //     parent: this.rootNode,
+            // })
+
+            // list.componentDidMount();
+
+            // this.props.chats.forEach((chat: anyObject) => {
+            //     const chatItem = new ChatItem({
+            //         chat,
+            //         onClick: () => { console.log('onClick', chat.title)},
+            //         parent: list.getNode()
+            //     });
+
+            //     chatItem.componentDidMount();
+            // });
+
+            // const uns = this.unsubscribe.pop();
+            // if (uns) {
+            //     uns();
+            // }
+
             // const findContactsSelector = document.querySelector('.chats__header') as HTMLElement;
             // const findContactsInput = findContactsSelector?.querySelector('.chats__header__input__search') as HTMLInputElement;
             // findContactsInput?.addEventListener('input', this.throttle(() => {
