@@ -2,7 +2,7 @@ import { Container } from "@containers/container";
 import { store } from "@store/store";
 import { createCreateDialogAction, createDeleteSearchedChatsAction, createGetChatsAction, createSearchChatsAction } from "@/actions/chatActions";
 import { DumbChatList } from "@/components/chatList/chatList";
-import { createMoveToChatAction, createMoveToCreateGroupAction } from "@/actions/routeActions";
+import { createMoveToChatAction, createMoveToCreateChannelAction, createMoveToCreateGroupAction } from "@/actions/routeActions";
 import { STATIC } from "@/config/config";
 import { List } from "@/components/list/list";
 import { Component } from "@/components/component";
@@ -318,15 +318,15 @@ export class SmartChatList extends Container {
             // });
 
             const group = window.document.querySelector('.dropdown-menu__item-group');
-            // const channel = window.document.querySelector('.dropdown-menu__item-channel');
+            const channel = window.document.querySelector('.dropdown-menu__item-channel');
 
             group?.addEventListener('click', () => {
                 store.dispatch(createMoveToCreateGroupAction());
             })
 
-            // channel?.addEventListener('click', () => {
-            //     store.dispatch(createMoveToCreateChannelAction());
-            // })
+            channel?.addEventListener('click', () => {
+                store.dispatch(createMoveToCreateChannelAction());
+            })
         }
     }
 
