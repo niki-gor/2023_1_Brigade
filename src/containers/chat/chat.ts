@@ -108,7 +108,7 @@ export class SmartChat extends Container {
                     this.handleClickDeleteButton();
                 });
 
-                if (this.props.openedChat.type === ChatTypes.Group) {
+                if (this.props.openedChat.type === ChatTypes.Group || this.props.openedChat.type === ChatTypes.Channel) {
                     this.state.domElements.editBtn?.addEventListener('click', (e) => {
                         this.handleClickEditButton();
                     });
