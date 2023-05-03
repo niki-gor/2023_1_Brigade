@@ -65,6 +65,8 @@ export const reduceSetChats = (state: anyObject, action: Action) => {
 export const reduceOpenChat = (state: anyObject, action: Action) => {
     switch (action.type) {
         case constantsOfActions.openChat:
+            console.log('master: ', action?.payload?.master_id)
+            // console.log('user: ', action?.payload?.user_id)
             if (!action.payload?.messages) {
                 action.payload = {
                     ...action.payload,

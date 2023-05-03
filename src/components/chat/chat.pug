@@ -4,9 +4,10 @@ main.main.flex
             .view-chat__header__companion.flex
                 !=HeaderUserAvatar
             ul.view-chat__header__icons.flex
-                !=MoreInfoBtn
+                !=EditBtn
                 !=DeleteChatBtn
         .view-chat__messages.flex
             for i in MessageList
                 !=i
         !=Input
+        !=SubsribeBtn

@@ -68,6 +68,8 @@ export class SmartChat extends Container {
                 
                 this.rootNode.innerHTML = chat.render();
 
+                console.log('user id: ', this.props?.user?.id);
+
                 this.state.domElements.input = document.querySelector('.input-message__text-field__in') as HTMLInputElement;
                 this.state.domElements.submitBtn = document.querySelector('.view-chat__send-message-button');
                 this.state.domElements.deleteBtn = document.querySelector('.delete-btn');
@@ -108,8 +110,9 @@ export class SmartChat extends Container {
                     this.handleClickDeleteButton();
                 });
 
-                if (this.props.openedChat.type === ChatTypes.Group || this.props.openedChat.type === ChatTypes.Channel) {
-                    this.state.domElements.editBtn?.addEventListener('click', (e) => {
+                if (this.props.openedChat.type === ChatTypes.Group || this.props.openedChat.type === ChatTypes.Channel 
+                    && (this.props?.user?.id === this.props?.openedChat?.master_id)) {
+                    this.state.domElements.editBtn?.addEventListener('click', () => {
                         this.handleClickEditButton();
                     });
                 }
@@ -254,7 +257,6 @@ export class SmartChat extends Container {
     }
 
     handleClickEditButton() {
-        console.log('edit has been clicked');
         store.dispatch(createMoveToEditChatAction(this.props.openedChat));
     }
 
