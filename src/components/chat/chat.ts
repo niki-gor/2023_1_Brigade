@@ -49,7 +49,7 @@ export class DumbChat extends Component {
 
     render() {
         let editBtnClassName: string = "";
-        if (this.props.chatData.type === ChatTypes.Group) {
+        if (this.props.chatData.type === ChatTypes.Group || this.props.chatData.type === ChatTypes.Channel) {
             editBtnClassName = 'edit-chat';
         }
         return template({
