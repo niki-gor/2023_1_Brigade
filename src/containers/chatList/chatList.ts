@@ -8,6 +8,7 @@ import { List } from "@/components/list/list";
 import { Component } from "@/components/component";
 import { ChatItem } from "@/components/chat-item/chat-item";
 import { TitleItem } from "@/components/title-item/title-item";
+import { ContactItem } from "@/components/contact-item/contact-item";
 
 export interface SmartChatList {
     state: {
@@ -163,7 +164,7 @@ export class SmartChatList extends Container {
                         this.state.domElements.items.push(titleItem);
 
                         this.props.founded_contacts?.forEach((contact: anyObject) => {
-                            const contactItem = new ChatItem({
+                            const contactItem = new ContactItem({
                                 contact,
                                 onClick: () => { 
                                     store.dispatch(createCreateDialogAction(contact));

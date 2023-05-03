@@ -32,12 +32,12 @@ export class ContactItem extends Component {
                 this.state.observe.forEach((item: string) => {
                     prop = prop[item];
                 })
-                const index = prop.findIndex((chat: { id: number }) => {
-                    return chat.id === this.state.contactId;
+                const index = prop.findIndex((contact: { id: number }) => {
+                    return contact.id === this.state.contactId;
                 })
 
-                if (this.props.chat != prop[index]) {
-                    this.props.chat = prop[index];
+                if (this.props.contact != prop[index]) {
+                    this.props.contact = prop[index];
 
                     this.update();
                 }
@@ -65,12 +65,12 @@ export class ContactItem extends Component {
     render() {
         return new DOMParser().parseFromString(template({
             avatar: smallEllipseIconUI.renderTemplate({
-                imgSrc: this.props.avatar,
-                altMsg: this.props.nickname,
+                imgSrc: this.props.contact.avatar,
+                altMsg: this.props.contact.nickname,
             }),
-            nickname: this.props.nickname,
-            status: this.props.status,
-            id: this.props.id,
+            nickname: this.props.contact.nickname,
+            status: this.props.contact.status,
+            id: this.props.contact.id,
         }), 'text/html').body.firstChild;
     }
 }
