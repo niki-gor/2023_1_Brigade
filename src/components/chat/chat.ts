@@ -13,13 +13,13 @@ export class DumbChat extends Component {
         this.editBtn = '';
         this.deleteChatBtn = '';
         this.channelInput = '';
-        this.subsribeBtn = svgButtonUI.renderTemplate({svgClassName: 'subscribe-btn'});
+        this.subsribeBtnText = '';
     }
 
     private editBtn: string;
     private deleteChatBtn: string;
     private channelInput: string;
-    private subsribeBtn: string; // подписка на канал, если пользователь не подписан на канал
+    private subsribeBtnText: string; // подписка на канал, если пользователь не подписан на канал
 
     #getMessageData(message: {author_id: number}) : {messageAvatar: string, messageUsername: string} {
         let messageAvatar;
@@ -65,8 +65,30 @@ export class DumbChat extends Component {
         return false;
     }
 
+    /**
+     * 
+     * @returns {Boolean} - состоит ли пользователь в канале
+     */
+    private isMember() : boolean {
+        for (let member of this.props?.chatData?.members) {
+            if (member.id == this.props.userId) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     render() {
-        // if (this.checkRights()) {
+        // this.props.chatData.master_id = 1; // подписчик
+        
+        if (this.isMember()) {
+            this.subsribeBtnText = 'Unsubscribe';
+        } else {
+            this.subsribeBtnText = 'Subscribe';
+        }
+
+        if (this.checkRights()) {
             this.editBtn = 'edit-chat';
             this.deleteChatBtn = 'delete-btn';
             this.channelInput =  new inputUi({
@@ -81,10 +103,8 @@ export class DumbChat extends Component {
                 sendBtn: svgButtonUI.renderTemplate({svgClassName: 'view-chat__send-message-button'}),
                 placeholder: 'Type something...',
             }).render();
-            this.subsribeBtn = '';
-        // }
-
-        
+            this.subsribeBtnText = '';
+        }
         
         return template({
             EditBtn: svgButtonUI.renderTemplate({svgClassName: this.editBtn}),
@@ -97,9 +117,10 @@ export class DumbChat extends Component {
                 UserStatus: '',
                 Online: false, // нет this.props?.userOnline,
             }),
+            Subscriberes: this.props?.chatData?.members?.length,
             MessageList: this.getMessageList(),
             Input: this.channelInput,
-            SubsribeBtn: this.subsribeBtn,
+            SubsribeBtnText: this.subsribeBtnText,
         });
     }
 }

@@ -2,7 +2,7 @@ import { Container } from "@containers/container";
 import { store } from "@/store/store";
 import { DumbChat } from "@/components/chat/chat";
 import { Message } from "@/components/message/message";
-import { createDeleteChatAction, createGetOneChatAction, createIsNotRenderedAction } from "@/actions/chatActions";
+import { createDeleteChatAction, createEditChatAction, createGetOneChatAction, createIsNotRenderedAction } from "@/actions/chatActions";
 import { getWs } from "@/utils/ws";
 import { DumbEmptyDynamicPage } from "@/components/emptyDynamicPage/emptyDynamicPage";
 import { createMoveToEditChatAction } from "@/actions/routeActions";
@@ -20,6 +20,7 @@ export interface SmartChat {
             deleteBtn: HTMLElement | null;
             editBtn: HTMLElement | null;
             message: HTMLElement | null;
+            subscribeBtn: HTMLElement | null;
         }
     }
 }
@@ -45,6 +46,7 @@ export class SmartChat extends Container {
                 deleteBtn: null,
                 editBtn: null,
                 message: null,
+                subscribeBtn: null,
             },
         }
         this.chatId = props.chatId;
@@ -57,6 +59,10 @@ export class SmartChat extends Container {
     render() {
         if (this.state.isSubscribed && this.chatId) {
             if (this.props?.openedChat?.isNotRendered) {
+                // this.props.openedChat.master_id = this.props?.user?.id; // debug
+                console.log('user id: ', this.props?.user?.id);
+                console.log('master id: ', this.props.openedChat.master_id);
+
                 const chat = new DumbChat({
                     chatData: this.props.openedChat,
                     userId: this.props?.user?.id,
@@ -68,12 +74,39 @@ export class SmartChat extends Container {
                 
                 this.rootNode.innerHTML = chat.render();
 
-                console.log('user id: ', this.props?.user?.id);
-
                 this.state.domElements.input = document.querySelector('.input-message__text-field__in') as HTMLInputElement;
                 this.state.domElements.submitBtn = document.querySelector('.view-chat__send-message-button');
                 this.state.domElements.deleteBtn = document.querySelector('.delete-btn');
                 this.state.domElements.editBtn = document.querySelector('.edit-btn');
+                this.state.domElements.subscribeBtn = document.querySelector('.subscribe-btn');
+
+                
+                this.state.domElements?.subscribeBtn?.addEventListener('click', () => {
+                    
+                    if (this.state.domElements.subscribeBtn?.textContent === 'Subscribe') {
+                        this.state.domElements.subscribeBtn.textContent = 'Unsubscribe';
+                        this.props.openedChat.members.push(this.props.user);
+                    } else if (this.state.domElements.subscribeBtn?.textContent === 'Unsubscribe') {
+                        this.state.domElements.subscribeBtn.textContent = 'Subscribe';
+                        for (let i = 0; i < this.props.openedChat.members.length; ++i) {
+                            if (this.props.openedChat.members[i].id === this.props?.user?.id) {
+                                this.props.openedChat.members.splice(i, 1);
+                            }
+                        }
+                        // TODO: удалить у конкретного пользователя из списка чатов (чат с данным id)
+                    }
+
+                    const updateChannelState = {
+                        id: this.props?.openedChat?.id,
+                        type: ChatTypes.Channel,
+                        title: this.props?.openedChat?.title,
+                        members: this.props?.openedChat?.members,
+                    }
+
+                    store.dispatch(createEditChatAction(updateChannelState));
+                })
+
+
                 const messages = document.querySelector('.view-chat__messages');
 
                 messages?.addEventListener('click', (e) => {
