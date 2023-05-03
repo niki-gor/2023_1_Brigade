@@ -1,8 +1,8 @@
 import { Component } from "@/components/component";
-import template from "@components/list/list.pug";
-import "@components/list/list.scss"
+import template from "@components/title-item/title-item.pug";
+import "@components/title-item/title-item.scss";
 
-export class List extends Component {
+export class TitleItem extends Component {
     constructor(props: any) {
         super(props);
 
@@ -10,30 +10,27 @@ export class List extends Component {
             parent: this.props.parent,
             node: undefined,
             isSubscribed: false,
-        };
+        }
     }
 
     componentDidMount() {
         if (!this.state.isSubscribed) {
             this.state.node = this.render();
-
             this.state.parent.appendChild(this.state.node);
             this.state.isSubscribed = true;
         }
     }
 
     componentWillUnmount() {
-        if (!this.state.isSubscribed) {
+        if (this.state.isSubscribed) {
             this.state.node.remove();
             this.state.isSubscribed = false;
         }
     }
 
-    getNode() {
-        return this.state.node;
-    }
-
     render() {
-        return new DOMParser().parseFromString(template({}), 'text/html').body;
+        return new DOMParser().parseFromString(template({
+            title: this.props.title,
+        }), 'text/html').body.firstChild;
     }
 }

@@ -1,9 +1,9 @@
 import { constantsOfActions } from "@/config/actions";
 import { ChatTypes } from "@/config/enum";
 import { store } from "@/store/store";
-import { createChat, deleteChat, editChat, getChats, getOneChat } from "@/utils/api";
+import { createChat, deleteChat, editChat, getChats, getOneChat, searchChats } from "@/utils/api";
 import { router } from "@router/createRouter";
-import { createMoveToChatAction } from "./routeActions";
+import { createMoveToChatAction, createMoveToChatsAction } from "./routeActions";
 
 export const createIsNotRenderedAction = () => {
     return {
@@ -88,6 +88,7 @@ export const createCreateDialogAction = (contact: anyObject) => {
         for (const key in state().chats) {
             const st = state().chats[key];
             if (st.type === ChatTypes.Dialog && (st.members[0]?.id == contact.id || st.members[1]?.id == contact.id)) {
+                dispatch(createMoveToChatsAction());
                 return dispatch(createMoveToChatAction({ chatId: st.id }));
             }
         }
@@ -103,6 +104,7 @@ export const createCreateDialogAction = (contact: anyObject) => {
         switch (status) {
             case 201:
                 dispatch(createAddChatAction(jsonBody));
+                dispatch(createMoveToChatsAction());
                 dispatch(createMoveToChatAction({ chatId: jsonBody.id }));
                 break;
             case 401:
@@ -188,8 +190,8 @@ export const createEditChatAction = (updateGroupState: anyObject) => {
 
         switch (status) {
             case 201:
-                router.route(`/${updateGroupState.id}`);
                 dispatch(createOpenChatAction(jsonBody));
+                router.route(`/${updateGroupState.id}`);
                 break;
             case 401:
                 // TODO: отрендерить ошибку
@@ -227,4 +229,45 @@ export const createCreateChannelAction = (channel: anyObject) => {
             // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
         }
     };
+}
+
+export const createSearchChatsAction = (str: string) => {
+    return async (dispatch: (action: Action) => void, state: Function) => {
+        const { status, body } = await searchChats(str);
+        const jsonBody = await body;
+
+        switch (status) {
+            case 200:
+                dispatch(createSetSearchedChatsAction(jsonBody));
+                break;
+            case 401:
+            // TODO: отрендерить ошибку
+            case 404:
+            // TODO: отрендерить ошибку
+            case 500:
+            // TODO: отрендерить ошибку
+            case 0:
+            // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
+            default:
+            // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
+        }
+    };
+}
+
+export const createSetSearchedChatsAction = (body: anyObject) => {
+    return {
+        type: constantsOfActions.setSearchedChats,
+        payload: body,
+    }
+}
+
+export const createDeleteSearchedChatsAction = () => {
+    return {
+        type: constantsOfActions.deleteSearchedChats,
+        payload: {
+            founded_messages: undefined,
+            founded_chats: undefined,
+            founded_channels: undefined
+        },
+    }
 }

@@ -203,10 +203,13 @@ export class SmartProfile extends Container {
                 new_password: this.state.domElements.new_password?.value,
             } as anyObject;
 
-            console.log(user)
-
             store.dispatch(createUpdateUserAction(user));
             store.dispatch(createUpdateUserAvatarAction(this.#image));
+        } else {
+            this.validateCurrentPassword();
+            this.validateNewPassword();
+            this.validateNickname();
+            this.validateUsername();
         }
     }
 
@@ -244,7 +247,7 @@ export class SmartProfile extends Container {
         addErrorToClass('', newPasswordErrorTypes);
 
         const { isError, errorClass } = checkNewPassword(this.state.domElements.new_password?.value ?? '');
-
+        // console.log(isError)
         if (isError) {
             this.state.domElements.new_password?.classList.add('data-input--error');
             addErrorToClass(errorClass, newPasswordErrorTypes);

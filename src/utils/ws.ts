@@ -6,7 +6,6 @@ const createWs = () => {
         ws = new WebSocket('wss://technogramm.ru/api/v1/message/');
         
         ws.onopen = (event) => {
-            console.log('WebSocket connection opened');
         };
     
         // Обработчик события получения сообщения от сервера
@@ -20,13 +19,11 @@ const createWs = () => {
     
         // Обработчик события закрытия соединения
         ws.onclose = (event) => {
-            console.log('WebSocket connection closed', event.code);
             ws = undefined;
         };
     
         // Обработчик события ошибки соединения
         ws.onerror = (event) => {
-            console.error('WebSocket connection error:', event);
             ws = undefined;
         };
     }
@@ -40,7 +37,6 @@ const createWs = () => {
             send: (message: anyObject) => {
                 if (ws) {
                     ws.send(JSON.stringify(message));
-                    console.log('send message')
                 }
             },
             subscribe: (chatId: number, cb: (message: anyObject) => void) => {

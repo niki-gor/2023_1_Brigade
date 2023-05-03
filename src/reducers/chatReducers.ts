@@ -8,43 +8,33 @@ export const reduceIsNotRendered = (state: anyObject, action: Action) => {
                 openedChat: {
                     ...state.openedChat,
                     isNotRendered: false,
-                }
-            }
+                },
+            };
         default:
             return {
                 ...state,
-            }
+            };
     }
-}
+};
 
 export const reduceAddChat = (state: anyObject, action: Action) => {
     switch (action.type) {
         case constantsOfActions.addChat:
-            if (!action.payload && !state.chats) {
-                return {
-                    ...state,
-                    chats: [],
+            const payload = action.payload;
+            if (action.payload) {
+                if (!state.chats) {
+                    return {
+                        ...state,
+                        chats: [payload],
+                    };
                 }
-            } else if (!state.chats) {
-                return {
-                    ...state,
-                    chats: {
-                        [action.payload?.id]: action.payload,
-                    },
-                }
-            }
-            
-            return {
-                ...state,
-                chats: { 
-                    ...state.chats, 
-                    [action.payload?.id]: action.payload,
-                },
+
+                state.chats.push(payload);
             }
         default:
             return {
                 ...state,
-            }
+            };
     }
 };
 
@@ -54,11 +44,11 @@ export const reduceSetChats = (state: anyObject, action: Action) => {
             return {
                 ...state,
                 chats: action.payload,
-            }
+            };
         default:
             return {
                 ...state,
-            }
+            };
     }
 };
 
@@ -83,23 +73,20 @@ export const reduceOpenChat = (state: anyObject, action: Action) => {
         default:
             return {
                 ...state,
-            }
+            };
     }
-}
+};
 
 export const reduceDeleteChat = (state: anyObject, action: Action) => {
     switch (action.type) {
         case constantsOfActions.deleteChat:
-            if (action.payload?.id) {
-                for (const key in state.chats) {
-                    if (state.chats[key].id == action.payload?.id) {
-                        delete state.chats[key];
-                    }
-                }
+            const payload = action.payload;
+
+            if (payload?.id) {
+                state.chats = state.chats?.filter(
+                    (chat: anyObject) => chat.id != payload?.id
+                );
             }
-            return {
-                ...state,
-            };
         default:
             return {
                 ...state,
@@ -111,24 +98,55 @@ export const reduceDeleteChat = (state: anyObject, action: Action) => {
 export const reduceEditChat = (state: anyObject, action: Action) => {
     switch (action.type) {
         case constantsOfActions.editChat:
-            for (const index in state.chats) {
-                if (state.chats[index].id == action.payload?.id) {
-                    return {
-                        ...state,
-                        chats: { 
-                            ...state.chats,
-                            [index]: {
-                                ...state.chats[index],
-                                title: action.payload?.title,
-                                members: action.payload?.members,
-                            }
-                        },
-                    };
-                }
+            const payload = action.payload;
+
+            const index = state.chats?.findIndex((chat: anyObject) => {
+                return chat.id == payload?.id;
+            });
+
+            if ((index && index !== -1) || index === 0) {
+                state.chats?.splice(index, 1, {
+                    ...state.chats[index],
+                    title: payload?.title,
+                    members: payload?.members,
+                });
             }
+
             return {
                 ...state,
             };
+        default:
+            return {
+                ...state,
+            };
+    }
+};
+
+export const reduceSetSearchedChats = (state: anyObject, action: Action) => {
+    switch (action.type) {
+        case constantsOfActions.setSearchedChats:
+            if (action.payload) {
+                return {
+                    ...state,
+                    ...action.payload
+                };
+            }
+        default:
+            return {
+                ...state,
+            };
+    }
+}
+
+export const reduceDeleteSearchedChats = (state: anyObject, action: Action) => {
+    switch (action.type) {
+        case constantsOfActions.deleteSearchedChats:
+            if (action.payload) {
+                return {
+                    ...state,
+                    ...action.payload
+                };
+            }
         default:
             return {
                 ...state,
