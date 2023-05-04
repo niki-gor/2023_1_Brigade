@@ -2,7 +2,7 @@ import { Container } from "@containers/container";
 import { store } from "@/store/store";
 import { DumbChat } from "@/components/chat/chat";
 import { Message } from "@/components/message/message";
-import { createDeleteChatAction, createEditChatAction, createGetOneChatAction, createIsNotRenderedAction } from "@/actions/chatActions";
+import { createDeleteChatAction, createEditChatAction, createGetChatsAction, createGetOneChatAction, createIsNotRenderedAction } from "@/actions/chatActions";
 import { getWs } from "@/utils/ws";
 import { DumbEmptyDynamicPage } from "@/components/emptyDynamicPage/emptyDynamicPage";
 import { createMoveToEditChatAction } from "@/actions/routeActions";
@@ -59,7 +59,6 @@ export class SmartChat extends Container {
     render() {
         if (this.state.isSubscribed && this.chatId) {
             if (this.props?.openedChat?.isNotRendered) {
-                // this.props.openedChat.master_id = this.props?.user?.id; // debug
                 console.log('user id: ', this.props?.user?.id);
                 console.log('master id: ', this.props.openedChat.master_id);
 
@@ -82,10 +81,11 @@ export class SmartChat extends Container {
 
                 
                 this.state.domElements?.subscribeBtn?.addEventListener('click', () => {
+                    console.log('subscribe button pressed');
                     
                     if (this.state.domElements.subscribeBtn?.textContent === 'Subscribe') {
                         this.state.domElements.subscribeBtn.textContent = 'Unsubscribe';
-                        this.props.openedChat.members.push(this.props.user);
+                        this.props.openedChat.members.push(this.props.user.id);
                     } else if (this.state.domElements.subscribeBtn?.textContent === 'Unsubscribe') {
                         this.state.domElements.subscribeBtn.textContent = 'Subscribe';
                         for (let i = 0; i < this.props.openedChat.members.length; ++i) {
@@ -93,17 +93,21 @@ export class SmartChat extends Container {
                                 this.props.openedChat.members.splice(i, 1);
                             }
                         }
-                        // TODO: удалить у конкретного пользователя из списка чатов (чат с данным id)
                     }
+
+                    const updateMembers = this.props?.openedChat?.members.map((member: {id: number}) => {
+                        return member?.id;
+                    })
 
                     const updateChannelState = {
                         id: this.props?.openedChat?.id,
                         type: ChatTypes.Channel,
                         title: this.props?.openedChat?.title,
-                        members: this.props?.openedChat?.members,
+                        members: updateMembers,
                     }
 
                     store.dispatch(createEditChatAction(updateChannelState));
+                    store.dispatch(createGetChatsAction());
                 })
 
 
@@ -125,7 +129,7 @@ export class SmartChat extends Container {
                     }
                 }); 
 
-                this.state.domElements.input.addEventListener('keydown', e => {
+                this.state.domElements?.input?.addEventListener('keydown', e => {
                     if (e.key === 'Enter' && e.target) {
                         this.handleClickSendButton();
                     }
@@ -157,7 +161,7 @@ export class SmartChat extends Container {
                     uns();
                 }
 
-                this.state.domElements.input.focus();
+                this.state.domElements?.input?.focus();
             };
         }
     }
