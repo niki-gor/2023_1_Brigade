@@ -2,10 +2,10 @@ import { Container } from "@containers/container";
 import { store } from "@/store/store";
 import { DumbChat } from "@/components/chat/chat";
 import { Message } from "@/components/message/message";
-import { createDeleteChatAction, createEditChatAction, createGetChatsAction, createGetOneChatAction, createIsNotRenderedAction } from "@/actions/chatActions";
+import { createDeleteChatAction, createDeleteChatFromStoreAction, createEditChatAction, createGetChatsAction, createGetOneChatAction, createIsNotRenderedAction } from "@/actions/chatActions";
 import { getWs } from "@/utils/ws";
 import { DumbEmptyDynamicPage } from "@/components/emptyDynamicPage/emptyDynamicPage";
-import { createMoveToEditChatAction } from "@/actions/routeActions";
+import { createMoveToEditChatAction, createMoveToHomePageAction } from "@/actions/routeActions";
 import { ChatTypes, MessageTypes } from "@/config/enum";
 import { DYNAMIC } from "@/config/config";
 
@@ -59,8 +59,6 @@ export class SmartChat extends Container {
     render() {
         if (this.state.isSubscribed && this.chatId) {
             if (this.props?.openedChat?.isNotRendered) {
-                console.log('user id: ', this.props?.user?.id);
-                console.log('master id: ', this.props.openedChat.master_id);
 
                 const chat = new DumbChat({
                     chatData: this.props.openedChat,
@@ -84,16 +82,25 @@ export class SmartChat extends Container {
                     
                     if (this.state.domElements.subscribeBtn?.textContent === 'Subscribe') {
                         this.state.domElements.subscribeBtn.textContent = 'Unsubscribe';
-                        console.log('opened chat: ', this.props.openedChat);
                         this.props.openedChat.members.push(this.props.user);
-                        console.log('after push opened chat: ', this.props.openedChat);
                     } else if (this.state.domElements.subscribeBtn?.textContent === 'Unsubscribe') {
                         this.state.domElements.subscribeBtn.textContent = 'Subscribe';
+                        
                         for (let i = 0; i < this.props.openedChat.members.length; ++i) {
                             if (this.props.openedChat.members[i].id === this.props?.user?.id) {
                                 this.props.openedChat.members.splice(i, 1);
                             }
                         }
+
+                        for (const key in this.props.chats) {
+                            const chat = this.props.chats[key];
+                            if (chat?.id == this.props?.openedChat?.id) {
+                                store.dispatch(createDeleteChatFromStoreAction(chat));
+                                break;
+                            }
+                        }
+
+                        store.dispatch(createMoveToHomePageAction());
                     }
                     
                     const updateMembers = this.props?.openedChat?.members.map((member: {id: number}) => {
@@ -108,7 +115,6 @@ export class SmartChat extends Container {
                     }
 
                     store.dispatch(createEditChatAction(updateChannelState));
-                    store.dispatch(createGetChatsAction());
                 })
 
 
