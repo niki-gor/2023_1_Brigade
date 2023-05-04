@@ -2,7 +2,7 @@ import { Container } from "@containers/container";
 import { store } from "@/store/store";
 import { DumbChat } from "@/components/chat/chat";
 import { Message } from "@/components/message/message";
-import { createDeleteChatAction, createDeleteChatFromStoreAction, createEditChatAction, createGetChatsAction, createGetOneChatAction, createIsNotRenderedAction } from "@/actions/chatActions";
+import { createAddChatAction, createAddUserInChat, createDeleteChatAction, createDeleteChatFromStoreAction, createDeleteUserInChat, createEditChatAction, createEditChatFromStoreAction, createGetChatsAction, createGetOneChatAction, createIsNotRenderedAction } from "@/actions/chatActions";
 import { getWs } from "@/utils/ws";
 import { DumbEmptyDynamicPage } from "@/components/emptyDynamicPage/emptyDynamicPage";
 import { createMoveToEditChatAction, createMoveToHomePageAction } from "@/actions/routeActions";
@@ -77,30 +77,15 @@ export class SmartChat extends Container {
                 this.state.domElements.editBtn = document.querySelector('.edit-btn');
                 this.state.domElements.subscribeBtn = document.querySelector('.subscribe-btn');
 
-                
-                this.state.domElements?.subscribeBtn?.addEventListener('click', () => {
-                    
+                this.state.domElements?.subscribeBtn?.addEventListener('click', () => {                    
                     if (this.state.domElements.subscribeBtn?.textContent === 'Subscribe') {
                         this.state.domElements.subscribeBtn.textContent = 'Unsubscribe';
-                        this.props.openedChat.members.push(this.props.user);
+                        store.dispatch(createAddUserInChat(this.props.user));
+                        store.dispatch(createAddChatAction(this.props?.openedChat))
                     } else if (this.state.domElements.subscribeBtn?.textContent === 'Unsubscribe') {
                         this.state.domElements.subscribeBtn.textContent = 'Subscribe';
-                        
-                        for (let i = 0; i < this.props.openedChat.members.length; ++i) {
-                            if (this.props.openedChat.members[i].id === this.props?.user?.id) {
-                                this.props.openedChat.members.splice(i, 1);
-                            }
-                        }
-
-                        for (const key in this.props.chats) {
-                            const chat = this.props.chats[key];
-                            if (chat?.id == this.props?.openedChat?.id) {
-                                store.dispatch(createDeleteChatFromStoreAction(chat));
-                                break;
-                            }
-                        }
-
-                        store.dispatch(createMoveToHomePageAction());
+                        store.dispatch(createDeleteUserInChat());
+                        store.dispatch(createDeleteChatFromStoreAction(this.props?.openedChat));
                     }
                     
                     const updateMembers = this.props?.openedChat?.members.map((member: {id: number}) => {
@@ -115,8 +100,8 @@ export class SmartChat extends Container {
                     }
 
                     store.dispatch(createEditChatAction(updateChannelState));
+                    store.dispatch(createGetChatsAction());
                 })
-
 
                 const messages = document.querySelector('.view-chat__messages');
 

@@ -36,7 +36,7 @@ export class ChatItem extends Component {
                     prop = prop[item];
                 })
                 const index = prop.findIndex((chat: { id: number }) => {
-                    return chat.id === this.state.chatId;
+                    return chat?.id === this.state?.chatId;
                 })
 
                 if (this.props.chat != prop[index]) {

@@ -153,3 +153,37 @@ export const reduceDeleteSearchedChats = (state: anyObject, action: Action) => {
             };
     }
 }
+
+export const reduceAddUserInChat = (state: anyObject, action: Action) => {
+    switch (action.type) {
+        case constantsOfActions.addUserInChat:
+            if (action.payload) {
+                state?.openedChat?.members.push(action.payload);
+            }
+            return {
+                ...state,
+            };
+        default:
+            return {
+                ...state,
+            }
+    }
+}
+
+export const reduceDeleteUserInChat = (state: anyObject, action: Action) => {
+    switch (action.type) {
+        case constantsOfActions.deleteUserInChat:
+            for (let i = 0; i < state.openedChat.members.length; ++i) {
+                if (state.openedChat.members[i].id === state?.user?.id) {
+                    state.openedChat.members.splice(i, 1);
+                }
+            }
+            return {
+                ...state,
+            };
+        default:
+            return {
+                ...state,
+            }
+    }
+}
