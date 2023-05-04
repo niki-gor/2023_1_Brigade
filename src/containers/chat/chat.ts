@@ -81,11 +81,12 @@ export class SmartChat extends Container {
 
                 
                 this.state.domElements?.subscribeBtn?.addEventListener('click', () => {
-                    console.log('subscribe button pressed');
                     
                     if (this.state.domElements.subscribeBtn?.textContent === 'Subscribe') {
                         this.state.domElements.subscribeBtn.textContent = 'Unsubscribe';
-                        this.props.openedChat.members.push(this.props.user.id);
+                        console.log('opened chat: ', this.props.openedChat);
+                        this.props.openedChat.members.push(this.props.user);
+                        console.log('after push opened chat: ', this.props.openedChat);
                     } else if (this.state.domElements.subscribeBtn?.textContent === 'Unsubscribe') {
                         this.state.domElements.subscribeBtn.textContent = 'Subscribe';
                         for (let i = 0; i < this.props.openedChat.members.length; ++i) {
@@ -94,7 +95,7 @@ export class SmartChat extends Container {
                             }
                         }
                     }
-
+                    
                     const updateMembers = this.props?.openedChat?.members.map((member: {id: number}) => {
                         return member?.id;
                     })
