@@ -89,9 +89,7 @@ export class DumbChat extends Component {
 
         if (this.checkRights() && this.props.chatData.type !== ChatTypes.Dialog) {
             this.editBtn = 'edit-chat';
-            if (this.props.chatData.type === ChatTypes.Group) {
-                this.deleteChatBtn = 'delete-btn';
-            }
+            this.deleteChatBtn = 'delete-btn';
         }
 
         if (this.props.chatData.type !== ChatTypes.Channel) {
