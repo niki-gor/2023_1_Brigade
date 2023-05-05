@@ -55,6 +55,12 @@ export const reduceSetChats = (state: anyObject, action: Action) => {
 export const reduceOpenChat = (state: anyObject, action: Action) => {
     switch (action.type) {
         case constantsOfActions.openChat:
+            if (!action.payload?.messages) {
+                action.payload = {
+                    ...action.payload,
+                    messages: [],
+                };
+            }
             return {
                 ...state,
                 openedChat: {
@@ -103,10 +109,6 @@ export const reduceEditChat = (state: anyObject, action: Action) => {
                     members: payload?.members,
                 });
             }
-
-            return {
-                ...state,
-            };
         default:
             return {
                 ...state,
@@ -143,5 +145,44 @@ export const reduceDeleteSearchedChats = (state: anyObject, action: Action) => {
             return {
                 ...state,
             };
+    }
+}
+
+export const reduceAddUserInChat = (state: anyObject, action: Action) => {
+    switch (action.type) {
+        case constantsOfActions.addUserInChat:
+            if (action.payload) {
+                state?.openedChat?.members.push(action.payload);
+
+                state.chats.push({
+                    id: state?.openedChat?.id,
+                    title: state?.openedChat?.title,
+                    avatar: state?.openedChat?.avatar,
+                    members: state?.openedChat?.members,
+                    last_message: state?.openedChat?.messages[state?.openedChat?.messages.length - 1],
+                });
+            }
+        default:
+            return {
+                ...state,
+            }
+    }
+}
+
+export const reduceDeleteUserInChat = (state: anyObject, action: Action) => {
+    switch (action.type) {
+        case constantsOfActions.deleteUserInChat:
+            for (let i = 0; i < state.openedChat.members.length; ++i) {
+                if (state.openedChat.members[i].id === state?.user?.id) {
+                    state.openedChat.members.splice(i, 1);
+                }
+            }
+            state.chats = state.chats?.filter(
+                (chat: anyObject) => chat.id != state.openedChat?.id
+            );
+        default:
+            return {
+                ...state,
+            }
     }
 }

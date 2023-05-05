@@ -34,6 +34,6 @@ export class List extends Component {
     }
 
     render() {
-        return new DOMParser().parseFromString(template({}), 'text/html').body;
+        return new DOMParser().parseFromString(template({}), 'text/html').body.firstChild;
     }
 }

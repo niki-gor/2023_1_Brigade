@@ -2,10 +2,10 @@ import { Container } from "@containers/container";
 import { store } from "@/store/store";
 import { DumbChat } from "@/components/chat/chat";
 import { Message } from "@/components/message/message";
-import { createDeleteChatAction, createEditChatAction, createGetChatsAction, createGetOneChatAction, createIsNotRenderedAction, createSetChatsAction } from "@/actions/chatActions";
+import { createAddChatAction, createAddUserInChat, createDeleteChatAction, createDeleteChatFromStoreAction, createDeleteUserInChat, createEditChatAction, createEditChatFromStoreAction, createGetChatsAction, createGetOneChatAction, createIsNotRenderedAction } from "@/actions/chatActions";
 import { getWs } from "@/utils/ws";
 import { DumbEmptyDynamicPage } from "@/components/emptyDynamicPage/emptyDynamicPage";
-import { createMoveToEditChatAction } from "@/actions/routeActions";
+import { createMoveToEditChatAction, createMoveToHomePageAction } from "@/actions/routeActions";
 import { ChatTypes, MessageTypes } from "@/config/enum";
 import { DYNAMIC } from "@/config/config";
 
@@ -20,6 +20,8 @@ export interface SmartChat {
             deleteBtn: HTMLElement | null;
             editBtn: HTMLElement | null;
             message: HTMLElement | null;
+            subscribeBtn: HTMLElement | null;
+            leaveGroupBtn: HTMLElement | null;
         }
     }
 }
@@ -45,6 +47,8 @@ export class SmartChat extends Container {
                 deleteBtn: null,
                 editBtn: null,
                 message: null,
+                subscribeBtn: null,
+                leaveGroupBtn: null,
             },
         }
         this.chatId = props.chatId;
@@ -57,6 +61,7 @@ export class SmartChat extends Container {
     render() {
         if (this.state.isSubscribed && this.chatId) {
             if (this.props?.openedChat?.isNotRendered) {
+
                 const chat = new DumbChat({
                     chatData: this.props.openedChat,
                     userId: this.props?.user?.id,
@@ -72,6 +77,65 @@ export class SmartChat extends Container {
                 this.state.domElements.submitBtn = document.querySelector('.view-chat__send-message-button');
                 this.state.domElements.deleteBtn = document.querySelector('.delete-btn');
                 this.state.domElements.editBtn = document.querySelector('.edit-btn');
+                this.state.domElements.subscribeBtn = document.querySelector('.subscribe-btn');
+                this.state.domElements.leaveGroupBtn = document.querySelector('.view-chat__header__icons__leave-group');
+
+                this.state.domElements.leaveGroupBtn?.addEventListener('click', () => {
+                    const updateMembers = this.props?.openedChat?.members.map((member: {id: number}) => {
+                        return member.id;
+                    }).filter((id: number) => {
+                        return id !== this.props?.user?.id;
+                    })
+
+                    const updateChannelState = {
+                        id: this.props?.openedChat?.id,
+                        type: ChatTypes.Channel,
+                        title: this.props?.openedChat?.title,
+                        members: updateMembers,
+                    }
+                    
+                    async function updateChannelAndMoveToHomePage() {
+                        store.dispatch(createDeleteUserInChat());
+                        await store.dispatch(createEditChatAction(updateChannelState));                        
+                        store.dispatch(createMoveToHomePageAction());
+                    }
+                      
+                    updateChannelAndMoveToHomePage();
+                });
+
+                this.state.domElements?.subscribeBtn?.addEventListener('click', () => {                    
+                    if (this.state.domElements.subscribeBtn?.textContent === 'Subscribe') {
+                        this.state.domElements.subscribeBtn.textContent = 'Unsubscribe';
+                        store.dispatch(createAddUserInChat(this.props.user));
+                    } else if (this.state.domElements.subscribeBtn?.textContent === 'Unsubscribe') {
+                        this.state.domElements.subscribeBtn.textContent = 'Subscribe';
+                        store.dispatch(createDeleteUserInChat());
+                    }
+                    
+                    const updateMembers = this.props?.openedChat?.members.map((member: {id: number}) => {
+                        return member?.id;
+                    })
+
+                    const updateChannelState = {
+                        id: this.props?.openedChat?.id,
+                        type: ChatTypes.Channel,
+                        title: this.props?.openedChat?.title,
+                        members: updateMembers,
+                    }
+
+                    // const updateChannelState = {
+                    //     id: this.props?.openedChat?.id,
+                    //     type: ChatTypes.Channel,
+                    //     title: this.props?.openedChat?.title,
+                    //     avatar: this.props?.openedChat?.avatar,
+                    //     members: updateMembers,
+                    //     last_message: this.props?.openedChat?.messages[-1]
+                    // }
+
+                    store.dispatch(createEditChatAction(updateChannelState));
+                    // store.dispatch(createGetChatsAction());
+                })
+
                 const messages = document.querySelector('.view-chat__messages');
 
                 messages?.addEventListener('click', (e) => {
@@ -90,7 +154,7 @@ export class SmartChat extends Container {
                     }
                 }); 
 
-                this.state.domElements.input.addEventListener('keydown', e => {
+                this.state.domElements?.input?.addEventListener('keydown', e => {
                     if (e.key === 'Enter' && e.target) {
                         this.handleClickSendButton();
                     }
@@ -107,9 +171,10 @@ export class SmartChat extends Container {
 
                     this.handleClickDeleteButton();
                 });
-                
-                if (this.props.openedChat.type === ChatTypes.Group || this.props.openedChat.type === ChatTypes.Channel) {
-                    this.state.domElements.editBtn?.addEventListener('click', (e) => {
+
+                if (this.props.openedChat.type === ChatTypes.Group || this.props.openedChat.type === ChatTypes.Channel 
+                    && (this.props?.user?.id === this.props?.openedChat?.master_id)) {
+                    this.state.domElements.editBtn?.addEventListener('click', () => {
                         this.handleClickEditButton();
                     });
                 }
@@ -121,7 +186,7 @@ export class SmartChat extends Container {
                     uns();
                 }
 
-                this.state.domElements.input.focus();
+                this.state.domElements?.input?.focus();
             };
         }
     }
@@ -169,7 +234,6 @@ export class SmartChat extends Container {
                         username: member.nickname,
                         id: message.id,
                     }).render(), 'text/html').body.firstChild as ChildNode;
-
                     break;
                 }
             }
@@ -276,6 +340,7 @@ export class SmartChat extends Container {
                 const emptyUI = new DumbEmptyDynamicPage({ 
                     ...this.props,
                 }); 
+                console.log('here')
                 
                 this.rootNode.innerHTML = emptyUI.render();
             }

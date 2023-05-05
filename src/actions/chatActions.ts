@@ -272,3 +272,17 @@ export const createDeleteSearchedChatsAction = () => {
         },
     }
 }
+
+export const createAddUserInChat = (user: anyObject) => {
+    return {
+        type: constantsOfActions.addUserInChat,
+        payload: user,
+    }
+}
+
+export const createDeleteUserInChat = () => {
+    return {
+        type: constantsOfActions.deleteUserInChat,
+        payload: null,
+    }
+}

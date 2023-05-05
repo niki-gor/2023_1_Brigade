@@ -40,3 +40,46 @@ p {
     background-color: transparent;
     margin-bottom: 20px;
 }
+
+.subscribe-btn {
+    min-width: 100%;
+    min-height: 7%;
+    background-color: rgba(25, 26, 31, 0.7);
+    align-items: center;
+    justify-content: center;
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 20px;
+    color: #ffffff;
+}
+
+.channel__subscribers {
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #ffffff;
+    padding-left: 20px;
+    align-self: center;
+}
+
+.channel__subscribers:hover {
+    color: #5465a3;
+}
+
+.view-chat__header__icons__leave-group {
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.view-chat__header__icons__leave-group:hover {
+    color: #5465a3;
+}

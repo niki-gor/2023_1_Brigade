@@ -18,20 +18,25 @@ export class Message extends Component {
             }),
             MessageText: this.props.messageContent,
             Username: this.props.username, 
-            TreeDots: new Dropdown({
-                icon: "three-dots",
-                list: [
-                    {
-                        className: "edit-message",
-                        value: "Изменить",
-                    },
-                    {
-                        className: "delete-message",
-                        value: "Удалить",
-                    }
-                ],
-                id: this.props.id
-            }).render(),
+            TreeDots: function(message_id: number, is_user: boolean) { 
+                if (is_user) { 
+                    return new Dropdown({
+                        icon: "three-dots",
+                        list: [
+                            {
+                                className: "edit-message",
+                                value: "Изменить",
+                            },
+                            {
+                                className: "delete-message",
+                                value: "Удалить",
+                            }
+                        ],
+                        id: message_id
+                    }).render();
+                }
+                return '';
+            }(this.props.id, this.props.messageSide),
             id: this.props.id,
         })
     }

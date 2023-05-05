@@ -6,9 +6,6 @@ import { emailErrorTypes, passwordErrorTypes, confirmPasswordErrorTypes, nicknam
 import { createSignUpAction } from "@/actions/authActions";
 import { createMoveToLoginAction, createRenderAction } from "@/actions/routeActions";
 import { DYNAMIC, SIDEBAR, SIGNUP, STATIC } from "@/config/config";
-import { Contacts } from "@containers/contacts/createContacts";
-import { Sidebar } from "../sidebar/createSidebar";
-import { Chats } from "../chatList/createChatList";
 
 
 export interface SmartSignUp {
