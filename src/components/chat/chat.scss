@@ -1,0 +1,85 @@
+.view-chat {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.view-chat__header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 21px 68px 21px 27px;
+    background: rgba(25, 26, 31, 0.5);
+    min-width: 100%;
+}
+
+.view-chat__header__companion {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.view-chat__messages {
+    flex-direction: column-reverse;
+    padding: 30px;
+    min-width: 100%;
+    flex-grow: 3;
+    max-height: 100%;
+    overflow: auto;
+}
+
+p {
+    margin: 0px;   
+}
+
+.messages__message {
+    align-items: flex-start;
+    justify-content: flex-start;
+    min-width: 90px;
+    background-color: transparent;
+    margin-bottom: 20px;
+}
+
+.subscribe-btn {
+    min-width: 100%;
+    min-height: 7%;
+    background-color: rgba(25, 26, 31, 0.7);
+    align-items: center;
+    justify-content: center;
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 20px;
+    color: #ffffff;
+}
+
+.channel__subscribers {
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #ffffff;
+    padding-left: 20px;
+    align-self: center;
+}
+
+.channel__subscribers:hover {
+    color: #5465a3;
+}
+
+.view-chat__header__icons__leave-group {
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.view-chat__header__icons__leave-group:hover {
+    color: #5465a3;
+}

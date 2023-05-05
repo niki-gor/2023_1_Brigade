@@ -1,0 +1,40 @@
+.chat-list {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #1C1C24;
+    min-width: 380px;
+}
+
+.chats__header {
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 20px;
+    min-height: 8%;
+    min-width: 100%;
+}
+
+.chats__header__input {
+    align-items: start;
+    justify-content: start;
+}
+
+.chats {
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    min-width: 100%;
+    overflow: auto;
+}
+
+.chats__separator {
+    min-width: 100%;
+    border: 1px solid #4A4E50;
+    background: #1C1C24;
+}
+
+.empty_chats {
+    min-width: 100%;
+    overflow: auto;
+}

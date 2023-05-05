@@ -1,0 +1,7 @@
+.login-reg__top.flex
+    img(src="./assets/img/sticker.png", alt="Welcome").login-reg__top_photo 
+    span.login-reg__top_welcome Добро пожаловать,
+    if type === 'login' 
+        span.login-reg__top_message Рад вас видеть!
+    if type === 'reg'
+        span.login-reg__top_message Давай начнем!

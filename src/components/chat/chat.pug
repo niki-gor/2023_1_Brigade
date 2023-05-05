@@ -1,0 +1,21 @@
+main.main.flex
+    section.header-offset.view-chat.flex
+        .view-chat__header.flex
+            .view-chat__header__companion.flex
+                !=HeaderUserAvatar
+            ul.view-chat__header__icons.flex
+                !=EditBtn
+                if DeleteChatBtn
+                    !=DeleteChatBtn
+                else
+                    .view-chat__header__icons__leave-group!=LeaveGroupBtn
+                if Subscriberes > 2
+                    .channel__subscribers Участники 
+                        !=Subscriberes
+        .view-chat__messages.flex
+            for i in MessageList
+                !=i
+        if Input
+            !=Input
+        else if SubsribeBtnText
+            button.btn-reset.subscribe-btn.flex!=SubsribeBtnText

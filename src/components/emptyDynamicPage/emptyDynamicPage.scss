@@ -1,0 +1,17 @@
+.empty-dynamic-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%; 
+}
+
+.hello-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 48px;
+    min-width: 352px;
+    border: 2px solid #69686D;
+    border-radius: 100px;
+}
