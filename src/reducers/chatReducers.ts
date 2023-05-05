@@ -111,10 +111,6 @@ export const reduceEditChat = (state: anyObject, action: Action) => {
                     members: payload?.members,
                 });
             }
-
-            return {
-                ...state,
-            };
         default:
             return {
                 ...state,
@@ -159,10 +155,15 @@ export const reduceAddUserInChat = (state: anyObject, action: Action) => {
         case constantsOfActions.addUserInChat:
             if (action.payload) {
                 state?.openedChat?.members.push(action.payload);
+
+                state.chats.push({
+                    id: state?.openedChat?.id,
+                    title: state?.openedChat?.title,
+                    avatar: state?.openedChat?.avatar,
+                    members: state?.openedChat?.members,
+                    last_message: state?.openedChat?.messages[-1],
+                });
             }
-            return {
-                ...state,
-            };
         default:
             return {
                 ...state,
@@ -178,9 +179,9 @@ export const reduceDeleteUserInChat = (state: anyObject, action: Action) => {
                     state.openedChat.members.splice(i, 1);
                 }
             }
-            return {
-                ...state,
-            };
+            state.chats = state.chats?.filter(
+                (chat: anyObject) => chat.id != state.openedChat?.id
+            );
         default:
             return {
                 ...state,

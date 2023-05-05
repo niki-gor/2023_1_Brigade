@@ -81,11 +81,9 @@ export class SmartChat extends Container {
                     if (this.state.domElements.subscribeBtn?.textContent === 'Subscribe') {
                         this.state.domElements.subscribeBtn.textContent = 'Unsubscribe';
                         store.dispatch(createAddUserInChat(this.props.user));
-                        store.dispatch(createAddChatAction(this.props?.openedChat))
                     } else if (this.state.domElements.subscribeBtn?.textContent === 'Unsubscribe') {
                         this.state.domElements.subscribeBtn.textContent = 'Subscribe';
                         store.dispatch(createDeleteUserInChat());
-                        store.dispatch(createDeleteChatFromStoreAction(this.props?.openedChat));
                     }
                     
                     const updateMembers = this.props?.openedChat?.members.map((member: {id: number}) => {
@@ -99,8 +97,17 @@ export class SmartChat extends Container {
                         members: updateMembers,
                     }
 
+                    // const updateChannelState = {
+                    //     id: this.props?.openedChat?.id,
+                    //     type: ChatTypes.Channel,
+                    //     title: this.props?.openedChat?.title,
+                    //     avatar: this.props?.openedChat?.avatar,
+                    //     members: updateMembers,
+                    //     last_message: this.props?.openedChat?.messages[-1]
+                    // }
+
                     store.dispatch(createEditChatAction(updateChannelState));
-                    store.dispatch(createGetChatsAction());
+                    // store.dispatch(createGetChatsAction());
                 })
 
                 const messages = document.querySelector('.view-chat__messages');
