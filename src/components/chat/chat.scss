@@ -66,11 +66,20 @@ p {
     align-self: center;
 }
 
+.channel__subscribers:hover {
+    color: #5465a3;
+}
+
 .view-chat__header__icons__leave-group {
     color: #ffffff;
     font-family: 'SF Pro Display';
     font-style: normal;
-    font-weight: 600;
-    font-size: 20px;
+    font-weight: 400;
+    font-size: 16px;
     line-height: 20px;
+    cursor: pointer;
+}
+
+.view-chat__header__icons__leave-group:hover {
+    color: #5465a3;
 }

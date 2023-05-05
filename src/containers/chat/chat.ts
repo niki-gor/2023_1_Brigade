@@ -78,7 +78,7 @@ export class SmartChat extends Container {
                 this.state.domElements.deleteBtn = document.querySelector('.delete-btn');
                 this.state.domElements.editBtn = document.querySelector('.edit-btn');
                 this.state.domElements.subscribeBtn = document.querySelector('.subscribe-btn');
-                this.state.domElements.leaveGroupBtn = document.querySelector('.leave-group');
+                this.state.domElements.leaveGroupBtn = document.querySelector('.view-chat__header__icons__leave-group');
 
                 this.state.domElements.leaveGroupBtn?.addEventListener('click', () => {
                     store.dispatch(createDeleteUserInChat());
@@ -95,7 +95,7 @@ export class SmartChat extends Container {
                     }
 
                     store.dispatch(createEditChatAction(updateChannelState));
-                })
+                });
 
                 this.state.domElements?.subscribeBtn?.addEventListener('click', () => {                    
                     if (this.state.domElements.subscribeBtn?.textContent === 'Subscribe') {

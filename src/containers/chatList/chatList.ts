@@ -282,6 +282,7 @@ export class SmartChatList extends Container {
                         this.state.domElements.input?.focus();
                 } else {
                     this.props.chats?.forEach((chat: anyObject) => {
+                        this.state.currentChat = this.props.openedChat?.id;
                         let isCurrent = false;
                         if (chat.id == this.state.currentChat) {
                             isCurrent = true;

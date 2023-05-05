@@ -89,10 +89,15 @@ export class DumbChat extends Component {
 
         if (this.checkRights() && this.props.chatData.type !== ChatTypes.Dialog) {
             this.editBtn = 'edit-chat';
+            if (this.props.chatData.type === ChatTypes.Group) {
+                this.deleteChatBtn = 'delete-btn';
+            }
         }
 
         if (this.props.chatData.type !== ChatTypes.Channel) {
-            this.deleteChatBtn = 'delete-btn';
+            if (this.props.chatData.type !== ChatTypes.Group) {
+                this.deleteChatBtn = 'delete-btn';
+            }
             this.channelInput =  new inputUi({
                 inputClassName: 'view-chat__input-message',
                 userImage: chatAvatarUi.renderTemplate({
@@ -110,7 +115,6 @@ export class DumbChat extends Component {
 
         if (this.props.chatData.type === ChatTypes.Group) {
             this.leaveGroup = 'Выйти из группы';
-            this.deleteChatBtn = '';
         }
         
         return template({
@@ -123,7 +127,7 @@ export class DumbChat extends Component {
                 PathToUserImage: this.props.chatAvatar,
                 UserName: this.props.chatTitle,
                 UserStatus: '',
-                Online: false, // нет this.props?.userOnline,
+                Online: false,
             }),
             Subscriberes: this.props?.chatData?.members?.length,
             MessageList: this.getMessageList(),
