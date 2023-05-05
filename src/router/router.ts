@@ -54,6 +54,7 @@ export class Router {
         // }
 
         this.currentComponent?.componentWillUnmount();
+        console.log(this.currentDynamicParams)
         this.currentComponent = new this.currentRoute.component(this.currentDynamicParams);
         this.currentComponent.componentDidMount();
     } 

@@ -65,13 +65,13 @@ export class SmartCreateChannel extends Container {
         
             this.state.domElements.headerBackBtn = document.querySelector('.create-channel__header__back');
             this.state.domElements.headerDoneBtn = document.querySelector('.create-channel__heder__done-btn');
-            this.state.domElements.channelImage = document.querySelector('.create-channel__form__image');
+            this.state.domElements.channelImage = document.querySelector('.channel__avatar');
 
             this.state.domElements.headerBackBtn?.addEventListener('click', () => {
                 store.dispatch(createMoveToHomePageAction());
             });
 
-            this.state.domElements.channelName = document.querySelector('.channel-name__input');
+            this.state.domElements.channelName = document.querySelector('.custom-input__content');
             this.state.domElements.channelName?.addEventListener('input', () => {
                 this.validateChannelName(this.state.domElements.channelName);
             });
