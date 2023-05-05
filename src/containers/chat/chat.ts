@@ -81,10 +81,10 @@ export class SmartChat extends Container {
                 this.state.domElements.leaveGroupBtn = document.querySelector('.view-chat__header__icons__leave-group');
 
                 this.state.domElements.leaveGroupBtn?.addEventListener('click', () => {
-                    store.dispatch(createDeleteUserInChat());
-
                     const updateMembers = this.props?.openedChat?.members.map((member: {id: number}) => {
-                        return member?.id;
+                        return member.id;
+                    }).filter((id: number) => {
+                        return id !== this.props?.user?.id;
                     })
 
                     const updateChannelState = {
@@ -93,8 +93,14 @@ export class SmartChat extends Container {
                         title: this.props?.openedChat?.title,
                         members: updateMembers,
                     }
-
-                    store.dispatch(createEditChatAction(updateChannelState));
+                    
+                    async function updateChannelAndMoveToHomePage() {
+                        store.dispatch(createDeleteUserInChat());
+                        await store.dispatch(createEditChatAction(updateChannelState));                        
+                        store.dispatch(createMoveToHomePageAction());
+                    }
+                      
+                    updateChannelAndMoveToHomePage();
                 });
 
                 this.state.domElements?.subscribeBtn?.addEventListener('click', () => {                    
@@ -334,6 +340,7 @@ export class SmartChat extends Container {
                 const emptyUI = new DumbEmptyDynamicPage({ 
                     ...this.props,
                 }); 
+                console.log('here')
                 
                 this.rootNode.innerHTML = emptyUI.render();
             }

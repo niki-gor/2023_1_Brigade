@@ -90,6 +90,18 @@ export class DumbChat extends Component {
         if (this.checkRights() && this.props.chatData.type !== ChatTypes.Dialog) {
             this.editBtn = 'edit-chat';
             this.deleteChatBtn = 'delete-btn';
+            this.channelInput =  new inputUi({
+                inputClassName: 'view-chat__input-message',
+                userImage: chatAvatarUi.renderTemplate({
+                    ClassName: 'input-message__user-avatar',
+                    PathToUserImage: this.props.userAvatar,
+                    UserName: '',
+                    UserStatus: '',
+                    Online: false,
+                }),
+                sendBtn: svgButtonUI.renderTemplate({svgClassName: 'view-chat__send-message-button'}),
+                placeholder: 'Type something...',
+            }).render();
         }
 
         if (this.props.chatData.type !== ChatTypes.Channel) {

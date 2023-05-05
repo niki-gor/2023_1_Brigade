@@ -15,6 +15,7 @@ main.main.flex
         .view-chat__messages.flex
             for i in MessageList
                 !=i
-        !=Input
-        if SubsribeBtnText
+        if Input
+            !=Input
+        else if SubsribeBtnText
             button.btn-reset.subscribe-btn.flex!=SubsribeBtnText
