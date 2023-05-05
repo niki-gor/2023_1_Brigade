@@ -57,8 +57,7 @@ export class DumbChat extends Component {
     }
 
     private checkRights() : boolean {
-        if (this.props?.chatData?.master_id === this.props?.userId && 
-        (this.props.chatData.type === ChatTypes.Group || this.props.chatData.type === ChatTypes.Channel)) {
+        if (this.props?.chatData?.master_id === this.props?.userId) {
             return true;
         }
 
@@ -88,17 +87,20 @@ export class DumbChat extends Component {
             this.subsribeBtnText = 'Subscribe';
         }
 
-        if (this.checkRights()) {
+        if (this.checkRights() && this.props.chatData.type !== ChatTypes.Dialog) {
             this.editBtn = 'edit-chat';
+        }
+
+        if (this.props.chatData.type !== ChatTypes.Channel) {
             this.deleteChatBtn = 'delete-btn';
             this.channelInput =  new inputUi({
                 inputClassName: 'view-chat__input-message',
                 userImage: chatAvatarUi.renderTemplate({
                     ClassName: 'input-message__user-avatar',
                     PathToUserImage: this.props.userAvatar,
-                    UserName: '', // не надо
-                    UserStatus: '', // не надо
-                    Online: false, // не надо
+                    UserName: '',
+                    UserStatus: '',
+                    Online: false,
                 }),
                 sendBtn: svgButtonUI.renderTemplate({svgClassName: 'view-chat__send-message-button'}),
                 placeholder: 'Type something...',

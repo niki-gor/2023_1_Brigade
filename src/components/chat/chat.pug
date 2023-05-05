@@ -6,8 +6,9 @@ main.main.flex
             ul.view-chat__header__icons.flex
                 !=EditBtn
                 !=DeleteChatBtn
-                .channel__subscribers Участники 
-                    !=Subscriberes
+                if Subscriberes > 2
+                    .channel__subscribers Участники 
+                        !=Subscriberes
         .view-chat__messages.flex
             for i in MessageList
                 !=i
