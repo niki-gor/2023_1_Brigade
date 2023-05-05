@@ -168,6 +168,7 @@ export class SmartChatList extends Container {
                                 contact,
                                 onClick: () => { 
                                     store.dispatch(createCreateDialogAction(contact));
+                                    console.log(this.props.openedChat.id)
                                     if (this.state.domElements.input) {
                                         this.state.domElements.input.value = '';
                                     }

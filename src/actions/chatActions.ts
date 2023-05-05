@@ -267,7 +267,8 @@ export const createDeleteSearchedChatsAction = () => {
         payload: {
             founded_messages: undefined,
             founded_chats: undefined,
-            founded_channels: undefined
+            founded_channels: undefined,
+            founded_contacts: undefined,
         },
     }
 }

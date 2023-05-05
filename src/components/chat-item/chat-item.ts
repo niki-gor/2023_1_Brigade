@@ -76,7 +76,7 @@ export class ChatItem extends Component {
             }),
             title: this.props.chat?.title,
             lastMessage: this.props.chat?.last_message?.body ?? '',
-            id: this.props.chat?.id,
+            id: this.props.chat?.id - 1,
         }), 'text/html').body.firstChild;
     }
 }
