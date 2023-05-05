@@ -14,12 +14,14 @@ export class DumbChat extends Component {
         this.deleteChatBtn = '';
         this.channelInput = '';
         this.subsribeBtnText = '';
+        this.leaveGroup = '';
     }
 
     private editBtn: string;
     private deleteChatBtn: string;
     private channelInput: string;
-    private subsribeBtnText: string; // подписка на канал, если пользователь не подписан на канал
+    private subsribeBtnText: string;
+    private leaveGroup: string;
 
     #getMessageData(message: {author_id: number}) : {messageAvatar: string, messageUsername: string} {
         let messageAvatar;
@@ -78,9 +80,7 @@ export class DumbChat extends Component {
         return false;
     }
 
-    render() {
-        // this.props.chatData.master_id = 1; // подписчик
-        
+    render() {        
         if (this.isMember()) {
             this.subsribeBtnText = 'Unsubscribe';
         } else {
@@ -107,9 +107,15 @@ export class DumbChat extends Component {
             }).render();
             this.subsribeBtnText = '';
         }
+
+        if (this.props.chatData.type === ChatTypes.Group) {
+            this.leaveGroup = 'Выйти из группы';
+            this.deleteChatBtn = '';
+        }
         
         return template({
             EditBtn: svgButtonUI.renderTemplate({svgClassName: this.editBtn}),
+            LeaveGroupBtn: this.leaveGroup,
             SendMessageBtn: svgButtonUI.renderTemplate({svgClassName: 'view-chat__send-message-button'}),
             DeleteChatBtn: svgButtonUI.renderTemplate({svgClassName: this.deleteChatBtn}),
             HeaderUserAvatar: chatAvatarUi.renderTemplate({
