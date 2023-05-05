@@ -55,8 +55,6 @@ export const reduceSetChats = (state: anyObject, action: Action) => {
 export const reduceOpenChat = (state: anyObject, action: Action) => {
     switch (action.type) {
         case constantsOfActions.openChat:
-            console.log('master: ', action?.payload?.master_id)
-            // console.log('user: ', action?.payload?.user_id)
             if (!action.payload?.messages) {
                 action.payload = {
                     ...action.payload,
@@ -161,7 +159,7 @@ export const reduceAddUserInChat = (state: anyObject, action: Action) => {
                     title: state?.openedChat?.title,
                     avatar: state?.openedChat?.avatar,
                     members: state?.openedChat?.members,
-                    last_message: state?.openedChat?.messages[-1],
+                    last_message: state?.openedChat?.messages[state?.openedChat?.messages.length - 1],
                 });
             }
         default:
