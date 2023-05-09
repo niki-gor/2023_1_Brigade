@@ -14,6 +14,8 @@ import {
     newPasswordErrorTypes,
 } from '@config/errors';
 import {
+    createIncorrectPasswordAction,
+    createOccupiedUsernameAction,
     createUpdateUserAction,
     createUpdateUserAvatarAction,
 } from '@actions/userActions';
@@ -175,6 +177,7 @@ export class SmartProfile extends Component<Props, State> {
         if (this.state?.isSubscribed && this.props?.occupiedUsername) {
             this.state.domElements.username?.classList.add('data-input--error');
             addErrorToClass('occupied-username', usernameErrorTypes);
+            store.dispatch(createOccupiedUsernameAction(false));
         }
     }
 
@@ -293,6 +296,7 @@ export class SmartProfile extends Component<Props, State> {
                 'data-input--error'
             );
             addErrorToClass('incorrect-password', passwordErrorTypes);
+            store.dispatch(createIncorrectPasswordAction(false));
         }
     }
 

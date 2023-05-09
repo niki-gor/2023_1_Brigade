@@ -43,12 +43,12 @@ export const confirmPasswordErrorTypes: ErrorTypes[] = [
     {
         param: 'emptyConfirmPassword',
         class: 'empty-confirm-password',
-        message: 'Пароль не может быть пустым',
+        message: 'Подтверждение пароля не может быть пустым',
     },
     {
         param: 'invalidConfirmPassword',
         class: 'invalid-confirm-password',
-        message: 'Подтверждение не равно паролю',
+        message: 'Неверное подтверждение пароля',
     },
 ];
 

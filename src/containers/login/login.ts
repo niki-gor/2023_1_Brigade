@@ -9,6 +9,7 @@ import {
     createRenderAction,
 } from '@actions/routeActions';
 import { DYNAMIC, LOGIN, ROOT, SIDEBAR, STATIC } from '@config/config';
+import { createInvalidEmailAction } from '@/actions/userActions';
 
 interface Props {
     invalidEmail?: boolean;
@@ -128,6 +129,13 @@ export class SmartLogin extends Component<Props, State> {
                 'login-reg__input_error'
             );
             addErrorToClass('invalid-email', emailErrorTypes);
+
+            this.state.domElements.password?.classList.add(
+                'login-reg__input_error'
+            );
+            addErrorToClass('incorrect-password', passwordErrorTypes);
+
+            store.dispatch(createInvalidEmailAction(false));
         }
     }
 

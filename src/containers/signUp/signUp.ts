@@ -20,6 +20,7 @@ import {
     createRenderAction,
 } from '@actions/routeActions';
 import { DYNAMIC, ROOT, SIDEBAR, SIGNUP, STATIC } from '@config/config';
+import { createOccupiedEmailAction } from '@/actions/userActions';
 
 interface Props {
     occupiedEmail?: boolean;
@@ -167,6 +168,7 @@ export class SmartSignUp extends Component<Props, State> {
                 'login-reg__input_error'
             );
             addErrorToClass('occupied-email', emailErrorTypes);
+            store.dispatch(createOccupiedEmailAction(false));
         }
     }
 
@@ -252,7 +254,7 @@ export class SmartSignUp extends Component<Props, State> {
         }
 
         if (this.state?.valid.emailIsValid === false) {
-            this.state.valid.passwordIsValid = true;
+            this.state.valid.emailIsValid = true;
         }
     }
 
