@@ -50,7 +50,7 @@ export const createUpdateUserAction = (
     return async (dispatch: Dispatch) => {
         const { status, body } = await updateUser(user);
         const jsonBody = await body;
-        console.log(jsonBody);
+
         switch (status) {
             case 200:
                 dispatch(createSetUserAction(jsonBody));
