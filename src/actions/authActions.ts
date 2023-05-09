@@ -65,7 +65,7 @@ export const createLoginAction = (
 
                 break;
             case 404:
-                dispatch(createInvalidEmailAction());
+                dispatch(createInvalidEmailAction(true));
                 break;
             case 409:
             // TODO: отрендерить ошибку
@@ -101,7 +101,7 @@ export const createSignUpAction = (
             case 400:
             // TODO: отрендерить ошибку
             case 409:
-                dispatch(createOccupiedEmailAction());
+                dispatch(createOccupiedEmailAction(true));
                 break;
             case 500:
             // TODO: отрендерить ошибку

@@ -8,38 +8,38 @@ export const createSetUserAction = (state: User) => {
     };
 };
 
-export const createInvalidEmailAction = () => {
+export const createInvalidEmailAction = (state: boolean) => {
     return {
         type: constantsOfActions.invalidEmail,
         payload: {
-            invalidEmail: true,
+            invalidEmail: state,
         },
     };
 };
 
-export const createOccupiedEmailAction = () => {
+export const createOccupiedEmailAction = (state: boolean) => {
     return {
         type: constantsOfActions.occupiedEmail,
         payload: {
-            occupiedEmail: true,
+            occupiedEmail: state,
         },
     };
 };
 
-export const createOccupiedUsernameAction = () => {
+export const createOccupiedUsernameAction = (state: boolean) => {
     return {
         type: constantsOfActions.occupiedUsername,
         payload: {
-            occupiedUsername: true,
+            occupiedUsername: state,
         },
     };
 };
 
-export const createIncorrectPasswordAction = () => {
+export const createIncorrectPasswordAction = (state: boolean) => {
     return {
         type: constantsOfActions.incorrectPassword,
         payload: {
-            incorrectPassword: true,
+            incorrectPassword: state,
         },
     };
 };
@@ -60,9 +60,9 @@ export const createUpdateUserAction = (
             case 401:
             // TODO:
             case 404:
-                dispatch(createIncorrectPasswordAction());
+                dispatch(createIncorrectPasswordAction(true));
             case 409:
-                dispatch(createOccupiedUsernameAction());
+                dispatch(createOccupiedUsernameAction(true));
                 break;
             case 500:
             // TODO:
