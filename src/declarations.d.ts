@@ -25,7 +25,8 @@ interface Action {
               type: ChatTypes;
               title: string;
               members: (number | undefined)[];
-          };
+          }
+        | Record<string, unknown>;
 }
 
 interface AsyncAction {
@@ -120,7 +121,8 @@ interface OpenedChat {
 }
 
 interface Message {
-    // id: number;
+    id: string;
+    type: MessageTypes;
     body: string;
     chat_id: number;
     author_id: number;

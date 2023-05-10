@@ -1,16 +1,16 @@
 import { Component } from '@framework/component';
 import { DumbContact } from '@components/contact/contact';
-import { whiteButtonUI } from '@components/ui/white-button/white-button';
 
 import template from '@components/contacts/contacts.pug';
 import '@components/contacts/contacts.scss';
+import { searchUi } from '@components/search/search';
 
 interface Props {
     contacts: User[];
 }
 
 interface State {
-    isRendered: boolean;
+    isSubscribed: boolean;
 }
 
 export class DumbContacts extends Component<Props, State> {
@@ -39,15 +39,12 @@ export class DumbContacts extends Component<Props, State> {
     }
 
     render() {
-        const headContactsValue = 'Контакты';
-
         return template({
-            headContacts: headContactsValue,
+            headContacts: new searchUi({
+                inputClassName: 'chats__header__input',
+                placeholder: 'Поиск',
+            }).render(),
             contacts: this.getContactsList(),
-            addContactButton: whiteButtonUI.renderTemplate({
-                className: 'add-contact-button',
-                buttonValue: 'Добавить контакт',
-            }),
         });
     }
 }

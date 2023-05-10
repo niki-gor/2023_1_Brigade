@@ -53,7 +53,7 @@ export class DumbProfile extends Component<Props, State> {
     }
 
     getUsername() {
-        if (this.props?.user.username == this.props?.user.id) {
+        if (parseInt(this.props.user.username) == this.props.user.id) {
             return '@';
         }
 

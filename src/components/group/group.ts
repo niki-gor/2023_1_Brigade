@@ -1,7 +1,7 @@
 import { Component } from '@framework/component';
-import template from '@components/addContactInGroup/addContact.pug';
+import template from '@components/group/group.pug';
 import { DumbContact } from '@components/contact/contact';
-import '@components/addContactInGroup/addContact.scss';
+import '@components/group/group.scss';
 import '@components/createGroup/createGroup.scss';
 import { dataInputUI } from '@components/ui/data-input/data-input';
 import { blueButtonUI } from '@components/ui/blue-button/blue-button';
@@ -12,7 +12,7 @@ interface Props {
 }
 
 interface State {
-    isRendered: boolean;
+    isSubscribed: boolean;
 }
 
 export class DumbAddContactInGroup extends Component<Props, State> {
@@ -39,7 +39,7 @@ export class DumbAddContactInGroup extends Component<Props, State> {
 
     render() {
         return template({
-            GroupName: 'Название', // this.props.groupName
+            GroupName: 'Название',
             GroupNameInput: dataInputUI.renderTemplate({
                 className: 'groupName',
                 inputType: 'text',

@@ -104,13 +104,99 @@ export const reduceEditChat = (state: State, action: Action) => {
                     title: payload.title,
                     members: payload.members,
                 });
-
-                console.log(state.chats?.[index]);
             }
 
+        default:
             return {
                 ...state,
             };
+    }
+};
+
+export const reduceSetSearchedChats = (state: State, action: Action) => {
+    switch (action.type) {
+        case constantsOfActions.setSearchedChats:
+            if (action.payload) {
+                return {
+                    ...state,
+                    ...action.payload,
+                };
+            }
+        default:
+            return {
+                ...state,
+            };
+    }
+};
+
+export const reduceDeleteSearchedChats = (state: State, action: Action) => {
+    switch (action.type) {
+        case constantsOfActions.deleteSearchedChats:
+            if (action.payload) {
+                return {
+                    ...state,
+                    ...action.payload,
+                };
+            }
+        default:
+            return {
+                ...state,
+            };
+    }
+};
+
+export const reduceAddUserInChat = (state: State, action: Action) => {
+    switch (action.type) {
+        case constantsOfActions.addUserInChat:
+            const payload = action.payload as User;
+
+            if (payload) {
+                state?.openedChat?.members.push(payload);
+
+                if (state.openedChat) {
+                    const last_message =
+                        state.openedChat.messages[
+                            state.openedChat.messages.length - 1
+                        ];
+
+                    const last_message_author = state.openedChat.members.find(
+                        (member) => {
+                            member.id === last_message.author_id;
+                        }
+                    );
+
+                    if (last_message_author) {
+                        state.chats?.push({
+                            id: state.openedChat.id,
+                            type: state.openedChat.type,
+                            title: state.openedChat.title,
+                            avatar: state.openedChat.avatar,
+                            members: state.openedChat.members,
+                            last_message,
+                            last_message_author,
+                        });
+                    }
+                }
+            }
+        default:
+            return {
+                ...state,
+            };
+    }
+};
+
+export const reduceDeleteUserInChat = (state: State, action: Action) => {
+    switch (action.type) {
+        case constantsOfActions.deleteUserInChat:
+            for (let i = 0; i < (state.openedChat?.members.length ?? 0); ++i) {
+                if (state.openedChat?.members[i].id === state.user?.id) {
+                    state.openedChat?.members.splice(i, 1);
+                }
+            }
+
+            state.chats = state.chats?.filter(
+                (chat: Chat) => chat.id != state.openedChat?.id
+            );
         default:
             return {
                 ...state,

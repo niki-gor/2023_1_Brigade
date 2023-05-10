@@ -1,6 +1,6 @@
 import { createEditChatAction } from '@actions/chatActions';
 import { createGetContactsAction } from '@actions/contactsActions';
-import { DumbAddContactInGroup } from '@components/addContactInGroup/addContact';
+import { DumbAddContactInGroup } from '@components/group/group';
 import { DYNAMIC } from '@config/config';
 import { ChatTypes } from '@config/enum';
 import { store } from '@store/store';
@@ -46,7 +46,7 @@ export class SmartAddUserInGroup extends Component<Props, State> {
     #contactUnClicked = 'rgb(28, 28, 36)';
 
     render() {
-        if (this.state?.isSubscribed) {
+        if (this.state.isSubscribed) {
             this.props?.chats?.forEach((chat) => {
                 if (chat.id == this.chatId) {
                     const addUser = new DumbAddContactInGroup({
@@ -58,7 +58,7 @@ export class SmartAddUserInGroup extends Component<Props, State> {
                         this.node.innerHTML = addUser.render();
                     }
 
-                    if (this.state?.domElements) {
+                    if (this.state.domElements) {
                         this.state.domElements.saveChangesBtn =
                             document.querySelector('.button-submit');
                     }
@@ -67,7 +67,7 @@ export class SmartAddUserInGroup extends Component<Props, State> {
                     ) as HTMLInputElement;
                     input.value = chat.title;
 
-                    this.state?.domElements.saveChangesBtn?.addEventListener(
+                    this.state.domElements.saveChangesBtn?.addEventListener(
                         'click',
                         (e) => {
                             e.preventDefault();
@@ -151,8 +151,8 @@ export class SmartAddUserInGroup extends Component<Props, State> {
     }
 
     componentDidMount() {
-        if (!this.state?.isSubscribed) {
-            if (this.state?.isSubscribed === false) {
+        if (!this.state.isSubscribed) {
+            if (this.state.isSubscribed === false) {
                 this.state.isSubscribed = true;
             }
 
@@ -170,7 +170,7 @@ export class SmartAddUserInGroup extends Component<Props, State> {
     }
 
     componentWillUnmount() {
-        if (this.state?.isSubscribed) {
+        if (this.state.isSubscribed) {
             this.unsubscribe();
             this.state.isSubscribed = false;
         }

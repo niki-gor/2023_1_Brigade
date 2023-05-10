@@ -63,7 +63,7 @@ export class SmartCreateGroup extends Component<Props, State> {
                 countersMembers: false,
                 isValid: () => {
                     return (
-                        this.state?.valid.groupNameIsValid &&
+                        this.state.valid.groupNameIsValid &&
                         this.state.valid.countersMembers
                     );
                 },
@@ -77,7 +77,7 @@ export class SmartCreateGroup extends Component<Props, State> {
      * Рендерит создание группы
      */
     render() {
-        if (this.state?.isSubscribed) {
+        if (this.state.isSubscribed) {
             const CreateGroupUI = new DumbCreateGroup({
                 contacts: this.props?.contacts ?? [],
             });
@@ -137,7 +137,7 @@ export class SmartCreateGroup extends Component<Props, State> {
      * Обрабатывает нажатие кнопки создания чата
      */
     handleClickCreateGroup() {
-        if (this.state?.valid.isValid()) {
+        if (this.state.valid.isValid()) {
             const contacts = [...this.getChoseContacts(), this.props?.user?.id];
 
             const chat = {
@@ -155,7 +155,7 @@ export class SmartCreateGroup extends Component<Props, State> {
      * Навешивает переданные обработчики на валидацию и кнопки
      */
     componentDidMount() {
-        if (!this.state?.isSubscribed) {
+        if (!this.state.isSubscribed) {
             this.unsubscribe = store.subscribe(
                 this.constructor.name,
                 (pr: Props) => {
@@ -165,7 +165,7 @@ export class SmartCreateGroup extends Component<Props, State> {
                 }
             );
 
-            if (this.state?.isSubscribed === false) {
+            if (this.state.isSubscribed === false) {
                 this.state.isSubscribed = true;
             }
         }
@@ -177,7 +177,7 @@ export class SmartCreateGroup extends Component<Props, State> {
      * Удаляет все подписки
      */
     componentWillUnmount() {
-        if (this.state?.isSubscribed) {
+        if (this.state.isSubscribed) {
             this.unsubscribe();
             this.state.isSubscribed = false;
         }
@@ -187,7 +187,7 @@ export class SmartCreateGroup extends Component<Props, State> {
      * Проверяет, что для создания группы выбрано > 0 участников
      */
     validateChoseContacts() {
-        this.state?.domElements.groupNameInput?.classList.remove(
+        this.state.domElements.groupNameInput?.classList.remove(
             'data-input--error'
         );
         addErrorToClass('', countingMembersErrorTypes);
@@ -195,20 +195,20 @@ export class SmartCreateGroup extends Component<Props, State> {
         const contacts = this.getChoseContacts();
 
         if (contacts.length === 0) {
-            this.state?.domElements.groupNameInput?.classList.add(
+            this.state.domElements.groupNameInput?.classList.add(
                 'data-input--error'
             );
             addErrorToClass(
                 'incorrect-emptyCountingMembers',
                 countingMembersErrorTypes
             );
-            if (this.state?.valid.countersMembers) {
+            if (this.state.valid.countersMembers) {
                 this.state.valid.countersMembers = false;
             }
             return;
         }
 
-        if (this.state?.valid.countersMembers === false) {
+        if (this.state.valid.countersMembers === false) {
             this.state.valid.countersMembers = true;
         }
     }
@@ -217,27 +217,27 @@ export class SmartCreateGroup extends Component<Props, State> {
      * Проверяет пользовательский ввод названия чата
      */
     validateGroupName() {
-        this.state?.domElements.groupNameInput?.classList.remove(
+        this.state.domElements.groupNameInput?.classList.remove(
             'data-input--error'
         );
         addErrorToClass('', nicknameErrorTypes);
 
         const { isError, errorClass } = checkNickname(
-            this.state?.domElements.groupNameInput?.value ?? ''
+            this.state.domElements.groupNameInput?.value ?? ''
         );
 
         if (isError) {
-            this.state?.domElements.groupNameInput?.classList.add(
+            this.state.domElements.groupNameInput?.classList.add(
                 'data-input--error'
             );
             addErrorToClass(errorClass, nicknameErrorTypes);
-            if (this.state?.valid.groupNameIsValid) {
+            if (this.state.valid.groupNameIsValid) {
                 this.state.valid.groupNameIsValid = false;
             }
             return;
         }
 
-        if (this.state?.valid.groupNameIsValid === false) {
+        if (this.state.valid.groupNameIsValid === false) {
             this.state.valid.groupNameIsValid = true;
         }
     }

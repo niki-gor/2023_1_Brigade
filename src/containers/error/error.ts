@@ -36,7 +36,7 @@ export class SmartError extends Component<Props, State> {
      * Рендерит ошибку
      */
     render() {
-        if (this.state?.isSubscribed) {
+        if (this.state.isSubscribed) {
         }
     }
 
@@ -44,13 +44,13 @@ export class SmartError extends Component<Props, State> {
      * Навешивает переданные обработчики на валидацию и кнопки
      */
     componentDidMount() {
-        if (!this.state?.isSubscribed) {
+        if (!this.state.isSubscribed) {
             // this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: Record<string, unknown>) => {
             //     this.props = pr;
 
             //     this.render();
             // }));
-            if (this.state?.isSubscribed === false) {
+            if (this.state.isSubscribed === false) {
                 this.state.isSubscribed = true;
             }
         }
@@ -60,7 +60,7 @@ export class SmartError extends Component<Props, State> {
      * Удаляет все подписки
      */
     componentWillUnmount() {
-        if (this.state?.isSubscribed) {
+        if (this.state.isSubscribed) {
             this.unsubscribe();
             this.state.isSubscribed = false;
         }

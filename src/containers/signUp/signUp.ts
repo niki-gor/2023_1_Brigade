@@ -68,10 +68,10 @@ export class SmartSignUp extends Component<Props, State> {
                 nicknameIsValid: false,
                 isValid: () => {
                     return (
-                        this.state?.valid.emailIsValid &&
-                        this.state?.valid.passwordIsValid &&
-                        this.state?.valid.confirmPasswordIsValid &&
-                        this.state?.valid.nicknameIsValid
+                        this.state.valid.emailIsValid &&
+                        this.state.valid.passwordIsValid &&
+                        this.state.valid.confirmPasswordIsValid &&
+                        this.state.valid.nicknameIsValid
                     );
                 },
             },
@@ -92,7 +92,7 @@ export class SmartSignUp extends Component<Props, State> {
      * Рендерит логин
      */
     render() {
-        if (this.state?.isSubscribed && !SIGNUP()) {
+        if (this.state.isSubscribed && !SIGNUP()) {
             const SignUpUI = new DumbSignUp({
                 ...this.props,
             });
@@ -163,7 +163,7 @@ export class SmartSignUp extends Component<Props, State> {
      * Показывает, что была введа занятая почта
      */
     occupiedEmail() {
-        if (this.state?.isSubscribed && this.props?.occupiedEmail) {
+        if (this.state.isSubscribed && this.props?.occupiedEmail) {
             this.state.domElements.email?.classList.add(
                 'login-reg__input_error'
             );
@@ -176,7 +176,7 @@ export class SmartSignUp extends Component<Props, State> {
      * Навешивает переданные обработчики на валидацию и кнопки
      */
     componentDidMount() {
-        if (!this.state?.isSubscribed) {
+        if (!this.state.isSubscribed) {
             this.unsubscribe = store.subscribe(
                 this.constructor.name,
                 (pr: Props) => {
@@ -187,7 +187,7 @@ export class SmartSignUp extends Component<Props, State> {
                 }
             );
 
-            if (this.state?.isSubscribed === false) {
+            if (this.state.isSubscribed === false) {
                 this.state.isSubscribed = true;
             }
 
@@ -199,7 +199,7 @@ export class SmartSignUp extends Component<Props, State> {
      * Удаляет все подписки
      */
     componentWillUnmount() {
-        if (this.state?.isSubscribed) {
+        if (this.state.isSubscribed) {
             this.unsubscribe();
             this.state.isSubscribed = false;
 
@@ -211,7 +211,7 @@ export class SmartSignUp extends Component<Props, State> {
      * Обрабатывает нажатие кнопки логина
      */
     handleClickSignUp() {
-        if (this.state?.valid.isValid()) {
+        if (this.state.valid.isValid()) {
             const user = {
                 nickname: this.state.domElements.nickname?.value,
                 email: this.state.domElements.email?.value,
@@ -233,27 +233,27 @@ export class SmartSignUp extends Component<Props, State> {
      * Проверяет пользовательский ввод почты
      */
     validateEmail() {
-        this.state?.domElements.email?.classList.remove(
+        this.state.domElements.email?.classList.remove(
             'login-reg__input_error'
         );
         addErrorToClass('', emailErrorTypes);
 
         const { isError, errorClass } = checkEmail(
-            this.state?.domElements.email?.value ?? ''
+            this.state.domElements.email?.value ?? ''
         );
 
         if (isError) {
-            this.state?.domElements.email?.classList.add(
+            this.state.domElements.email?.classList.add(
                 'login-reg__input_error'
             );
             addErrorToClass(errorClass, emailErrorTypes);
-            if (this.state?.valid.emailIsValid) {
+            if (this.state.valid.emailIsValid) {
                 this.state.valid.passwordIsValid = false;
             }
             return;
         }
 
-        if (this.state?.valid.emailIsValid === false) {
+        if (this.state.valid.emailIsValid === false) {
             this.state.valid.emailIsValid = true;
         }
     }
@@ -262,27 +262,27 @@ export class SmartSignUp extends Component<Props, State> {
      * Проверяет пользовательский ввод пароля
      */
     validatePassword() {
-        this.state?.domElements.password?.classList.remove(
+        this.state.domElements.password?.classList.remove(
             'login-reg__input_error'
         );
         addErrorToClass('', passwordErrorTypes);
 
         const { isError, errorClass } = checkPassword(
-            this.state?.domElements.password?.value ?? ''
+            this.state.domElements.password?.value ?? ''
         );
 
         if (isError) {
-            this.state?.domElements.password?.classList.add(
+            this.state.domElements.password?.classList.add(
                 'login-reg__input_error'
             );
             addErrorToClass(errorClass, passwordErrorTypes);
-            if (this.state?.valid.passwordIsValid) {
+            if (this.state.valid.passwordIsValid) {
                 this.state.valid.passwordIsValid = false;
             }
             return;
         }
 
-        if (this.state?.valid.passwordIsValid === false) {
+        if (this.state.valid.passwordIsValid === false) {
             this.state.valid.passwordIsValid = true;
         }
     }
@@ -291,28 +291,28 @@ export class SmartSignUp extends Component<Props, State> {
      * Проверяет пользовательский ввод подтверждения пароля
      */
     validateConfirmPassword() {
-        this.state?.domElements.confirmPassword?.classList.remove(
+        this.state.domElements.confirmPassword?.classList.remove(
             'login-reg__input_error'
         );
         addErrorToClass('', confirmPasswordErrorTypes);
 
         const { isError, errorClass } = checkConfirmPassword(
-            this.state?.domElements.password?.value ?? '',
-            this.state?.domElements.confirmPassword?.value ?? ''
+            this.state.domElements.password?.value ?? '',
+            this.state.domElements.confirmPassword?.value ?? ''
         );
 
         if (isError) {
-            this.state?.domElements.confirmPassword?.classList.add(
+            this.state.domElements.confirmPassword?.classList.add(
                 'login-reg__input_error'
             );
             addErrorToClass(errorClass, passwordErrorTypes);
-            if (this.state?.valid.confirmPasswordIsValid) {
+            if (this.state.valid.confirmPasswordIsValid) {
                 this.state.valid.confirmPasswordIsValid = false;
             }
             return;
         }
 
-        if (this.state?.valid.confirmPasswordIsValid === false) {
+        if (this.state.valid.confirmPasswordIsValid === false) {
             this.state.valid.confirmPasswordIsValid = true;
         }
     }
@@ -321,27 +321,27 @@ export class SmartSignUp extends Component<Props, State> {
      * Проверяет пользовательский ввод имени
      */
     validateNickname() {
-        this.state?.domElements.nickname?.classList.remove(
+        this.state.domElements.nickname?.classList.remove(
             'login-reg__input_error'
         );
         addErrorToClass('', nicknameErrorTypes);
 
         const { isError, errorClass } = checkNickname(
-            this.state?.domElements.nickname?.value ?? ''
+            this.state.domElements.nickname?.value ?? ''
         );
 
         if (isError) {
-            this.state?.domElements.nickname?.classList.add(
+            this.state.domElements.nickname?.classList.add(
                 'login-reg__input_error'
             );
             addErrorToClass(errorClass, nicknameErrorTypes);
-            if (this.state?.valid.nicknameIsValid) {
+            if (this.state.valid.nicknameIsValid) {
                 this.state.valid.nicknameIsValid = false;
             }
             return;
         }
 
-        if (this.state?.valid.nicknameIsValid === false) {
+        if (this.state.valid.nicknameIsValid === false) {
             this.state.valid.nicknameIsValid = true;
         }
     }
