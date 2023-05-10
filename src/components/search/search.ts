@@ -3,7 +3,10 @@ import template from '@components/search/search.pug';
 import '@components/search/search.scss';
 import { svgButtonUI } from '@components/ui/button/button';
 
-interface Props {}
+interface Props {
+    inputClassName: string;
+    placeholder: string;
+}
 
 interface State {}
 

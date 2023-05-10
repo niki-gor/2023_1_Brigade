@@ -231,7 +231,7 @@ export const createEditChatAction = (updateGroupState: {
     };
 };
 
-export const createCreateChannelAction = (channel: Record<string, number>) => {
+export const createCreateChannelAction = (channel: Record<string, unknown>) => {
     return async (dispatch: (action: Action) => void) => {
         const { status, body } = await createChat(channel);
         const jsonBody = await body;

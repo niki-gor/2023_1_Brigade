@@ -1,7 +1,6 @@
-import { DumbChatList } from '@components/chatList/chatList';
 import { DYNAMIC } from '@config/config';
 import { store } from '@store/store';
-import { Container } from '@containers/container';
+import { Component } from '@framework/component';
 import { DumbCreateChannel } from '@components/channelCreation/channel';
 import {
     createMoveToChatsAction,
@@ -12,25 +11,28 @@ import { nicknameErrorTypes } from '@config/errors';
 import { ChatTypes } from '@config/enum';
 import { createCreateChannelAction } from '@actions/chatActions';
 
-export interface SmartCreateChannel {
-    state: {
-        isSubscribed: boolean;
-        valid: {
-            channelNameIsValid: boolean;
-            isValid: () => boolean;
-        };
-        domElements: {
-            headerBackBtn: HTMLElement | null;
-            headerDoneBtn: HTMLElement | null;
-            channelImage: HTMLElement | null;
-            channelName: HTMLInputElement | null;
-            channelDescription: HTMLInputElement | null;
-        };
+interface Props {
+    user?: User;
+    contacts?: User[];
+}
+
+interface State {
+    isSubscribed: boolean;
+    valid: {
+        channelNameIsValid: boolean;
+        isValid: () => boolean;
+    };
+    domElements: {
+        headerBackBtn: HTMLElement | null;
+        headerDoneBtn: HTMLElement | null;
+        channelImage: HTMLElement | null;
+        channelName: HTMLInputElement | null;
+        channelDescription: HTMLInputElement | null;
     };
 }
 
-export class SmartCreateChannel extends Container {
-    constructor(props: componentProps) {
+export class SmartCreateChannel extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             isSubscribed: false,
@@ -49,22 +51,20 @@ export class SmartCreateChannel extends Container {
             },
         };
 
-        this.rootNode = DYNAMIC;
+        this.node = DYNAMIC;
     }
 
     #image: File | undefined;
 
     render() {
         if (this.state.isSubscribed) {
-            if (!this.props.channels) {
-                this.props.channels = [];
-            }
-
             const ChannelUI = new DumbCreateChannel({
                 ...this.props.contacts,
             });
 
-            this.rootNode.innerHTML = ChannelUI.render();
+            if (this.node) {
+                this.node.innerHTML = ChannelUI.render();
+            }
 
             this.state.domElements.headerBackBtn = document.querySelector(
                 '.create-channel__header__back'
@@ -112,12 +112,13 @@ export class SmartCreateChannel extends Container {
 
     componentDidMount() {
         if (!this.state.isSubscribed) {
-            this.unsubscribe.push(
-                store.subscribe(this.constructor.name, (pr: componentProps) => {
+            this.unsubscribe = store.subscribe(
+                this.constructor.name,
+                (pr: Props) => {
                     this.props = pr;
 
                     this.render();
-                })
+                }
             );
 
             this.state.isSubscribed = true;
@@ -126,7 +127,7 @@ export class SmartCreateChannel extends Container {
 
     componentWillUnmount() {
         if (this.state.isSubscribed) {
-            this.unsubscribe.forEach((uns) => uns());
+            this.unsubscribe();
             this.state.isSubscribed = false;
         }
     }
@@ -180,7 +181,7 @@ export class SmartCreateChannel extends Container {
     }
 
     handleClickDone() {
-        if (this.state.valid.isValid()) {
+        if (this.state.valid.isValid() && this.props.user) {
             const newChannel = {
                 type: ChatTypes.Channel,
                 title: this.state.domElements.channelName?.value,
@@ -189,7 +190,7 @@ export class SmartCreateChannel extends Container {
                 // avatar: this.state.domElements.channelImage,
                 // description: this.state.domElements.channelDescription?.value,
                 // master_id: this.props.user.id,
-            } as anyObject;
+            } as Record<string, unknown>;
 
             store.dispatch(createCreateChannelAction(newChannel));
             store.dispatch(createMoveToChatsAction());
