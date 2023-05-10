@@ -5,6 +5,7 @@ import { reduceSetContacts } from '@reducers/contactReducers';
 import {
     reduceAddChat,
     reduceDeleteChat,
+    reduceDeleteSearchedChats,
     reduceEditChat,
     reduceIsNotRendered,
     reduceOpenChat,
@@ -34,7 +35,7 @@ export const reducers = [
     },
     {
         type: constantsOfActions.deleteSearchedChats,
-        reducer: reduceSetSearchedChats,
+        reducer: reduceDeleteSearchedChats,
     },
     { type: constantsOfActions.addUserInChat, reducer: reduceAddChat },
     {

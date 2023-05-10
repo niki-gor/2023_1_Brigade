@@ -5,6 +5,7 @@ import { SmartLogin } from '@containers/login/login';
 import { SmartProfile } from '@containers/profile/profile';
 import { SmartSignUp } from '@containers/signUp/signUp';
 import { SmartAddUserInGroup } from '@containers/group/group';
+import { SmartCreateChannel } from '@/containers/channel/channel';
 
 export const routes: Route[] = [
     {
@@ -29,6 +30,12 @@ export const routes: Route[] = [
         path: /^\/create_group$/,
         component: () => {
             return new SmartCreateGroup({});
+        },
+    },
+    {
+        path: /^\/create_channel$/,
+        component: () => {
+            return new SmartCreateChannel({});
         },
     },
     {
