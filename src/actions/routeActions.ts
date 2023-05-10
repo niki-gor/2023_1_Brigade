@@ -57,7 +57,16 @@ export const createMoveToChatsAction = () => {
     };
 };
 
-export const createMoveToCreateGroupAction = () => {
+export const createMoveToHomePageAction = (): Action => {
+    router.route('/');
+
+    return {
+        type: constantsOfActions.moveToHomePage,
+        payload: null,
+    };
+};
+
+export const createMoveToCreateGroupAction = (): Action => {
     router.route('/create_group');
 
     return {
@@ -66,9 +75,16 @@ export const createMoveToCreateGroupAction = () => {
     };
 };
 
-export const createMoveToChatAction = (
-    chat: Record<string, unknown>
-): Action => {
+export const createMoveToCreateChannelAction = (): Action => {
+    router.route('/create_channel');
+
+    return {
+        type: constantsOfActions.moveToCreateChannel,
+        payload: null,
+    };
+};
+
+export const createMoveToChatAction = (chat: { chatId: number }): Action => {
     router.route(`/${chat.chatId}`);
 
     return {
@@ -78,13 +94,13 @@ export const createMoveToChatAction = (
 };
 
 // при нажатие на кнопку редактиования динамическая часть заменяется на компонент SmartAddUserInGroup
-export const createMoveToEditChatAction = (chat: OpenedChat | undefined) => {
+export const createMoveToEditChatAction = (chat: OpenedChat) => {
     if (chat) {
         router.route(`/${chat.id}/add`);
     }
 
     return {
         type: constantsOfActions.moveToEditChat,
-        payload: null,
+        payload: chat.id,
     };
 };

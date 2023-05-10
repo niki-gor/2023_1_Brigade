@@ -254,10 +254,13 @@ export class SmartProfile extends Component<Props, State> {
                 new_password: this.state.domElements.new_password?.value,
             } as Record<string, unknown>;
 
-            console.log(user);
-
             store.dispatch(createUpdateUserAction(user));
             store.dispatch(createUpdateUserAvatarAction(this.#image));
+        } else {
+            this.validateCurrentPassword();
+            this.validateNewPassword();
+            this.validateNickname();
+            this.validateUsername();
         }
     }
 

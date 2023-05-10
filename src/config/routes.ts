@@ -4,7 +4,7 @@ import { SmartCreateGroup } from '@containers/createGroup/createGroup';
 import { SmartLogin } from '@containers/login/login';
 import { SmartProfile } from '@containers/profile/profile';
 import { SmartSignUp } from '@containers/signUp/signUp';
-import { SmartAddUserInGroup } from '@containers/addUserInGroup/addUserInGroup';
+import { SmartAddUserInGroup } from '@containers/group/group';
 
 export const routes: Route[] = [
     {

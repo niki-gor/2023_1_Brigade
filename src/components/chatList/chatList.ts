@@ -2,7 +2,8 @@ import { Component } from '@framework/component';
 import template from '@components/chatList/chatList.pug';
 import '@components/chatList/chatList.scss';
 import { DumbChatCard } from '@components/chatCard/chatCard';
-import { svgButtonUI } from '../ui/button/button';
+import { searchUi } from '@components/search/search';
+import { Dropdown } from '@components/dropdown/dropdown';
 
 interface Props {
     chats: Chat[];
@@ -26,23 +27,37 @@ export class DumbChatList extends Component<Props, State> {
     }
 
     getChatList() {
-        const contactsList: string[] = [];
+        const chatsList: string[] = [];
 
         this.props?.chats.forEach((chat) => {
             const chatCardUI = new DumbChatCard({ chat });
 
-            contactsList.push(chatCardUI.render());
+            chatsList.push(chatCardUI.render());
         });
 
-        return contactsList;
+        return chatsList;
     }
 
     render() {
         return template({
             headChats: 'Чаты',
-            createCroup: svgButtonUI.renderTemplate({
-                svgClassName: 'chat-list__header__write-message-button',
-            }),
+            dropdown: new Dropdown({
+                icon: 'create-btn',
+                list: [
+                    {
+                        className: 'dropdown-menu__item-group',
+                        value: 'Создать группу',
+                    },
+                    {
+                        className: 'dropdown-menu__item-channel',
+                        value: 'Создать канал',
+                    },
+                ],
+            }).render(),
+            chatInput: new searchUi({
+                inputClassName: 'chats__header__input',
+                placeholder: 'Поиск',
+            }).render(),
             chats: this.getChatList(),
         });
     }

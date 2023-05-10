@@ -1,6 +1,6 @@
 import { createEditChatAction } from '@actions/chatActions';
 import { createGetContactsAction } from '@actions/contactsActions';
-import { DumbAddContactInGroup } from '@components/addContactInGroup/addContact';
+import { DumbAddContactInGroup } from '@components/group/group';
 import { DYNAMIC } from '@config/config';
 import { ChatTypes } from '@config/enum';
 import { store } from '@store/store';

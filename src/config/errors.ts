@@ -69,7 +69,7 @@ export const nicknameErrorTypes: ErrorTypes[] = [
     {
         param: 'emptyNickname',
         class: 'empty-nickname',
-        message: 'Никнейм не может быть пустым',
+        message: 'Поле не может быть пустым',
     },
     {
         param: 'invalidNickname',

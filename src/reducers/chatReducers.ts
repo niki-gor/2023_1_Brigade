@@ -104,13 +104,82 @@ export const reduceEditChat = (state: State, action: Action) => {
                     title: payload.title,
                     members: payload.members,
                 });
-
-                console.log(state.chats?.[index]);
             }
 
+        default:
             return {
                 ...state,
             };
+    }
+};
+
+export const reduceSetSearchedChats = (state: State, action: Action) => {
+    switch (action.type) {
+        case constantsOfActions.setSearchedChats:
+            if (action.payload) {
+                return {
+                    ...state,
+                    ...action.payload,
+                };
+            }
+        default:
+            return {
+                ...state,
+            };
+    }
+};
+
+export const reduceDeleteSearchedChats = (state: State, action: Action) => {
+    switch (action.type) {
+        case constantsOfActions.deleteSearchedChats:
+            if (action.payload) {
+                return {
+                    ...state,
+                    ...action.payload,
+                };
+            }
+        default:
+            return {
+                ...state,
+            };
+    }
+};
+
+export const reduceAddUserInChat = (state: State, action: Action) => {
+    switch (action.type) {
+        case constantsOfActions.addUserInChat:
+            if (action.payload) {
+                state?.openedChat?.members.push(action.payload);
+
+                state.chats.push({
+                    id: state?.openedChat?.id,
+                    title: state?.openedChat?.title,
+                    avatar: state?.openedChat?.avatar,
+                    members: state?.openedChat?.members,
+                    last_message:
+                        state?.openedChat?.messages[
+                            state?.openedChat?.messages.length - 1
+                        ],
+                });
+            }
+        default:
+            return {
+                ...state,
+            };
+    }
+};
+
+export const reduceDeleteUserInChat = (state: State, action: Action) => {
+    switch (action.type) {
+        case constantsOfActions.deleteUserInChat:
+            for (let i = 0; i < state.openedChat.members.length; ++i) {
+                if (state.openedChat.members[i].id === state?.user?.id) {
+                    state.openedChat.members.splice(i, 1);
+                }
+            }
+            state.chats = state.chats?.filter(
+                (chat: Chat) => chat.id != state.openedChat?.id
+            );
         default:
             return {
                 ...state,

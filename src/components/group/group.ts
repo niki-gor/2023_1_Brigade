@@ -39,7 +39,7 @@ export class DumbAddContactInGroup extends Component<Props, State> {
 
     render() {
         return template({
-            GroupName: 'Название', // this.props.groupName
+            GroupName: 'Название',
             GroupNameInput: dataInputUI.renderTemplate({
                 className: 'groupName',
                 inputType: 'text',
