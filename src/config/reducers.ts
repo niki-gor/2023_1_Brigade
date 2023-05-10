@@ -4,8 +4,10 @@ import { reduceValidate } from '@reducers/validateReducers';
 import { reduceSetContacts } from '@reducers/contactReducers';
 import {
     reduceAddChat,
+    reduceAddUserInChat,
     reduceDeleteChat,
     reduceDeleteSearchedChats,
+    reduceDeleteUserInChat,
     reduceEditChat,
     reduceIsNotRendered,
     reduceOpenChat,
@@ -37,9 +39,9 @@ export const reducers = [
         type: constantsOfActions.deleteSearchedChats,
         reducer: reduceDeleteSearchedChats,
     },
-    { type: constantsOfActions.addUserInChat, reducer: reduceAddChat },
+    { type: constantsOfActions.addUserInChat, reducer: reduceAddUserInChat },
     {
         type: constantsOfActions.deleteUserInChat,
-        reducer: reduceDeleteChat,
+        reducer: reduceDeleteUserInChat,
     },
 ];

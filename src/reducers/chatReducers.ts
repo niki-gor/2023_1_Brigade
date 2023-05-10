@@ -96,8 +96,6 @@ export const reduceEditChat = (state: State, action: Action) => {
                 return chat.id == payload.id;
             });
 
-            console.log(index);
-
             if ((index && index !== -1) || index === 0) {
                 state.chats?.splice(index, 1, {
                     ...state.chats[index],
@@ -159,23 +157,39 @@ export const reduceAddUserInChat = (state: State, action: Action) => {
                             state.openedChat.messages.length - 1
                         ];
 
-                    const last_message_author = state.openedChat.members.find(
-                        (member) => {
-                            member.id === last_message.author_id;
-                        }
-                    );
+                    let last_message_author = {
+                        id: 0,
+                        username: '',
+                        nickname: '',
+                        email: '',
+                        status: '',
+                        avatar: '',
+                    } as User;
 
-                    if (last_message_author) {
-                        state.chats?.push({
-                            id: state.openedChat.id,
-                            type: state.openedChat.type,
-                            title: state.openedChat.title,
-                            avatar: state.openedChat.avatar,
-                            members: state.openedChat.members,
-                            last_message,
-                            last_message_author,
-                        });
+                    if (last_message) {
+                        last_message_author =
+                            state.openedChat.members.find((member) => {
+                                member.id === last_message.author_id;
+                            }) ??
+                            ({
+                                id: 0,
+                                username: '',
+                                nickname: '',
+                                email: '',
+                                status: '',
+                                avatar: '',
+                            } as User);
                     }
+
+                    state.chats?.push({
+                        id: state.openedChat.id,
+                        type: state.openedChat.type,
+                        title: state.openedChat.title,
+                        avatar: state.openedChat.avatar,
+                        members: state.openedChat.members,
+                        last_message,
+                        last_message_author,
+                    });
                 }
             }
         default:
