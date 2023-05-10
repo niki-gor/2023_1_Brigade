@@ -8,7 +8,7 @@ import '@components/signUp/signUp.scss';
 interface Props {}
 
 interface State {
-    isRendered: boolean;
+    isSubscribed: boolean;
 }
 
 export class DumbSignUp extends Component<Props, State> {

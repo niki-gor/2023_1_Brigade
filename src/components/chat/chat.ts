@@ -16,7 +16,7 @@ interface Props {
 }
 
 interface State {
-    isRendered: boolean;
+    isSubscribed: boolean;
 }
 
 export class DumbChat extends Component<Props, State> {

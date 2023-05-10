@@ -5,7 +5,7 @@ import '@components/emptyDynamicPage/emptyDynamicPage.scss';
 interface Props {}
 
 interface State {
-    isRendered: boolean;
+    isSubscribed: boolean;
 }
 
 export class DumbEmptyDynamicPage extends Component<Props, State> {

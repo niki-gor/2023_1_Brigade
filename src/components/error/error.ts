@@ -6,7 +6,7 @@ interface Props {
 }
 
 interface State {
-    isRendered: boolean;
+    isSubscribed: boolean;
 }
 
 export class DumbContact extends Component<Props, State> {

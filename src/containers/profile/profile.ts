@@ -344,9 +344,7 @@ export class SmartProfile extends Component<Props, State> {
         );
 
         if (isError) {
-            this.state.domElements.nickname?.classList.add(
-                'data-input--error'
-            );
+            this.state.domElements.nickname?.classList.add('data-input--error');
             addErrorToClass(errorClass, nicknameErrorTypes);
             if (this.state.valid.nicknameIsValid) {
                 this.state.valid.nicknameIsValid = false;
