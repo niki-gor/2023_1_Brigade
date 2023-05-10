@@ -232,7 +232,7 @@ export const createEditChatAction = (updateGroupState: {
 };
 
 export const createCreateChannelAction = (channel: Record<string, number>) => {
-    return async (dispatch: (action: Action) => void, state: Function) => {
+    return async (dispatch: (action: Action) => void) => {
         const { status, body } = await createChat(channel);
         const jsonBody = await body;
 
@@ -256,7 +256,7 @@ export const createCreateChannelAction = (channel: Record<string, number>) => {
 };
 
 export const createSearchChatsAction = (str: string) => {
-    return async (dispatch: (action: Action) => void, state: Function) => {
+    return async (dispatch: (action: Action) => void) => {
         const { status, body } = await searchChats(str);
         const jsonBody = await body;
 
@@ -297,7 +297,7 @@ export const createDeleteSearchedChatsAction = () => {
     };
 };
 
-export const createAddUserInChat = (user: Record<string, number>) => {
+export const createAddUserInChat = (user: User) => {
     return {
         type: constantsOfActions.addUserInChat,
         payload: user,

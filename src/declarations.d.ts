@@ -121,7 +121,8 @@ interface OpenedChat {
 }
 
 interface Message {
-    // id: number;
+    id: string;
+    type: MessageTypes;
     body: string;
     chat_id: number;
     author_id: number;

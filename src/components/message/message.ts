@@ -7,15 +7,16 @@ import { Dropdown } from '@components/dropdown/dropdown';
 interface Props {
     messageSide: boolean;
     messageAvatar: string;
-    username: string;
     messageContent: string;
+    username: string;
+    id: string;
 }
 
 interface State {
     isSubscribed: boolean;
 }
 
-export class Message extends Component<Props, State> {
+export class DumpMessage extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
     }
@@ -38,7 +39,7 @@ export class Message extends Component<Props, State> {
                 }),
                 MessageText: this.props.messageContent,
                 Username: this.props.username,
-                TreeDots: (function (message_id: number, is_user: boolean) {
+                TreeDots: (function (message_id: string, is_user: boolean) {
                     if (is_user) {
                         return new Dropdown({
                             icon: 'three-dots',

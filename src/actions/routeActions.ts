@@ -101,6 +101,6 @@ export const createMoveToEditChatAction = (chat: OpenedChat) => {
 
     return {
         type: constantsOfActions.moveToEditChat,
-        payload: chat.id,
+        payload: null,
     };
 };

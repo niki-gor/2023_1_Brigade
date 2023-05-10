@@ -1,15 +1,21 @@
 import { Component } from '@framework/component';
 import { store } from '@store/store';
 import { DumbChat } from '@components/chat/chat';
-import { Message } from '@components/message/message';
+import { DumpMessage } from '@components/message/message';
 import {
+    createAddUserInChat,
     createDeleteChatAction,
+    createDeleteUserInChat,
+    createEditChatAction,
     createGetOneChatAction,
     createIsNotRenderedAction,
 } from '@actions/chatActions';
 import { getWs } from '@utils/ws';
 import { DumbEmptyDynamicPage } from '@components/emptyDynamicPage/emptyDynamicPage';
-import { createMoveToEditChatAction } from '@actions/routeActions';
+import {
+    createMoveToEditChatAction,
+    createMoveToHomePageAction,
+} from '@actions/routeActions';
 import { ChatTypes, MessageTypes } from '@config/enum';
 import { DYNAMIC } from '@config/config';
 
@@ -82,6 +88,10 @@ export class SmartChat extends Component<Props, State> {
                     chatTitle: this.props?.openedChat?.title,
                 });
 
+                if (this.node) {
+                    this.node.innerHTML = chat.render();
+                }
+
                 this.state.domElements.input = document.querySelector(
                     '.input-message__text-field__in'
                 ) as HTMLInputElement;
@@ -109,22 +119,24 @@ export class SmartChat extends Component<Props, State> {
                                 return id !== this.props?.user?.id;
                             });
 
-                        const updateChannelState = {
-                            id: this.props?.openedChat?.id,
-                            type: ChatTypes.Channel,
-                            title: this.props?.openedChat?.title,
-                            members: updateMembers,
-                        };
+                        if (this.props.openedChat) {
+                            const updateChannelState = {
+                                id: this.props.openedChat.id,
+                                type: ChatTypes.Channel,
+                                title: this.props.openedChat.title,
+                                members: updateMembers ?? [],
+                            };
 
-                        async function updateChannelAndMoveToHomePage() {
-                            store.dispatch(createDeleteUserInChat());
-                            await store.dispatch(
-                                createEditChatAction(updateChannelState)
-                            );
-                            store.dispatch(createMoveToHomePageAction());
+                            async function updateChannelAndMoveToHomePage() {
+                                store.dispatch(createDeleteUserInChat());
+                                await store.dispatch(
+                                    createEditChatAction(updateChannelState)
+                                );
+                                store.dispatch(createMoveToHomePageAction());
+                            }
+
+                            updateChannelAndMoveToHomePage();
                         }
-
-                        updateChannelAndMoveToHomePage();
                     }
                 );
 
@@ -137,9 +149,11 @@ export class SmartChat extends Component<Props, State> {
                         ) {
                             this.state.domElements.subscribeBtn.textContent =
                                 'Unsubscribe';
-                            store.dispatch(
-                                createAddUserInChat(this.props.user)
-                            );
+                            if (this.props.user) {
+                                store.dispatch(
+                                    createAddUserInChat(this.props.user)
+                                );
+                            }
                         } else if (
                             this.state.domElements.subscribeBtn?.textContent ===
                             'Unsubscribe'
@@ -149,19 +163,25 @@ export class SmartChat extends Component<Props, State> {
                             store.dispatch(createDeleteUserInChat());
                         }
 
-                        const updateMembers =
-                            this.props?.openedChat?.members.map(
-                                (member: { id: number }) => {
-                                    return member?.id;
-                                }
-                            );
+                        if (this.props.openedChat) {
+                            const updateMembers =
+                                this.props.openedChat.members.map(
+                                    (member: { id: number }) => {
+                                        return member.id;
+                                    }
+                                );
 
-                        const updateChannelState = {
-                            id: this.props?.openedChat?.id,
-                            type: ChatTypes.Channel,
-                            title: this.props?.openedChat?.title,
-                            members: updateMembers,
-                        };
+                            const updateChannelState = {
+                                id: this.props.openedChat.id,
+                                type: ChatTypes.Channel,
+                                title: this.props.openedChat.title,
+                                members: updateMembers,
+                            };
+
+                            store.dispatch(
+                                createEditChatAction(updateChannelState)
+                            );
+                        }
 
                         // const updateChannelState = {
                         //     id: this.props?.openedChat?.id,
@@ -172,9 +192,6 @@ export class SmartChat extends Component<Props, State> {
                         //     last_message: this.props?.openedChat?.messages[-1]
                         // }
 
-                        store.dispatch(
-                            createEditChatAction(updateChannelState)
-                        );
                         // store.dispatch(createGetChatsAction());
                     }
                 );
@@ -278,33 +295,40 @@ export class SmartChat extends Component<Props, State> {
 
         let newMessage;
 
-        if (message.author_id === this.props.user.id) {
-            newMessage = new DOMParser().parseFromString(
-                new Message({
-                    messageSide: true,
-                    messageAvatar: this.props.user.avatar,
-                    messageContent: message.body,
-                    username: this.props.user.nickname,
-                    id: message.id,
-                }).render(),
-                'text/html'
-            ).body.firstChild as ChildNode;
-        } else {
-            for (const member of this.props?.openedChat.members) {
-                if (member.id === message.author_id) {
-                    newMessage = new DOMParser().parseFromString(
-                        new Message({
-                            messageSide: false,
-                            messageAvatar: member.avatar,
-                            messageContent: message.body,
-                            username: member.nickname,
-                            id: message.id,
-                        }).render(),
-                        'text/html'
-                    ).body.firstChild as ChildNode;
-                    break;
-                }
+        if (message.author_id === this.props.user?.id) {
+            const newMes = new DumpMessage({
+                messageSide: true,
+                messageAvatar: this.props.user.avatar,
+                messageContent: message.body,
+                username: this.props.user.nickname,
+                id: message.id,
+            }).render();
+
+            if (newMes) {
+                newMessage = new DOMParser().parseFromString(
+                    newMes,
+                    'text/html'
+                ).body.firstChild as ChildNode;
             }
+        } else {
+            this.props.openedChat?.members.forEach((member) => {
+                if (member.id === message.author_id) {
+                    const newMes = new DumpMessage({
+                        messageSide: false,
+                        messageAvatar: member.avatar,
+                        messageContent: message.body,
+                        username: member.nickname,
+                        id: message.id,
+                    }).render();
+
+                    if (newMes) {
+                        newMessage = new DOMParser().parseFromString(
+                            newMes,
+                            'text/html'
+                        ).body.firstChild as ChildNode;
+                    }
+                }
+            });
         }
 
         if (newMessage) {
@@ -319,24 +343,30 @@ export class SmartChat extends Component<Props, State> {
             return;
         }
 
-        if (this.state.editingMessageId) {
-            getWs().send({
-                id: this.state.editingMessageId,
-                type: MessageTypes.Edit,
-                body: this.state.domElements.input?.value,
-                author_id: 0,
-                chat_id: parseInt(this.chatId),
-            });
+        if (
+            this.state.domElements.input?.value &&
+            this.chatId &&
+            this.props.user?.id
+        ) {
+            if (this.state.editingMessageId) {
+                getWs().send({
+                    id: this.state.editingMessageId,
+                    type: MessageTypes.Edit,
+                    body: this.state.domElements.input?.value,
+                    author_id: 0,
+                    chat_id: this.chatId,
+                });
 
-            this.state.editingMessageId = undefined;
-        } else {
-            getWs().send({
-                id: '',
-                type: MessageTypes.Create,
-                body: this.state.domElements.input?.value,
-                author_id: this.props.user.id,
-                chat_id: parseInt(this.chatId),
-            });
+                this.state.editingMessageId = undefined;
+            } else {
+                getWs().send({
+                    id: '',
+                    type: MessageTypes.Create,
+                    body: this.state.domElements.input?.value,
+                    author_id: this.props.user.id,
+                    chat_id: this.chatId,
+                });
+            }
         }
 
         if (this.state.domElements.input) {
@@ -346,7 +376,7 @@ export class SmartChat extends Component<Props, State> {
 
     handleDeleteMessage(e: HTMLElement) {
         const id = e.getAttribute('name');
-        if (!id) {
+        if (!id || !this.chatId) {
             return;
         }
 
@@ -355,7 +385,7 @@ export class SmartChat extends Component<Props, State> {
             type: MessageTypes.Delete,
             body: '',
             author_id: 0,
-            chat_id: parseInt(this.chatId),
+            chat_id: this.chatId,
         });
     }
 
@@ -392,7 +422,9 @@ export class SmartChat extends Component<Props, State> {
     }
 
     handleClickEditButton() {
-        store.dispatch(createMoveToEditChatAction(this.props?.openedChat));
+        if (this.props.openedChat) {
+            store.dispatch(createMoveToEditChatAction(this.props.openedChat));
+        }
     }
 
     componentDidMount() {
