@@ -45,8 +45,8 @@ export class SmartError extends Component<Props, State> {
      */
     componentDidMount() {
         if (!this.state.isSubscribed) {
-            // this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: Record<string, unknown>) => {
-            //     this.props = pr;
+            // this.unsubscribe.push(store.subscribe(this.constructor.name, (props: Record<string, unknown>) => {
+            //     this.props = props;
 
             //     this.render();
             // }));

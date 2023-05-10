@@ -1,9 +1,6 @@
 import { Component } from '@framework/component';
 import { store } from '@store/store';
-import {
-    createFindContactsByString,
-    createGetContactsAction,
-} from '@actions/contactsActions';
+import { createGetContactsAction } from '@actions/contactsActions';
 import { DumbContacts } from '@components/contacts/contacts';
 import { createCreateDialogAction } from '@actions/chatActions';
 import { createMoveToChatsAction } from '@actions/routeActions';
@@ -98,8 +95,8 @@ export class SmartContacts extends Component<Props, State> {
         if (!this.state.isSubscribed) {
             this.unsubscribe = store.subscribe(
                 this.constructor.name,
-                (pr: Props) => {
-                    this.props = pr;
+                (props: Props) => {
+                    this.props = props;
 
                     this.render();
                 }
@@ -118,21 +115,6 @@ export class SmartContacts extends Component<Props, State> {
             this.unsubscribe();
             this.state.isSubscribed = false;
         }
-    }
-
-    handleFindContactsInput(string: string) {
-        store.dispatch(createFindContactsByString(string));
-        // if (contact.classList.contains('contact')) {
-        //     const contactID = contact.getAttribute('name');
-        //
-        //     for (const key in this.props.contacts) {
-        //         if (this.props.contacts[key].id == contactID) {
-        //             store.dispatch(createCreateDialogAction(this.props.contacts[key]));
-        //             store.dispatch(createMoveToChatsAction());
-        //             break;
-        //         }
-        //     }
-        // }
     }
 
     handleClickCreateDialog(contact: HTMLElement) {

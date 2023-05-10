@@ -146,8 +146,8 @@ export class SmartLogin extends Component<Props, State> {
         if (this.state.isSubscribed === false) {
             this.unsubscribe = store.subscribe(
                 this.constructor.name,
-                (pr: Props) => {
-                    this.props = pr;
+                (props: Props) => {
+                    this.props = props;
 
                     this.render();
                     this.invalidEmail();

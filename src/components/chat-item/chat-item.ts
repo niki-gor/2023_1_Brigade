@@ -5,6 +5,7 @@ import '@components/chat-item/chat-item.scss';
 import { smallEllipseIconUI } from '@components/ui/small-ellipse-icon/small-ellipse-icon';
 
 interface Props {
+    user?: User; //TODO: убрать
     parent?: HTMLElement;
     onClick?: (e: Event) => void;
     chat?: Chat;
@@ -35,6 +36,7 @@ export class ChatItem extends Component<Props, State> {
         };
 
         this.unsubscribe = () => {};
+        this.update.bind(this);
     }
 
     componentDidMount() {
@@ -52,14 +54,16 @@ export class ChatItem extends Component<Props, State> {
                 (props: Props) => {
                     let prop = props;
                     this.state.observe?.forEach((item: string) => {
-                        prop = prop[item];
+                        prop = prop[item as keyof Props] as Props;
                     });
-                    const index = prop.findIndex((chat: { id: number }) => {
+
+                    const chats = prop as Chat[];
+                    const index = chats.findIndex((chat: { id: number }) => {
                         return chat?.id === this.state.chatId;
                     });
 
-                    if (this.props.chat != prop[index]) {
-                        this.props.chat = prop[index];
+                    if (this.props.chat != chats[index]) {
+                        this.props.chat = chats[index];
 
                         this.update();
                     }

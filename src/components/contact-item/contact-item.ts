@@ -5,6 +5,7 @@ import '@components/contact-item/contact-item.scss';
 import { smallEllipseIconUI } from '@components/ui/small-ellipse-icon/small-ellipse-icon';
 
 interface Props {
+    user?: User; //TODO: убрать
     parent?: HTMLElement;
     onClick?: (e: Event) => void;
     contact?: User;
@@ -34,6 +35,7 @@ export class ContactItem extends Component<Props, State> {
         };
 
         this.unsubscribe = () => {};
+        this.update.bind(this);
     }
 
     componentDidMount() {
@@ -48,14 +50,16 @@ export class ContactItem extends Component<Props, State> {
                 (props: Props) => {
                     let prop = props;
                     this.state.observe?.forEach((item: string) => {
-                        prop = prop[item];
+                        prop = prop[item as keyof Props] as Props;
                     });
-                    const index = prop.findIndex((contact: { id: number }) => {
+
+                    const contacts = prop as User[];
+                    const index = contacts.findIndex((contact) => {
                         return contact.id === this.state.contactId;
                     });
 
-                    if (this.props.contact != prop[index]) {
-                        this.props.contact = prop[index];
+                    if (this.props.contact != contacts[index]) {
+                        this.props.contact = contacts[index];
 
                         this.update();
                     }
