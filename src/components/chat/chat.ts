@@ -57,13 +57,13 @@ export class DumbChat extends Component<Props, State> {
         }
 
         return {
-            messageAvatar: messageAvatar,
-            messageUsername: messageUsername,
+            messageAvatar: messageAvatar ?? '',
+            messageUsername: messageUsername ?? '',
         };
     }
 
     getMessageList() {
-        const messages: Message[] = [];
+        const messages: string[] = [];
 
         if (this.props.chatData?.messages) {
             for (const message of this.props.chatData.messages) {
@@ -71,15 +71,18 @@ export class DumbChat extends Component<Props, State> {
                     messageAvatar: string;
                     messageUsername: string;
                 } = this.#getMessageData(message);
-                messages.push(
-                    new Message({
-                        messageSide: message.author_id === this.props.userId,
-                        messageAvatar: messageData.messageAvatar,
-                        username: messageData.messageUsername,
-                        messageContent: message.body,
-                        id: message.id,
-                    }).render()
-                );
+
+                const mes = new DumpMessage({
+                    messageSide: message.author_id === this.props.userId,
+                    messageAvatar: messageData.messageAvatar,
+                    username: messageData.messageUsername,
+                    messageContent: message.body,
+                    id: message.id,
+                }).render();
+
+                if (mes) {
+                    messages.push(mes);
+                }
             }
         }
 
@@ -121,15 +124,15 @@ export class DumbChat extends Component<Props, State> {
         ) {
             this.editBtn = 'edit-chat';
             this.deleteChatBtn = 'delete-btn';
-            this.channelInput = new inputUi({
+            this.channelInput = new inputUI({
                 inputClassName: 'view-chat__input-message',
-                userImage: chatAvatarUi.renderTemplate({
-                    ClassName: 'input-message__user-avatar',
-                    PathToUserImage: this.props.userAvatar,
-                    UserName: '',
-                    UserStatus: '',
-                    Online: false,
-                }),
+                // userImage: chatAvatarUi.renderTemplate({
+                //     ClassName: 'input-message__user-avatar',
+                //     PathToUserImage: this.props.userAvatar,
+                //     UserName: '',
+                //     UserStatus: '',
+                //     Online: false,
+                // }),
                 sendBtn: svgButtonUI.renderTemplate({
                     svgClassName: 'view-chat__send-message-button',
                 }),
@@ -141,19 +144,19 @@ export class DumbChat extends Component<Props, State> {
             if (this.props.chatData.type !== ChatTypes.Group) {
                 this.deleteChatBtn = 'delete-btn';
             }
-            this.channelInput = new inputUi({
+            this.channelInput = new inputUI({
                 inputClassName: 'view-chat__input-message',
-                userImage: chatAvatarUi.renderTemplate({
-                    ClassName: 'input-message__user-avatar',
-                    PathToUserImage: this.props.userAvatar,
-                    UserName: '',
-                    UserStatus: '',
-                    Online: false,
-                }),
+                // userImage: chatAvatarUi.renderTemplate({
+                //     ClassName: 'input-message__user-avatar',
+                //     PathToUserImage: this.props.userAvatar,
+                //     UserName: '',
+                //     UserStatus: '',
+                //     Online: false,
+                // }),
                 sendBtn: svgButtonUI.renderTemplate({
                     svgClassName: 'view-chat__send-message-button',
                 }),
-                placeholder: 'Type something...',
+                placeholder: 'Сообщение',
             }).render();
             this.subscribeBtnText = '';
         }

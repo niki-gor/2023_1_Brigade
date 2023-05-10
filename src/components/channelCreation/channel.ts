@@ -1,22 +1,34 @@
 import template from '@components/channelCreation/channel.pug';
 import '@components/channelCreation/channel.scss';
-import { Component } from '@components/component';
+import { Component } from '@framework/component';
 import { ChannelInput } from '@components/channelInput/channelInput';
 import { ellipseIconUI } from '@components/ui/ellipse-icon/ellipse-icon';
 
-export class DumbCreateChannel extends Component {
-    constructor(props: any) {
+interface Props {}
+
+interface State {}
+
+export class DumbCreateChannel extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
+    }
+
+    componentDidMount(): void {
+        //
+    }
+
+    componentWillUnmount(): void {
+        //
     }
 
     render() {
         return template({
             NameInput: new ChannelInput({
-                inputCaptioin: 'Название',
+                inputCaption: 'Название',
                 inputPlaceholder: 'Введите название канала',
             }).render(),
             DescrInput: new ChannelInput({
-                inputCaptioin: 'Описание',
+                inputCaption: 'Описание',
                 inputPlaceholder: 'Введите описание канала',
             }).render(),
             ChannelAvatar: ellipseIconUI.renderTemplate({

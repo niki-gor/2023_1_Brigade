@@ -3,7 +3,11 @@ import template from '@components/dropdown/dropdown.pug';
 import '@components/dropdown/dropdown.scss';
 import { svgButtonUI } from '@components/ui/button/button';
 
-interface Props {}
+interface Props {
+    icon: string;
+    list: Record<string, string>[];
+    id?: string;
+}
 
 interface State {}
 
