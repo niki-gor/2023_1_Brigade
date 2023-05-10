@@ -1,6 +1,6 @@
-import { Component } from "@/components/component";
-import template from "@components/title-item/title-item.pug";
-import "@components/title-item/title-item.scss";
+import { Component } from '@/components/component';
+import template from '@components/title-item/title-item.pug';
+import '@components/title-item/title-item.scss';
 
 export class TitleItem extends Component {
     constructor(props: any) {
@@ -10,7 +10,7 @@ export class TitleItem extends Component {
             parent: this.props.parent,
             node: undefined,
             isSubscribed: false,
-        }
+        };
     }
 
     componentDidMount() {
@@ -29,8 +29,11 @@ export class TitleItem extends Component {
     }
 
     render() {
-        return new DOMParser().parseFromString(template({
-            title: this.props.title,
-        }), 'text/html').body.firstChild;
+        return new DOMParser().parseFromString(
+            template({
+                title: this.props.title,
+            }),
+            'text/html'
+        ).body.firstChild;
     }
 }

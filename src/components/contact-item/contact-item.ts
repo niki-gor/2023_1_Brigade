@@ -1,8 +1,8 @@
-import { Component } from "@/components/component";
-import { store } from "@/store/store";
-import template from "@components/contact-item/contact-item.pug";
-import "@components/contact-item/contact-item.scss"
-import { smallEllipseIconUI } from "@components/ui/small-ellipse-icon/small-ellipse-icon";
+import { Component } from '@/components/component';
+import { store } from '@/store/store';
+import template from '@components/contact-item/contact-item.pug';
+import '@components/contact-item/contact-item.scss';
+import { smallEllipseIconUI } from '@components/ui/small-ellipse-icon/small-ellipse-icon';
 
 export class ContactItem extends Component {
     constructor(props: any) {
@@ -14,8 +14,8 @@ export class ContactItem extends Component {
             isSubscribed: false,
             onClick: this.props.onClick,
             contactId: this.props.contact.id,
-            observe: this.props.observe
-        }
+            observe: this.props.observe,
+        };
 
         this.unsubscribe = () => {};
     }
@@ -27,21 +27,24 @@ export class ContactItem extends Component {
                 this.state.onClick(e);
             });
 
-            this.unsubscribe = store.subscribe(this.constructor.name + `:${this.state.contactId}`, (props: anyObject) => {
-                let prop = props;
-                this.state.observe.forEach((item: string) => {
-                    prop = prop[item];
-                })
-                const index = prop.findIndex((contact: { id: number }) => {
-                    return contact.id === this.state.contactId;
-                })
+            this.unsubscribe = store.subscribe(
+                this.constructor.name + `:${this.state.contactId}`,
+                (props: anyObject) => {
+                    let prop = props;
+                    this.state.observe.forEach((item: string) => {
+                        prop = prop[item];
+                    });
+                    const index = prop.findIndex((contact: { id: number }) => {
+                        return contact.id === this.state.contactId;
+                    });
 
-                if (this.props.contact != prop[index]) {
-                    this.props.contact = prop[index];
+                    if (this.props.contact != prop[index]) {
+                        this.props.contact = prop[index];
 
-                    this.update();
+                        this.update();
+                    }
                 }
-            })
+            );
 
             this.state.parent.appendChild(this.state.node);
             this.state.isSubscribed = true;
@@ -63,14 +66,17 @@ export class ContactItem extends Component {
     }
 
     render() {
-        return new DOMParser().parseFromString(template({
-            avatar: smallEllipseIconUI.renderTemplate({
-                imgSrc: this.props.contact.avatar,
-                altMsg: this.props.contact.nickname,
+        return new DOMParser().parseFromString(
+            template({
+                avatar: smallEllipseIconUI.renderTemplate({
+                    imgSrc: this.props.contact.avatar,
+                    altMsg: this.props.contact.nickname,
+                }),
+                nickname: this.props.contact.nickname,
+                status: this.props.contact.status,
+                id: this.props.contact.id,
             }),
-            nickname: this.props.contact.nickname,
-            status: this.props.contact.status,
-            id: this.props.contact.id,
-        }), 'text/html').body.firstChild;
+            'text/html'
+        ).body.firstChild;
     }
 }

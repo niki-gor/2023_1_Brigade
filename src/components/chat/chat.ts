@@ -25,7 +25,7 @@ export class DumbChat extends Component<Props, State> {
     private channelInput: string;
     private subscribeBtnText: string;
     private leaveGroup: string;
-    
+
     constructor(props: Props) {
         super(props);
         this.editBtn = '';
@@ -43,15 +43,18 @@ export class DumbChat extends Component<Props, State> {
         //TODO
     }
 
-    #getMessageData(message: {author_id: number}) : {messageAvatar: string, messageUsername: string} {
+    #getMessageData(message: { author_id: number }): {
+        messageAvatar: string;
+        messageUsername: string;
+    } {
         let messageAvatar;
         let messageUsername;
-        for (let member of this.props.chatData.members) {
+        for (const member of this.props.chatData.members) {
             if (member.id === message.author_id) {
                 messageAvatar = member.avatar;
                 messageUsername = member.nickname;
             }
-        });
+        }
 
         return {
             messageAvatar: messageAvatar,
@@ -61,24 +64,29 @@ export class DumbChat extends Component<Props, State> {
 
     getMessageList() {
         const messages: Message[] = [];
-        
+
         if (this.props.chatData?.messages) {
-            for (let message of this.props.chatData.messages) {
-                let messageData: {messageAvatar: string, messageUsername: string} = this.#getMessageData(message);
-                messages.push(new Message({
-                    messageSide: message.author_id === this.props.userId,
-                    messageAvatar: messageData.messageAvatar,
-                    username: messageData.messageUsername,
-                    messageContent: message.body,
-                    id: message.id,
-                }).render());
+            for (const message of this.props.chatData.messages) {
+                const messageData: {
+                    messageAvatar: string;
+                    messageUsername: string;
+                } = this.#getMessageData(message);
+                messages.push(
+                    new Message({
+                        messageSide: message.author_id === this.props.userId,
+                        messageAvatar: messageData.messageAvatar,
+                        username: messageData.messageUsername,
+                        messageContent: message.body,
+                        id: message.id,
+                    }).render()
+                );
             }
         }
 
         return messages.reverse();
     }
 
-    private checkRights() : boolean {
+    private checkRights(): boolean {
         if (this.props?.chatData?.master_id === this.props?.userId) {
             return true;
         }
@@ -87,11 +95,11 @@ export class DumbChat extends Component<Props, State> {
     }
 
     /**
-     * 
+     *
      * @returns {Boolean} - состоит ли пользователь в канале
      */
-    private isMember() : boolean {
-        for (let member of this.props?.chatData?.members) {
+    private isMember(): boolean {
+        for (const member of this.props?.chatData?.members) {
             if (member.id == this.props.userId) {
                 return true;
             }
@@ -100,17 +108,20 @@ export class DumbChat extends Component<Props, State> {
         return false;
     }
 
-    render() {        
+    render() {
         if (this.isMember()) {
             this.subscribeBtnText = 'Unsubscribe';
         } else {
             this.subscribeBtnText = 'Subscribe';
         }
 
-        if (this.checkRights() && this.props.chatData.type !== ChatTypes.Dialog) {
+        if (
+            this.checkRights() &&
+            this.props.chatData.type !== ChatTypes.Dialog
+        ) {
             this.editBtn = 'edit-chat';
             this.deleteChatBtn = 'delete-btn';
-            this.channelInput =  new inputUi({
+            this.channelInput = new inputUi({
                 inputClassName: 'view-chat__input-message',
                 userImage: chatAvatarUi.renderTemplate({
                     ClassName: 'input-message__user-avatar',
@@ -119,7 +130,9 @@ export class DumbChat extends Component<Props, State> {
                     UserStatus: '',
                     Online: false,
                 }),
-                sendBtn: svgButtonUI.renderTemplate({svgClassName: 'view-chat__send-message-button'}),
+                sendBtn: svgButtonUI.renderTemplate({
+                    svgClassName: 'view-chat__send-message-button',
+                }),
                 placeholder: 'Type something...',
             }).render();
         }
@@ -128,7 +141,7 @@ export class DumbChat extends Component<Props, State> {
             if (this.props.chatData.type !== ChatTypes.Group) {
                 this.deleteChatBtn = 'delete-btn';
             }
-            this.channelInput =  new inputUi({
+            this.channelInput = new inputUi({
                 inputClassName: 'view-chat__input-message',
                 userImage: chatAvatarUi.renderTemplate({
                     ClassName: 'input-message__user-avatar',
@@ -137,7 +150,9 @@ export class DumbChat extends Component<Props, State> {
                     UserStatus: '',
                     Online: false,
                 }),
-                sendBtn: svgButtonUI.renderTemplate({svgClassName: 'view-chat__send-message-button'}),
+                sendBtn: svgButtonUI.renderTemplate({
+                    svgClassName: 'view-chat__send-message-button',
+                }),
                 placeholder: 'Type something...',
             }).render();
             this.subscribeBtnText = '';
@@ -146,12 +161,16 @@ export class DumbChat extends Component<Props, State> {
         if (this.props.chatData.type === ChatTypes.Group) {
             this.leaveGroup = 'Выйти из группы';
         }
-        
+
         return template({
-            EditBtn: svgButtonUI.renderTemplate({svgClassName: this.editBtn}),
+            EditBtn: svgButtonUI.renderTemplate({ svgClassName: this.editBtn }),
             LeaveGroupBtn: this.leaveGroup,
-            SendMessageBtn: svgButtonUI.renderTemplate({svgClassName: 'view-chat__send-message-button'}),
-            DeleteChatBtn: svgButtonUI.renderTemplate({svgClassName: this.deleteChatBtn}),
+            SendMessageBtn: svgButtonUI.renderTemplate({
+                svgClassName: 'view-chat__send-message-button',
+            }),
+            DeleteChatBtn: svgButtonUI.renderTemplate({
+                svgClassName: this.deleteChatBtn,
+            }),
             HeaderUserAvatar: chatAvatarUi.renderTemplate({
                 ClassName: 'header__companion__ava',
                 PathToUserImage: this.props?.chatAvatar ?? '',

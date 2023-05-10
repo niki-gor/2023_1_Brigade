@@ -1,6 +1,6 @@
-import { Component } from "@/components/component";
-import template from "@components/list/list.pug";
-import "@components/list/list.scss"
+import { Component } from '@/components/component';
+import template from '@components/list/list.pug';
+import '@components/list/list.scss';
 
 export class List extends Component {
     constructor(props: any) {
@@ -34,6 +34,7 @@ export class List extends Component {
     }
 
     render() {
-        return new DOMParser().parseFromString(template({}), 'text/html').body.firstChild;
+        return new DOMParser().parseFromString(template({}), 'text/html').body
+            .firstChild;
     }
 }

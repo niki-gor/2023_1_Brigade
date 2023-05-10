@@ -15,7 +15,7 @@ interface State {
     isSubscribed: boolean;
 }
 
-export class DumpMessage extends Component<Props, State> {
+export class Message extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
     }
