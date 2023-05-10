@@ -11,13 +11,14 @@ export abstract class Component<Props, State> implements IComponent {
      */
     constructor(props: Props) {
         this.props = props;
+        this.state = {} as State;
     }
 
     abstract componentDidMount(): void;
     abstract componentWillUnmount(): void;
 
-    protected props: Props | undefined;
-    protected state: State | undefined;
+    protected props: Props;
+    protected state: State;
     protected node: HTMLElement | undefined;
     protected unsubscribe: () => void = () => {};
 }

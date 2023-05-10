@@ -1,24 +1,48 @@
 import { Component } from '@framework/component';
 import { store } from '@store/store';
-import { createGetChatsAction } from '@actions/chatActions';
+import {
+    createCreateDialogAction,
+    createDeleteSearchedChatsAction,
+    createGetChatsAction,
+    createSearchChatsAction,
+} from '@actions/chatActions';
 import { DumbChatList } from '@components/chatList/chatList';
 import {
     createMoveToChatAction,
+    createMoveToCreateChannelAction,
     createMoveToCreateGroupAction,
 } from '@actions/routeActions';
 import { STATIC } from '@config/config';
+import { List } from '@components/list/list';
+import { ChatItem } from '@/components/chat-item/chat-item';
+import { ContactItem } from '@/components/contact-item/contact-item';
+import { TitleItem } from '@/components/title-item/title-item';
 
 interface Props {
     user?: User;
     chats?: Chat[];
+    openedChat?: OpenedChat;
+    founded_channels?: Chat[];
+    founded_chats?: Chat[];
+    founded_messages?: Chat[];
+    founded_contacts?: User[];
 }
 
 interface State {
     isSubscribed: boolean;
+
     domElements: {
+        list: List | null;
+        items: (ChatItem | ContactItem | TitleItem)[];
+        input: HTMLInputElement | null;
+        inputValue: string;
         chats: HTMLElement | null;
-        createGroup: HTMLElement | null;
+        createBtn: HTMLElement | null;
+        dropdownToggle: HTMLElement | null;
+        dropdownMenu: HTMLElement | null;
     };
+
+    currentChat: number;
 }
 
 export class SmartChatList extends Component<Props, State> {
@@ -27,6 +51,7 @@ export class SmartChatList extends Component<Props, State> {
 
         this.state = {
             isSubscribed: false,
+
             domElements: {
                 list: null,
                 items: [],
@@ -37,6 +62,7 @@ export class SmartChatList extends Component<Props, State> {
                 dropdownToggle: null,
                 dropdownMenu: null,
             },
+
             currentChat: 0,
         };
 
@@ -55,7 +81,7 @@ export class SmartChatList extends Component<Props, State> {
     // }
 
     render() {
-        if (this.state?.isSubscribed && this.props?.user) {
+        if (this.state.isSubscribed && this.props?.user) {
             if (!this.props?.chats) {
                 this.props.chats = [];
             }
@@ -104,8 +130,13 @@ export class SmartChatList extends Component<Props, State> {
             //     console.log(findChatsInput?.value);
             // }, 1000))
 
-            const ChatListUI = new DumbChatList({});
-            this.rootNode.innerHTML = ChatListUI.render();
+            const ChatListUI = new DumbChatList({
+                chats: [],
+            });
+
+            if (this.node) {
+                this.node.innerHTML = ChatListUI.render();
+            }
 
             this.state.domElements.input = document.querySelector(
                 '.chats__header__input'
@@ -164,33 +195,31 @@ export class SmartChatList extends Component<Props, State> {
                     titleItem.componentDidMount();
                     this.state.domElements.items.push(titleItem);
 
-                    this.props.founded_contacts?.forEach(
-                        (contact: anyObject) => {
-                            const contactItem = new ContactItem({
-                                contact,
-                                onClick: () => {
-                                    store.dispatch(
-                                        createCreateDialogAction(contact)
-                                    );
-                                    console.log(this.props.openedChat.id);
-                                    if (this.state.domElements.input) {
-                                        this.state.domElements.input.value = '';
-                                    }
-                                    store.dispatch(
-                                        createDeleteSearchedChatsAction()
-                                    );
-                                },
-                                parent: this.state.domElements.list?.getNode(),
-                                observe: ['founded_contacts'],
-                            });
+                    this.props.founded_contacts?.forEach((contact) => {
+                        const contactItem = new ContactItem({
+                            contact,
+                            onClick: () => {
+                                store.dispatch(
+                                    createCreateDialogAction(contact)
+                                );
 
-                            contactItem.componentDidMount();
+                                if (this.state.domElements.input) {
+                                    this.state.domElements.input.value = '';
+                                }
+                                store.dispatch(
+                                    createDeleteSearchedChatsAction()
+                                );
+                            },
+                            parent: this.state.domElements.list?.getNode(),
+                            observe: ['founded_contacts'],
+                        });
 
-                            this.state.domElements.items.push(contactItem);
-                        }
-                    );
+                        contactItem.componentDidMount();
 
-                    this.props.founded_chats?.forEach((chat: anyObject) => {
+                        this.state.domElements.items.push(contactItem);
+                    });
+
+                    this.props.founded_chats?.forEach((chat) => {
                         let isCurrent = false;
                         if (chat.id == this.state.currentChat) {
                             isCurrent = true;
@@ -203,10 +232,15 @@ export class SmartChatList extends Component<Props, State> {
                                         chatId: chat.id,
                                     })
                                 );
-                                this.state.currentChat = chat.id;
+
+                                if (this.state.currentChat) {
+                                    this.state.currentChat = chat.id;
+                                }
+
                                 if (this.state.domElements.input) {
                                     this.state.domElements.input.value = '';
                                 }
+
                                 store.dispatch(
                                     createDeleteSearchedChatsAction()
                                 );
@@ -228,7 +262,7 @@ export class SmartChatList extends Component<Props, State> {
                     titleItem.componentDidMount();
                     this.state.domElements.items.push(titleItem);
 
-                    this.props.founded_channels?.forEach((chat: anyObject) => {
+                    this.props.founded_channels?.forEach((chat) => {
                         let isCurrent = false;
                         if (chat.id == this.state.currentChat) {
                             isCurrent = true;
@@ -241,10 +275,15 @@ export class SmartChatList extends Component<Props, State> {
                                         chatId: chat.id,
                                     })
                                 );
-                                this.state.currentChat = chat.id;
+
+                                if (this.state.currentChat) {
+                                    this.state.currentChat = chat.id;
+                                }
+
                                 if (this.state.domElements.input) {
                                     this.state.domElements.input.value = '';
                                 }
+
                                 store.dispatch(
                                     createDeleteSearchedChatsAction()
                                 );
@@ -266,7 +305,7 @@ export class SmartChatList extends Component<Props, State> {
                     titleItem.componentDidMount();
                     this.state.domElements.items.push(titleItem);
 
-                    this.props.founded_messages?.forEach((chat: anyObject) => {
+                    this.props.founded_messages?.forEach((chat) => {
                         let isCurrent = false;
                         if (chat.id == this.state.currentChat) {
                             isCurrent = true;
@@ -279,10 +318,15 @@ export class SmartChatList extends Component<Props, State> {
                                         chatId: chat.id,
                                     })
                                 );
-                                this.state.currentChat = chat.id;
+
+                                if (this.state.currentChat) {
+                                    this.state.currentChat = chat.id;
+                                }
+
                                 if (this.state.domElements.input) {
                                     this.state.domElements.input.value = '';
                                 }
+
                                 store.dispatch(
                                     createDeleteSearchedChatsAction()
                                 );
@@ -299,8 +343,12 @@ export class SmartChatList extends Component<Props, State> {
 
                     this.state.domElements.input?.focus();
                 } else {
-                    this.props.chats?.forEach((chat: anyObject) => {
-                        this.state.currentChat = this.props.openedChat?.id;
+                    this.props.chats?.forEach((chat) => {
+                        if (this.state.currentChat) {
+                            this.state.currentChat =
+                                this.props.openedChat?.id ?? 0;
+                        }
+
                         let isCurrent = false;
                         if (chat.id == this.state.currentChat) {
                             isCurrent = true;
@@ -371,7 +419,7 @@ export class SmartChatList extends Component<Props, State> {
     }
 
     componentDidMount() {
-        if (!this.state?.isSubscribed) {
+        if (!this.state.isSubscribed) {
             this.unsubscribe = store.subscribe(
                 this.constructor.name,
                 (pr: Props) => {
@@ -381,7 +429,7 @@ export class SmartChatList extends Component<Props, State> {
                 }
             );
 
-            if (this.state?.isSubscribed === false) {
+            if (this.state.isSubscribed === false) {
                 this.state.isSubscribed = true;
             }
 
@@ -390,7 +438,7 @@ export class SmartChatList extends Component<Props, State> {
     }
 
     componentWillUnmount() {
-        if (this.state?.isSubscribed) {
+        if (this.state.isSubscribed) {
             store.dispatch(createDeleteSearchedChatsAction());
 
             this.state.domElements.items?.forEach((item) => {

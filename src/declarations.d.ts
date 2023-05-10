@@ -25,7 +25,8 @@ interface Action {
               type: ChatTypes;
               title: string;
               members: (number | undefined)[];
-          };
+          }
+        | Record<string, unknown>;
 }
 
 interface AsyncAction {

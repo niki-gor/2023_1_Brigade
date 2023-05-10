@@ -52,8 +52,8 @@ export class SmartLogin extends Component<Props, State> {
                 passwordIsValid: false,
                 isValid: () => {
                     return (
-                        this.state?.valid.emailIsValid &&
-                        this.state?.valid.passwordIsValid
+                        this.state.valid.emailIsValid &&
+                        this.state.valid.passwordIsValid
                     );
                 },
             },
@@ -72,7 +72,7 @@ export class SmartLogin extends Component<Props, State> {
      * Рендерит логин
      */
     render() {
-        if (this.state?.isSubscribed && !LOGIN()) {
+        if (this.state.isSubscribed && !LOGIN()) {
             const LoginUI = new DumbLogin({
                 ...this.props,
             });
@@ -124,7 +124,7 @@ export class SmartLogin extends Component<Props, State> {
      * Показывает, что была введа незарегистрированная почта
      */
     invalidEmail() {
-        if (this.state?.isSubscribed && this.props?.invalidEmail) {
+        if (this.state.isSubscribed && this.props?.invalidEmail) {
             this.state.domElements.email?.classList.add(
                 'login-reg__input_error'
             );
@@ -143,7 +143,7 @@ export class SmartLogin extends Component<Props, State> {
      * Навешивает переданные обработчики на валидацию и кнопки
      */
     componentDidMount() {
-        if (this.state?.isSubscribed === false) {
+        if (this.state.isSubscribed === false) {
             this.unsubscribe = store.subscribe(
                 this.constructor.name,
                 (pr: Props) => {
@@ -164,7 +164,7 @@ export class SmartLogin extends Component<Props, State> {
      * Удаляет все подписки
      */
     componentWillUnmount() {
-        if (this.state?.isSubscribed) {
+        if (this.state.isSubscribed) {
             this.unsubscribe();
             this.state.isSubscribed = false;
 
@@ -176,7 +176,7 @@ export class SmartLogin extends Component<Props, State> {
      * Обрабатывает нажатие кнопки логина
      */
     handleClickLogin() {
-        if (this.state?.valid.isValid()) {
+        if (this.state.valid.isValid()) {
             const user = {
                 email: this.state.domElements.email?.value,
                 password: this.state.domElements.password?.value,
@@ -197,27 +197,27 @@ export class SmartLogin extends Component<Props, State> {
      * Проверяет пользовательский ввод почты
      */
     validateEmail() {
-        this.state?.domElements.email?.classList.remove(
+        this.state.domElements.email?.classList.remove(
             'login-reg__input_error'
         );
         addErrorToClass('', emailErrorTypes);
 
         const { isError, errorClass } = checkEmail(
-            this.state?.domElements.email?.value ?? ''
+            this.state.domElements.email?.value ?? ''
         );
 
         if (isError) {
-            this.state?.domElements.email?.classList.add(
+            this.state.domElements.email?.classList.add(
                 'login-reg__input_error'
             );
             addErrorToClass(errorClass, emailErrorTypes);
-            if (this.state?.valid.emailIsValid) {
+            if (this.state.valid.emailIsValid) {
                 this.state.valid.emailIsValid = false;
             }
             return;
         }
 
-        if (this.state?.valid.emailIsValid === false) {
+        if (this.state.valid.emailIsValid === false) {
             this.state.valid.emailIsValid = true;
         }
     }
@@ -226,28 +226,28 @@ export class SmartLogin extends Component<Props, State> {
      * Проверяет пользовательский ввод пароля
      */
     validatePassword() {
-        this.state?.domElements.password?.classList.remove(
+        this.state.domElements.password?.classList.remove(
             'login-reg__input_error'
         );
         addErrorToClass('', passwordErrorTypes);
 
         const { isError, errorClass } = checkPassword(
-            this.state?.domElements.password?.value ?? ''
+            this.state.domElements.password?.value ?? ''
         );
 
         if (isError) {
-            this.state?.domElements.password?.classList.add(
+            this.state.domElements.password?.classList.add(
                 'login-reg__input_error'
             );
             addErrorToClass(errorClass, passwordErrorTypes);
-            if (this.state?.valid.passwordIsValid) {
+            if (this.state.valid.passwordIsValid) {
                 this.state.valid.passwordIsValid = false;
             }
 
             return;
         }
 
-        if (this.state?.valid.passwordIsValid === false) {
+        if (this.state.valid.passwordIsValid === false) {
             this.state.valid.passwordIsValid = true;
         }
     }

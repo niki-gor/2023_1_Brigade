@@ -67,9 +67,9 @@ export class SmartProfile extends Component<Props, State> {
                 nicknameIsValid: true,
                 isValid: () => {
                     return (
-                        this.state?.valid.currentPasswordIsValid &&
-                        this.state?.valid.newPasswordIsValid &&
-                        this.state?.valid.nicknameIsValid
+                        this.state.valid.currentPasswordIsValid &&
+                        this.state.valid.newPasswordIsValid &&
+                        this.state.valid.nicknameIsValid
                     );
                 },
             },
@@ -93,7 +93,7 @@ export class SmartProfile extends Component<Props, State> {
      * Рендерит логин
      */
     render() {
-        if (this.state?.isSubscribed && this.props?.user) {
+        if (this.state.isSubscribed && this.props?.user) {
             const ProfileUI = new DumbProfile({
                 user: this.props?.user,
             });
@@ -154,7 +154,7 @@ export class SmartProfile extends Component<Props, State> {
             this.state.domElements.username?.addEventListener('input', (e) => {
                 e.preventDefault();
 
-                if (this.state?.domElements.username?.value) {
+                if (this.state.domElements.username?.value) {
                     if (
                         this.state.domElements.username?.value.charAt(0) !== '@'
                     ) {
@@ -174,7 +174,7 @@ export class SmartProfile extends Component<Props, State> {
      * Показывает, что был введен занятый username
      */
     occupiedUsername() {
-        if (this.state?.isSubscribed && this.props?.occupiedUsername) {
+        if (this.state.isSubscribed && this.props?.occupiedUsername) {
             this.state.domElements.username?.classList.add('data-input--error');
             addErrorToClass('occupied-username', usernameErrorTypes);
             store.dispatch(createOccupiedUsernameAction(false));
@@ -185,7 +185,7 @@ export class SmartProfile extends Component<Props, State> {
      * Навешивает переданные обработчики на валидацию и кнопки
      */
     componentDidMount() {
-        if (!this.state?.isSubscribed) {
+        if (!this.state.isSubscribed) {
             this.unsubscribe = store.subscribe(
                 this.constructor.name,
                 (pr: Props) => {
@@ -196,7 +196,7 @@ export class SmartProfile extends Component<Props, State> {
                 }
             );
 
-            if (this.state?.isSubscribed === false) {
+            if (this.state.isSubscribed === false) {
                 this.state.isSubscribed = true;
             }
 
@@ -208,7 +208,7 @@ export class SmartProfile extends Component<Props, State> {
      * Удаляет все подписки
      */
     componentWillUnmount() {
-        if (this.state?.isSubscribed) {
+        if (this.state.isSubscribed) {
             this.unsubscribe();
             this.state.isSubscribed = false;
         }
@@ -244,7 +244,7 @@ export class SmartProfile extends Component<Props, State> {
      * Обрабатывает нажатие кнопки логина
      */
     handleClickSave() {
-        if (this.state?.valid.isValid()) {
+        if (this.state.valid.isValid()) {
             const user = {
                 username: this.state.domElements.username?.value.slice(1),
                 nickname: this.state.domElements.nickname?.value,
@@ -268,33 +268,33 @@ export class SmartProfile extends Component<Props, State> {
      * Проверяет пользовательский ввод текущего пароля
      */
     validateCurrentPassword() {
-        this.state?.domElements.current_password?.classList.remove(
+        this.state.domElements.current_password?.classList.remove(
             'data-input--error'
         );
         addErrorToClass('', passwordErrorTypes);
 
         const { isError, errorClass } = checkPassword(
-            this.state?.domElements.current_password?.value ?? ''
+            this.state.domElements.current_password?.value ?? ''
         );
 
         if (isError) {
-            this.state?.domElements.current_password?.classList.add(
+            this.state.domElements.current_password?.classList.add(
                 'data-input--error'
             );
             addErrorToClass(errorClass, passwordErrorTypes);
-            if (this.state?.valid.currentPasswordIsValid) {
+            if (this.state.valid.currentPasswordIsValid) {
                 this.state.valid.currentPasswordIsValid = false;
             }
             return;
         }
 
-        if (this.state?.valid.currentPasswordIsValid === false) {
+        if (this.state.valid.currentPasswordIsValid === false) {
             this.state.valid.currentPasswordIsValid = true;
         }
     }
 
     incorrectPassword() {
-        if (this.state?.isSubscribed && this.props?.incorrectPassword) {
+        if (this.state.isSubscribed && this.props?.incorrectPassword) {
             this.state.domElements.current_password?.classList.add(
                 'data-input--error'
             );
@@ -307,27 +307,27 @@ export class SmartProfile extends Component<Props, State> {
      * Проверяет пользовательский ввод нового пароля
      */
     validateNewPassword() {
-        this.state?.domElements.new_password?.classList.remove(
+        this.state.domElements.new_password?.classList.remove(
             'data-input--error'
         );
         addErrorToClass('', newPasswordErrorTypes);
 
         const { isError, errorClass } = checkNewPassword(
-            this.state?.domElements.new_password?.value ?? ''
+            this.state.domElements.new_password?.value ?? ''
         );
 
         if (isError) {
-            this.state?.domElements.new_password?.classList.add(
+            this.state.domElements.new_password?.classList.add(
                 'data-input--error'
             );
             addErrorToClass(errorClass, newPasswordErrorTypes);
-            if (this.state?.valid.newPasswordIsValid) {
+            if (this.state.valid.newPasswordIsValid) {
                 this.state.valid.newPasswordIsValid = false;
             }
             return;
         }
 
-        if (this.state?.valid.newPasswordIsValid === false) {
+        if (this.state.valid.newPasswordIsValid === false) {
             this.state.valid.newPasswordIsValid = true;
         }
     }
@@ -336,31 +336,31 @@ export class SmartProfile extends Component<Props, State> {
      * Проверяет пользовательский ввод имени
      */
     validateNickname() {
-        this.state?.domElements.nickname?.classList.remove('data-input--error');
+        this.state.domElements.nickname?.classList.remove('data-input--error');
         addErrorToClass('', nicknameErrorTypes);
 
         const { isError, errorClass } = checkNickname(
-            this.state?.domElements.nickname?.value ?? ''
+            this.state.domElements.nickname?.value ?? ''
         );
 
         if (isError) {
-            this.state?.domElements.nickname?.classList.add(
+            this.state.domElements.nickname?.classList.add(
                 'data-input--error'
             );
             addErrorToClass(errorClass, nicknameErrorTypes);
-            if (this.state?.valid.nicknameIsValid) {
+            if (this.state.valid.nicknameIsValid) {
                 this.state.valid.nicknameIsValid = false;
             }
             return;
         }
 
-        if (this.state?.valid.nicknameIsValid === false) {
+        if (this.state.valid.nicknameIsValid === false) {
             this.state.valid.nicknameIsValid = true;
         }
     }
 
     validateUsername() {
-        this.state?.domElements.username?.classList.remove('data-input--error');
+        this.state.domElements.username?.classList.remove('data-input--error');
         addErrorToClass('', usernameErrorTypes);
     }
 }

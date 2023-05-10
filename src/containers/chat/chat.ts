@@ -72,7 +72,7 @@ export class SmartChat extends Component<Props, State> {
      * Рендерит чат
      */
     render() {
-        if (this.state?.isSubscribed && this.chatId) {
+        if (this.state.isSubscribed && this.chatId) {
             if (this.props?.openedChat?.isNotRendered) {
                 const chat = new DumbChat({
                     chatData: this.props.openedChat,
@@ -396,7 +396,7 @@ export class SmartChat extends Component<Props, State> {
     }
 
     componentDidMount() {
-        if (!this.state?.isSubscribed) {
+        if (!this.state.isSubscribed) {
             if (this.chatId) {
                 this.unsubscribeFromWs = getWs().subscribe(
                     this.chatId,
@@ -412,7 +412,7 @@ export class SmartChat extends Component<Props, State> {
                     }
                 );
 
-                if (this.state?.isSubscribed === false) {
+                if (this.state.isSubscribed === false) {
                     this.state.isSubscribed = true;
                 }
 
@@ -430,7 +430,7 @@ export class SmartChat extends Component<Props, State> {
     }
 
     componentWillUnmount() {
-        if (this.state?.isSubscribed) {
+        if (this.state.isSubscribed) {
             this.unsubscribe();
             this.state.isSubscribed = false;
         }

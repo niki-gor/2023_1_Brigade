@@ -56,7 +56,7 @@ export class SmartSidebar extends Component<Props, State> {
      * Рендерит чат
      */
     render() {
-        if (this.state?.isSubscribed) {
+        if (this.state.isSubscribed) {
             const navbar = new DumbSidebar({
                 avatar: this.props?.user?.avatar ?? '',
             });
@@ -115,7 +115,7 @@ export class SmartSidebar extends Component<Props, State> {
     }
 
     componentDidMount() {
-        if (!this.state?.isSubscribed) {
+        if (!this.state.isSubscribed) {
             this.unsubscribe = store.subscribe(
                 this.constructor.name,
                 (pr: Props) => {
@@ -125,7 +125,7 @@ export class SmartSidebar extends Component<Props, State> {
                 }
             );
 
-            if (this.state?.isSubscribed === false) {
+            if (this.state.isSubscribed === false) {
                 this.state.isSubscribed = true;
             }
 
@@ -137,7 +137,7 @@ export class SmartSidebar extends Component<Props, State> {
      * Удаляет все подписки
      */
     componentWillUnmount() {
-        if (this.state?.isSubscribed) {
+        if (this.state.isSubscribed) {
             this.unsubscribe();
             this.state.isSubscribed = false;
         }
