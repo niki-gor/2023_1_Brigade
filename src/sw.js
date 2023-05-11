@@ -5,7 +5,7 @@ const cacheWhitelist = []; //? Что у нас можно не обновлят
 const imageRegRex = /.webp|.svg|.jpg|.jpeg|.gif|.png/;
 
 self.addEventListener('install', (event) => {
-    // self.skipWaiting(); //? хз нахера
+    self.skipWaiting(); //? хз нахера
     event.waitUntil(
         caches
             .open(CACHE_NAME)
@@ -32,7 +32,7 @@ self.addEventListener('activate', (event) => {
             );
         })
     );
-    // event.waitUntil(self.clients.claim()); //? хз нахера
+    event.waitUntil(self.clients.claim()); //? хз нахера
 });
 
 self.addEventListener('fetch', (event) => {
