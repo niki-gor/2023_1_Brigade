@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
@@ -84,6 +85,10 @@ module.exports = {
                 {
                     from: path.resolve(__dirname, 'src/assets/fonts'),
                     to: path.resolve(__dirname, 'dist/assets/fonts'),
+                },
+                {
+                    from: path.resolve(__dirname, 'src/sw.js'),
+                    to: path.resolve(__dirname, 'dist'),
                 },
             ],
         }),
