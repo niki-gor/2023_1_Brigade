@@ -1,17 +1,13 @@
 import { constantsOfActions } from '@config/actions';
 
-<<<<<<< HEAD
 /**
  * Обрабатывает экшен на установку флага isNotRendered в false
  *
- * @param {object} state - Текущее состояние
- * @param {object} action - Экшен
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
  * @return {object} Обновленное состояние
  */
-export const reduceIsNotRendered = (state: anyObject, action: Action) => {
-=======
 export const reduceIsNotRendered = (state: State, action: Action) => {
->>>>>>> eslint
     switch (action.type) {
         case constantsOfActions.isNotRendered:
             return {
@@ -24,62 +20,17 @@ export const reduceIsNotRendered = (state: State, action: Action) => {
         default:
             return {
                 ...state,
-<<<<<<< HEAD
-            }
-    }
-}
-
-/**
- * Обрабатывает экшен на добавление нового чата
- *
- * @param {object} state - Текущее состояние
- * @param {object} action - Экшен
- * @return {object} Обновленное состояние после добавления нового чата
- */
-export const reduceAddChat = (state: anyObject, action: Action) => {
-    switch (action.type) {
-        case constantsOfActions.addChat:
-            if (!action.payload && !state.chats) {
-                return {
-                    ...state,
-                    chats: [],
-                }
-            } else if (!state.chats) {
-                return {
-                    ...state,
-                    chats: {
-                        [action.payload?.id]: action.payload,
-                    },
-                }
-            }
-            
-            return {
-                ...state,
-                chats: { 
-                    ...state.chats, 
-                    [action.payload?.id]: action.payload,
-                },
-            }
-        default:
-            return {
-                ...state,
-            }
-    }
-};
-
-/**
- * Обрабатывает экшен на установку значения chats в State
- *
- * @param {object} state - Текущее состояние
- * @param {object} action - Экшен
- * @return {object} Обновленное состояние
- */
-export const reduceSetChats = (state: anyObject, action: Action) => {
-=======
             };
     }
 };
 
+/**
+ * Обрабатывает экшен на добавление нового чата
+ *
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние после добавления нового чата
+ */
 export const reduceAddChat = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.addChat:
@@ -101,8 +52,14 @@ export const reduceAddChat = (state: State, action: Action) => {
     }
 };
 
+/**
+ * Обрабатывает экшен на установку значения chats в State
+ *
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние
+ */
 export const reduceSetChats = (state: State, action: Action) => {
->>>>>>> eslint
     switch (action.type) {
         case constantsOfActions.setChats:
             return {
@@ -116,18 +73,14 @@ export const reduceSetChats = (state: State, action: Action) => {
     }
 };
 
-<<<<<<< HEAD
 /**
  * Обрабатывает экшен на открытие нового чата
  *
- * @param {object} state - Текущее состояние
- * @param {object} action - Экшен
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
  * @return {object} Обновленное состояние после открытия нового чата
  */
-export const reduceOpenChat = (state: anyObject, action: Action) => {
-=======
 export const reduceOpenChat = (state: State, action: Action) => {
->>>>>>> eslint
     switch (action.type) {
         case constantsOfActions.openChat:
             return {
@@ -144,18 +97,14 @@ export const reduceOpenChat = (state: State, action: Action) => {
     }
 };
 
-<<<<<<< HEAD
 /**
  * Обрабатывает экшен на удаление чата из State
  *
- * @param {object} state - Текущее состояние
- * @param {object} action - Экшен
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
  * @return {object} Обновленное состояние после удаления чата
  */
-export const reduceDeleteChat = (state: anyObject, action: Action) => {
-=======
 export const reduceDeleteChat = (state: State, action: Action) => {
->>>>>>> eslint
     switch (action.type) {
         case constantsOfActions.deleteChat:
             const payload = action.payload as Chat;
@@ -172,19 +121,14 @@ export const reduceDeleteChat = (state: State, action: Action) => {
     }
 };
 
-<<<<<<< HEAD
 /**
  * Обработывает экшен на редактирование чата в State
- *
- * @param {object} state - Текущее состояние
- * @param {object} action - Экшен
+ * reducer вызывается при сохранения изменений в chat-е
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
  * @return {object} Обновленное состояние после редактирования чата
  */
-export const reduceEditChat = (state: anyObject, action: Action) => {
-=======
-// reducer вызывается при сохранения изменений в chat-е
 export const reduceEditChat = (state: State, action: Action) => {
->>>>>>> eslint
     switch (action.type) {
         case constantsOfActions.editChat:
             const payload = action.payload as Chat;
