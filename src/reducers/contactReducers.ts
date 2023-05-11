@@ -1,5 +1,6 @@
-import { constantsOfActions } from "@/config/actions";
+import { constantsOfActions } from '@config/actions';
 
+<<<<<<< HEAD
 /**
  * Обработывает экшен на установку контактов в State
  *
@@ -8,21 +9,20 @@ import { constantsOfActions } from "@/config/actions";
  * @return {object} Обновленное состояние после установки контактов 
  */
 export const reduceSetContacts = (state: anyObject, action: Action) => {
+=======
+export const reduceSetContacts = (state: State, action: Action) => {
+>>>>>>> eslint
     switch (action.type) {
         case constantsOfActions.setContacts:
-            if (!action.payload) {
+            if (action.payload) {
                 return {
                     ...state,
-                    contacts: [],
-                }
+                    contacts: action.payload as User[],
+                };
             }
-            return {
-                ...state,
-                contacts: { ...action.payload },
-            };
         default:
             return {
                 ...state,
-            }
+            };
     }
 };

@@ -1,27 +1,29 @@
-import {constantsOfActions} from "@config/actions";
-import {createChat} from "@utils/api";
-import {createAddChatAction, createOpenChatAction} from "@actions/chatActions";
-import { createMoveToChatAction } from "./routeActions";
+import { constantsOfActions } from '@config/actions';
+import { createChat } from '@utils/api';
+import { createAddChatAction } from '@actions/chatActions';
+import { createMoveToChatAction } from './routeActions';
 
 /**
  * Создает экшен для создания группы
- * @param {object} state - Объект, содержащий данные о создаваемой группе чатов
+ * @param {State} state - Объект, содержащий данные о создаваемой группе чатов
  * @returns {Action} - Экшен
  */
-export const createSetCreateGroupAction = (state: anyObject) : Action => {
+export const createSetCreateGroupAction = (state: State) => {
     return {
         type: constantsOfActions.createGroup,
         payload: state,
-    }
-}
+    };
+};
 
 /**
  * Создает асинхронный экшен для создания группы
- * @param {object} group - Объект, содержащий данные создаваемой группы чата
+ * @param {Record<string, unknown>} group - Объект, содержащий данные создаваемой группы чата
  * @returns {AsyncAction} - Асинхронная функция, которая вызывает экшены для добавления чата и перехода на него или отображает ошибку
  */
-export const createCreateGroupAction = (group: anyObject) : AsyncAction => {
-    return async (dispatch: (action: Action) => void, state: Function) => {
+export const createCreateGroupAction = (
+    group: Record<string, unknown>
+): AsyncAction => {
+    return async (dispatch: Dispatch) => {
         const { status, body } = await createChat(group);
         const jsonBody = await body;
 
@@ -42,4 +44,4 @@ export const createCreateGroupAction = (group: anyObject) : AsyncAction => {
             // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
         }
     };
-}
+};

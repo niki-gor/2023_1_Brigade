@@ -1,5 +1,6 @@
-import { constantsOfActions } from "@/config/actions";
+import { constantsOfActions } from '@config/actions';
 
+<<<<<<< HEAD
 /**
  * Обрабатывает экшен на установку данных о пользователе в State
  *
@@ -8,21 +9,25 @@ import { constantsOfActions } from "@/config/actions";
  * @return {object} Обновленное состояние после установки данных о пользователе
  */
 export const reduceSetUser = (state: anyObject, action: Action) => {
+=======
+export const reduceSetUser = (state: State, action: Action) => {
+>>>>>>> eslint
     switch (action.type) {
-    case constantsOfActions.setUser:
-        return {
-            ...state,
-            user: {
-                ...action.payload
-            },
-        };
-    default:
-        return {
-            ...state,
-        }
+        case constantsOfActions.setUser:
+            if (action.payload) {
+                return {
+                    ...state,
+                    user: action.payload as User,
+                };
+            }
+        default:
+            return {
+                ...state,
+            };
     }
 };
 
+<<<<<<< HEAD
 /**
  * Обрабатывает экшен на удаление данных из State
  *
@@ -31,12 +36,15 @@ export const reduceSetUser = (state: anyObject, action: Action) => {
  * @return {object} Обновленное состояние после удаления данных из State
  */
 export const reduceDeleteState = (state: anyObject, action: Action) => {
+=======
+export const reduceDeleteState = (state: State, action: Action) => {
+>>>>>>> eslint
     switch (action.type) {
-    case constantsOfActions.deleteState:
-        return {};
-    default:
-        return {
-            ...state,
-        }
+        case constantsOfActions.deleteState:
+            return {};
+        default:
+            return {
+                ...state,
+            };
     }
 };

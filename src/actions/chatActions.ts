@@ -1,9 +1,19 @@
-import { constantsOfActions } from "@/config/actions";
-import { ChatTypes } from "@/config/enum";
-import { store } from "@/store/store";
-import { createChat, deleteChat, editChat, getChats, getOneChat } from "@/utils/api";
-import { router } from "@router/createRouter";
-import { createMoveToChatAction } from "./routeActions";
+import { constantsOfActions } from '@config/actions';
+import { ChatTypes } from '@config/enum';
+import { store } from '@store/store';
+import {
+    createChat,
+    deleteChat,
+    editChat,
+    getChats,
+    getOneChat,
+    searchChats,
+} from '@utils/api';
+import { router } from '@router/createRouter';
+import {
+    createMoveToChatAction,
+    createMoveToChatsAction,
+} from '@actions/routeActions';
 
 /**
  * Создает экшен "isNotRendered".
@@ -13,171 +23,171 @@ export const createIsNotRenderedAction = () => {
     return {
         type: constantsOfActions.isNotRendered,
         payload: null,
-    }
-}
+    };
+};
 
 /**
  * Создает экшен "openChat".
- * @param {Object} chat - Чат, который нужно открыть.
+ * @param {Chat} chat - Чат, который нужно открыть.
  * @returns {{ type: string, payload: Object }} - Экшен
  */
-export const createOpenChatAction = (chat: anyObject) => {
+export const createOpenChatAction = (chat: Chat) => {
     return {
         type: constantsOfActions.openChat,
         payload: chat,
-    }
-}
+    };
+};
 
 /**
  * Создает экшен "addChat".
- * @param {Object} chat - Чат, который нужно добавить.
+ * @param {Chat} chat - Чат, который нужно добавить.
  * @returns {{ type: string, payload: Object }} - Экшен
  */
-export const createAddChatAction = (chat: anyObject) => {
+export const createAddChatAction = (chat: Chat) => {
     return {
         type: constantsOfActions.addChat,
         payload: chat,
-    }
-}
+    };
+};
 
 /**
  * Создает экшен "setChats".
- * @param {Object} chat - Список чатов, которые нужно установить.
+ * @param {Chat} chat - Список чатов, которые нужно установить.
  * @returns {{ type: string, payload: Object }} - Экшен
  */
-export const createSetChatsAction = (chat: anyObject) => {
+export const createSetChatsAction = (chat: Chat) => {
     return {
         type: constantsOfActions.setChats,
         payload: chat,
-    }
-}
+    };
+};
 
 /**
  * Создает экшен "getOneChat".
- * @param {Object} chat - Чат, который нужно получить.
+ * @param {Record<string, number>} chat - Чат, который нужно получить.
  * @returns {function} - Функция, которая делает запрос и возвращает промис с результатом.
  */
-export const createGetOneChatAction = (chat: anyObject) => {
-    return async (dispatch: (action: Action) => void, state: Function) => {
+export const createGetOneChatAction = (chat: Record<string, number>) => {
+    return async (dispatch: Dispatch) => {
         const { status, body } = await getOneChat(chat);
 
-        let jsonBody = await body;
+        const jsonBody = await body;
 
         switch (status) {
             case 200:
                 dispatch(createOpenChatAction(jsonBody));
                 break;
             case 401:
-                // TODO: отрендерить ошибку
+            // TODO: отрендерить ошибку
             case 403:
-                // TODO: отрендерить ошибку
-            case 404:         
-                // TODO: отрендерить ошибку       
+            // TODO: отрендерить ошибку
+            case 404:
+            // TODO: отрендерить ошибку
             case 500:
-                // TODO: отрендерить ошибку
+            // TODO: отрендерить ошибку
             case 0:
-                // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
+            // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
             default:
-                // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
+            // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
         }
     };
-}
+};
 
 /**
- * Создает экшен "getOneChat".
- * @param {Object} chat - Чат, который нужно получить.
+ * Создает экшен "getChats".
  * @returns {function} - Функция, которая делает запрос и возвращает промис с результатом.
  */
 export const createGetChatsAction = () => {
-    return async (dispatch: (action: Action) => void, state: Function) => {
+    return async (dispatch: Dispatch) => {
         const { status, body } = await getChats();
 
-        let jsonBody = await body;
+        const jsonBody = await body;
 
         switch (status) {
             case 200:
                 dispatch(createSetChatsAction(jsonBody));
                 break;
             case 401:
-                // TODO: отрендерить ошибку
-            case 404:         
-                // TODO: отрендерить ошибку       
+            // TODO: отрендерить ошибку
+            case 404:
+            // TODO: отрендерить ошибку
             case 500:
-                // TODO: отрендерить ошибку
+            // TODO: отрендерить ошибку
             case 0:
-                // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
+            // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
             default:
-                // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
+            // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
         }
     };
-}
+};
 
 /**
- * Создает экшен "getChats".
+ * Создает экшен "createDialog".
  * @returns {function} - Функция, которая делает запрос и возвращает промис с результатом.
  */
-export const createCreateDialogAction = (contact: anyObject) => {
-    return async (dispatch: (action: Action | AsyncAction) => void, state: Function) => {
-        for (const key in state().chats) {
-            const st = state().chats[key];
-            if (st.type === ChatTypes.Dialog && (st.members[0]?.id == contact.id || st.members[1]?.id == contact.id)) {
-                return dispatch(createMoveToChatAction({ chatId: st.id }));
+export const createCreateDialogAction = (contact: User) => {
+    return async (dispatch: Dispatch, state: GetState) => {
+        state().chats?.forEach((chat) => {
+            if (
+                chat.type === ChatTypes.Dialog &&
+                (chat.members[0]?.id == contact.id ||
+                    chat.members[1]?.id == contact.id)
+            ) {
+                return dispatch(createMoveToChatAction({ chatId: chat.id }));
             }
-        }
+        });
 
         const { status, body } = await createChat({
             type: ChatTypes.Dialog,
             title: contact.nickname,
-            members: [ contact.id, store.getState().user.id ],
+            members: [contact.id, store.getState().user?.id],
         });
 
-        let jsonBody = await body;
+        const jsonBody = await body;
 
         switch (status) {
             case 201:
                 dispatch(createAddChatAction(jsonBody));
+                dispatch(createMoveToChatsAction());
                 dispatch(createMoveToChatAction({ chatId: jsonBody.id }));
                 break;
             case 401:
-                // TODO: отрендерить ошибку
-            case 404:         
-                // TODO: отрендерить ошибку       
+            // TODO: отрендерить ошибку
+            case 404:
+            // TODO: отрендерить ошибку
             case 500:
-                // TODO: отрендерить ошибку
+            // TODO: отрендерить ошибку
             case 0:
-                // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
+            // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
             default:
-                // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
+            // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
         }
     };
-}
+};
 
 /**
- * Создает action для удаления чата из хранилища.
- * @param {anyObject} chat - Чат, который нужно удалить.
- * @returns {Object} - Экшен
+ *
+ * @param chatId - id удаляемого чата
+ * @returns
  */
-export const createDeleteChatFromStoreAction = (chat: anyObject) => {
+export const createDeleteChatFromStoreAction = (chat: Chat) => {
     return {
         type: constantsOfActions.deleteChat,
         payload: chat,
-    }
-}
+    };
+};
 
-/**
- * Создает асинхронный экшен для удаления чата.
- * @param {string} deletedChatId - id чата, который нужно удалить.
- * @returns {Function} - асинхронная функция, которая принимает dispatch и возвращает Promise.
- */
-export const createDeleteChatAction = (deletedChatId: string) => {
-    return async (dispatch: (action: Action) => void, state: Function) => {
-        for (const key in state().chats) {
-            const chat = state().chats[key];
-            if (chat?.id == deletedChatId) {
-                dispatch(createDeleteChatFromStoreAction(chat));
-                break;
-            }
+export const createDeleteChatAction = (deletedChatId: number | undefined) => {
+    return async (dispatch: Dispatch, state: GetState) => {
+        if (!deletedChatId) {
+            return;
         }
+
+        state().chats?.forEach((chat) => {
+            if (chat.id == deletedChatId) {
+                dispatch(createDeleteChatFromStoreAction(chat));
+            }
+        });
 
         const { status } = await deleteChat(deletedChatId);
 
@@ -186,40 +196,41 @@ export const createDeleteChatAction = (deletedChatId: string) => {
                 router.route('/');
                 break;
             case 401:
-                // TODO: отрендерить ошибку
-            case 403:          
-                // TODO: отрендерить ошибку
+            // TODO: отрендерить ошибку
+            case 403:
+            // TODO: отрендерить ошибку
             case 404:
-                // TODO: отрендерить ошибку
+            // TODO: отрендерить ошибку
             case 500:
-                // TODO: отрендерить ошибку
+            // TODO: отрендерить ошибку
             case 0:
-                // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
+            // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
             default:
-               // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
+            // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
         }
-    }
-}
+    };
+};
 
-/**
- * Создает action для изменения чата в хранилище.
- * @param {anyObject} updateGroupState - объект с обновленной информацией о чате.
- * @returns {Object} - Экшен
- */
-export const createEditChatFromStoreAction = (updateGroupState: anyObject) => {
+// Нажимаем на кнопку save changes
+export const createEditChatFromStoreAction = (updateGroupState: {
+    id: number;
+    type: ChatTypes;
+    title: string;
+    members: (number | undefined)[];
+}) => {
     return {
         type: constantsOfActions.editChat,
         payload: updateGroupState,
-    }
-}
+    };
+};
 
-/**
- * Создает асинхронный action для изменения чата.
- * @param {anyObject} updateGroupState - объект с обновленной информацией о чате.
- * @returns {Function} - асинхронная функция, которая принимает dispatch и возвращает Promise.
- */
-export const createEditChatAction = (updateGroupState: anyObject) => {
-    return async (dispatch: (action: Action) => void, state: Function) => {
+export const createEditChatAction = (updateGroupState: {
+    id: number;
+    type: ChatTypes;
+    title: string;
+    members: (number | undefined)[];
+}) => {
+    return async (dispatch: Dispatch) => {
         if (updateGroupState) {
             dispatch(createEditChatFromStoreAction(updateGroupState));
         }
@@ -231,23 +242,103 @@ export const createEditChatAction = (updateGroupState: anyObject) => {
             members: updateGroupState.members,
         });
 
-        let jsonBody = await body;
+        const jsonBody = await body;
 
         switch (status) {
             case 201:
-                router.route(`/${updateGroupState.id}`);
                 dispatch(createOpenChatAction(jsonBody));
+                router.route(`/${updateGroupState.id}`);
                 break;
             case 401:
-                // TODO: отрендерить ошибку
+            // TODO: отрендерить ошибку
             case 404:
-                // TODO: отрендерить ошибку
+            // TODO: отрендерить ошибку
             case 500:
-                // TODO: отрендерить ошибку
+            // TODO: отрендерить ошибку
             case 0:
-                // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
+            // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
             default:
-               // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
+            // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
         }
-    }
-}
+    };
+};
+
+export const createCreateChannelAction = (channel: Record<string, unknown>) => {
+    return async (dispatch: (action: Action) => void) => {
+        const { status, body } = await createChat(channel);
+        const jsonBody = await body;
+
+        switch (status) {
+            case 201:
+                dispatch(createAddChatAction(jsonBody));
+                dispatch(createMoveToChatAction({ chatId: jsonBody.id }));
+                break;
+            case 401:
+            // TODO: отрендерить ошибку
+            case 404:
+            // TODO: отрендерить ошибку
+            case 500:
+            // TODO: отрендерить ошибку
+            case 0:
+            // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
+            default:
+            // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
+        }
+    };
+};
+
+export const createSearchChatsAction = (str: string) => {
+    return async (dispatch: (action: Action) => void) => {
+        const { status, body } = await searchChats(str);
+        const jsonBody = await body;
+
+        switch (status) {
+            case 200:
+                dispatch(createSetSearchedChatsAction(jsonBody));
+                break;
+            case 401:
+            // TODO: отрендерить ошибку
+            case 404:
+            // TODO: отрендерить ошибку
+            case 500:
+            // TODO: отрендерить ошибку
+            case 0:
+            // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
+            default:
+            // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
+        }
+    };
+};
+
+export const createSetSearchedChatsAction = (body: Record<string, unknown>) => {
+    return {
+        type: constantsOfActions.setSearchedChats,
+        payload: body,
+    };
+};
+
+export const createDeleteSearchedChatsAction = () => {
+    return {
+        type: constantsOfActions.deleteSearchedChats,
+        payload: {
+            founded_messages: undefined,
+            founded_chats: undefined,
+            founded_channels: undefined,
+            founded_contacts: undefined,
+        },
+    };
+};
+
+export const createAddUserInChat = (user: User) => {
+    return {
+        type: constantsOfActions.addUserInChat,
+        payload: user,
+    };
+};
+
+export const createDeleteUserInChat = () => {
+    return {
+        type: constantsOfActions.deleteUserInChat,
+        payload: null,
+    };
+};

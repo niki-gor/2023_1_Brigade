@@ -1,14 +1,12 @@
 const createWs = () => {
-    let ws : WebSocket | undefined;
-    let subscribers = new Map<number, Function>();
+    let ws: WebSocket | undefined;
+    const subscribers = new Map<number, (message: Message) => void>();
 
     const create = () => {
         ws = new WebSocket('wss://technogramm.ru/api/v1/message/');
-        
-        ws.onopen = (event) => {
-            console.log('WebSocket connection opened');
-        };
-    
+
+        ws.onopen = () => {};
+
         // Обработчик события получения сообщения от сервера
         ws.onmessage = (event) => {
             const e = JSON.parse(event.data);
@@ -17,19 +15,17 @@ const createWs = () => {
                 cb(e);
             }
         };
-    
+
         // Обработчик события закрытия соединения
-        ws.onclose = (event) => {
-            console.log('WebSocket connection closed', event.code);
+        ws.onclose = () => {
             ws = undefined;
         };
-    
+
         // Обработчик события ошибки соединения
-        ws.onerror = (event) => {
-            console.error('WebSocket connection error:', event);
+        ws.onerror = () => {
             ws = undefined;
         };
-    }
+    };
 
     return () => {
         if (!ws) {
@@ -37,20 +33,20 @@ const createWs = () => {
         }
 
         return {
-            send: (message: anyObject) => {
+            send: (message: Message) => {
                 ws?.send(JSON.stringify(message));
             },
-            subscribe: (chatId: number, cb: (message: anyObject) => void) => {
+            subscribe: (chatId: number, cb: (message: Message) => void) => {
                 subscribers.set(chatId, cb);
                 return () => {
                     subscribers.delete(chatId);
-                }
+                };
             },
             close: () => {
                 ws?.close();
-            }
+            },
         };
-    }
-}
+    };
+};
 
 export const getWs = createWs();

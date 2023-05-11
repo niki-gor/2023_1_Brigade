@@ -1,22 +1,29 @@
-import { Container } from "@containers/container";
-import { store } from "@/store/store";
-import { DumbSidebar } from "@/components/sidebar/sidebar";
-import { createMoveToChatsAction, createMoveToContactsAction, createMoveToProfileAction, createRenderAction } from "@/actions/routeActions";
-import { createLogoutAction } from "@/actions/authActions";
-import { SIDEBAR } from "@/config/config";
+import { Component } from '@framework/component';
+import { store } from '@store/store';
+import { DumbSidebar } from '@components/sidebar/sidebar';
+import {
+    createMoveToChatsAction,
+    createMoveToContactsAction,
+    createMoveToProfileAction,
+    createRenderAction,
+} from '@actions/routeActions';
+import { createLogoutAction } from '@actions/authActions';
+import { SIDEBAR } from '@config/config';
 
+interface Props {
+    user?: {
+        avatar: string;
+    };
+}
 
-export interface SmartSidebar {
-    state: {
-        isSubscribed: boolean,
-        domElements: {
-            messageButton: HTMLElement | null,
-            contactButton: HTMLElement | null,
-            logoutButton: HTMLElement | null,
-            avatarButton: HTMLElement | null,
-            //TODO: themeButton
-        } 
-    }
+interface State {
+    isSubscribed: boolean;
+    domElements: {
+        messageButton: HTMLElement | null;
+        contactButton: HTMLElement | null;
+        logoutButton: HTMLElement | null;
+        avatarButton: HTMLElement | null;
+    };
 }
 
 /**
@@ -24,13 +31,14 @@ export interface SmartSidebar {
  * Прокидывает actions стору для создания диалога, удаление диалога, открыть диалог для просмотра
  * Также подписывается на изменения активного диалога и статуса диалога
  */
-export class SmartSidebar extends Container {
+export class SmartSidebar extends Component<Props, State> {
     /**
      * Сохраняет props
      * @param {Object} props - параметры компонента
      */
-    constructor(props: componentProps) {
+    constructor(props: Props) {
         super(props);
+
         this.state = {
             isSubscribed: false,
             domElements: {
@@ -38,10 +46,10 @@ export class SmartSidebar extends Container {
                 contactButton: null,
                 logoutButton: null,
                 avatarButton: null,
-            }
-        }
+            },
+        };
 
-        this.rootNode = SIDEBAR;
+        this.node = SIDEBAR;
     }
 
     /**
@@ -49,52 +57,77 @@ export class SmartSidebar extends Container {
      */
     render() {
         if (this.state.isSubscribed) {
-            const navbar = new DumbSidebar({ 
-                ...this.props.user,
+            const navbar = new DumbSidebar({
+                avatar: this.props?.user?.avatar ?? '',
             });
 
-            this.rootNode.innerHTML = navbar.render();
+            if (this.node) {
+                this.node.innerHTML = navbar.render();
+            }
 
-            this.state.domElements.avatarButton = document.querySelector('.header__user-photo');
-            this.state.domElements.avatarButton?.addEventListener('click', (e) => {
-                e.preventDefault();
+            this.state.domElements.avatarButton = document.querySelector(
+                '.header__user-photo'
+            );
+            this.state.domElements.avatarButton?.addEventListener(
+                'click',
+                (e) => {
+                    e.preventDefault();
 
-                store.dispatch(createMoveToProfileAction());
-            });
+                    store.dispatch(createMoveToProfileAction());
+                }
+            );
 
-            this.state.domElements.contactButton = document.querySelector('.nav-item__contact-btn');
-            this.state.domElements.contactButton?.addEventListener('click', (e) => {
-                e.preventDefault();
+            this.state.domElements.contactButton = document.querySelector(
+                '.nav-item__contact-btn'
+            );
+            this.state.domElements.contactButton?.addEventListener(
+                'click',
+                (e) => {
+                    e.preventDefault();
 
-                store.dispatch(createMoveToContactsAction());
-            });
-            
-            this.state.domElements.messageButton = document.querySelector('.nav-item__message-btn');
-            this.state.domElements.messageButton?.addEventListener('click', (e) => {
-                e.preventDefault();
+                    store.dispatch(createMoveToContactsAction());
+                }
+            );
 
-                store.dispatch(createMoveToChatsAction());
-            });
+            this.state.domElements.messageButton = document.querySelector(
+                '.nav-item__message-btn'
+            );
+            this.state.domElements.messageButton?.addEventListener(
+                'click',
+                (e) => {
+                    e.preventDefault();
 
-            this.state.domElements.logoutButton = document.querySelector('.logout-btn');
-            this.state.domElements.logoutButton?.addEventListener('click', (e) => {
-                e.preventDefault();
+                    store.dispatch(createMoveToChatsAction());
+                }
+            );
 
-                store.dispatch(createLogoutAction());
-            });
+            this.state.domElements.logoutButton =
+                document.querySelector('.logout-btn');
+            this.state.domElements.logoutButton?.addEventListener(
+                'click',
+                (e) => {
+                    e.preventDefault();
+
+                    store.dispatch(createLogoutAction());
+                }
+            );
         }
     }
 
-
     componentDidMount() {
         if (!this.state.isSubscribed) {
-            this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: componentProps) => {
-                this.props = pr;
-                
-                this.render();
-            }))
+            this.unsubscribe = store.subscribe(
+                this.constructor.name,
+                (props: Props) => {
+                    this.props = props;
 
-            this.state.isSubscribed = true;
+                    this.render();
+                }
+            );
+
+            if (this.state.isSubscribed === false) {
+                this.state.isSubscribed = true;
+            }
 
             store.dispatch(createRenderAction());
         }
@@ -105,7 +138,7 @@ export class SmartSidebar extends Container {
      */
     componentWillUnmount() {
         if (this.state.isSubscribed) {
-            this.unsubscribe.forEach((uns) => uns());
+            this.unsubscribe();
             this.state.isSubscribed = false;
         }
     }
