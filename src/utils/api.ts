@@ -208,6 +208,11 @@ export const getContacts = () => {
         });
 };
 
+/**
+ * Создает чат, отправляя запрос POST на URL API сервера
+ * @param {Record<string, unknown>} body - объект, содержащий параметры запроса.
+ * @returns {Promise<{status: number, body: any}>} - Promise, результат которого - объект со статусом и телом ответа.
+ */
 export const createChat = (body: Record<string, unknown>) => {
     return post(config.chats, body)
         .then(({ status, parsedBody }) => {
@@ -272,6 +277,11 @@ export const getContactsByString = (string: string) => {
         });
 };
 
+/**
+ * Ищет чаты, выполняя запрос на URL API сервера
+ * @param {string} str - строка параметра для поиска чатов.
+ * @returns {Promise<{status: number, body: any}>} - Promise, результат которого - объект со статусом и телом ответа.
+ */
 export const searchChats = (str: string) => {
     return get(config.searchChats + str + '/')
         .then(({ status, parsedBody }) => {
@@ -303,6 +313,10 @@ export const searchChats = (str: string) => {
         });
 };
 
+/**
+ * Получает чаты, выполняя запрос на URL API сервера
+ * @returns {Promise<{status: number, body: any}>} - Promise, результат которого - объект со статусом и телом ответа.
+ */
 export const getChats = () => {
     return get(config.chats)
         .then(({ status, parsedBody }) => {
@@ -334,6 +348,10 @@ export const getChats = () => {
         });
 };
 
+/**
+ * Получает чат, выполняя запрос на URL API сервера
+ * @returns {Promise<{status: number, body: any}>} - Promise, результат которого - объект со статусом и телом ответа.
+ */
 export const getOneChat = (chat: Record<string, number>) => {
     return get(config.chats + `${chat.chatId}/`)
         .then(({ status, parsedBody }) => {
@@ -366,6 +384,10 @@ export const getOneChat = (chat: Record<string, number>) => {
         });
 };
 
+/**
+ * Удаляет чат, выполняя запрос на URL API сервера
+ * @returns {Promise<{status: number, body: any}>} - Promise, результат которого - объект со статусом и телом ответа.
+ */
 export const deleteChat = (deletedId: number) => {
     return deleteSession(config.chats + `${deletedId}/`)
         .then(({ status }) => {
@@ -394,6 +416,10 @@ export const deleteChat = (deletedId: number) => {
         });
 };
 
+/**
+ * Редактирует чат, выполняя запрос на URL API сервера
+ * @returns {Promise<{status: number, body: any}>} - Promise, результат которого - объект со статусом и телом ответа.
+ */
 export const editChat = (body: Record<string, unknown>) => {
     return put(config.chats, body)
         .then(({ status, parsedBody }) => {
@@ -425,6 +451,10 @@ export const editChat = (body: Record<string, unknown>) => {
         });
 };
 
+/**
+ * Загружает аватарку, выполняя запрос на URL API сервера
+ * @returns {Promise<{status: number, body: any}>} - Promise, результат которого - объект со статусом и телом ответа.
+ */
 export const uploadAvatar = (avatar: File) => {
     return postMultipartForm(config.uploadAvatar, avatar)
         .then(({ status, parsedBody }) => {

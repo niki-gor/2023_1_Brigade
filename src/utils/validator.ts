@@ -159,6 +159,11 @@ export const checkNickname = (nickname: string) => {
     };
 };
 
+/**
+ * Функция добавляет классы invisible элементам из массива ErrorTypes и удаляет указанный класс у элемента по селектору
+ * @param {string} classToRemoveInvisible - имя класса, который нужно удалить у элемента
+ * @param {ErrorTypes[]} classesToAddInvisible - массив объектов типа ErrorTypes, содержащих имя класса элемента, которому нужно добавить класс 'invisible'
+ */
 export const addErrorToClass = (
     classToRemoveInvisible: string,
     classesToAddInvisible: ErrorTypes[]
