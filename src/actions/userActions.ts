@@ -1,6 +1,11 @@
 import { constantsOfActions } from '@config/actions';
 import { updateUser, uploadAvatar } from '@utils/api';
 
+/** 
+ * Создает экшен для установки состояния пользователя.
+ * @param {User} state - Состояние пользователя.
+ * @returns {Action} экшен с типом "setUser" и полезной нагрузкой "state".
+ **/
 export const createSetUserAction = (state: User) => {
     return {
         type: constantsOfActions.setUser,
@@ -8,6 +13,11 @@ export const createSetUserAction = (state: User) => {
     };
 };
 
+/** 
+ * Создает экшен для невалидного емейла.
+ * @param {boolean} state - Состояние емейла
+ * @returns {Action} экшен с типом "invalidEmail".
+ **/
 export const createInvalidEmailAction = (state: boolean) => {
     return {
         type: constantsOfActions.invalidEmail,
@@ -17,6 +27,11 @@ export const createInvalidEmailAction = (state: boolean) => {
     };
 };
 
+/** 
+ * Создает экшен для занятого емейла.
+ * @param {boolean} state - Состояние емейла
+ * @returns {Action} экшен с типом "occupiedEmail".
+ **/
 export const createOccupiedEmailAction = (state: boolean) => {
     return {
         type: constantsOfActions.occupiedEmail,
@@ -26,6 +41,11 @@ export const createOccupiedEmailAction = (state: boolean) => {
     };
 };
 
+/** 
+ * Создает экшен для занятого имени пользователя.
+ * @param {boolean} state - Состояние имени пользователя
+ * @returns {Action} экшен с типом "occupiedUsername".
+ **/
 export const createOccupiedUsernameAction = (state: boolean) => {
     return {
         type: constantsOfActions.occupiedUsername,
@@ -35,6 +55,11 @@ export const createOccupiedUsernameAction = (state: boolean) => {
     };
 };
 
+/** 
+ * Создает экшен для неправильного пароля.
+ * @param {boolean} state - Состояние пароля
+ * @returns {Action} экшен с типом "incorrectPassword".
+ **/
 export const createIncorrectPasswordAction = (state: boolean) => {
     return {
         type: constantsOfActions.incorrectPassword,
@@ -44,6 +69,11 @@ export const createIncorrectPasswordAction = (state: boolean) => {
     };
 };
 
+/** 
+ * Создает асинхронное действие для обновления состояния пользователя.
+ * @param {Record<string, unknown>} user - Объект пользователя для обновления.
+ * @returns {AsyncAction} Асинхронное действие, которое вызывает "createSetUserAction" или другие действия с ошибками.
+ **/
 export const createUpdateUserAction = (
     user: Record<string, unknown>
 ): AsyncAction => {
@@ -73,6 +103,11 @@ export const createUpdateUserAction = (
     };
 };
 
+/** 
+ * Создает асинхронный экшен для обновления аватара пользователя.
+ * @param {File | undefined} avatar - Новый файл аватара для загрузки.
+ * @returns {AsyncAction} Асихронный экшен, который либо вызывает "createSetUserAction", либо другие действия с ошибками.
+ **/
 export const createUpdateUserAvatarAction = (
     avatar: File | undefined
 ): AsyncAction => {
@@ -102,6 +137,10 @@ export const createUpdateUserAvatarAction = (
     };
 };
 
+/** 
+ * Создает экшен для удаления состояния пользователя.
+ * @returns {Action} экшен с типом "deleteState" и пустой нагрузкой.
+ **/
 export const createDeleteStateAction = () => {
     return {
         type: constantsOfActions.deleteState,

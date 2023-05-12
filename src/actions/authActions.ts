@@ -11,6 +11,10 @@ import { Chats } from '@containers/chatList/createChatList';
 import { Sidebar } from '@containers/sidebar/createSidebar';
 import { getWs } from '@utils/ws';
 
+/**
+ * Создает экшн для авторизации пользователя.
+ * @returns {AsyncAction} Возвращает асинхронную функцию, выполняющую обновление состояния.
+ */
 export const createAuthAction = (): AsyncAction => {
     return async (dispatch: Dispatch) => {
         const { status, body } = await auth();
@@ -45,6 +49,10 @@ export const createAuthAction = (): AsyncAction => {
     };
 };
 
+/**
+ * Создает экшн для входа пользователя в систему.
+ * @returns {AsyncAction} Возвращает асинхронную функцию, выполняющую действие при успешном входе или сообщение об ошибке.
+ */
 export const createLoginAction = (
     user: Record<string, unknown>
 ): AsyncAction => {
@@ -79,6 +87,11 @@ export const createLoginAction = (
     };
 };
 
+/**
+ * Создает экшн для регистрации нового пользователя.
+ * @param {Record<string, unknown>} user - Информация о пользователе
+ * @returns {AsyncAction} Возвращает асинхронную функцию, выполняющую обработку регистрации или сообщение об ошибке.
+ */ 
 export const createSignUpAction = (
     user: Record<string, unknown>
 ): AsyncAction => {
@@ -113,6 +126,10 @@ export const createSignUpAction = (
     };
 };
 
+/**
+ * Создает экшн для выхода текущего пользователя из системы.
+ * @returns {AsyncAction} Возвращает асинхронную функцию, выполняющую действие при успешном выходе или сообщение об ошибке.
+ */
 export const createLogoutAction = (): AsyncAction => {
     return async (dispatch: Dispatch) => {
         const { status } = await logout();

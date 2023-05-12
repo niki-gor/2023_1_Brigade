@@ -15,6 +15,10 @@ import {
     createMoveToChatsAction,
 } from '@actions/routeActions';
 
+/**
+ * Создает экшен "isNotRendered".
+ * @returns {{ type: string, payload: null }} - Экшен
+ */
 export const createIsNotRenderedAction = () => {
     return {
         type: constantsOfActions.isNotRendered,
@@ -22,6 +26,11 @@ export const createIsNotRenderedAction = () => {
     };
 };
 
+/**
+ * Создает экшен "openChat".
+ * @param {Chat} chat - Чат, который нужно открыть.
+ * @returns {{ type: string, payload: Object }} - Экшен
+ */
 export const createOpenChatAction = (chat: Chat) => {
     return {
         type: constantsOfActions.openChat,
@@ -29,6 +38,11 @@ export const createOpenChatAction = (chat: Chat) => {
     };
 };
 
+/**
+ * Создает экшен "addChat".
+ * @param {Chat} chat - Чат, который нужно добавить.
+ * @returns {{ type: string, payload: Object }} - Экшен
+ */
 export const createAddChatAction = (chat: Chat) => {
     return {
         type: constantsOfActions.addChat,
@@ -36,6 +50,11 @@ export const createAddChatAction = (chat: Chat) => {
     };
 };
 
+/**
+ * Создает экшен "setChats".
+ * @param {Chat} chat - Список чатов, которые нужно установить.
+ * @returns {{ type: string, payload: Object }} - Экшен
+ */
 export const createSetChatsAction = (chat: Chat) => {
     return {
         type: constantsOfActions.setChats,
@@ -43,6 +62,11 @@ export const createSetChatsAction = (chat: Chat) => {
     };
 };
 
+/**
+ * Создает экшен "getOneChat".
+ * @param {Record<string, number>} chat - Чат, который нужно получить.
+ * @returns {function} - Функция, которая делает запрос и возвращает промис с результатом.
+ */
 export const createGetOneChatAction = (chat: Record<string, number>) => {
     return async (dispatch: Dispatch) => {
         const { status, body } = await getOneChat(chat);
@@ -69,6 +93,10 @@ export const createGetOneChatAction = (chat: Record<string, number>) => {
     };
 };
 
+/**
+ * Создает экшен "getChats".
+ * @returns {function} - Функция, которая делает запрос и возвращает промис с результатом.
+ */
 export const createGetChatsAction = () => {
     return async (dispatch: Dispatch) => {
         const { status, body } = await getChats();
@@ -93,6 +121,10 @@ export const createGetChatsAction = () => {
     };
 };
 
+/**
+ * Создает экшен "createDialog".
+ * @returns {function} - Функция, которая делает запрос и возвращает промис с результатом.
+ */
 export const createCreateDialogAction = (contact: User) => {
     return async (dispatch: Dispatch, state: GetState) => {
         state().chats?.forEach((chat) => {
