@@ -1,7 +1,8 @@
+import { IComponent } from '@framework/component';
+
 export interface Route {
-    path: RegExp,
-    component: any,
-    getProps: (params: string[]) => Record<string, string>,
+    path: RegExp;
+    component: (params: string[] | undefined) => IComponent | undefined;
 }
 
 export class Router {
@@ -12,34 +13,50 @@ export class Router {
         this.currentComponent = undefined;
     }
 
+    /**
+     * Запускает Router.
+     * Вызывается при изменении URL в адресной строке.
+     */
     public start = () => {
         window.addEventListener('popstate', (e) => {
             e.preventDefault();
 
             this.go(window.location.pathname);
-        })
-    }
+        });
+    };
 
+    /**
+     * Изменяет текущий маршрут.
+     * @param {string} path - Новый путь.
+     */
     public route = (path: string) => {
         this.go(path);
-        
-        window.history.pushState(this.currentDynamicParams, '', path);
-    }
 
+        window.history.pushState(this.currentDynamicParams, '', path);
+    };
+
+    /**
+     * Ищет маршрут, соответствующий текущему пути.
+     * @param {string} path - Текущий путь.
+     */
     private match = (path: string) => {
         this.currentRoute = this.routes.find((route) => {
             const match = path.match(route.path);
 
             if (match) {
-              this.currentDynamicParams = route.getProps(match.slice(1));
+                this.currentDynamicParams = match.slice(1);
 
-              return true;
+                return true;
             }
-        
+
             return false;
         });
-    }
+    };
 
+    /**
+     * Обновляет состояние Router в соответствии с новым маршрутом.
+     * @param {string} path - Новый путь.
+     */
     private go = (path: string) => {
         this.match(path);
 
@@ -54,13 +71,14 @@ export class Router {
         // }
 
         this.currentComponent?.componentWillUnmount();
-        console.log(this.currentDynamicParams)
-        this.currentComponent = new this.currentRoute.component(this.currentDynamicParams);
-        this.currentComponent.componentDidMount();
-    } 
+        this.currentComponent = this.currentRoute.component(
+            this.currentDynamicParams
+        );
+        this.currentComponent?.componentDidMount();
+    };
 
     private routes: Route[];
     private currentRoute: Route | undefined;
-    private currentComponent: any;
-    private currentDynamicParams: any;
+    private currentComponent: IComponent | undefined;
+    private currentDynamicParams: string[] | undefined;
 }

@@ -1,6 +1,13 @@
-import { constantsOfActions } from "@/config/actions";
+import { constantsOfActions } from '@config/actions';
 
-export const reduceIsNotRendered = (state: anyObject, action: Action) => {
+/**
+ * Обрабатывает экшен на установку флага isNotRendered в false
+ *
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние
+ */
+export const reduceIsNotRendered = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.isNotRendered:
             return {
@@ -8,7 +15,7 @@ export const reduceIsNotRendered = (state: anyObject, action: Action) => {
                 openedChat: {
                     ...state.openedChat,
                     isNotRendered: false,
-                },
+                } as OpenedChat,
             };
         default:
             return {
@@ -17,10 +24,17 @@ export const reduceIsNotRendered = (state: anyObject, action: Action) => {
     }
 };
 
-export const reduceAddChat = (state: anyObject, action: Action) => {
+/**
+ * Обрабатывает экшен на добавление нового чата
+ *
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние после добавления нового чата
+ */
+export const reduceAddChat = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.addChat:
-            const payload = action.payload;
+            const payload = action.payload as Chat;
             if (action.payload) {
                 if (!state.chats) {
                     return {
@@ -38,12 +52,19 @@ export const reduceAddChat = (state: anyObject, action: Action) => {
     }
 };
 
-export const reduceSetChats = (state: anyObject, action: Action) => {
+/**
+ * Обрабатывает экшен на установку значения chats в State
+ *
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние
+ */
+export const reduceSetChats = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.setChats:
             return {
                 ...state,
-                chats: action.payload,
+                chats: action.payload as Chat[],
             };
         default:
             return {
@@ -52,21 +73,22 @@ export const reduceSetChats = (state: anyObject, action: Action) => {
     }
 };
 
-export const reduceOpenChat = (state: anyObject, action: Action) => {
+/**
+ * Обрабатывает экшен на открытие нового чата
+ *
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние после открытия нового чата
+ */
+export const reduceOpenChat = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.openChat:
-            if (!action.payload?.messages) {
-                action.payload = {
-                    ...action.payload,
-                    messages: [],
-                };
-            }
             return {
                 ...state,
                 openedChat: {
                     ...action.payload,
                     isNotRendered: true,
-                },
+                } as OpenedChat,
             };
         default:
             return {
@@ -75,14 +97,21 @@ export const reduceOpenChat = (state: anyObject, action: Action) => {
     }
 };
 
-export const reduceDeleteChat = (state: anyObject, action: Action) => {
+/**
+ * Обрабатывает экшен на удаление чата из State
+ *
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние после удаления чата
+ */
+export const reduceDeleteChat = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.deleteChat:
-            const payload = action.payload;
+            const payload = action.payload as Chat;
 
             if (payload?.id) {
                 state.chats = state.chats?.filter(
-                    (chat: anyObject) => chat.id != payload?.id
+                    (chat) => chat.id != payload?.id
                 );
             }
         default:
@@ -90,24 +119,54 @@ export const reduceDeleteChat = (state: anyObject, action: Action) => {
                 ...state,
             };
     }
-}
+};
 
-// reducer вызывается при сохранения изменений в chat-е
-export const reduceEditChat = (state: anyObject, action: Action) => {
+/**
+ * Обрабатывает экшен на редактирование чата в State
+ * reducer вызывается при сохранения изменений в chat-е
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние после редактирования чата
+ */
+export const reduceEditChat = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.editChat:
-            const payload = action.payload;
+            const payload = action.payload as Chat;
 
-            const index = state.chats?.findIndex((chat: anyObject) => {
-                return chat.id == payload?.id;
+            const index = state.chats?.findIndex((chat) => {
+                return chat.id == payload.id;
             });
 
             if ((index && index !== -1) || index === 0) {
                 state.chats?.splice(index, 1, {
                     ...state.chats[index],
-                    title: payload?.title,
-                    members: payload?.members,
+                    title: payload.title,
+                    members: payload.members,
                 });
+            }
+
+        default:
+            return {
+                ...state,
+            };
+    }
+};
+
+/**
+ * Обрабатывает экшен на открытие найденных чатов
+ * 
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние после удаления чата
+ */
+export const reduceSetSearchedChats = (state: State, action: Action) => {
+    switch (action.type) {
+        case constantsOfActions.setSearchedChats:
+            if (action.payload) {
+                return {
+                    ...state,
+                    ...action.payload,
+                };
             }
         default:
             return {
@@ -116,29 +175,20 @@ export const reduceEditChat = (state: anyObject, action: Action) => {
     }
 };
 
-export const reduceSetSearchedChats = (state: anyObject, action: Action) => {
-    switch (action.type) {
-        case constantsOfActions.setSearchedChats:
-            if (action.payload) {
-                return {
-                    ...state,
-                    ...action.payload
-                };
-            }
-        default:
-            return {
-                ...state,
-            };
-    }
-}
-
-export const reduceDeleteSearchedChats = (state: anyObject, action: Action) => {
+/**
+ * Обрабатывает экшен на удаление найденных чатов
+ * 
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние после удаления чата
+ */
+export const reduceDeleteSearchedChats = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.deleteSearchedChats:
             if (action.payload) {
                 return {
                     ...state,
-                    ...action.payload
+                    ...action.payload,
                 };
             }
         default:
@@ -146,43 +196,93 @@ export const reduceDeleteSearchedChats = (state: anyObject, action: Action) => {
                 ...state,
             };
     }
-}
+};
 
-export const reduceAddUserInChat = (state: anyObject, action: Action) => {
+/**
+ * Обрабатывает экшен на добавление пользователя в чат
+ * 
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние после удаления чата
+ */
+export const reduceAddUserInChat = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.addUserInChat:
-            if (action.payload) {
-                state?.openedChat?.members.push(action.payload);
+            const payload = action.payload as User;
 
-                state.chats.push({
-                    id: state?.openedChat?.id,
-                    title: state?.openedChat?.title,
-                    avatar: state?.openedChat?.avatar,
-                    members: state?.openedChat?.members,
-                    last_message: state?.openedChat?.messages[state?.openedChat?.messages.length - 1],
-                });
+            if (payload) {
+                state?.openedChat?.members.push(payload);
+
+                if (state.openedChat) {
+                    const last_message =
+                        state.openedChat.messages[
+                            state.openedChat.messages.length - 1
+                        ];
+
+                    let last_message_author = {
+                        id: 0,
+                        username: '',
+                        nickname: '',
+                        email: '',
+                        status: '',
+                        avatar: '',
+                    } as User;
+
+                    if (last_message) {
+                        last_message_author =
+                            state.openedChat.members.find((member) => {
+                                member.id === last_message.author_id;
+                            }) ??
+                            ({
+                                id: 0,
+                                username: '',
+                                nickname: '',
+                                email: '',
+                                status: '',
+                                avatar: '',
+                            } as User);
+                    }
+
+                    state.chats?.push({
+                        id: state.openedChat.id,
+                        type: state.openedChat.type,
+                        title: state.openedChat.title,
+                        avatar: state.openedChat.avatar,
+                        members: state.openedChat.members,
+                        last_message,
+                        last_message_author,
+                    });
+                }
             }
         default:
             return {
                 ...state,
-            }
+            };
     }
-}
+};
 
-export const reduceDeleteUserInChat = (state: anyObject, action: Action) => {
+/**
+ * Обрабатывает экшен на добавление пользователя из чата
+ * 
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние после удаления чата
+ */
+export const reduceDeleteUserInChat = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.deleteUserInChat:
-            for (let i = 0; i < state.openedChat.members.length; ++i) {
-                if (state.openedChat.members[i].id === state?.user?.id) {
-                    state.openedChat.members.splice(i, 1);
+            for (let i = 0; i < (state.openedChat?.members.length ?? 0); ++i) {
+                if (state.openedChat?.members[i].id === state.user?.id) {
+                    state.openedChat?.members.splice(i, 1);
                 }
             }
+
             state.chats = state.chats?.filter(
-                (chat: anyObject) => chat.id != state.openedChat?.id
+                (chat: Chat) => chat.id != state.openedChat?.id
             );
         default:
             return {
                 ...state,
-            }
+            };
     }
-}
+};

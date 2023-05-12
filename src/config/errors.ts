@@ -1,4 +1,4 @@
-export const emailErrorTypes : ErrorTypes[] = [
+export const emailErrorTypes: ErrorTypes[] = [
     {
         param: 'emptyEmail',
         class: 'empty-email',
@@ -21,7 +21,7 @@ export const emailErrorTypes : ErrorTypes[] = [
     },
 ];
 
-export const passwordErrorTypes : ErrorTypes[] = [
+export const passwordErrorTypes: ErrorTypes[] = [
     {
         param: 'emptyPassword',
         class: 'empty-password',
@@ -35,24 +35,24 @@ export const passwordErrorTypes : ErrorTypes[] = [
     {
         param: 'incorrectPassword',
         class: 'incorrect-password',
-        message: 'Введен неверный пароль'
-    }
+        message: 'Введен неверный пароль',
+    },
 ];
 
-export const confirmPasswordErrorTypes : ErrorTypes[] = [
+export const confirmPasswordErrorTypes: ErrorTypes[] = [
     {
         param: 'emptyConfirmPassword',
         class: 'empty-confirm-password',
-        message: 'Пароль не может быть пустым',
+        message: 'Подтверждение пароля не может быть пустым',
     },
     {
         param: 'invalidConfirmPassword',
         class: 'invalid-confirm-password',
-        message: 'Подтверждение не равно паролю',
+        message: 'Неверное подтверждение пароля',
     },
 ];
 
-export const newPasswordErrorTypes : ErrorTypes[] = [
+export const newPasswordErrorTypes: ErrorTypes[] = [
     {
         param: 'emptyNewPassword',
         class: 'empty-new-password',
@@ -65,7 +65,7 @@ export const newPasswordErrorTypes : ErrorTypes[] = [
     },
 ];
 
-export const nicknameErrorTypes : ErrorTypes[] = [
+export const nicknameErrorTypes: ErrorTypes[] = [
     {
         param: 'emptyNickname',
         class: 'empty-nickname',
@@ -74,11 +74,11 @@ export const nicknameErrorTypes : ErrorTypes[] = [
     {
         param: 'invalidNickname',
         class: 'invalid-nickname',
-        message: 'Поле должно содержать не менее двух символов'
+        message: 'Никнейм должен быть длиннее двух символов',
     },
 ];
 
-export const usernameErrorTypes : ErrorTypes[] = [
+export const usernameErrorTypes: ErrorTypes[] = [
     {
         param: 'occupiedUsername',
         class: 'occupied-username',
@@ -86,7 +86,7 @@ export const usernameErrorTypes : ErrorTypes[] = [
     },
 ];
 
-export const countingMembersErrorTypes : ErrorTypes[] = [
+export const countingMembersErrorTypes: ErrorTypes[] = [
     {
         param: 'incorrectEmptyCountingMembers',
         class: 'incorrect-emptyCountingMembers',

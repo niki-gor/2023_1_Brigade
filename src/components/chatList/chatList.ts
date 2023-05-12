@@ -1,23 +1,39 @@
-import { Component } from "@/components/component";
-import template from "@components/chatList/chatList.pug";
-import "@components/chatList/chatList.scss"
-import { DumbChatCard } from "@components/chatCard/chatCard";
-import { searchUi } from "@components/search/search";
-import { Dropdown } from "@components/dropdown/dropdown";
+import { Component } from '@framework/component';
+import template from '@components/chatList/chatList.pug';
+import '@components/chatList/chatList.scss';
+import { DumbChatCard } from '@components/chatCard/chatCard';
+import { searchUi } from '@components/search/search';
+import { Dropdown } from '@components/dropdown/dropdown';
 
-export class DumbChatList extends Component {
-    constructor(props: any) {
+interface Props {
+    chats: Chat[];
+}
+
+interface State {
+    isSubscribed: boolean;
+}
+
+export class DumbChatList extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
     }
 
-    getChatList() {
-        let chatsList: string[] = [];
+    componentDidMount(): void {
+        //TODO
+    }
 
-        for (const key in this.props) {
-            const chatCardUI = new DumbChatCard(this.props[key]);
+    componentWillUnmount(): void {
+        //TODO
+    }
+
+    getChatList() {
+        const chatsList: string[] = [];
+
+        this.props?.chats.forEach((chat) => {
+            const chatCardUI = new DumbChatCard({ chat });
 
             chatsList.push(chatCardUI.render());
-        }
+        });
 
         return chatsList;
     }
@@ -26,20 +42,21 @@ export class DumbChatList extends Component {
         return template({
             headChats: 'Чаты',
             dropdown: new Dropdown({
-                icon: "create-btn",
-                list: [{
-                    className: "dropdown-menu__item-group",
-                    value: "Создать группу",
-                },
-                {
-                    className: "dropdown-menu__item-channel",
-                    value: "Создать канал",
-                }
-            ],
+                icon: 'create-btn',
+                list: [
+                    {
+                        className: 'dropdown-menu__item-group',
+                        value: 'Создать группу',
+                    },
+                    {
+                        className: 'dropdown-menu__item-channel',
+                        value: 'Создать канал',
+                    },
+                ],
             }).render(),
             chatInput: new searchUi({
-                inputClassName: "chats__header__input",
-                placeholder: "Поиск"
+                inputClassName: 'chats__header__input',
+                placeholder: 'Поиск',
             }).render(),
             chats: this.getChatList(),
         });

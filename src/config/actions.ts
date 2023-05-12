@@ -28,4 +28,4 @@ export const constantsOfActions = {
     deleteSearchedChats: 'deleteSearchedChats',
     addUserInChat: 'addUserInChat',
     deleteUserInChat: 'deleteUserInChat',
-}
+};
