@@ -9,6 +9,7 @@ import { config } from '@config/api';
 
 /**
  * Отправляет запрос авторизации и обрабатывает ответ
+ * @returns {Promise} - Promise с объектом
  */
 export const auth = () => {
     return get(config.auth)
@@ -41,7 +42,9 @@ export const auth = () => {
 };
 
 /**
- * Отправляет запрос логина и обрабатывает ответ
+ * Логинит пользователя
+ * @param {Record<string, unknown>} body - Тело запроса с данными пользователя
+ * @returns {Promise<{ status: number, body: {} }>} - Промис с объектом, содержащим результат выполнения запроса
  */
 export const login = (body: Record<string, unknown>) => {
     return post(config.login, body)
@@ -75,7 +78,9 @@ export const login = (body: Record<string, unknown>) => {
 };
 
 /**
- * Отправляет запрос регистрации и обрабатывает ответ
+ * Регистрирует нового пользователя
+ * @param {Record<string, unknown>} body - Тело запроса с данными пользователя
+ * @returns {Promise<{ status: number, body: {} }>} - Промис с объектом, содержащим результат выполнения запроса
  */
 export const signUp = (body: Record<string, unknown>) => {
     return post(config.signup, body)
@@ -109,7 +114,8 @@ export const signUp = (body: Record<string, unknown>) => {
 };
 
 /**
- * Отправляет запрос выхода из текущего аккаунта и обрабатывает ответ
+ * Разлогинивает пользователя из системы
+ * @returns {Promise<{ status: number, body: null }>} - Промис с объектом, содержащим результат выполнения запроса
  */
 export const logout = () => {
     return deleteSession(config.logout)
@@ -139,7 +145,9 @@ export const logout = () => {
 };
 
 /**
- * Отправляет запрос обновления пользовательских данных и обрабатывает ответ
+ * Обновляет данные пользователя
+ * @param {Record<string, unknown>} body - Тело запроса
+ * @returns {Promise<{ status: number, body: {} }>} - Промис с объектом, содержащим результат выполнения запроса
  */
 export const updateUser = (body: Record<string, unknown>) => {
     return put(config.updateUser, body)
@@ -175,7 +183,8 @@ export const updateUser = (body: Record<string, unknown>) => {
 };
 
 /**
- * implementation request contacts
+ * Получает контакты
+ * @return {Promise<{status: number, body: object|null}>} - Промис с объектом, содержащим результат выполнения запроса
  */
 export const getContacts = () => {
     return get(config.contacts)
@@ -243,8 +252,11 @@ export const createChat = (body: Record<string, unknown>) => {
             };
         });
 };
+
 /**
- * implementation find contacts by string
+ * Ищет контакты по строке
+ * @param {string} string - Строка для поиска
+ * @return {Promise<{status: number, body: object|null}>} - Promise, результат которого - объект со статусом и телом ответа.
  */
 export const getContactsByString = (string: string) => {
     return get(config.searchContacts + string + '/')
