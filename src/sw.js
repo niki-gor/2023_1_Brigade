@@ -1,11 +1,10 @@
 const CACHE_NAME = 'technogram-cache';
 const urlsToCache = ['/']; //? Добавить ли ../dist
-const cacheWhitelist = []; //? Что у нас можно не обновлять
+const cacheWhitelist = [CACHE_NAME]; //? Что у нас можно не обновлять
 
 const imageRegRex = /.webp|.svg|.jpg|.jpeg|.gif|.png/;
 
 self.addEventListener('install', (event) => {
-    self.skipWaiting(); //? хз нахера
     event.waitUntil(
         caches
             .open(CACHE_NAME)
@@ -17,12 +16,12 @@ self.addEventListener('install', (event) => {
                 console.error('Failed install sw:', err);
             })
     );
+    self.skipWaiting(); //? хз нахера
 });
 
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((cacheNames) => {
-            console.log('Activated cache');
             return Promise.all(
                 cacheNames.map((cacheName) => {
                     if (cacheWhitelist.indexOf(cacheName) === -1) {
@@ -33,7 +32,36 @@ self.addEventListener('activate', (event) => {
         })
     );
     event.waitUntil(self.clients.claim()); //? хз нахера
+
+    // if (self.clients && self.clients.claim) {
+    //     self.clients.claim();
+    // }
+
+    // if (!event.currentTarget.registration.active) {
+    //     return;
+    // }
+
+    // event.waitUntil(
+    //     self.clients.matchAll().then((clients) => {
+    //         if (clients.length === 0) {
+    //             return;
+    //         }
+
+    //         clients.forEach((client) => {
+    //             client.postMessage({
+    //                 type: 'activate',
+    //                 url: event.currentTarget.scope,
+    //             });
+    //         });
+    //     })
+    // );
 });
+
+// self.addEventListener('message', (event) => {
+//     if (event.data.type === 'activate') {
+//         window.location.reload();
+//     }
+// });
 
 self.addEventListener('fetch', (event) => {
     const { request } = event;
