@@ -1,28 +1,27 @@
-import { Container } from "@containers/container";
+import { Component } from '@framework/component';
 
+interface Props {}
 
-export interface SmartError {
-    state: {
-        isSubscribed: boolean,
-        domElements: {
-            backButton: HTMLInputElement | null,
-        }
-    }
+interface State {
+    isSubscribed: boolean;
+    domElements: {
+        backButton: HTMLInputElement | null;
+    };
 }
 
 /**
-* Отрисовывает логин.
-* Прокидывает actions в стору для логина
-* Также подписывается на изменения статуса логина,
-* для корректного рендера ошибки
-*
-*/
-export class SmartError extends Container {
+ * Отрисовывает логин.
+ * Прокидывает actions в стору для логина
+ * Также подписывается на изменения статуса логина,
+ * для корректного рендера ошибки
+ *
+ */
+export class SmartError extends Component<Props, State> {
     /**
      * Cохраняет props
      * @param {Object} props - параметры компонента
      */
-    constructor(props :componentProps) {
+    constructor(props: Record<string, unknown>) {
         super(props);
 
         this.state = {
@@ -38,7 +37,6 @@ export class SmartError extends Container {
      */
     render() {
         if (this.state.isSubscribed) {
-            
         }
     }
 
@@ -47,13 +45,14 @@ export class SmartError extends Container {
      */
     componentDidMount() {
         if (!this.state.isSubscribed) {
-            // this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: componentProps) => {
-            //     this.props = pr;
+            // this.unsubscribe.push(store.subscribe(this.constructor.name, (props: Record<string, unknown>) => {
+            //     this.props = props;
 
             //     this.render();
             // }));
-
-            this.state.isSubscribed = true;
+            if (this.state.isSubscribed === false) {
+                this.state.isSubscribed = true;
+            }
         }
     }
 
@@ -62,7 +61,7 @@ export class SmartError extends Container {
      */
     componentWillUnmount() {
         if (this.state.isSubscribed) {
-            this.unsubscribe.forEach((uns) => uns());
+            this.unsubscribe();
             this.state.isSubscribed = false;
         }
     }

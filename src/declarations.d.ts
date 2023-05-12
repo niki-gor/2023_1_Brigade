@@ -1,63 +1,129 @@
-declare module "*.pug" {
-    const _: Function;
+declare module '*.pug' {
+    const _: (any) => string;
     export default _;
-};
+}
 
-declare module "*.svg" {
+declare module '*.svg' {
     const _: string;
     export default _;
-};
+}
 
-interface anyObject {
-    [key: string]: any,
-};
-
-interface componentProps extends anyObject {
-    rootNode: HTMLElement | null,
-};
-
-interface Action extends anyObject { 
-    type: string,
-    payload: anyObject | null | undefined,
+interface Action {
+    type: string;
+    payload:
+        | User
+        | User[]
+        | Chat
+        | Chat[]
+        | OpenedChat
+        | Message
+        | Record<string, boolean>
+        | null
+        | undefined
+        | {
+              id: number;
+              type: ChatTypes;
+              title: string;
+              members: (number | undefined)[];
+          }
+        | Record<string, unknown>;
 }
 
 interface AsyncAction {
-    (dispatch: (action: Action | AsyncAction ) => void, state: Function) : Promise<void>,
+    (dispatch: Dispatch, state: GetState): Promise<void>;
 }
 
-interface Response extends anyObject {
-    status: number,
-    body: anyObject | null | undefined,
-};
+interface Response {
+    status: number;
+    body: Record<string, unknown> | null | undefined;
+}
 
 interface Reducer {
-    (state: anyObject, action: Action) : anyObject,
+    (state: State, action: Action): State;
+}
+
+interface GetState {
+    (): State;
+}
+
+interface Callback {
+    (props: State): void;
 }
 
 interface CreateStore {
-    (reducers: Map<string, Reducer>) : {
-        getState: () => anyObject,
-        dispatch: (action: Action) => void,
-        subscribe: (key: string, cb: (pr: componentProps) => void) => () => void,
-    }
+    (reducers: Map<string, Reducer>): Store;
 }
 
 interface Store {
-    getState: () => anyObject,
-    dispatch: (action: Action) => void,
-    subscribe: (key: string, cb: (pr: componentProps) => void) => () => void,
+    getState: GetState;
+    dispatch: Dispatch;
+    subscribe: (key: string, cb: Callback) => () => void;
 }
 
 interface Middleware {
-    (store: any) : (dispatch: any) => (action: any) => any,
+    (store: Store): (
+        dispatch: Dispatch
+    ) => (action: Action | AsyncAction) => void;
 }
 
 interface Dispatch {
-    (action: Action | AsyncAction) : void,
+    (action: Action): void;
 }
 
 interface ErrorTypes {
-    param: string,
-    class: string,
-    message: string,
+    param: string;
+    class: string;
+    message: string;
+}
+
+interface State {
+    user?: User;
+    chats?: Chat[];
+    contacts?: User[];
+    openedChat?: OpenedChat;
+
+    // Флаги, которые могут установиться на ответ от сервера
+    invalidEmail?: boolean;
+    occupiedEmail?: boolean;
+    occupiedUsername?: boolean;
+    incorrectPassword?: boolean;
+}
+
+interface User {
+    id: number;
+    username: string;
+    nickname: string;
+    email: string;
+    status: string;
+    avatar: string;
+}
+
+interface Chat {
+    id: number;
+    type: number;
+    title: string;
+    avatar: string;
+    members: User[];
+    last_message: Message;
+    last_message_author: User;
+}
+
+interface OpenedChat {
+    id: number;
+    master_id: number;
+    type: number;
+    title: string;
+    avatar: string;
+    description: string;
+    members: User[];
+    messages: Message[];
+    isNotRendered: boolean;
+}
+
+interface Message {
+    id: string;
+    type: MessageTypes;
+    body: string;
+    chat_id: number;
+    author_id: number;
 }

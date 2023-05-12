@@ -1,16 +1,31 @@
-import { Component } from "@/components/component";
-import template from "@components/channelInput/channelInput.pug";
-import "@components/channelInput/channelInput.scss";
+import { Component } from '@framework/component';
+import template from '@components/channelInput/channelInput.pug';
+import '@components/channelInput/channelInput.scss';
 
-export class ChannelInput extends Component {
-    constructor(props: any) {
+interface Props {
+    inputCaption: string;
+    inputPlaceholder: string;
+}
+
+interface State {}
+
+export class ChannelInput extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
+    }
+
+    componentDidMount(): void {
+        //
+    }
+
+    componentWillUnmount(): void {
+        //
     }
 
     render() {
         return template({
-           Caption: this.props.inputCaptioin,
-           Placeholder: this.props.inputPlaceholder,
+            Caption: this.props.inputCaption,
+            Placeholder: this.props.inputPlaceholder,
         });
     }
 }

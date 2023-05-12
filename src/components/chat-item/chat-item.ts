@@ -1,11 +1,29 @@
-import { Component } from "@/components/component";
-import { store } from "@/store/store";
-import template from "@components/chat-item/chat-item.pug";
-import "@components/chat-item/chat-item.scss";
-import { smallEllipseIconUI } from "@components/ui/small-ellipse-icon/small-ellipse-icon";
+import { Component } from '@framework/component';
+import { store } from '@/store/store';
+import template from '@components/chat-item/chat-item.pug';
+import '@components/chat-item/chat-item.scss';
+import { smallEllipseIconUI } from '@components/ui/small-ellipse-icon/small-ellipse-icon';
 
-export class ChatItem extends Component {
-    constructor(props: any) {
+interface Props {
+    user?: User; //TODO: убрать
+    parent?: HTMLElement;
+    onClick?: (e: Event) => void;
+    chat?: Chat;
+    observe?: string[];
+    isCurrent?: boolean;
+}
+
+interface State {
+    isSubscribed: boolean;
+    parent?: HTMLElement;
+    node: HTMLElement | undefined;
+    onClick?: (e: Event) => void;
+    chatId?: number;
+    observe?: string[];
+}
+
+export class ChatItem extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -13,40 +31,46 @@ export class ChatItem extends Component {
             node: undefined,
             isSubscribed: false,
             onClick: this.props.onClick,
-            chatId: this.props.chat.id,
-            observe: this.props.observe
-        }
+            chatId: this.props.chat?.id,
+            observe: this.props.observe,
+        };
 
         this.unsubscribe = () => {};
+        this.update.bind(this);
     }
 
     componentDidMount() {
         if (!this.state.isSubscribed) {
-            this.state.node = this.render();
+            this.state.node = this.render() as HTMLElement;
             if (this.props.isCurrent) {
                 this.state.node.classList.add('is_current');
             }
             this.state.node.addEventListener('click', (e: Event) => {
-                this.state.onClick(e);
+                this.state.onClick?.(e);
             });
 
-            this.unsubscribe = store.subscribe(this.constructor.name + `:${this.state.chatId}`, (props: anyObject) => {
-                let prop = props;
-                this.state.observe.forEach((item: string) => {
-                    prop = prop[item];
-                })
-                const index = prop.findIndex((chat: { id: number }) => {
-                    return chat?.id === this.state?.chatId;
-                })
+            this.unsubscribe = store.subscribe(
+                this.constructor.name + `:${this.state.chatId}`,
+                (props: Props) => {
+                    let prop = props;
+                    this.state.observe?.forEach((item: string) => {
+                        prop = prop[item as keyof Props] as Props;
+                    });
 
-                if (this.props.chat != prop[index]) {
-                    this.props.chat = prop[index];
+                    const chats = prop as Chat[];
+                    const index = chats.findIndex((chat: { id: number }) => {
+                        return chat?.id === this.state.chatId;
+                    });
 
-                    this.update();
+                    if (this.props.chat != chats[index]) {
+                        this.props.chat = chats[index];
+
+                        this.update();
+                    }
                 }
-            })
+            );
 
-            this.state.parent.appendChild(this.state.node);
+            this.state.parent?.appendChild(this.state.node);
             this.state.isSubscribed = true;
         }
     }
@@ -54,29 +78,32 @@ export class ChatItem extends Component {
     componentWillUnmount() {
         if (this.state.isSubscribed) {
             this.unsubscribe();
-            this.state.node.remove();
+            this.state.node?.remove();
             this.state.isSubscribed = false;
         }
     }
 
     update() {
-        const updatedNode = this.render();
+        const updatedNode = this.render() as HTMLElement;
         if (this.props.isCurrent) {
-            this.state.node.classList.add('is_current');
+            this.state.node?.classList.add('is_current');
         }
-        this.state.node.replaceWith(updatedNode);
+        this.state.node?.replaceWith(updatedNode);
         this.state.node = updatedNode;
     }
 
     render() {
-        return new DOMParser().parseFromString(template({
-            avatar: smallEllipseIconUI.renderTemplate({
-                imgSrc: this.props.chat?.avatar,
-                altMsg: this.props.chat?.title,
+        return new DOMParser().parseFromString(
+            template({
+                avatar: smallEllipseIconUI.renderTemplate({
+                    imgSrc: this.props.chat?.avatar ?? '',
+                    altMsg: this.props.chat?.title ?? '',
+                }),
+                title: this.props.chat?.title,
+                lastMessage: this.props.chat?.last_message?.body ?? '',
+                id: this.props.chat?.id ? this.props.chat.id - 1 : 0,
             }),
-            title: this.props.chat?.title,
-            lastMessage: this.props.chat?.last_message?.body ?? '',
-            id: this.props.chat?.id - 1,
-        }), 'text/html').body.firstChild;
+            'text/html'
+        ).body.firstChild;
     }
 }

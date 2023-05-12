@@ -1,44 +1,64 @@
-import { Container } from "@containers/container";
-import { DumbProfile } from "@/components/profile/profile";
-import { checkPassword, checkNickname, addErrorToClass, checkNewPassword } from "@/utils/validator";
-import { store } from "@/store/store";
-import { passwordErrorTypes, usernameErrorTypes, nicknameErrorTypes, newPasswordErrorTypes } from "@/config/errors";
-import { createUpdateUserAction, createUpdateUserAvatarAction } from "@/actions/userActions";
-import { createRenderAction } from "@/actions/routeActions";
-import { DYNAMIC } from "@/config/config";
+import { Component } from '@framework/component';
+import { DumbProfile } from '@components/profile/profile';
+import {
+    checkPassword,
+    checkNickname,
+    addErrorToClass,
+    checkNewPassword,
+} from '@utils/validator';
+import { store } from '@store/store';
+import {
+    passwordErrorTypes,
+    usernameErrorTypes,
+    nicknameErrorTypes,
+    newPasswordErrorTypes,
+} from '@config/errors';
+import {
+    createIncorrectPasswordAction,
+    createOccupiedUsernameAction,
+    createUpdateUserAction,
+    createUpdateUserAvatarAction,
+} from '@actions/userActions';
+import { createRenderAction } from '@actions/routeActions';
+import { DYNAMIC } from '@config/config';
 
-export interface SmartProfile {
-    state: {
-        isSubscribed: boolean,
-        valid: {
-            currentPasswordIsValid: boolean,
-            newPasswordIsValid: boolean,
-            nicknameIsValid: boolean,
-            isValid: () => boolean,
-        },
-        domElements: {
-            avatar: HTMLInputElement | null,
-            username: HTMLInputElement | null,
-            nickname: HTMLInputElement | null,
-            status: HTMLInputElement | null,
-            current_password: HTMLInputElement | null,
-            new_password: HTMLInputElement | null,
-            saveButton: HTMLInputElement | null,
-        }
-    }
+interface Props {
+    user?: User;
+    occupiedUsername?: boolean;
+    incorrectPassword?: boolean;
+}
+
+interface State {
+    isSubscribed: boolean;
+    valid: {
+        currentPasswordIsValid: boolean;
+        newPasswordIsValid: boolean;
+        nicknameIsValid: boolean;
+        isValid: () => boolean | undefined;
+    };
+    domElements: {
+        avatar: HTMLInputElement | null;
+        username: HTMLInputElement | null;
+        nickname: HTMLInputElement | null;
+        status: HTMLInputElement | null;
+        current_password: HTMLInputElement | null;
+        new_password: HTMLInputElement | null;
+        saveButton: HTMLInputElement | null;
+    };
 }
 
 /**
-* Отрисовывает страницу пользователя.
-* Прокидывает actions в стору для изменения данных о пользователе
-*/
-export class SmartProfile extends Container {
+ * Отрисовывает страницу пользователя.
+ * Прокидывает actions в стору для изменения данных о пользователе
+ */
+export class SmartProfile extends Component<Props, State> {
     /**
      * Cохраняет props
      * @param {Object} props - параметры компонента
      */
-    constructor(props :componentProps) {
+    constructor(props: Props) {
         super(props);
+
         this.state = {
             isSubscribed: false,
             valid: {
@@ -46,10 +66,12 @@ export class SmartProfile extends Container {
                 newPasswordIsValid: false,
                 nicknameIsValid: true,
                 isValid: () => {
-                    return this.state.valid.currentPasswordIsValid &&
-                           this.state.valid.newPasswordIsValid &&
-                           this.state.valid.nicknameIsValid;
-                }
+                    return (
+                        this.state.valid.currentPasswordIsValid &&
+                        this.state.valid.newPasswordIsValid &&
+                        this.state.valid.nicknameIsValid
+                    );
+                },
             },
             domElements: {
                 avatar: null,
@@ -59,66 +81,86 @@ export class SmartProfile extends Container {
                 current_password: null,
                 new_password: null,
                 saveButton: null,
-            }
+            },
         };
 
-        this.rootNode = DYNAMIC;
+        this.node = DYNAMIC;
     }
 
-    #image:    File | undefined;
+    #image: File | undefined;
 
     /**
      * Рендерит логин
      */
     render() {
-        if (this.state.isSubscribed && this.props.user) {
+        if (this.state.isSubscribed && this.props?.user) {
             const ProfileUI = new DumbProfile({
-                ...this.props,
+                user: this.props?.user,
             });
 
-            this.rootNode.innerHTML = ProfileUI.render();
+            if (this.node) {
+                this.node.innerHTML = ProfileUI.render();
+            }
 
-            this.state.domElements.avatar = document.querySelector('.profile__avatar'); // ellipse-icon
+            this.state.domElements.avatar =
+                document.querySelector('.profile__avatar'); // ellipse-icon
             this.state.domElements.avatar?.addEventListener('click', () => {
-                this.handleClickAvatar()
+                this.handleClickAvatar();
             });
 
-            this.state.domElements.saveButton = document.querySelector('.button-save');
-            this.state.domElements.saveButton?.addEventListener('click', (e) => {
-                e.preventDefault();
+            this.state.domElements.saveButton =
+                document.querySelector('.button-save');
+            this.state.domElements.saveButton?.addEventListener(
+                'click',
+                (e) => {
+                    e.preventDefault();
 
-                this.handleClickSave();
-            });
+                    this.handleClickSave();
+                }
+            );
 
-            this.state.domElements.current_password = document.querySelector('.current-password');
-            this.state.domElements.current_password?.addEventListener('input', (e) => {
-                e.preventDefault();
+            this.state.domElements.current_password =
+                document.querySelector('.current-password');
+            this.state.domElements.current_password?.addEventListener(
+                'input',
+                (e) => {
+                    e.preventDefault();
 
-                this.validateCurrentPassword();
-            });
+                    this.validateCurrentPassword();
+                }
+            );
 
-            this.state.domElements.new_password = document.querySelector('.new-password');
-            this.state.domElements.new_password?.addEventListener('input', (e) => {
-                e.preventDefault();
+            this.state.domElements.new_password =
+                document.querySelector('.new-password');
+            this.state.domElements.new_password?.addEventListener(
+                'input',
+                (e) => {
+                    e.preventDefault();
 
-                this.validateNewPassword();
-            });
+                    this.validateNewPassword();
+                }
+            );
 
-            this.state.domElements.nickname = document.querySelector('.nickname');
+            this.state.domElements.nickname =
+                document.querySelector('.nickname');
             this.state.domElements.nickname?.addEventListener('input', (e) => {
                 e.preventDefault();
 
                 this.validateNickname();
             });
 
-            this.state.domElements.username = document.querySelector('.username');
+            this.state.domElements.username =
+                document.querySelector('.username');
             this.state.domElements.username?.addEventListener('input', (e) => {
                 e.preventDefault();
 
                 if (this.state.domElements.username?.value) {
-                    if (this.state.domElements.username?.value.charAt(0) !== '@') {
-                        this.state.domElements.username.value = '@' + this.state.domElements.username.value;
-                    }     
+                    if (
+                        this.state.domElements.username?.value.charAt(0) !== '@'
+                    ) {
+                        this.state.domElements.username.value =
+                            '@' + this.state.domElements.username.value;
+                    }
                 }
 
                 this.validateUsername();
@@ -135,6 +177,7 @@ export class SmartProfile extends Container {
         if (this.state.isSubscribed && this.props?.occupiedUsername) {
             this.state.domElements.username?.classList.add('data-input--error');
             addErrorToClass('occupied-username', usernameErrorTypes);
+            store.dispatch(createOccupiedUsernameAction(false));
         }
     }
 
@@ -143,14 +186,19 @@ export class SmartProfile extends Container {
      */
     componentDidMount() {
         if (!this.state.isSubscribed) {
-            this.unsubscribe.push(store.subscribe(this.constructor.name, (pr: componentProps) => {
-                this.props = pr;
+            this.unsubscribe = store.subscribe(
+                this.constructor.name,
+                (props: Props) => {
+                    this.props = props;
 
-                this.render();
-                this.occupiedUsername();
-            }));
+                    this.render();
+                    this.occupiedUsername();
+                }
+            );
 
-            this.state.isSubscribed = true;
+            if (this.state.isSubscribed === false) {
+                this.state.isSubscribed = true;
+            }
 
             store.dispatch(createRenderAction());
         }
@@ -161,7 +209,7 @@ export class SmartProfile extends Container {
      */
     componentWillUnmount() {
         if (this.state.isSubscribed) {
-            this.unsubscribe.forEach((uns) => uns());
+            this.unsubscribe();
             this.state.isSubscribed = false;
         }
     }
@@ -181,7 +229,9 @@ export class SmartProfile extends Container {
                 reader.readAsDataURL(this.#image);
                 reader.onload = () => {
                     const imageUrl = reader.result;
-                    const avatar = document.querySelector('.profile__avatar') as HTMLImageElement;
+                    const avatar = document.querySelector(
+                        '.profile__avatar'
+                    ) as HTMLImageElement;
                     avatar.src = imageUrl as string;
                 };
             }
@@ -199,9 +249,10 @@ export class SmartProfile extends Container {
                 username: this.state.domElements.username?.value.slice(1),
                 nickname: this.state.domElements.nickname?.value,
                 status: this.state.domElements.status?.value,
-                current_password: this.state.domElements.current_password?.value,
+                current_password:
+                    this.state.domElements.current_password?.value,
                 new_password: this.state.domElements.new_password?.value,
-            } as anyObject;
+            } as Record<string, unknown>;
 
             store.dispatch(createUpdateUserAction(user));
             store.dispatch(createUpdateUserAvatarAction(this.#image));
@@ -217,25 +268,38 @@ export class SmartProfile extends Container {
      * Проверяет пользовательский ввод текущего пароля
      */
     validateCurrentPassword() {
-        this.state.domElements.current_password?.classList.remove('data-input--error');
+        this.state.domElements.current_password?.classList.remove(
+            'data-input--error'
+        );
         addErrorToClass('', passwordErrorTypes);
 
-        const { isError, errorClass } = checkPassword(this.state.domElements.current_password?.value ?? '');
+        const { isError, errorClass } = checkPassword(
+            this.state.domElements.current_password?.value ?? ''
+        );
 
         if (isError) {
-            this.state.domElements.current_password?.classList.add('data-input--error');
+            this.state.domElements.current_password?.classList.add(
+                'data-input--error'
+            );
             addErrorToClass(errorClass, passwordErrorTypes);
-            this.state.valid.currentPasswordIsValid = false;
+            if (this.state.valid.currentPasswordIsValid) {
+                this.state.valid.currentPasswordIsValid = false;
+            }
             return;
         }
 
-        this.state.valid.currentPasswordIsValid = true;
+        if (this.state.valid.currentPasswordIsValid === false) {
+            this.state.valid.currentPasswordIsValid = true;
+        }
     }
 
     incorrectPassword() {
         if (this.state.isSubscribed && this.props?.incorrectPassword) {
-            this.state.domElements.current_password?.classList.add('data-input--error');
+            this.state.domElements.current_password?.classList.add(
+                'data-input--error'
+            );
             addErrorToClass('incorrect-password', passwordErrorTypes);
+            store.dispatch(createIncorrectPasswordAction(false));
         }
     }
 
@@ -243,19 +307,29 @@ export class SmartProfile extends Container {
      * Проверяет пользовательский ввод нового пароля
      */
     validateNewPassword() {
-        this.state.domElements.new_password?.classList.remove('data-input--error');
+        this.state.domElements.new_password?.classList.remove(
+            'data-input--error'
+        );
         addErrorToClass('', newPasswordErrorTypes);
 
-        const { isError, errorClass } = checkNewPassword(this.state.domElements.new_password?.value ?? '');
-        // console.log(isError)
+        const { isError, errorClass } = checkNewPassword(
+            this.state.domElements.new_password?.value ?? ''
+        );
+
         if (isError) {
-            this.state.domElements.new_password?.classList.add('data-input--error');
+            this.state.domElements.new_password?.classList.add(
+                'data-input--error'
+            );
             addErrorToClass(errorClass, newPasswordErrorTypes);
-            this.state.valid.newPasswordIsValid = false;
+            if (this.state.valid.newPasswordIsValid) {
+                this.state.valid.newPasswordIsValid = false;
+            }
             return;
         }
 
-        this.state.valid.newPasswordIsValid = true;
+        if (this.state.valid.newPasswordIsValid === false) {
+            this.state.valid.newPasswordIsValid = true;
+        }
     }
 
     /**
@@ -265,16 +339,22 @@ export class SmartProfile extends Container {
         this.state.domElements.nickname?.classList.remove('data-input--error');
         addErrorToClass('', nicknameErrorTypes);
 
-        const { isError, errorClass } = checkNickname(this.state.domElements.nickname?.value ?? '');
+        const { isError, errorClass } = checkNickname(
+            this.state.domElements.nickname?.value ?? ''
+        );
 
         if (isError) {
             this.state.domElements.nickname?.classList.add('data-input--error');
             addErrorToClass(errorClass, nicknameErrorTypes);
-            this.state.valid.nicknameIsValid = false;
+            if (this.state.valid.nicknameIsValid) {
+                this.state.valid.nicknameIsValid = false;
+            }
             return;
         }
 
-        this.state.valid.nicknameIsValid = true;
+        if (this.state.valid.nicknameIsValid === false) {
+            this.state.valid.nicknameIsValid = true;
+        }
     }
 
     validateUsername() {

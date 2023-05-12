@@ -1,28 +1,40 @@
-import { Component } from "@components/component";
-import template from "@components/group/group.pug"
-import { DumbContact } from "@/components/contact/contact";
-import "@components/group/group.scss"
-import "@components/createGroup/createGroup.scss"
-import { dataInputUI } from "@components/ui/data-input/data-input";
-import { blueButtonUI } from "@components/ui/blue-button/blue-button";
+import { Component } from '@framework/component';
+import template from '@components/group/group.pug';
+import { DumbContact } from '@components/contact/contact';
+import '@components/group/group.scss';
+import '@components/createGroup/createGroup.scss';
+import { dataInputUI } from '@components/ui/data-input/data-input';
+import { blueButtonUI } from '@components/ui/blue-button/blue-button';
 
-export class DumbAddContactInGroup extends Component {
-    constructor(props: any) {
+interface Props {
+    groupName?: string;
+    contactList?: User[];
+}
+
+interface State {
+    isSubscribed: boolean;
+}
+
+export class DumbAddContactInGroup extends Component<Props, State> {
+    constructor(props: Props) {
         super(props);
     }
 
     getContactList() {
-        const contacts: DumbContact[] = [];
-        for (const contact in this.props?.contactList) {
-            contacts.push(new DumbContact({
-                avatar: this.props?.contactList[contact].avatar,
-                nickname: this.props?.contactList[contact].nickname,
-                status: this.props?.contactList[contact].status,
-                id: this.props?.contactList[contact].id,
-            }).render());
-        }
+        const contacts: string[] = [];
+        this.props?.contactList?.forEach((contact) => {
+            contacts.push(new DumbContact({ contact }).render());
+        });
 
         return contacts;
+    }
+
+    componentDidMount(): void {
+        //TODO
+    }
+
+    componentWillUnmount(): void {
+        //TODO
     }
 
     render() {
@@ -38,8 +50,8 @@ export class DumbAddContactInGroup extends Component {
                 className: 'button-submit',
                 buttonValue: 'Сохранить изменения',
             }),
-            Contacts:  this.getContactList(),
+            Contacts: this.getContactList(),
             GroupMembersHeader: 'Контакты',
-        })
+        });
     }
 }
