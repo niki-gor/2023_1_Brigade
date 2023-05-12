@@ -117,6 +117,11 @@ export class SmartContacts extends Component<Props, State> {
         }
     }
 
+    /**
+     * Обработчик клика на контакте
+     * @param {HTMLElement} contact - контакт, на который был клик
+     * @returns {void}
+     */
     handleClickCreateDialog(contact: HTMLElement) {
         if (contact.classList.contains('contact')) {
             const contactStringId = contact.getAttribute('name');

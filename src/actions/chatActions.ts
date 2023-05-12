@@ -15,6 +15,10 @@ import {
     createMoveToChatsAction,
 } from '@actions/routeActions';
 
+/**
+ * Создает экшен "isNotRendered".
+ * @returns {{ type: string, payload: null }} - Экшен
+ */
 export const createIsNotRenderedAction = () => {
     return {
         type: constantsOfActions.isNotRendered,
@@ -22,6 +26,11 @@ export const createIsNotRenderedAction = () => {
     };
 };
 
+/**
+ * Создает экшен "openChat".
+ * @param {Chat} chat - Чат, который нужно открыть.
+ * @returns {{ type: string, payload: Object }} - Экшен
+ */
 export const createOpenChatAction = (chat: Chat) => {
     return {
         type: constantsOfActions.openChat,
@@ -29,6 +38,11 @@ export const createOpenChatAction = (chat: Chat) => {
     };
 };
 
+/**
+ * Создает экшен "addChat".
+ * @param {Chat} chat - Чат, который нужно добавить.
+ * @returns {{ type: string, payload: Object }} - Экшен
+ */
 export const createAddChatAction = (chat: Chat) => {
     return {
         type: constantsOfActions.addChat,
@@ -36,6 +50,11 @@ export const createAddChatAction = (chat: Chat) => {
     };
 };
 
+/**
+ * Создает экшен "setChats".
+ * @param {Chat} chat - Список чатов, которые нужно установить.
+ * @returns {{ type: string, payload: Object }} - Экшен
+ */
 export const createSetChatsAction = (chat: Chat) => {
     return {
         type: constantsOfActions.setChats,
@@ -43,6 +62,11 @@ export const createSetChatsAction = (chat: Chat) => {
     };
 };
 
+/**
+ * Создает экшен "getOneChat".
+ * @param {Record<string, number>} chat - Чат, который нужно получить.
+ * @returns {function} - Функция, которая делает запрос и возвращает промис с результатом.
+ */
 export const createGetOneChatAction = (chat: Record<string, number>) => {
     return async (dispatch: Dispatch) => {
         const { status, body } = await getOneChat(chat);
@@ -70,6 +94,10 @@ export const createGetOneChatAction = (chat: Record<string, number>) => {
     };
 };
 
+/**
+ * Создает экшен "getChats".
+ * @returns {function} - Функция, которая делает запрос и возвращает промис с результатом.
+ */
 export const createGetChatsAction = () => {
     return async (dispatch: Dispatch) => {
         const { status, body } = await getChats();
@@ -94,6 +122,10 @@ export const createGetChatsAction = () => {
     };
 };
 
+/**
+ * Создает экшен "createDialog".
+ * @returns {function} - Функция, которая делает запрос и возвращает промис с результатом.
+ */
 export const createCreateDialogAction = (contact: User) => {
     return async (dispatch: Dispatch, state: GetState) => {
         state().chats?.forEach((chat) => {
@@ -135,9 +167,8 @@ export const createCreateDialogAction = (contact: User) => {
 };
 
 /**
- *
- * @param chatId - id удаляемого чата
- * @returns
+ * Создает экшен "deleteChat".
+ * @returns {{ type: string, payload: Object }} - Экшен
  */
 export const createDeleteChatFromStoreAction = (chat: Chat) => {
     return {
@@ -146,6 +177,10 @@ export const createDeleteChatFromStoreAction = (chat: Chat) => {
     };
 };
 
+/**
+ * Создает экшен "deleteChat", который з
+ * @returns {function} - Функция, которая делает запрос и возвращает промис с результатом.
+ */
 export const createDeleteChatAction = (deletedChatId: number | undefined) => {
     return async (dispatch: Dispatch, state: GetState) => {
         if (!deletedChatId) {
@@ -180,7 +215,10 @@ export const createDeleteChatAction = (deletedChatId: number | undefined) => {
     };
 };
 
-// Нажимаем на кнопку save changes
+/**
+ * Создает экшен "editChat".
+ * @returns {{ type: string, payload: Object }} - Экшен
+ */
 export const createEditChatFromStoreAction = (updateGroupState: {
     id: number;
     type: ChatTypes;
@@ -193,6 +231,10 @@ export const createEditChatFromStoreAction = (updateGroupState: {
     };
 };
 
+/**
+ * Создает экшен "editChat"
+ * @returns {function} - Функция, которая делает запрос и возвращает промис с результатом.
+ */
 export const createEditChatAction = (updateGroupState: {
     id: number;
     type: ChatTypes;
@@ -232,6 +274,10 @@ export const createEditChatAction = (updateGroupState: {
     };
 };
 
+/**
+ * Создает экшен "createChannel".
+ * @returns {function} - Функция, которая делает запрос и возвращает промис с результатом.
+ */
 export const createCreateChannelAction = (channel: Record<string, unknown>) => {
     return async (dispatch: (action: Action) => void) => {
         const { status, body } = await createChat(channel);
@@ -256,6 +302,10 @@ export const createCreateChannelAction = (channel: Record<string, unknown>) => {
     };
 };
 
+/**
+ * Создает экшен "searchChats".
+ * @returns {function} - Функция, которая делает запрос и возвращает промис с результатом.
+ */
 export const createSearchChatsAction = (str: string) => {
     return async (dispatch: (action: Action) => void) => {
         const { status, body } = await searchChats(str);
@@ -279,6 +329,10 @@ export const createSearchChatsAction = (str: string) => {
     };
 };
 
+/**
+ * Создает экшен "setSearchedChats".
+ * @returns {function} - Функция, которая делает запрос и возвращает промис с результатом.
+ */
 export const createSetSearchedChatsAction = (body: Record<string, unknown>) => {
     return {
         type: constantsOfActions.setSearchedChats,
@@ -286,6 +340,10 @@ export const createSetSearchedChatsAction = (body: Record<string, unknown>) => {
     };
 };
 
+/**
+ * Создает экшен "deleteSearchedChats".
+ * @returns {function} - Функция, которая делает запрос и возвращает промис с результатом.
+ */
 export const createDeleteSearchedChatsAction = () => {
     return {
         type: constantsOfActions.deleteSearchedChats,
@@ -298,6 +356,10 @@ export const createDeleteSearchedChatsAction = () => {
     };
 };
 
+/**
+ * Создает экшен "addUserInChat".
+ * @returns {function} - Функция, которая делает запрос и возвращает промис с результатом.
+ */
 export const createAddUserInChat = (user: User) => {
     return {
         type: constantsOfActions.addUserInChat,
@@ -305,6 +367,10 @@ export const createAddUserInChat = (user: User) => {
     };
 };
 
+/**
+ * Создает экшен "deleteUserInChat".
+ * @returns {function} - Функция, которая делает запрос и возвращает промис с результатом.
+ */
 export const createDeleteUserInChat = () => {
     return {
         type: constantsOfActions.deleteUserInChat,

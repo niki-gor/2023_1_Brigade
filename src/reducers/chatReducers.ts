@@ -1,5 +1,12 @@
 import { constantsOfActions } from '@config/actions';
 
+/**
+ * Обрабатывает экшен на установку флага isNotRendered в false
+ *
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние
+ */
 export const reduceIsNotRendered = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.isNotRendered:
@@ -17,6 +24,13 @@ export const reduceIsNotRendered = (state: State, action: Action) => {
     }
 };
 
+/**
+ * Обрабатывает экшен на добавление нового чата
+ *
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние после добавления нового чата
+ */
 export const reduceAddChat = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.addChat:
@@ -38,6 +52,13 @@ export const reduceAddChat = (state: State, action: Action) => {
     }
 };
 
+/**
+ * Обрабатывает экшен на установку значения chats в State
+ *
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние
+ */
 export const reduceSetChats = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.setChats:
@@ -52,6 +73,13 @@ export const reduceSetChats = (state: State, action: Action) => {
     }
 };
 
+/**
+ * Обрабатывает экшен на открытие нового чата
+ *
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние после открытия нового чата
+ */
 export const reduceOpenChat = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.openChat:
@@ -69,6 +97,13 @@ export const reduceOpenChat = (state: State, action: Action) => {
     }
 };
 
+/**
+ * Обрабатывает экшен на удаление чата из State
+ *
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние после удаления чата
+ */
 export const reduceDeleteChat = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.deleteChat:
@@ -86,7 +121,13 @@ export const reduceDeleteChat = (state: State, action: Action) => {
     }
 };
 
-// reducer вызывается при сохранения изменений в chat-е
+/**
+ * Обрабатывает экшен на редактирование чата в State
+ * reducer вызывается при сохранения изменений в chat-е
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние после редактирования чата
+ */
 export const reduceEditChat = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.editChat:
@@ -111,6 +152,13 @@ export const reduceEditChat = (state: State, action: Action) => {
     }
 };
 
+/**
+ * Обрабатывает экшен на открытие найденных чатов
+ * 
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние после удаления чата
+ */
 export const reduceSetSearchedChats = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.setSearchedChats:
@@ -127,6 +175,13 @@ export const reduceSetSearchedChats = (state: State, action: Action) => {
     }
 };
 
+/**
+ * Обрабатывает экшен на удаление найденных чатов
+ * 
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние после удаления чата
+ */
 export const reduceDeleteSearchedChats = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.deleteSearchedChats:
@@ -143,6 +198,13 @@ export const reduceDeleteSearchedChats = (state: State, action: Action) => {
     }
 };
 
+/**
+ * Обрабатывает экшен на добавление пользователя в чат
+ * 
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние после удаления чата
+ */
 export const reduceAddUserInChat = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.addUserInChat:
@@ -199,6 +261,13 @@ export const reduceAddUserInChat = (state: State, action: Action) => {
     }
 };
 
+/**
+ * Обрабатывает экшен на добавление пользователя из чата
+ * 
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние после удаления чата
+ */
 export const reduceDeleteUserInChat = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.deleteUserInChat:
