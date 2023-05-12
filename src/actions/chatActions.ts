@@ -62,6 +62,7 @@ export const createGetOneChatAction = (chat: Record<string, number>) => {
             case 500:
             // TODO: отрендерить ошибку
             case 0:
+                console.log(body);
             // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
             default:
             // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже

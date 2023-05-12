@@ -1,22 +1,21 @@
 const CACHE_NAME = 'technogram-cache';
-const urlsToCache = ['/']; //? Добавить ли ../dist
-const cacheWhitelist = [CACHE_NAME]; //? Что у нас можно не обновлять
+const URLS_TO_CACHE = ['/']; //? Добавить ли ../dist
+const CACHE_WHITE_LIST = [CACHE_NAME]; //? Что у нас можно не обновлять
 
-const imageRegRex = /.webp|.svg|.jpg|.jpeg|.gif|.png/;
+const TIMEOUT = 400;
 
 self.addEventListener('install', (event) => {
     event.waitUntil(
         caches
             .open(CACHE_NAME)
             .then((cache) => {
-                console.log('Opened cache');
-                return cache.addAll(urlsToCache);
+                return cache.addAll(URLS_TO_CACHE);
             })
             .catch((err) => {
                 console.error('Failed install sw:', err);
             })
     );
-    self.skipWaiting(); //? хз нахера
+    self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
@@ -24,44 +23,15 @@ self.addEventListener('activate', (event) => {
         caches.keys().then((cacheNames) => {
             return Promise.all(
                 cacheNames.map((cacheName) => {
-                    if (cacheWhitelist.indexOf(cacheName) === -1) {
+                    if (CACHE_WHITE_LIST.indexOf(cacheName) === -1) {
                         return caches.delete(cacheName);
                     }
                 })
             );
         })
     );
-    event.waitUntil(self.clients.claim()); //? хз нахера
-
-    // if (self.clients && self.clients.claim) {
-    //     self.clients.claim();
-    // }
-
-    // if (!event.currentTarget.registration.active) {
-    //     return;
-    // }
-
-    // event.waitUntil(
-    //     self.clients.matchAll().then((clients) => {
-    //         if (clients.length === 0) {
-    //             return;
-    //         }
-
-    //         clients.forEach((client) => {
-    //             client.postMessage({
-    //                 type: 'activate',
-    //                 url: event.currentTarget.scope,
-    //             });
-    //         });
-    //     })
-    // );
+    event.waitUntil(self.clients.claim());
 });
-
-// self.addEventListener('message', (event) => {
-//     if (event.data.type === 'activate') {
-//         window.location.reload();
-//     }
-// });
 
 self.addEventListener('fetch', (event) => {
     const { request } = event;
@@ -69,72 +39,46 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
-    if (
-        imageRegRex.test(event.request) &&
-        !event.request.path.includes('avatar')
-    ) {
-        event.respondWith(cacheFirst(event));
-    } else {
-        event.respondWith(networkFirst(event));
-    }
+    event.respondWith(
+        fromNetwork(event.request, TIMEOUT).catch(() => {
+            return fromCache(event.request);
+        })
+    );
 });
 
-async function networkFirst(event) {
-    const { request } = event;
-    const cache = await caches.open(CACHE_NAME);
-    try {
-        const response = await fetch(request);
-
-        if (navigator.onLine) {
-            await cache.put(request, response.clone());
-        }
-        return response;
-    } catch {
-        try {
-            const cachedResponse = await cache.match(request);
-            if (cachedResponse) {
-                return cachedResponse;
-            }
-        } catch {
-            const response = await event.preloadResponse;
-            if (response) {
-                return response;
-            } else {
-                return new Response(null, {
-                    status: 404,
-                    statusText: 'Not Found',
-                });
-            }
-        }
-    }
+function fromNetwork(request, TIMEOUT) {
+    return new Promise((fulfill, reject) => {
+        var timeoutId = setTimeout(reject, TIMEOUT);
+        fetch(request).then((response) => {
+            clearTimeout(timeoutId);
+            saveInCache(request, response.clone());
+            fulfill(response.clone());
+        }, reject);
+    });
 }
 
-async function cacheFirst(event) {
-    const { request } = event;
-    const cache = await caches.open(CACHE_NAME);
-    try {
-        const cachedResponse = await cache.match(request);
-        if (cachedResponse) {
-            return cachedResponse;
-        }
-
-        const response = await event.preloadResponse;
-        if (response) {
-            return response;
-        }
-    } catch {
-        try {
-            const response = await fetch(request);
-
-            if (navigator.onLine) {
-                await cache.put(request, response.clone());
-            }
-            return response;
-        } catch {
-            return new Response(null, {
-                status: 404,
-                statusText: 'Not Found',
-            });
-        }
-    }
+function fromCache(request) {
+    return caches.open(CACHE_NAME).then((cache) =>
+        cache.match(request).then(
+            (matching) =>
+                matching ||
+                fetch(request)
+                    .then((response) => {
+                        console.log('success');
+                        saveInCache(request, response.clone());
+                        return response;
+                    })
+                    .catch(() => ({
+                        //? возможно зедесь и нужно вызывать роутинг на страницу ошибки, мол плохое соединение
+                        status: 0,
+                        body: 'Плохое интернет соединение',
+                    }))
+        )
+    );
 }
+
+const saveInCache = (request, response) => {
+    caches.open(CACHE_NAME).then((cache) => {
+        cache.put(request, response);
+    });
+};
