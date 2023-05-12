@@ -131,7 +131,7 @@ export const checkConfirmPassword = (
 };
 
 /**
- * Проверяет корректность никнейма. 
+ * Проверяет корректность никнейма.
  * @param {string} nickname - Никнейм, который будет проверен.
  * @returns {Object} - Объект с параметрами isError и errorClass.
  */

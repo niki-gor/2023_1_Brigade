@@ -5,7 +5,7 @@ import { constantsOfActions } from '@config/actions';
  *
  * @param {State} state - Текущее состояние
  * @param {Action} action - Экшен
- * @return {object} Обновленное состояние после установки контактов 
+ * @return {object} Обновленное состояние после установки контактов
  */
 export const reduceSetContacts = (state: State, action: Action) => {
     switch (action.type) {

@@ -91,7 +91,7 @@ export const createLoginAction = (
  * Создает экшн для регистрации нового пользователя.
  * @param {Record<string, unknown>} user - Информация о пользователе
  * @returns {AsyncAction} Возвращает асинхронную функцию, выполняющую обработку регистрации или сообщение об ошибке.
- */ 
+ */
 export const createSignUpAction = (
     user: Record<string, unknown>
 ): AsyncAction => {
