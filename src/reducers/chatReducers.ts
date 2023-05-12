@@ -122,7 +122,7 @@ export const reduceDeleteChat = (state: State, action: Action) => {
 };
 
 /**
- * Обработывает экшен на редактирование чата в State
+ * Обрабатывает экшен на редактирование чата в State
  * reducer вызывается при сохранения изменений в chat-е
  * @param {State} state - Текущее состояние
  * @param {Action} action - Экшен
@@ -152,6 +152,13 @@ export const reduceEditChat = (state: State, action: Action) => {
     }
 };
 
+/**
+ * Обрабатывает экшен на открытие найденных чатов
+ * 
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние после удаления чата
+ */
 export const reduceSetSearchedChats = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.setSearchedChats:
@@ -168,6 +175,13 @@ export const reduceSetSearchedChats = (state: State, action: Action) => {
     }
 };
 
+/**
+ * Обрабатывает экшен на удаление найденных чатов
+ * 
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние после удаления чата
+ */
 export const reduceDeleteSearchedChats = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.deleteSearchedChats:
@@ -184,6 +198,13 @@ export const reduceDeleteSearchedChats = (state: State, action: Action) => {
     }
 };
 
+/**
+ * Обрабатывает экшен на добавление пользователя в чат
+ * 
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние после удаления чата
+ */
 export const reduceAddUserInChat = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.addUserInChat:
@@ -240,6 +261,13 @@ export const reduceAddUserInChat = (state: State, action: Action) => {
     }
 };
 
+/**
+ * Обрабатывает экшен на добавление пользователя из чата
+ * 
+ * @param {State} state - Текущее состояние
+ * @param {Action} action - Экшен
+ * @return {object} Обновленное состояние после удаления чата
+ */
 export const reduceDeleteUserInChat = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.deleteUserInChat:
