@@ -1,7 +1,7 @@
 import { constantsOfActions } from '@config/actions';
 
 /**
- * Обработывает экшен на установку контактов в State
+ * Обрабатывает экшен на установку контактов в State
  *
  * @param {State} state - Текущее состояние
  * @param {Action} action - Экшен
