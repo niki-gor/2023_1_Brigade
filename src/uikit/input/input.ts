@@ -53,9 +53,7 @@ export class Input extends Component<Props, State, HTMLInputElement> {
     }
 
     render() {
-        const className = `${this.props.className ?? ''} ${
-            this.props.size ?? ''
-        }`.trim();
+        const className = `${this.props.className ?? ''}`.trim();
 
         return new DOMParser().parseFromString(
             template({

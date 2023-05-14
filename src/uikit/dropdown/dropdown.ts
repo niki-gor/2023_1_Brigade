@@ -5,17 +5,15 @@ import { Component } from '@framework/component';
 interface Props {
     label?: string;
     icon?: string;
-    type?: 'primary' | 'secondary';
     className?: string;
     size?: 'S' | 'M' | 'L';
     style?: Record<string, string | number>;
-    onClick?: (e?: Event) => void;
     parent: HTMLElement;
 }
 
 interface State {}
 
-export class Button extends Component<Props, State, HTMLButtonElement> {
+export class Dropdown extends Component<Props, State, HTMLButtonElement> {
     constructor(props: Props) {
         super(props);
 
@@ -30,13 +28,25 @@ export class Button extends Component<Props, State, HTMLButtonElement> {
         this.node = undefined;
     }
 
+    getNode() {
+        return this.node;
+    }
+
+    onClick() {
+        this.node
+            ?.querySelector('.dropdown-menu')
+            ?.classList.toggle('.dropdown-menu-show');
+    }
+
     componentDidMount() {
         if (!this.node) {
             return;
         }
 
-        if (this.props.onClick) {
-            this.node.addEventListener('click', this.props.onClick);
+        if (this.onClick) {
+            this.node
+                .querySelector('.dropdown-toggle')
+                ?.addEventListener('click', this.onClick);
         }
     }
 
@@ -45,21 +55,19 @@ export class Button extends Component<Props, State, HTMLButtonElement> {
             return;
         }
 
-        if (this.props.onClick) {
-            this.node.removeEventListener('click', this.props.onClick);
+        if (this.onClick) {
+            this.node
+                .querySelector('.dropdown-toggle')
+                ?.removeEventListener('click', this.onClick);
         }
     }
 
     render() {
-        const className = `${this.props.className ?? ''} ${
-            this.props.size ?? ''
-        } ${this.props.type ?? ''} ${this.props.icon ?? ''}`.trim();
+        const className = `${this.props.className ?? ''}`.trim();
 
         return new DOMParser().parseFromString(
             template({
                 className,
-                label: this.props.label ?? '',
-                style: this.props.style ?? '',
             }),
             'text/html'
         ).body.firstChild;
