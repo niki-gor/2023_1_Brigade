@@ -74,7 +74,7 @@ export class SmartLogin extends Component<Props, State> {
     render() {
         if (this.state.isSubscribed && !LOGIN()) {
             const LoginUI = new DumbLogin({
-                parent: document.getElementById('root') as HTMLElement,
+                parent: document.querySelector('root') as HTMLElement,
             });
 
             SIDEBAR.innerHTML = STATIC.innerHTML = DYNAMIC.innerHTML = '';

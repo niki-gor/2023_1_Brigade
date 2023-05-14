@@ -19,6 +19,8 @@ export class MobileInput extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
+        console.log('mobile input: ', this.props?.parent);
+
         this.state = {
             parent: this.props.parent,
             node: undefined,

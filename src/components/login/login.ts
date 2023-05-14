@@ -26,13 +26,13 @@ export class DumbLogin extends Component<Props, State> {
             parent: this.props.parent,
             node: undefined,
             email: new MobileInput({
-                parent: this.state.parent,
+                parent: document.querySelector('.login') as HTMLElement,
                 className: 'input-container',
                 placeholder: 'email',
                 uniqClassName: 'email',
             }).render() as HTMLElement,
             password: new MobileInput({
-                parent: this.state.parent,
+                parent: document.querySelector('.login') as HTMLElement,
                 className: 'input-container',
                 placeholder: 'password',
                 uniqClassName: 'password',
@@ -40,12 +40,10 @@ export class DumbLogin extends Component<Props, State> {
             isSubscribed: false,
         };
 
-        console.log(this.state.parent);
-        console.log(this.state.email);
-        console.log(this.state.password);
+        console.log('parent: ', this.state.parent);
 
-        this.state?.parent?.insertAdjacentElement('afterend', this.state.email);
-        this.state?.email?.insertAdjacentElement('afterend', this.state.password);
+        // this.state?.parent?.insertAdjacentElement('afterend', this.state.email);
+        // this.state?.email?.insertAdjacentElement('afterend', this.state.password);
     }
 
     componentDidMount(): void {
@@ -59,8 +57,8 @@ export class DumbLogin extends Component<Props, State> {
     render() : string {
         return template({
             top: loginRegTopUI.renderTemplate({ type: 'login' }),
-            // email: this.state.email?.outerHTML,
-            // password: loginRegInputUI.renderTemplate({ type: 'password' }),
+            email: this.state.email?.outerHTML,
+            password: this.state.password?.outerHTML,
             bottom: loginRegBottomUI.renderTemplate({ type: 'login' }),
         });
     }
