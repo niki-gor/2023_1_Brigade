@@ -3,6 +3,12 @@ export interface IComponent {
     componentWillUnmount(): void;
 }
 
+/**
+ * Базовый класс компонента React.
+ * @abstract
+ * @implements {IComponent}
+ * @template Props, State
+ */
 export abstract class Component<Props, State> implements IComponent {
     /**
      * Cохраняет переданные параметры props.
