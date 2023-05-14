@@ -1,0 +1,44 @@
+$input-background: #12131A;
+$input-border: 1px solid #3A3D4D;
+$input-padding: 10px;
+$input-font-size: 16px;
+
+.input-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    background: #12131A;
+    border-radius: 4px;
+}
+
+input[type="text"] {
+  flex: 1;
+  height: 40px;
+  background-color: $input-background;
+  border: $input-border;
+  padding: $input-padding;
+  font-size: $input-font-size;
+  transition: border-color 0.3s ease-in-out;
+  border-radius: 4px;
+  top: calc(50% - 20px/2);
+  color: #3A3D4D;
+
+  &:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+
+  &::placeholder {
+    color: #999;
+  }
+}
+
+@media (max-width: 768px) {
+    input[type="text"] {
+        font-size: 14px;
+        height: 30px;
+        padding: 8px;
+    }
+}

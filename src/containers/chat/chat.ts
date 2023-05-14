@@ -182,17 +182,6 @@ export class SmartChat extends Component<Props, State> {
                                 createEditChatAction(updateChannelState)
                             );
                         }
-
-                        // const updateChannelState = {
-                        //     id: this.props?.openedChat?.id,
-                        //     type: ChatTypes.Channel,
-                        //     title: this.props?.openedChat?.title,
-                        //     avatar: this.props?.openedChat?.avatar,
-                        //     members: updateMembers,
-                        //     last_message: this.props?.openedChat?.messages[-1]
-                        // }
-
-                        // store.dispatch(createGetChatsAction());
                     }
                 );
 

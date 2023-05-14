@@ -19,6 +19,11 @@ export class Router {
 
             this.go(window.location.pathname);
         });
+
+        // TODO: обработчики для передвижения мыши по экрану
+        window.addEventListener('', (e) => {
+
+        })
     };
 
     public route = (path: string) => {
