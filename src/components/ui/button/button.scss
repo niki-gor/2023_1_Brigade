@@ -1,27 +1,46 @@
-.svg-button {
-    margin-right: 10px;
-}
+.button {
+    padding: 8px 15px;
+    height: 40px;
+    background: var(--primary);
+    border-radius: 4px;
+    border: none;
+    transition-duration: .2s;
+    cursor: pointer;
 
-.nav__item__svg__color {
-    fill: #46474C;
-}
+    &:hover {
+        background: var(--primary-hover);
+    }
 
-.nav__item__svg__color:hover {
-    fill: #166E9D;
-}
+    &-primary {
+        &:hover {
+            background: var(--primary-hover);
+        }
+    }
+    
+    &-secondary {
+        background: var(--secondary);
 
-.logout {
-    padding-bottom: 50px;
-}
+        &:hover {
+            background: var(--secondary-hover);
+        }
+    }
 
-.create-btn {
-    fill: #3E9AE3;
-}
+    &-active {
+        background: var(--active);
+    }
 
-.create-btn:hover {
-    fill: red;
-}
+    &-S {
+        padding: 4px 8px;
+        height: 30px;
+    }
 
-.leave-group {
-    fill: #46474C;
+    &-M {
+        padding: 8px 15px;
+        height: 40px;
+    }
+    
+    &-L {
+        padding: 13px 20px;
+        height: 50px;
+    }
 }

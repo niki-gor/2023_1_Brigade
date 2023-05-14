@@ -154,7 +154,7 @@ export const reduceEditChat = (state: State, action: Action) => {
 
 /**
  * Обрабатывает экшен на открытие найденных чатов
- * 
+ *
  * @param {State} state - Текущее состояние
  * @param {Action} action - Экшен
  * @return {object} Обновленное состояние после удаления чата
@@ -177,7 +177,7 @@ export const reduceSetSearchedChats = (state: State, action: Action) => {
 
 /**
  * Обрабатывает экшен на удаление найденных чатов
- * 
+ *
  * @param {State} state - Текущее состояние
  * @param {Action} action - Экшен
  * @return {object} Обновленное состояние после удаления чата
@@ -200,7 +200,7 @@ export const reduceDeleteSearchedChats = (state: State, action: Action) => {
 
 /**
  * Обрабатывает экшен на добавление пользователя в чат
- * 
+ *
  * @param {State} state - Текущее состояние
  * @param {Action} action - Экшен
  * @return {object} Обновленное состояние после удаления чата
@@ -263,7 +263,7 @@ export const reduceAddUserInChat = (state: State, action: Action) => {
 
 /**
  * Обрабатывает экшен на добавление пользователя из чата
- * 
+ *
  * @param {State} state - Текущее состояние
  * @param {Action} action - Экшен
  * @return {object} Обновленное состояние после удаления чата
