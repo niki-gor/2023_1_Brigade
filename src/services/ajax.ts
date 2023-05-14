@@ -37,13 +37,9 @@ const ajax = (
             return { status, parsedBody };
         })
         .catch((err) => {
-            const { status } = err;
-
-            let parsedBody;
-            if (status !== 204) {
-                parsedBody = err.json();
-            }
-
+            const { status, body } = err;
+            const parsedBody = body;
+            console.error(err);
             return { status, parsedBody };
         });
 };
