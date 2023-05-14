@@ -13,7 +13,7 @@ interface Props {
 
 interface State {}
 
-export class Dropdown extends Component<Props, State, HTMLButtonElement> {
+export class Dropdown extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
