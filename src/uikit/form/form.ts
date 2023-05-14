@@ -1,5 +1,5 @@
-import '@uikit/list/list.scss';
-import template from '@uikit/list/list.pug';
+import '@uikit/form/form.scss';
+import template from '@uikit/form/form.pug';
 import { Component } from '@framework/component';
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 
 interface State {}
 
-export class List extends Component<Props, State> {
+export class Form extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 

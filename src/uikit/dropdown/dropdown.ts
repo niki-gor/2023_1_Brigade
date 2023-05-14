@@ -1,5 +1,5 @@
-import '@uikit/button/button.scss';
-import template from '@uikit/button/button.pug';
+import '@uikit/dropdown/dropdown.scss';
+import template from '@uikit/dropdown/dropdown.pug';
 import { Component } from '@framework/component';
 
 interface Props {
