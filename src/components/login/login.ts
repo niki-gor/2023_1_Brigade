@@ -5,6 +5,7 @@ import { loginRegInputUI } from '@components/ui/loginReg/input/input';
 import { loginRegBottomUI } from '@components/ui/loginReg/bottom/bottom';
 import '@components/login/login.scss';
 import { MobileInput } from '@components/ui/mobileInput/input';
+import { emailErrorTypes, passwordErrorTypes } from '@/config/errors';
 
 interface Props {
     parent?: HTMLElement;
@@ -14,36 +15,36 @@ interface State {
     isSubscribed: boolean;
     parent?: HTMLElement | undefined;
     node: HTMLElement | undefined;
-    email: HTMLElement;
-    password: HTMLElement;
+    email: MobileInput;
+    password: MobileInput;
 }
 
 export class DumbLogin extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        this.state = {
-            parent: this.props.parent,
-            node: undefined,
-            email: new MobileInput({
-                parent: document.querySelector('.login') as HTMLElement,
-                className: 'input-container',
-                placeholder: 'email',
-                uniqClassName: 'email',
-            }).render() as HTMLElement,
-            password: new MobileInput({
-                parent: document.querySelector('.login') as HTMLElement,
-                className: 'input-container',
-                placeholder: 'password',
-                uniqClassName: 'password',
-            }).render() as HTMLElement,
-            isSubscribed: false,
-        };
+        this.state.parent = this.props?.parent;
 
-        console.log('parent: ', this.state.parent);
+        if (this.state.parent) {
+            this.state.parent.innerHTML = this.render();
+            this.state.isSubscribed = true;
+        }
 
-        // this.state?.parent?.insertAdjacentElement('afterend', this.state.email);
-        // this.state?.email?.insertAdjacentElement('afterend', this.state.password);
+        this.state.email = new MobileInput({
+            parent: document.querySelector('.login') as HTMLElement, 
+            className: 'input-container',
+            placeholder: 'email',
+            uniqClassName: 'email',
+            errors: emailErrorTypes,
+        })
+
+        this.state.password = new MobileInput({
+            parent: document.querySelector('.login') as HTMLElement,
+            className: 'input-container',
+            placeholder: 'password',
+            uniqClassName: 'password',
+            errors: passwordErrorTypes,
+        })
     }
 
     componentDidMount(): void {
@@ -54,11 +55,9 @@ export class DumbLogin extends Component<Props, State> {
         //
     }
 
-    render() : string {
+    private render() : string {
         return template({
             top: loginRegTopUI.renderTemplate({ type: 'login' }),
-            email: this.state.email?.outerHTML,
-            password: this.state.password?.outerHTML,
             bottom: loginRegBottomUI.renderTemplate({ type: 'login' }),
         });
     }

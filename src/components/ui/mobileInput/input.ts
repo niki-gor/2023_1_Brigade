@@ -7,6 +7,7 @@ interface Props {
     placeholder?: string;
     className?: string;
     uniqClassName?: string;
+    errors?: ErrorTypes[];
 }
 
 interface State {
@@ -19,13 +20,15 @@ export class MobileInput extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        console.log('mobile input: ', this.props?.parent);
-
         this.state = {
-            parent: this.props.parent,
-            node: undefined,
-            isSubscribed: false,
+            parent: this.props?.parent,
+            node: this.render() as HTMLElement,
+            isSubscribed: true,
         };
+
+        if (this.state.node) {
+            this.state.parent?.appendChild(this.state.node);
+        }
     }
 
     componentDidMount() {
@@ -49,6 +52,7 @@ export class MobileInput extends Component<Props, State> {
                 Placeholder: this.props.placeholder,
                 ClassName: this.props.className,
                 UniqClassName: this.props.uniqClassName,
+                Errors: this.props.errors,
             }),
             'text/html'
         ).body.firstChild;

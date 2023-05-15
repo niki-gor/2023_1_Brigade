@@ -15,8 +15,6 @@
 }
 
 .login-reg__top_welcome {
-    width: 243px;
-
     font-family: 'SF Pro Display';
     font-style: normal;
     font-weight: 600;
@@ -28,8 +26,6 @@
 }
 
 .login-reg__top_message {
-    width: 250px;
-
     font-family: 'SF Pro Display';
     font-style: normal;
     font-weight: 300;
