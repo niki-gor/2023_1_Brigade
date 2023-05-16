@@ -128,15 +128,22 @@ export const createGetChatsAction = () => {
  */
 export const createCreateDialogAction = (contact: User) => {
     return async (dispatch: Dispatch, state: GetState) => {
+        let haveThisChat = false;
+
         state().chats?.forEach((chat) => {
             if (
                 chat.type === ChatTypes.Dialog &&
                 (chat.members[0]?.id == contact.id ||
                     chat.members[1]?.id == contact.id)
             ) {
-                return dispatch(createMoveToChatAction({ chatId: chat.id }));
+                dispatch(createMoveToChatAction({ chatId: chat.id }));
+                haveThisChat = true;
             }
         });
+
+        if (haveThisChat) {
+            return;
+        }
 
         const { status, body } = await createChat({
             type: ChatTypes.Dialog,

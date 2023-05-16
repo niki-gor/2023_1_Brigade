@@ -36,17 +36,6 @@ export class SmartContacts extends Component<Props, State> {
         this.node = STATIC;
     }
 
-    // throttle<T extends (...args: any[]) => any>(func: T, delay: number) {
-    //     let lastTime = 0;
-    //     return function (this: any, ...args: Parameters<T>) {
-    //         const currentTime = new Date().getTime();
-    //         if (currentTime - lastTime > delay) {
-    //             lastTime = currentTime;
-    //             func.apply(this, args);
-    //         }
-    //     };
-    // }
-
     render() {
         if (this.state.isSubscribed && this.props?.user) {
             if (!this.props.contacts) {
@@ -60,19 +49,6 @@ export class SmartContacts extends Component<Props, State> {
             if (this.node) {
                 this.node.innerHTML = ContactsUI.render();
             }
-
-            // const findContactsSelector = document?.querySelector(
-            //     '.contacts__head'
-            // ) as HTMLElement;
-            // const findContactsInput = findContactsSelector?.querySelector(
-            //     '.chats__header__input__search'
-            // ) as HTMLInputElement;
-            // findContactsInput?.addEventListener(
-            //     'input',
-            //     this.throttle(() => {
-            //         this.handleFindContactsInput(findContactsInput?.value);
-            //     }, 500)
-            // );
 
             this.state.domElements.contacts = document.querySelector(
                 '.contacts__contacts'
