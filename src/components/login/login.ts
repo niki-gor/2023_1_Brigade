@@ -24,9 +24,8 @@ export class DumbLogin extends Component<Props, State> {
         super(props);
 
         this.state.parent = this.props?.parent;
-
         if (this.state.parent) {
-            this.state.parent.innerHTML = this.render();
+            this.state.parent.innerHTML = this.render(); // TODO: добавить промис на render async/await
             this.state.isSubscribed = true;
         }
 
