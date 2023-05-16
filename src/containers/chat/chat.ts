@@ -18,6 +18,7 @@ import {
 } from '@actions/routeActions';
 import { ChatTypes, MessageTypes } from '@config/enum';
 import { DYNAMIC } from '@config/config';
+import { notify } from '@/services/notification';
 
 interface Props {
     chatId?: number;
@@ -326,6 +327,12 @@ export class SmartChat extends Component<Props, State> {
                             newMes,
                             'text/html'
                         ).body.firstChild as ChildNode;
+
+                        notify(
+                            member.nickname,
+                            message.body,
+                            this.props.openedChat?.avatar ?? ''
+                        );
                     }
                 }
             });
