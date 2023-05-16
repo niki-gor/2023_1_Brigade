@@ -2,7 +2,7 @@ const CACHE_NAME = 'technogram-cache';
 const URLS_TO_CACHE = ['/'];
 const CACHE_WHITE_LIST = [CACHE_NAME];
 
-const TIMEOUT = 400;
+const TIMEOUT = 1000;
 
 self.addEventListener('install', (event) => {
     event.waitUntil(

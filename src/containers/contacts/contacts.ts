@@ -106,7 +106,6 @@ export class SmartContacts extends Component<Props, State> {
                 this.props?.contacts?.forEach((contact) => {
                     if (contact.id === contactId) {
                         store.dispatch(createCreateDialogAction(contact));
-                        store.dispatch(createMoveToChatsAction());
                     }
                 });
             }
