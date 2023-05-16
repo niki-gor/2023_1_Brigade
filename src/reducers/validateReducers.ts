@@ -1,5 +1,11 @@
 import { constantsOfActions } from '@config/actions';
 
+/**
+ * Обновляет состояние объекта при получении соответствующих действий.
+ * @param {State} state - Текущее состояние объекта.
+ * @param {Action} action - Объект, содержащий данные действия.
+ * @returns {Object} - Новое состояние объекта.
+ */
 export const reduceValidate = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.invalidEmail:

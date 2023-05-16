@@ -1,7 +1,7 @@
 import { Component } from '@framework/component';
 import template from '@components/search/search.pug';
 import '@components/search/search.scss';
-import { svgButtonUI } from '@components/ui/button/button';
+import { svgButtonUI } from '@/components/ui/icon/button';
 
 interface Props {
     inputClassName: string;
