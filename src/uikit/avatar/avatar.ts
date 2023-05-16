@@ -1,25 +1,29 @@
-import '@uikit/button/button.scss';
-import template from '@uikit/button/button.pug';
+import '@uikit/avatar/avatar.scss';
+import template from '@uikit/avatar/avatar.pug';
 import { Component } from '@framework/component';
 
 interface Props {
-    label?: string;
-    icon?: string;
-    type?: 'primary' | 'secondary';
+    src?: string;
     className?: string;
-    size?: 'S' | 'M' | 'L';
+    alt?: string;
+    caption?: string;
+    captionStyle?: string;
+    captionBlockStyle?: string;
     style?: Record<string, string | number>;
     onClick?: (e?: Event) => void;
     parent: HTMLElement;
 }
 
-interface State {}
+interface State {
+    parent?: HTMLElement;
+    node: HTMLElement | undefined;
+}
 
-export class Button extends Component<Props, State, HTMLButtonElement> {
+export class Avatar extends Component<Props, State, HTMLImageElement> {
     constructor(props: Props) {
         super(props);
 
-        this.node = this.render() as HTMLButtonElement;
+        this.node = this.render() as HTMLImageElement;
         this.componentDidMount();
         this.props.parent.appendChild(this.node);
     }
@@ -51,15 +55,14 @@ export class Button extends Component<Props, State, HTMLButtonElement> {
     }
 
     render() {
-        const className = `${this.props.className ?? ''} ${
-            this.props.size ?? ''
-        } ${this.props.type ?? ''} ${this.props.icon ?? ''}`.trim(); // TODO: не нравица
-
         return new DOMParser().parseFromString(
             template({
-                className,
-                label: this.props.label ?? '',
-                style: this.props.style ?? '',
+                Src: this.props.src ?? '',
+                ClassName: this.props.className ?? '',
+                Alt: this.props.alt ?? '',
+                Caption: this.props.caption ?? '',
+                CaptionStyle: this.props.captionStyle ?? '',
+                CaptionBlockStyle: this.props.captionBlockStyle ?? '',
             }),
             'text/html'
         ).body.firstChild;

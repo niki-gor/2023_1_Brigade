@@ -1,13 +1,11 @@
-import '@uikit/button/button.scss';
-import template from '@uikit/button/button.pug';
+import '@uikit/link-item/link-item.scss';
+import template from '@uikit/link-item/link-item.pug';
 import { Component } from '@framework/component';
 
 interface Props {
-    label?: string;
-    icon?: string;
-    type?: 'primary' | 'secondary';
     className?: string;
-    size?: 'S' | 'M' | 'L';
+    href?: string;
+    text?: string;
     style?: Record<string, string | number>;
     onClick?: (e?: Event) => void;
     parent: HTMLElement;
@@ -15,11 +13,11 @@ interface Props {
 
 interface State {}
 
-export class Button extends Component<Props, State, HTMLButtonElement> {
+export class Link extends Component<Props, State, HTMLLinkElement> {
     constructor(props: Props) {
         super(props);
 
-        this.node = this.render() as HTMLButtonElement;
+        this.node = this.render() as HTMLLinkElement;
         this.componentDidMount();
         this.props.parent.appendChild(this.node);
     }
@@ -51,15 +49,11 @@ export class Button extends Component<Props, State, HTMLButtonElement> {
     }
 
     render() {
-        const className = `${this.props.className ?? ''} ${
-            this.props.size ?? ''
-        } ${this.props.type ?? ''} ${this.props.icon ?? ''}`.trim(); // TODO: не нравица
-
         return new DOMParser().parseFromString(
             template({
-                className,
-                label: this.props.label ?? '',
-                style: this.props.style ?? '',
+                ClassName: this.props.className,
+                Href: this.props.href ?? '',
+                Text: this.props.text ?? '',
             }),
             'text/html'
         ).body.firstChild;

@@ -1,7 +1,7 @@
 import { Component } from '@/framework/component';
 import template from '@components/form/form.pug';
 import '@components/form/form.scss';
-import { MobileInput } from '@components/ui/mobileInput/input';
+import { MobileInput } from '@/uikit/input/input';
 
 interface Props {
     parent?: HTMLElement;

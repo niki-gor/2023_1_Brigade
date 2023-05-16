@@ -4,8 +4,11 @@ import { loginRegTopUI } from '@components/ui/loginReg/top/top';
 import { loginRegInputUI } from '@components/ui/loginReg/input/input';
 import { loginRegBottomUI } from '@components/ui/loginReg/bottom/bottom';
 import '@components/login/login.scss';
-import { MobileInput } from '@components/ui/mobileInput/input';
+import { MobileInput } from '@/uikit/input/input';
 import { emailErrorTypes, passwordErrorTypes } from '@/config/errors';
+import { Button } from '@uikit/button/button';
+import { Avatar } from '@/uikit/avatar/avatar';
+import { Link } from '@/uikit/link-item/link-item';
 
 interface Props {
     parent?: HTMLElement;
@@ -17,6 +20,9 @@ interface State {
     node: HTMLElement | undefined;
     email: MobileInput;
     password: MobileInput;
+    loginButton: Button;
+    avatar: Avatar;
+    link: Link;
 }
 
 export class DumbLogin extends Component<Props, State> {
@@ -29,13 +35,23 @@ export class DumbLogin extends Component<Props, State> {
             this.state.isSubscribed = true;
         }
 
+        this.state.avatar = new Avatar({
+            parent: document.querySelector('.login') as HTMLElement,
+            className: 'login-reg__top_photo',
+            src: './assets/img/sticker.png',
+            alt: 'Привет',
+            caption: `Добро пожаловать, рад вас видеть!`,
+            captionStyle: 'login-reg__top_welcome',
+            captionBlockStyle: 'login-reg__top',
+        });
+
         this.state.email = new MobileInput({
             parent: document.querySelector('.login') as HTMLElement, 
             className: 'input-container',
             placeholder: 'email',
             uniqClassName: 'email',
             errors: emailErrorTypes,
-        })
+        });
 
         this.state.password = new MobileInput({
             parent: document.querySelector('.login') as HTMLElement,
@@ -43,6 +59,19 @@ export class DumbLogin extends Component<Props, State> {
             placeholder: 'password',
             uniqClassName: 'password',
             errors: passwordErrorTypes,
+        });
+
+        this.state.loginButton = new Button({
+            parent: document.querySelector('.login') as HTMLElement,
+            label: 'Войти',
+            className: 'login__form__btn',
+        });
+
+        this.state.link = new Link({
+            parent: document.querySelector('.login') as HTMLElement,
+            className: 'login-reg-bottom__question login-ques',
+            href: '/login',
+            text: `Ещё нет аккаунта? Зарегистрироваться`,
         })
     }
 
