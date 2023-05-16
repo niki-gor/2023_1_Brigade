@@ -1,5 +1,5 @@
 import template from '@components/sidebar/sidebar.pug';
-import { svgButtonUI } from '@components/ui/button/button';
+import { svgButtonUI } from '@/components/ui/icon/button';
 import '@components/sidebar/sidebar.scss';
 import { avatarUi } from '@components/ui/avatar/avatar';
 import { Component } from '@framework/component';

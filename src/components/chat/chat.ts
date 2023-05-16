@@ -1,7 +1,7 @@
 import template from '@components/chat/chat.pug';
 import '@components/chat/chat.scss';
 import { Component } from '@framework/component';
-import { svgButtonUI } from '@components/ui/button/button';
+import { svgButtonUI } from '@/components/ui/icon/button';
 import { chatAvatarUi } from '@components/ui/chatAvatar/chatAvatar';
 import { inputUI } from '@components/ui/input/input';
 import { DumpMessage } from '@components/message/message';
