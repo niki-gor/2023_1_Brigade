@@ -31,7 +31,7 @@ export const createIsNotRenderedAction = () => {
  * @param {Chat} chat - Чат, который нужно открыть.
  * @returns {{ type: string, payload: Object }} - Экшен
  */
-export const createOpenChatAction = (chat: Chat) => {
+export const createOpenChatAction = (chat: Chat | undefined) => {
     return {
         type: constantsOfActions.openChat,
         payload: chat,

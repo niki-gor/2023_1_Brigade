@@ -83,12 +83,18 @@ export const reduceSetChats = (state: State, action: Action) => {
 export const reduceOpenChat = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.openChat:
+            if (action.payload) {
+                return {
+                    ...state,
+                    openedChat: {
+                        ...action.payload,
+                        isNotRendered: true,
+                    } as OpenedChat,
+                };
+            }
             return {
                 ...state,
-                openedChat: {
-                    ...action.payload,
-                    isNotRendered: true,
-                } as OpenedChat,
+                openedChat: undefined,
             };
         default:
             return {

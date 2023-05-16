@@ -9,6 +9,7 @@ import {
     createEditChatAction,
     createGetOneChatAction,
     createIsNotRenderedAction,
+    createOpenChatAction,
 } from '@actions/chatActions';
 import { getWs } from '@utils/ws';
 import { DumbEmptyDynamicPage } from '@components/emptyDynamicPage/emptyDynamicPage';
@@ -133,6 +134,7 @@ export class SmartChat extends Component<Props, State> {
                                 await store.dispatch(
                                     createEditChatAction(updateChannelState)
                                 );
+                                store.dispatch(createOpenChatAction(undefined));
                                 store.dispatch(createMoveToHomePageAction());
                             }
 
