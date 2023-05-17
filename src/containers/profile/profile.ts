@@ -189,10 +189,15 @@ export class SmartProfile extends Component<Props, State> {
             this.unsubscribe = store.subscribe(
                 this.constructor.name,
                 (props: Props) => {
+                    if (this.props.user != props.user) {
+                        this.props = props;
+
+                        this.render();
+                    }
                     this.props = props;
 
-                    this.render();
                     this.occupiedUsername();
+                    this.incorrectPassword();
                 }
             );
 
@@ -299,6 +304,9 @@ export class SmartProfile extends Component<Props, State> {
                 'data-input--error'
             );
             addErrorToClass('incorrect-password', passwordErrorTypes);
+            if (this.state.valid.currentPasswordIsValid) {
+                this.state.valid.currentPasswordIsValid = false;
+            }
             store.dispatch(createIncorrectPasswordAction(false));
         }
     }

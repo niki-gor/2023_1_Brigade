@@ -8,5 +8,5 @@ export const config = {
     searchContacts: '/users/search/',
     searchChats: '/chats/search/',
     chats: '/chats/',
-    uploadAvatar: '/images/',
+    uploadAvatar: '/images/user/',
 };

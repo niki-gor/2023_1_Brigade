@@ -24,6 +24,7 @@ export const reducers = [
     { type: constantsOfActions.invalidEmail, reducer: reduceValidate },
     { type: constantsOfActions.occupiedEmail, reducer: reduceValidate },
     { type: constantsOfActions.occupiedUsername, reducer: reduceValidate },
+    { type: constantsOfActions.incorrectPassword, reducer: reduceValidate },
     { type: constantsOfActions.setContacts, reducer: reduceSetContacts },
     { type: constantsOfActions.addChat, reducer: reduceAddChat },
     { type: constantsOfActions.openChat, reducer: reduceOpenChat },
