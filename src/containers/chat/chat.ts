@@ -17,7 +17,7 @@ import {
     createMoveToEditChatAction,
     createMoveToHomePageAction,
 } from '@actions/routeActions';
-import { ChatTypes, MessageTypes } from '@config/enum';
+import { ChatTypes, MessageActionTypes, MessageTypes } from '@config/enum';
 import { DYNAMIC } from '@config/config';
 import { notify } from '@/services/notification';
 
@@ -272,7 +272,7 @@ export class SmartChat extends Component<Props, State> {
     }
 
     renderIncomingMessage(message: Message) {
-        if (message.type === MessageTypes.Edit) {
+        if (message.action === MessageActionTypes.Edit) {
             document
                 .querySelectorAll('.message__right-side__text-content-text')
                 .forEach((mes) => {
@@ -286,7 +286,7 @@ export class SmartChat extends Component<Props, State> {
             return;
         }
 
-        if (message.type === MessageTypes.Delete) {
+        if (message.action === MessageActionTypes.Delete) {
             document.querySelectorAll('.messages__message').forEach((mes) => {
                 if (mes.getAttribute('name') === message.id) {
                     mes.remove();
@@ -360,7 +360,9 @@ export class SmartChat extends Component<Props, State> {
             if (this.state.editingMessageId) {
                 getWs().send({
                     id: this.state.editingMessageId,
-                    type: MessageTypes.Edit,
+                    action: MessageActionTypes.Edit,
+                    type: MessageTypes.notSticker,
+                    image_url: '',
                     body: this.state.domElements.input?.value,
                     author_id: 0,
                     chat_id: this.chatId,
@@ -370,7 +372,9 @@ export class SmartChat extends Component<Props, State> {
             } else {
                 getWs().send({
                     id: '',
-                    type: MessageTypes.Create,
+                    action: MessageActionTypes.Create,
+                    type: MessageTypes.notSticker,
+                    image_url: '',
                     body: this.state.domElements.input?.value,
                     author_id: this.props.user.id,
                     chat_id: this.chatId,
@@ -391,7 +395,9 @@ export class SmartChat extends Component<Props, State> {
 
         getWs().send({
             id,
-            type: MessageTypes.Delete,
+            action: MessageActionTypes.Delete,
+            type: MessageTypes.notSticker,
+            image_url: '',
             body: '',
             author_id: 0,
             chat_id: this.chatId,
