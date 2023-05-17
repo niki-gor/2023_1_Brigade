@@ -137,6 +137,7 @@ export const createCreateDialogAction = (contact: User) => {
                     chat.members[1]?.id == contact.id)
             ) {
                 dispatch(createMoveToChatAction({ chatId: chat.id }));
+                dispatch(createMoveToChatsAction());
                 haveThisChat = true;
             }
         });
