@@ -9,6 +9,7 @@ import {
     createEditChatAction,
     createGetOneChatAction,
     createIsNotRenderedAction,
+    createOpenChatAction,
 } from '@actions/chatActions';
 import { getWs } from '@utils/ws';
 import { DumbEmptyDynamicPage } from '@components/emptyDynamicPage/emptyDynamicPage';
@@ -18,6 +19,7 @@ import {
 } from '@actions/routeActions';
 import { ChatTypes, MessageTypes } from '@config/enum';
 import { DYNAMIC } from '@config/config';
+import { notify } from '@/services/notification';
 
 interface Props {
     chatId?: number;
@@ -132,6 +134,7 @@ export class SmartChat extends Component<Props, State> {
                                 await store.dispatch(
                                     createEditChatAction(updateChannelState)
                                 );
+                                store.dispatch(createOpenChatAction(undefined));
                                 store.dispatch(createMoveToHomePageAction());
                             }
 
@@ -326,6 +329,12 @@ export class SmartChat extends Component<Props, State> {
                             newMes,
                             'text/html'
                         ).body.firstChild as ChildNode;
+
+                        notify(
+                            member.nickname,
+                            message.body,
+                            this.props.openedChat?.avatar ?? ''
+                        );
                     }
                 }
             });

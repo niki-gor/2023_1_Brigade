@@ -1,5 +1,5 @@
-import template from '@components/ui/button/button.pug';
-import '@components/ui/button/button.scss';
+import template from '@components/ui/icon/button.pug';
+import '@components/ui/icon/button.scss';
 import { Component } from '@framework/component';
 
 interface Props {}

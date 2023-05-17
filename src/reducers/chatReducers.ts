@@ -83,12 +83,18 @@ export const reduceSetChats = (state: State, action: Action) => {
 export const reduceOpenChat = (state: State, action: Action) => {
     switch (action.type) {
         case constantsOfActions.openChat:
+            if (action.payload) {
+                return {
+                    ...state,
+                    openedChat: {
+                        ...action.payload,
+                        isNotRendered: true,
+                    } as OpenedChat,
+                };
+            }
             return {
                 ...state,
-                openedChat: {
-                    ...action.payload,
-                    isNotRendered: true,
-                } as OpenedChat,
+                openedChat: undefined,
             };
         default:
             return {
@@ -154,7 +160,7 @@ export const reduceEditChat = (state: State, action: Action) => {
 
 /**
  * Обрабатывает экшен на открытие найденных чатов
- * 
+ *
  * @param {State} state - Текущее состояние
  * @param {Action} action - Экшен
  * @return {object} Обновленное состояние после удаления чата
@@ -177,7 +183,7 @@ export const reduceSetSearchedChats = (state: State, action: Action) => {
 
 /**
  * Обрабатывает экшен на удаление найденных чатов
- * 
+ *
  * @param {State} state - Текущее состояние
  * @param {Action} action - Экшен
  * @return {object} Обновленное состояние после удаления чата
@@ -200,7 +206,7 @@ export const reduceDeleteSearchedChats = (state: State, action: Action) => {
 
 /**
  * Обрабатывает экшен на добавление пользователя в чат
- * 
+ *
  * @param {State} state - Текущее состояние
  * @param {Action} action - Экшен
  * @return {object} Обновленное состояние после удаления чата
@@ -263,7 +269,7 @@ export const reduceAddUserInChat = (state: State, action: Action) => {
 
 /**
  * Обрабатывает экшен на добавление пользователя из чата
- * 
+ *
  * @param {State} state - Текущее состояние
  * @param {Action} action - Экшен
  * @return {object} Обновленное состояние после удаления чата

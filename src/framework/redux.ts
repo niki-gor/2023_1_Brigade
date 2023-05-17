@@ -1,3 +1,5 @@
+import { constantsOfActions } from '@/config/actions';
+
 /**
  * оздает хранилище с помощью заданных редьюсеров и возвращает объект Store (состояние, функцию dispatch и функцию subscribe).
  * @param {Map<string, Reducer>} reducers - объект типа Map, содержащий редьюсеры в качестве значений и их имена в качестве ключей.
@@ -12,7 +14,14 @@ export const createStore = (reducers: Map<string, Reducer>): Store => {
         dispatch: (action: Action) => {
             const reducer = reducers.get(action.type);
             if (reducer) {
-                state = reducer(state, action);
+                if (
+                    action.type === constantsOfActions.addChat ||
+                    action.type === constantsOfActions.setChats
+                ) {
+                    state = reducer(state, action);
+                } else {
+                    state = reducer(state, action);
+                }
             }
             subscribers.forEach((cb) => {
                 cb(state);

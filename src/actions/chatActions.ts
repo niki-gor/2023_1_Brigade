@@ -31,7 +31,7 @@ export const createIsNotRenderedAction = () => {
  * @param {Chat} chat - Чат, который нужно открыть.
  * @returns {{ type: string, payload: Object }} - Экшен
  */
-export const createOpenChatAction = (chat: Chat) => {
+export const createOpenChatAction = (chat: Chat | undefined) => {
     return {
         type: constantsOfActions.openChat,
         payload: chat,
@@ -86,6 +86,7 @@ export const createGetOneChatAction = (chat: Record<string, number>) => {
             case 500:
             // TODO: отрендерить ошибку
             case 0:
+                console.log(body);
             // TODO: тут типа жееееееесткая ошибка случилось, аж catch сработал
             default:
             // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
@@ -127,15 +128,23 @@ export const createGetChatsAction = () => {
  */
 export const createCreateDialogAction = (contact: User) => {
     return async (dispatch: Dispatch, state: GetState) => {
+        let haveThisChat = false;
+
         state().chats?.forEach((chat) => {
             if (
                 chat.type === ChatTypes.Dialog &&
                 (chat.members[0]?.id == contact.id ||
                     chat.members[1]?.id == contact.id)
             ) {
-                return dispatch(createMoveToChatAction({ chatId: chat.id }));
+                dispatch(createMoveToChatAction({ chatId: chat.id }));
+                dispatch(createMoveToChatsAction());
+                haveThisChat = true;
             }
         });
+
+        if (haveThisChat) {
+            return;
+        }
 
         const { status, body } = await createChat({
             type: ChatTypes.Dialog,
