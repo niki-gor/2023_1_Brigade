@@ -52,7 +52,7 @@ export class Button extends Component<Props, State, HTMLButtonElement> {
 
     render() {
         const className = `${this.props.className ?? ''} ${
-            this.props.size ?? ''
+            this.props.size ? 'button-' + this.props.size : ''
         } ${this.props.type ?? ''} ${this.props.icon ?? ''}`.trim(); // TODO: не нравица
 
         return new DOMParser().parseFromString(
@@ -60,6 +60,8 @@ export class Button extends Component<Props, State, HTMLButtonElement> {
                 className,
                 label: this.props.label ?? '',
                 style: this.props.style ?? '',
+                type: this.props.type ?? '',
+                size: this.props.size ?? '',
             }),
             'text/html'
         ).body.firstChild;

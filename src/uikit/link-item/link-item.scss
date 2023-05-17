@@ -1,5 +1,5 @@
 $link_active: #0b4d85;
-$link_hover: #003CB2; 
+$link_hover: #3d8aca; //#003CB2
 $link_focus: #3d8aca;
 
 .login-reg-bottom__question {
@@ -23,8 +23,4 @@ $link_focus: #3d8aca;
     &:focus {
         color: $link_hover;
     }
-}
-
-.login-reg-bottom__question:hover {
-    
 }

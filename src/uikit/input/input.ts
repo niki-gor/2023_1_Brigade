@@ -22,7 +22,7 @@ interface State {
     node: HTMLElement | undefined;
 }
 
-export class MobileInput extends Component<Props, State, HTMLInputElement> {
+export class Input extends Component<Props, State, HTMLInputElement> {
     constructor(props: Props) {
         super(props);
 

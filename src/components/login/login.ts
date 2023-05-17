@@ -1,38 +1,44 @@
 import { Component } from '@/framework/component';
 import template from '@components/login/login.pug';
 import { loginRegTopUI } from '@components/ui/loginReg/top/top';
-import { loginRegInputUI } from '@components/ui/loginReg/input/input';
 import { loginRegBottomUI } from '@components/ui/loginReg/bottom/bottom';
 import '@components/login/login.scss';
-import { MobileInput } from '@/uikit/input/input';
+import { Input } from '@/uikit/input/input';
 import { emailErrorTypes, passwordErrorTypes } from '@/config/errors';
 import { Button } from '@uikit/button/button';
 import { Avatar } from '@/uikit/avatar/avatar';
 import { Link } from '@/uikit/link-item/link-item';
+import { Form } from '@/uikit/form/form';
 
 interface Props {
     parent?: HTMLElement;
+    style?: Record<string, string | number>;
+    onClick?: (e?: Event) => void;
 }
 
 interface State {
     isSubscribed: boolean;
     parent?: HTMLElement | undefined;
-    node: HTMLElement | undefined;
-    email: MobileInput;
-    password: MobileInput;
-    loginButton: Button;
     avatar: Avatar;
+    email: Input;
+    password: Input;
+    loginButton: Button;
+    form: Form;
     link: Link;
 }
 
-export class DumbLogin extends Component<Props, State> {
+export class DumbLogin extends Component<Props, State, HTMLElement> {
     constructor(props: Props) {
         super(props);
 
-        this.state.parent = this.props?.parent;
-        if (this.state.parent) {
-            this.state.parent.innerHTML = this.render(); // TODO: добавить промис на render async/await
+        if (this.props.parent) {
+            this.props.parent.innerHTML = '';
+            this.node = this.render() as HTMLElement; // TODO: async/await
             this.state.isSubscribed = true;
+            this.state.parent = this.props.parent;
+            this.componentDidMount();
+            this.props.parent.appendChild(this.node);
+            // this.props.parent?.insertBefore(this.node, document.getElementById('sidebar'));
         }
 
         this.state.avatar = new Avatar({
@@ -44,8 +50,13 @@ export class DumbLogin extends Component<Props, State> {
             captionStyle: 'login-reg__top_welcome',
             captionBlockStyle: 'login-reg__top',
         });
+        
+        // this.state.form = new Form({
+        //     parent: document.querySelector('.login') as HTMLElement,
+        //     className: 'login__form',
+        // })
 
-        this.state.email = new MobileInput({
+        this.state.email = new Input({
             parent: document.querySelector('.login') as HTMLElement, 
             className: 'input-container',
             placeholder: 'email',
@@ -53,7 +64,7 @@ export class DumbLogin extends Component<Props, State> {
             errors: emailErrorTypes,
         });
 
-        this.state.password = new MobileInput({
+        this.state.password = new Input({
             parent: document.querySelector('.login') as HTMLElement,
             className: 'input-container',
             placeholder: 'password',
@@ -75,22 +86,33 @@ export class DumbLogin extends Component<Props, State> {
         })
     }
 
-    componentDidMount(): void {
-        //
+    componentDidMount() {
+        if (!this.node) {
+            return;
+        }
+
+        if (this.props.onClick) {
+            this.node.addEventListener('click', this.props.onClick);
+        }
     }
 
-    componentWillUnmount(): void {
-        //
+    componentWillUnmount() {
+        if (!this.node) {
+            return;
+        }
+
+        if (this.props.onClick) {
+            this.node.removeEventListener('click', this.props.onClick);
+        }
     }
 
-    private render() : string {
-        return template({
-            top: loginRegTopUI.renderTemplate({ type: 'login' }),
+    private render() {
+        return new DOMParser().parseFromString(
+            template({
+            Form: loginRegTopUI.renderTemplate({ type: 'login' }),
             bottom: loginRegBottomUI.renderTemplate({ type: 'login' }),
-        });
-    }
-
-    update() {
-        
+        }),
+        'text/html',
+        ).body.firstChild;
     }
 }
