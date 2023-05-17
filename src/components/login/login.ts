@@ -51,13 +51,13 @@ export class DumbLogin extends Component<Props, State, HTMLElement> {
             captionBlockStyle: 'login-reg__top',
         });
         
-        // this.state.form = new Form({
-        //     parent: document.querySelector('.login') as HTMLElement,
-        //     className: 'login__form',
-        // })
+        this.state.form = new Form({
+            parent: document.querySelector('.login') as HTMLElement,
+            className: 'login__form',
+        })
 
         this.state.email = new Input({
-            parent: document.querySelector('.login') as HTMLElement, 
+            parent: document.querySelector('.login__form') as HTMLElement, 
             className: 'input-container',
             placeholder: 'email',
             uniqClassName: 'email',
@@ -65,7 +65,7 @@ export class DumbLogin extends Component<Props, State, HTMLElement> {
         });
 
         this.state.password = new Input({
-            parent: document.querySelector('.login') as HTMLElement,
+            parent: document.querySelector('.login__form') as HTMLElement,
             className: 'input-container',
             placeholder: 'password',
             uniqClassName: 'password',
@@ -73,7 +73,7 @@ export class DumbLogin extends Component<Props, State, HTMLElement> {
         });
 
         this.state.loginButton = new Button({
-            parent: document.querySelector('.login') as HTMLElement,
+            parent: document.querySelector('.login__form') as HTMLElement,
             label: 'Войти',
             className: 'login__form__btn',
         });
