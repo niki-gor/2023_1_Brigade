@@ -69,6 +69,7 @@ export class DumbLogin extends Component<Props, State, HTMLElement> {
             className: 'input-container',
             placeholder: 'password',
             uniqClassName: 'password',
+            type: 'password',
             errors: passwordErrorTypes,
         });
 

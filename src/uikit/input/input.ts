@@ -7,6 +7,7 @@ interface Props {
     placeholder?: string;
     className?: string;
     uniqClassName?: string;
+    type?: string;
     errors?: ErrorTypes[];
     label?: string;
     caption?: string;
@@ -75,6 +76,7 @@ export class Input extends Component<Props, State, HTMLInputElement> {
                 Value: this.props.value ?? '',
                 contentType: this.props.contentType ?? '',
                 style: this.props.style ?? '',
+                Type: this.props.type ?? 'text',
             }),
             'text/html'
         ).body.firstChild;

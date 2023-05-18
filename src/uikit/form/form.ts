@@ -16,8 +16,6 @@ export class Form extends Component<Props, State, HTMLFormElement> {
         super(props);
         
         this.node = this.render() as HTMLFormElement;
-
-        console.log('form node: ', this.node);
         this.componentDidMount();
         this.props.parent.appendChild(this.node);
     }
