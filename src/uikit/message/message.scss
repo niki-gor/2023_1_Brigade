@@ -1,8 +1,7 @@
-.messages {
-    flex-direction: row;
-    align-items: flex-start;
+.message {
+    align-items: flex-end;
     justify-content: flex-start;
-    min-width: 90px;
+    width: 100%;
     background-color: transparent;
 
     &__left {
@@ -14,19 +13,27 @@
     }
 
     &__avatar {
-        
+        margin-right: 10px;
     }
 
     &__nickname {
-        
+        margin-bottom: 10px;
     }
 
     &__image {
-        
+        margin-bottom: 10px;
+    }
+
+    &__content {
+        flex-direction: column;
+        justify-content: end;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
     }
 
     &__body {
-        word-wrap: break-word;
-        white-space: pre-wrap;
+        word-break: normal;
+        white-space: normal;
     }
 }

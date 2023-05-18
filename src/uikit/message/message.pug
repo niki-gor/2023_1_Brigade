@@ -1,9 +1,10 @@
-.message(class=className, style=style)
+.message(class=className, style=style).flex
     if (avatar != '')
         .message__avatar
-    if (nickname != '')
-        span.message__nickname= nickname
-    if (image != '')
-        .message__image
-    if (body != '')
-        .message__body= body.replace(/(.{50})/g, '$1<br>')
+    .message__content.flex
+        if (nickname != '')
+            span.message__nickname= nickname
+        if (image != '')
+            .message__image
+        if (body != '')
+            .message__body= body

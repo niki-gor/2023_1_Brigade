@@ -22,15 +22,13 @@ interface State {
     node: HTMLElement | undefined;
 }
 
-export class Img extends Component<Props, State, HTMLImageElement> {
+export class Img extends Component<Props, State, HTMLElement> {
     constructor(props: Props) {
         super(props);
 
-        this.node = this.render() as HTMLImageElement;
+        this.node = this.render() as HTMLElement;
         this.componentDidMount();
-        if (this.props.parent && this.node) {
-            this.props.parent.appendChild(this.node);
-        }
+        this.props.parent.appendChild(this.node);
     }
 
     destroy() {

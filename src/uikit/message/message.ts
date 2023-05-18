@@ -1,6 +1,8 @@
 import '@uikit/message/message.scss';
 import template from '@uikit/message/message.pug';
 import { Component } from '@framework/component';
+import { Img } from '../img/img';
+import { MessageTypes } from '@/config/enum';
 
 interface Props {
     message: Message;
@@ -12,9 +14,11 @@ interface Props {
     parent: HTMLElement;
 }
 
-interface State {}
+interface State {
+    avatar?: Img;
+}
 
-export class DumpMessage extends Component<Props, State> {
+export class DumbMessage extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
@@ -36,6 +40,41 @@ export class DumpMessage extends Component<Props, State> {
 
         //TODO: создание аватарки, стикера или вложения, если есть
 
+        if (this.props.user) {
+            const messageAvatar = this.node.querySelector(
+                '.message__avatar'
+            ) as HTMLElement;
+
+            if (messageAvatar) {
+                this.state.avatar = new Img({
+                    src: this.props.user.avatar,
+                    borderRadius: '50',
+                    size: 'S',
+                    alt: this.props.user.nickname,
+                    parent: messageAvatar,
+                });
+            }
+        }
+
+        if (this.props.message.image_url) {
+            const messageImage = this.node.querySelector(
+                '.message__image'
+            ) as HTMLElement;
+
+            if (messageImage) {
+                this.state.avatar = new Img({
+                    src: this.props.message.image_url,
+                    borderRadius: '10',
+                    size:
+                        this.props.message.type === MessageTypes.notSticker
+                            ? 'L'
+                            : 'M',
+                    alt: '',
+                    parent: messageImage,
+                });
+            }
+        }
+
         this.node.addEventListener('contextmenu', this.props.onRightClick);
     }
 
@@ -45,6 +84,8 @@ export class DumpMessage extends Component<Props, State> {
         }
 
         //TODO: удаление аватарки, стикера или вложения, если есть
+
+        this.state.avatar?.destroy();
 
         this.node.removeEventListener('contextmenu', this.props.onRightClick);
     }
