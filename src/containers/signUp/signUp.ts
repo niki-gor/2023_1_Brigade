@@ -100,7 +100,7 @@ export class SmartSignUp extends Component<Props, State> {
             SIDEBAR.innerHTML = STATIC.innerHTML = DYNAMIC.innerHTML = '';
 
             this.state.domElements.signUpButton =
-                document.querySelector('.reg-but');
+                document.querySelector('.reg__form__btn');
             this.state.domElements.signUpButton?.addEventListener(
                 'click',
                 (e) => {

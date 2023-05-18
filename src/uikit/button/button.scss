@@ -1,4 +1,8 @@
 .button {
+    min-width: 50%;
+    min-height: 5%;
+    font-size: 1.2rem;
+    margin-bottom: 5%;
     padding: 8px 15px;
     height: 40px;
     background: var(--primary);
@@ -48,8 +52,9 @@
 
 
 .login__form__btn {
-    min-width: 50%;
-    min-height: 5%;
-    font-size: 1.2rem;
-    margin-bottom: 5%;
+    
+}
+
+.reg__form__btn {
+    
 }

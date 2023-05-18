@@ -80,7 +80,7 @@ export class SmartLogin extends Component<Props, State> {
             SIDEBAR.innerHTML = STATIC.innerHTML = DYNAMIC.innerHTML = '';
 
             this.state.domElements.loginButton =
-                document.querySelector('.login-but');
+                document.querySelector('.login__form__btn');
             this.state.domElements.loginButton?.addEventListener(
                 'click',
                 (e) => {

@@ -22,7 +22,7 @@ interface State {
     nickname: Input;
     password: Input;
     confirmPassword: Input;
-    loginButton: Button;
+    signupButton: Button;
     form: Form;
     link: Link;
 }
@@ -91,10 +91,10 @@ export class DumbSignUp extends Component<Props, State, HTMLElement> {
             errors: confirmPasswordErrorTypes,
         });
 
-        this.state.loginButton = new Button({
+        this.state.signupButton = new Button({
             parent: document.querySelector('.reg__form') as HTMLElement,
             label: 'Войти',
-            className: 'login__form__btn',
+            className: 'reg__form__btn',
         });
 
         this.state.link = new Link({
