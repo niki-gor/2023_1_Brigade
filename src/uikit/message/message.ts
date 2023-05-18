@@ -4,6 +4,7 @@ import { Component } from '@framework/component';
 
 interface Props {
     message: Message;
+    user?: User;
     place: 'left' | 'right';
     className?: string;
     style?: Record<string, string | number>;
@@ -33,9 +34,9 @@ export class DumpMessage extends Component<Props, State> {
             return;
         }
 
-        if (this.props.onRightClick) {
-            this.node.addEventListener('contextmenu', this.props.onRightClick);
-        }
+        //TODO: создание аватарки, стикера или вложения, если есть
+
+        this.node.addEventListener('contextmenu', this.props.onRightClick);
     }
 
     componentWillUnmount() {
@@ -43,23 +44,22 @@ export class DumpMessage extends Component<Props, State> {
             return;
         }
 
-        if (this.props.onRightClick) {
-            this.node.removeEventListener(
-                'contextmenu',
-                this.props.onRightClick
-            );
-        }
+        //TODO: удаление аватарки, стикера или вложения, если есть
+
+        this.node.removeEventListener('contextmenu', this.props.onRightClick);
     }
 
     render() {
-        const className = `${this.props.className ?? ''} ${
-            this.props.message.type ? 'not-sticker' : 'sticker'
-        } ${this.props.place}`.trim();
+        const className = `${this.props.className ?? ''} message__${
+            this.props.place
+        }`.trim();
 
         return new DOMParser().parseFromString(
             template({
                 className,
-                type: this.props.message.type,
+                style: this.props.style ?? '',
+                nickname: this.props.user?.nickname ?? '',
+                avatar: this.props.user?.avatar ?? '',
                 body: this.props.message.body,
                 image: this.props.message.image_url,
             }),
