@@ -3,10 +3,13 @@ import template from '@uikit/message/message.pug';
 import { Component } from '@framework/component';
 import { Img } from '../img/img';
 import { MessageTypes } from '@/config/enum';
+import { store } from '@/store/store';
 
 interface Props {
     message: Message;
+    hookMessage: (state: StoreState) => Message;
     user?: User;
+    hookUser?: (state: StoreState) => User;
     place: 'left' | 'right';
     className?: string;
     style?: Record<string, string | number>;
@@ -16,6 +19,7 @@ interface Props {
 
 interface State {
     avatar?: Img;
+    img?: Img;
 }
 
 export class DumbMessage extends Component<Props, State> {
@@ -25,6 +29,8 @@ export class DumbMessage extends Component<Props, State> {
         this.node = this.render() as HTMLButtonElement;
         this.componentDidMount();
         this.props.parent.appendChild(this.node);
+
+        this.update.bind(this);
     }
 
     destroy() {
@@ -37,8 +43,6 @@ export class DumbMessage extends Component<Props, State> {
         if (!this.node) {
             return;
         }
-
-        //TODO: создание аватарки, стикера или вложения, если есть
 
         if (this.props.user) {
             const messageAvatar = this.node.querySelector(
@@ -62,7 +66,7 @@ export class DumbMessage extends Component<Props, State> {
             ) as HTMLElement;
 
             if (messageImage) {
-                this.state.avatar = new Img({
+                this.state.img = new Img({
                     src: this.props.message.image_url,
                     borderRadius: '10',
                     size:
@@ -76,6 +80,19 @@ export class DumbMessage extends Component<Props, State> {
         }
 
         this.node.addEventListener('contextmenu', this.props.onRightClick);
+
+        this.unsubscribe = store.subscribe(this.constructor.name, (state) => {
+            const prevProps = this.props;
+
+            this.props.message = this.props.hookMessage(state);
+            if (this.props.user && this.props.hookUser) {
+                this.props.user = this.props.hookUser(state);
+            }
+
+            if (this.props !== prevProps) {
+                this.update();
+            }
+        });
     }
 
     componentWillUnmount() {
@@ -83,11 +100,11 @@ export class DumbMessage extends Component<Props, State> {
             return;
         }
 
-        //TODO: удаление аватарки, стикера или вложения, если есть
-
         this.state.avatar?.destroy();
+        this.state.img?.destroy();
 
         this.node.removeEventListener('contextmenu', this.props.onRightClick);
+        this.node = undefined;
     }
 
     render() {
@@ -106,5 +123,15 @@ export class DumbMessage extends Component<Props, State> {
             }),
             'text/html'
         ).body.firstChild;
+    }
+
+    update() {
+        const prevNode = this.node;
+
+        this.componentWillUnmount();
+        this.node = this.render() as HTMLElement;
+        this.componentDidMount();
+
+        prevNode?.replaceWith(this.node);
     }
 }

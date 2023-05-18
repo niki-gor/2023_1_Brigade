@@ -39,15 +39,15 @@ interface Response {
 }
 
 interface Reducer {
-    (state: State, action: Action): State;
+    (state: StoreState, action: Action): StoreState;
 }
 
 interface GetState {
-    (): State;
+    (): StoreState;
 }
 
 interface Callback {
-    (props: State): void;
+    (props: StoreState): void;
 }
 
 interface CreateStore {
@@ -76,7 +76,7 @@ interface ErrorTypes {
     message: string;
 }
 
-interface State {
+interface StoreState {
     user?: User;
     chats?: Chat[];
     contacts?: User[];
