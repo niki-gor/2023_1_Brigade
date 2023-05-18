@@ -20,7 +20,6 @@ import {
 import { ChatTypes, MessageTypes } from '@config/enum';
 import { DYNAMIC } from '@config/config';
 import { notify } from '@/services/notification';
-import { isMobile } from '@/utils/screen';
 
 interface Props {
     chatId?: number;
@@ -91,9 +90,6 @@ export class SmartChat extends Component<Props, State> {
                     chatTitle: this.props?.openedChat?.title,
                 });
 
-                if (isMobile() && document.querySelector('.chat-list')) {
-                    this.componentDidMount();
-                }
 
                 if (this.node) {
                     this.node.innerHTML = chat.render();

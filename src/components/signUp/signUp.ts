@@ -99,7 +99,7 @@ export class DumbSignUp extends Component<Props, State, HTMLElement> {
 
         this.state.link = new Link({
             parent: document.querySelector('.reg') as HTMLElement,
-            className: 'login-reg-bottom__question login-ques',
+            className: 'login-reg-bottom__question reg-ques',
             href: '/login',
             text: `Уже есть аккаунт? Войти`,
         })
@@ -131,5 +131,4 @@ export class DumbSignUp extends Component<Props, State, HTMLElement> {
         'text/html',
         ).body.firstChild;
     }
-      
 }
