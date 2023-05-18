@@ -1,7 +1,5 @@
 import { Component } from '@/framework/component';
 import template from '@components/login/login.pug';
-import { loginRegTopUI } from '@components/ui/loginReg/top/top';
-import { loginRegBottomUI } from '@components/ui/loginReg/bottom/bottom';
 import '@components/login/login.scss';
 import { Input } from '@/uikit/input/input';
 import { emailErrorTypes, passwordErrorTypes } from '@/config/errors';
@@ -109,10 +107,7 @@ export class DumbLogin extends Component<Props, State, HTMLElement> {
 
     private render() {
         return new DOMParser().parseFromString(
-            template({
-            Form: loginRegTopUI.renderTemplate({ type: 'login' }),
-            bottom: loginRegBottomUI.renderTemplate({ type: 'login' }),
-        }),
+            template({}),
         'text/html',
         ).body.firstChild;
     }

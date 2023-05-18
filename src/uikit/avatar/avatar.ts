@@ -26,7 +26,9 @@ export class Avatar extends Component<Props, State, HTMLImageElement> {
 
         this.node = this.render() as HTMLImageElement;
         this.componentDidMount();
-        this.props.parent.appendChild(this.node);
+        if (this.props.parent && this.node) {
+            this.props.parent.appendChild(this.node);
+        }        
     }
 
     destroy() {

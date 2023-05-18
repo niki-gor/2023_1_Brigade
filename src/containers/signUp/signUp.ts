@@ -94,12 +94,10 @@ export class SmartSignUp extends Component<Props, State> {
     render() {
         if (this.state.isSubscribed && !SIGNUP()) {
             const SignUpUI = new DumbSignUp({
-                ...this.props,
+                parent: document.getElementById('root') as HTMLElement,
             });
 
             SIDEBAR.innerHTML = STATIC.innerHTML = DYNAMIC.innerHTML = '';
-
-            this.node?.insertAdjacentHTML('afterbegin', SignUpUI.render());
 
             this.state.domElements.signUpButton =
                 document.querySelector('.reg-but');

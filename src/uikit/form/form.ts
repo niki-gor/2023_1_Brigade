@@ -53,7 +53,7 @@ export class Form extends Component<Props, State, HTMLFormElement> {
     render() {
         return new DOMParser().parseFromString(
             template({
-                ContainerClassName: this.props.className ?? '',
+                ClassName: this.props.className ?? 'form',
                 Style: this.props.style ?? '',
             }),
             'text/html'
