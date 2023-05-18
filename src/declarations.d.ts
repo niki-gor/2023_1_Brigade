@@ -122,7 +122,9 @@ interface OpenedChat {
 
 interface Message {
     id: string;
+    action: MessageActionType;
     type: MessageTypes;
+    image_url: string;
     body: string;
     chat_id: number;
     author_id: number;
