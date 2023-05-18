@@ -8,7 +8,7 @@ import {
 import { router } from '@router/createRouter';
 import { Contacts } from '@containers/contacts/createContacts';
 import { Chats } from '@containers/chatList/createChatList';
-import { Sidebar } from '@containers/sidebar/createSidebar';
+import { getSidebar } from '@containers/sidebar/createSidebar';
 import { getWs } from '@utils/ws';
 
 /**
@@ -26,7 +26,7 @@ export const createAuthAction = (): AsyncAction => {
 
                 getWs();
 
-                Sidebar.componentDidMount();
+                getSidebar();
                 Chats.componentDidMount();
 
                 router.route(window.location.pathname);
@@ -66,7 +66,7 @@ export const createLoginAction = (
 
                 getWs();
 
-                Sidebar.componentDidMount();
+                getSidebar();
                 Chats.componentDidMount();
 
                 router.route('/');
@@ -105,7 +105,7 @@ export const createSignUpAction = (
 
                 getWs();
 
-                Sidebar.componentDidMount();
+                getSidebar();
                 Chats.componentDidMount();
 
                 router.route('/');
@@ -136,7 +136,7 @@ export const createLogoutAction = (): AsyncAction => {
 
         switch (status) {
             case 204:
-                Sidebar.componentWillUnmount();
+                getSidebar().destroy();
                 Contacts.componentWillUnmount();
                 Chats.componentWillUnmount();
 

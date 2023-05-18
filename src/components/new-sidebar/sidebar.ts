@@ -3,71 +3,61 @@ import template from '@components/new-sidebar/sidebar.pug';
 import '@components/new-sidebar/sidebar.scss';
 import { Button } from '@uikit/button/button';
 import { svgButtonUI } from '../ui/icon/button';
-import { Avatar } from '@uikit/avatar/avatar';
 import { store } from '@store/store';
-
+import { Img } from '@/uikit/img/img';
 
 interface Props {
-    parent: HTMLElement | undefined | null;
-    profile: string;
+    parent: HTMLElement;
+    avatar: string;
     style?: Record<string, string | number>;
-    onClick?: (e?: Event) => void;
+    avatarOnClick: (e?: Event) => void;
+    chatsOnClick: (e?: Event) => void;
+    contactsOnClick: (e?: Event) => void;
+    logoutOnClick: (e?: Event) => void;
+    hookAvatar: (state: StoreState) => string;
 }
 
 interface State {
-    isSubscribed: boolean;
-    parent?: HTMLElement | undefined;
-    profile: Avatar;
-    chatsBtn: Button;
-    contactsBtn: Button;
-    logoutBtn: Button;
+    isMounted: boolean;
+    avatar: Img;
+    chatsButton: Button;
+    contactsButton: Button;
+    logoutButton: Button;
 }
 
 export class DumbSidebar extends Component<Props, State, HTMLElement> {
     constructor(props: Props) {
         super(props);
+        this.state.isMounted = false;
 
-        debugger;
-        console.log('dumb sidebar constructor has been called');
+        this.node = this.render() as HTMLElement;
+        this.props.parent.appendChild(this.node);
+        this.componentDidMount();
+        this.update.bind(this);
+    }
 
-        if (this.props.parent) {
-            this.node = this.render() as HTMLElement;
-            this.state.isSubscribed = true;
-            this.state.parent = this.props.parent;
-            this.componentDidMount();
-            this.props.parent.appendChild(this.node);
+    destroy() {
+        if (this.state.isMounted) {
+            this.componentWillUnmount();
+            this.node?.remove();
+            this.node = undefined;
+        } else {
+            console.error('DumbSidebar is not mounted');
         }
+    }
 
-        this.state.profile = new Avatar({
-            parent: document.querySelector('.sidebar-header') as HTMLElement,
-            className: 'sidebar-header__profile',
-            src: this.props?.profile ?? '',
-            alt: this.props?.profile ?? '',
-        })
+    update() {
+        if (this.state.isMounted) {
+            const prevNode = this.node;
 
-        this.state.chatsBtn = new Button({
-            parent: document.querySelector('.sidebar-header') as HTMLElement,
-            className: 'sidebar-header__chats-btn',
-            icon: svgButtonUI.renderTemplate({
-                svgClassName: 'sidebar__chats-icon' ?? '',
-            })
-        })
+            this.componentWillUnmount();
+            this.node = this.render() as HTMLElement;
+            this.componentDidMount();
 
-        this.state.contactsBtn = new Button({
-            parent: document.querySelector('.sidebar-header') as HTMLElement,
-            className: 'sidebar-header__contacts-btn',
-            icon: svgButtonUI.renderTemplate({
-                svgClassName: 'sidebar__contacts-icon' ?? '',
-            })
-        })
-
-        this.state.logoutBtn = new Button({
-            parent: document.querySelector('.sidebar-header') as HTMLElement,
-            className: 'sidebar-header__logout-btn',
-            icon: svgButtonUI.renderTemplate({
-                svgClassName: 'logout-btn' ?? '',
-            })
-        })
+            prevNode?.replaceWith(this.node);
+        } else {
+            console.error('DumbSidebar is not mounted');
+        }
     }
 
     componentDidMount() {
@@ -75,22 +65,52 @@ export class DumbSidebar extends Component<Props, State, HTMLElement> {
             return;
         }
 
-        this.unsubscribe = store.subscribe(
-            this.constructor.name,
-            (props: Props) => {
-                this.props = props;
+        this.state.avatar = new Img({
+            src: this.props.avatar,
+            size: 'S',
+            alt: 'nickname',
+            onClick: this.props.avatarOnClick,
+            parent: this.node,
+        });
 
-                this.render();
+        this.state.chatsButton = new Button({
+            parent: this.node,
+            className: 'sidebar-header__chats-btn',
+            icon: svgButtonUI.renderTemplate({
+                svgClassName: 'sidebar__chats-icon' ?? '',
+            }),
+            onClick: this.props.chatsOnClick,
+        });
+
+        this.state.contactsButton = new Button({
+            parent: this.node,
+            className: 'sidebar-header__contacts-btn',
+            icon: svgButtonUI.renderTemplate({
+                svgClassName: 'sidebar__contacts-icon' ?? '',
+            }),
+            onClick: this.props.contactsOnClick,
+        });
+
+        this.state.logoutButton = new Button({
+            parent: this.node,
+            className: 'sidebar-header__logout-btn',
+            icon: svgButtonUI.renderTemplate({
+                svgClassName: 'logout-btn' ?? '',
+            }),
+            onClick: this.props.logoutOnClick,
+        });
+
+        this.unsubscribe = store.subscribe(this.constructor.name, (state) => {
+            const prevProps = this.props;
+
+            this.props.avatar = this.props.hookAvatar(state);
+
+            if (this.props !== prevProps) {
+                this.update();
             }
-        );
+        });
 
-        if (this.state.isSubscribed === false) {
-            this.state.isSubscribed = true;
-        }
-
-        if (this.props.onClick) {
-            this.node.addEventListener('click', this.props.onClick);
-        }
+        this.state.isMounted = true;
     }
 
     componentWillUnmount() {
@@ -98,15 +118,16 @@ export class DumbSidebar extends Component<Props, State, HTMLElement> {
             return;
         }
 
-        if (this.props.onClick) {
-            this.node.removeEventListener('click', this.props.onClick);
-        }
+        this.state.avatar.destroy();
+        this.state.chatsButton.destroy();
+        this.state.contactsButton.destroy();
+        this.state.logoutButton.destroy();
+
+        this.state.isMounted = false;
     }
 
     private render() {
-        return new DOMParser().parseFromString(
-            template({}),
-        'text/html',
-        ).body.firstChild;
+        return new DOMParser().parseFromString(template({}), 'text/html').body
+            .firstChild;
     }
 }
