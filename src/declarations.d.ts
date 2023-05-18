@@ -76,7 +76,7 @@ interface ErrorTypes {
     message: string;
 }
 
-interface State {
+interface StoreState {
     user?: User;
     chats?: Chat[];
     contacts?: User[];
