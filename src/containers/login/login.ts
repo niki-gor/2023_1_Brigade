@@ -65,7 +65,7 @@ export class SmartLogin extends Component<Props, State> {
             },
         };
 
-        this.node = ROOT;
+        this.node = ROOT; // я бы для ноды вызывал метод render(), типо рендер текущей компоненты
     }
 
     /**
@@ -74,15 +74,13 @@ export class SmartLogin extends Component<Props, State> {
     render() {
         if (this.state.isSubscribed && !LOGIN()) {
             const LoginUI = new DumbLogin({
-                ...this.props,
+                parent: document.getElementById('root') as HTMLElement,
             });
 
             SIDEBAR.innerHTML = STATIC.innerHTML = DYNAMIC.innerHTML = '';
 
-            this?.node?.insertAdjacentHTML('afterbegin', LoginUI.render());
-
             this.state.domElements.loginButton =
-                document.querySelector('.login-but');
+                document.querySelector('.login__form__btn');
             this.state.domElements.loginButton?.addEventListener(
                 'click',
                 (e) => {

@@ -90,6 +90,7 @@ export class SmartChat extends Component<Props, State> {
                     chatTitle: this.props?.openedChat?.title,
                 });
 
+
                 if (this.node) {
                     this.node.innerHTML = chat.render();
                 }

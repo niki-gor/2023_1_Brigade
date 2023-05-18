@@ -17,6 +17,7 @@ import { List } from '@components/list/list';
 import { ChatItem } from '@/components/chat-item/chat-item';
 import { ContactItem } from '@/components/contact-item/contact-item';
 import { TitleItem } from '@/components/title-item/title-item';
+import { isMobile } from '@/utils/screen';
 
 interface Props {
     user?: User;
@@ -69,21 +70,14 @@ export class SmartChatList extends Component<Props, State> {
         this.node = STATIC;
     }
 
-    // throttle<T extends (...args: any[]) => any>(func: T, delay: number) {
-    //     let lastTime = 0;
-    //     return function (this: any, ...args: Parameters<T>) {
-    //         const currentTime = new Date().getTime();
-    //         if (currentTime - lastTime > delay) {
-    //             lastTime = currentTime;
-    //             func.apply(this, args);
-    //         }
-    //     };
-    // }
-
     render() {
         if (this.state.isSubscribed && this.props?.user) {
             if (!this.props?.chats) {
                 this.props.chats = [];
+            }
+
+            if (isMobile()) {
+                this.componentWillUnmount();
             }
 
             this.state.domElements.inputValue =

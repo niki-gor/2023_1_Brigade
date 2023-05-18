@@ -25,6 +25,8 @@ export class DumbSideItem extends Component<Props, State> {
     }
 
     render() {
+
+        console.log('nav svg icon: ', this.props?.navSvgIcon)
         return template({
             SideButton: this.props?.navSvgIcon,
             ItemValue: this.props?.navItemValue,

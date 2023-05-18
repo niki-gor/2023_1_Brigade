@@ -1,9 +1,11 @@
-import '@uikit/form/form.scss';
-import template from '@uikit/form/form.pug';
+import '@uikit/link-item/link-item.scss';
+import template from '@uikit/link-item/link-item.pug';
 import { Component } from '@framework/component';
 
 interface Props {
     className?: string;
+    href?: string;
+    text?: string;
     style?: Record<string, string | number>;
     onClick?: (e?: Event) => void;
     parent: HTMLElement;
@@ -11,11 +13,11 @@ interface Props {
 
 interface State {}
 
-export class Form extends Component<Props, State, HTMLFormElement> {
+export class Link extends Component<Props, State, HTMLLinkElement> {
     constructor(props: Props) {
         super(props);
-        
-        this.node = this.render() as HTMLFormElement;
+
+        this.node = this.render() as HTMLLinkElement;
         this.componentDidMount();
         this.props.parent.appendChild(this.node);
     }
@@ -24,10 +26,6 @@ export class Form extends Component<Props, State, HTMLFormElement> {
         this.componentWillUnmount();
         this.node?.remove();
         this.node = undefined;
-    }
-
-    getNode() : Element | undefined {
-        return this?.node;
     }
 
     componentDidMount() {
@@ -53,8 +51,9 @@ export class Form extends Component<Props, State, HTMLFormElement> {
     render() {
         return new DOMParser().parseFromString(
             template({
-                ClassName: this.props.className ?? 'form',
-                Style: this.props.style ?? '',
+                ClassName: this.props.className,
+                Href: this.props.href ?? '',
+                Text: this.props.text ?? '',
             }),
             'text/html'
         ).body.firstChild;

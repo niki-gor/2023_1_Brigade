@@ -1,6 +1,6 @@
 import { Component } from '@framework/component';
 import { store } from '@store/store';
-import { DumbSidebar } from '@components/sidebar/sidebar';
+import { DumbSidebar } from '@components/new-sidebar/sidebar';
 import {
     createMoveToChatsAction,
     createMoveToContactsAction,
@@ -52,18 +52,19 @@ export class SmartSidebar extends Component<Props, State> {
         this.node = SIDEBAR;
     }
 
+    hook(props: StoreState) {
+        return props.user?.avatar;
+    }
+
     /**
      * Рендерит чат
      */
     render() {
         if (this.state.isSubscribed) {
             const navbar = new DumbSidebar({
-                avatar: this.props?.user?.avatar ?? '',
+                parent: document.getElementById('sidebar'),
+                profile: this.props?.user?.avatar ?? '',
             });
-
-            if (this.node) {
-                this.node.innerHTML = navbar.render();
-            }
 
             this.state.domElements.avatarButton = document.querySelector(
                 '.header__user-photo'
@@ -115,22 +116,7 @@ export class SmartSidebar extends Component<Props, State> {
     }
 
     componentDidMount() {
-        if (!this.state.isSubscribed) {
-            this.unsubscribe = store.subscribe(
-                this.constructor.name,
-                (props: Props) => {
-                    this.props = props;
-
-                    this.render();
-                }
-            );
-
-            if (this.state.isSubscribed === false) {
-                this.state.isSubscribed = true;
-            }
-
-            store.dispatch(createRenderAction());
-        }
+        
     }
 
     /**
