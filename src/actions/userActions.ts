@@ -90,6 +90,7 @@ export const createUpdateUserAction = (
             // TODO:
             case 404:
                 dispatch(createIncorrectPasswordAction(true));
+                break;
             case 409:
                 dispatch(createOccupiedUsernameAction(true));
                 break;

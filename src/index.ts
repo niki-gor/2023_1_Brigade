@@ -19,6 +19,8 @@ if ('serviceWorker' in navigator) {
     });
 }
 
+Notification.requestPermission();
+
 router.start();
 
 store.dispatch(createAuthAction());
