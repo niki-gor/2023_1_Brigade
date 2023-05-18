@@ -22,24 +22,26 @@
 
     &-border-radius {
         &-50 {
-
+            border-radius: 50%;
         }
 
         &-25 {
-
+            border-radius: 25%;
         }
 
         &-10 {
-
+            border-radius: 10%;
         }
     }
 
     &-S {
-        
+        width: 60px;
+        height: 60px;
     }
 
     &-M {
-        
+        width: 130px;
+        height: 130px;
     }
     
     &-L {
