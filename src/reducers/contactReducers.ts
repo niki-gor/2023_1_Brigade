@@ -7,7 +7,7 @@ import { constantsOfActions } from '@config/actions';
  * @param {Action} action - Экшен
  * @return {object} Обновленное состояние после установки контактов
  */
-export const reduceSetContacts = (state: State, action: Action) => {
+export const reduceSetContacts = (state: StoreState, action: Action) => {
     switch (action.type) {
         case constantsOfActions.setContacts:
             if (action.payload) {

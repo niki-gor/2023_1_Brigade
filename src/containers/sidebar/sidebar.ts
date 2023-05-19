@@ -1,29 +1,20 @@
 import { Component } from '@framework/component';
 import { store } from '@store/store';
-import { DumbSidebar } from '@components/sidebar/sidebar';
+import { DumbSidebar } from '@components/new-sidebar/sidebar';
 import {
     createMoveToChatsAction,
     createMoveToContactsAction,
     createMoveToProfileAction,
-    createRenderAction,
 } from '@actions/routeActions';
 import { createLogoutAction } from '@actions/authActions';
-import { SIDEBAR } from '@config/config';
 
 interface Props {
-    user?: {
-        avatar: string;
-    };
+    parent: HTMLElement;
 }
 
 interface State {
-    isSubscribed: boolean;
-    domElements: {
-        messageButton: HTMLElement | null;
-        contactButton: HTMLElement | null;
-        logoutButton: HTMLElement | null;
-        avatarButton: HTMLElement | null;
-    };
+    isMounted: boolean;
+    node?: DumbSidebar;
 }
 
 /**
@@ -38,108 +29,68 @@ export class SmartSidebar extends Component<Props, State> {
      */
     constructor(props: Props) {
         super(props);
+        this.state.isMounted = false;
 
-        this.state = {
-            isSubscribed: false,
-            domElements: {
-                messageButton: null,
-                contactButton: null,
-                logoutButton: null,
-                avatarButton: null,
-            },
-        };
-
-        this.node = SIDEBAR;
+        this.node = this.render() as HTMLElement;
+        this.componentDidMount();
     }
 
-    /**
-     * Рендерит чат
-     */
-    render() {
-        if (this.state.isSubscribed) {
-            const navbar = new DumbSidebar({
-                avatar: this.props?.user?.avatar ?? '',
-            });
-
-            if (this.node) {
-                this.node.innerHTML = navbar.render();
-            }
-
-            this.state.domElements.avatarButton = document.querySelector(
-                '.header__user-photo'
-            );
-            this.state.domElements.avatarButton?.addEventListener(
-                'click',
-                (e) => {
-                    e.preventDefault();
-
-                    store.dispatch(createMoveToProfileAction());
-                }
-            );
-
-            this.state.domElements.contactButton = document.querySelector(
-                '.nav-item__contact-btn'
-            );
-            this.state.domElements.contactButton?.addEventListener(
-                'click',
-                (e) => {
-                    e.preventDefault();
-
-                    store.dispatch(createMoveToContactsAction());
-                }
-            );
-
-            this.state.domElements.messageButton = document.querySelector(
-                '.nav-item__message-btn'
-            );
-            this.state.domElements.messageButton?.addEventListener(
-                'click',
-                (e) => {
-                    e.preventDefault();
-
-                    store.dispatch(createMoveToChatsAction());
-                }
-            );
-
-            this.state.domElements.logoutButton =
-                document.querySelector('.logout-btn');
-            this.state.domElements.logoutButton?.addEventListener(
-                'click',
-                (e) => {
-                    e.preventDefault();
-
-                    store.dispatch(createLogoutAction());
-                }
-            );
+    destroy() {
+        if (this.state.isMounted) {
+            this.componentWillUnmount();
+        } else {
+            console.error('SmartSidebar is not mounted');
         }
+    }
+
+    render() {
+        return this.props.parent;
     }
 
     componentDidMount() {
-        if (!this.state.isSubscribed) {
-            this.unsubscribe = store.subscribe(
-                this.constructor.name,
-                (props: Props) => {
-                    this.props = props;
-
-                    this.render();
-                }
-            );
-
-            if (this.state.isSubscribed === false) {
-                this.state.isSubscribed = true;
-            }
-
-            store.dispatch(createRenderAction());
+        if (!this.node) {
+            return;
         }
+
+        this.state.node = new DumbSidebar({
+            parent: this.node,
+            avatar: this.hookAvatar(store.getState()) ?? '',
+            avatarOnClick: this.avatarOnClick,
+            chatsOnClick: this.chatsOnClick,
+            contactsOnClick: this.contactsOnClick,
+            logoutOnClick: this.logoutOnClick,
+            hookAvatar: this.hookAvatar,
+        });
     }
 
     /**
      * Удаляет все подписки
      */
     componentWillUnmount() {
-        if (this.state.isSubscribed) {
-            this.unsubscribe();
-            this.state.isSubscribed = false;
+        if (!this.node) {
+            return;
         }
+
+        this.state.isMounted = false;
+    }
+
+    hookAvatar(state: StoreState) {
+        return state.user?.avatar ?? '';
+    }
+
+    avatarOnClick() {
+        store.dispatch(createMoveToProfileAction());
+    }
+
+    chatsOnClick() {
+        store.dispatch(createMoveToChatsAction());
+    }
+
+    contactsOnClick() {
+        store.dispatch(createMoveToContactsAction());
+    }
+
+    logoutOnClick() {
+        store.dispatch(createLogoutAction());
     }
 }

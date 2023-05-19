@@ -16,7 +16,7 @@ interface Props {
 }
 
 interface State {
-    isSubscribed: boolean;
+    isMounted: boolean;
 }
 
 export class DumbChat extends Component<Props, State> {
@@ -34,6 +34,8 @@ export class DumbChat extends Component<Props, State> {
         this.subscribeBtnText = '';
         this.leaveGroup = '';
     }
+
+    destroy() {}
 
     componentDidMount(): void {
         //TODO
@@ -126,13 +128,6 @@ export class DumbChat extends Component<Props, State> {
             this.deleteChatBtn = 'delete-btn';
             this.channelInput = new inputUI({
                 inputClassName: 'view-chat__input-message',
-                // userImage: chatAvatarUi.renderTemplate({
-                //     ClassName: 'input-message__user-avatar',
-                //     PathToUserImage: this.props.userAvatar,
-                //     UserName: '',
-                //     UserStatus: '',
-                //     Online: false,
-                // }),
                 sendBtn: svgButtonUI.renderTemplate({
                     svgClassName: 'view-chat__send-message-button',
                 }),
@@ -146,13 +141,6 @@ export class DumbChat extends Component<Props, State> {
             }
             this.channelInput = new inputUI({
                 inputClassName: 'view-chat__input-message',
-                // userImage: chatAvatarUi.renderTemplate({
-                //     ClassName: 'input-message__user-avatar',
-                //     PathToUserImage: this.props.userAvatar,
-                //     UserName: '',
-                //     UserStatus: '',
-                //     Online: false,
-                // }),
                 sendBtn: svgButtonUI.renderTemplate({
                     svgClassName: 'view-chat__send-message-button',
                 }),

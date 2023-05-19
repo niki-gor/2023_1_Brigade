@@ -17,6 +17,7 @@ import { List } from '@components/list/list';
 import { ChatItem } from '@/components/chat-item/chat-item';
 import { ContactItem } from '@/components/contact-item/contact-item';
 import { TitleItem } from '@/components/title-item/title-item';
+import { isMobile } from '@/utils/screen';
 
 interface Props {
     user?: User;
@@ -29,7 +30,7 @@ interface Props {
 }
 
 interface State {
-    isSubscribed: boolean;
+    isMounted: boolean;
 
     domElements: {
         list: List | null;
@@ -50,7 +51,7 @@ export class SmartChatList extends Component<Props, State> {
         super(props);
 
         this.state = {
-            isSubscribed: false,
+            isMounted: false,
 
             domElements: {
                 list: null,
@@ -66,24 +67,25 @@ export class SmartChatList extends Component<Props, State> {
             currentChat: 0,
         };
 
-        this.node = STATIC;
+        this.node = STATIC();
     }
 
-    // throttle<T extends (...args: any[]) => any>(func: T, delay: number) {
-    //     let lastTime = 0;
-    //     return function (this: any, ...args: Parameters<T>) {
-    //         const currentTime = new Date().getTime();
-    //         if (currentTime - lastTime > delay) {
-    //             lastTime = currentTime;
-    //             func.apply(this, args);
-    //         }
-    //     };
-    // }
+    destroy() {
+        if (this.state.isMounted) {
+            this.componentWillUnmount();
+        } else {
+            console.error('SmartSignUp is not mounted');
+        }
+    }
 
     render() {
-        if (this.state.isSubscribed && this.props?.user) {
+        if (this.state.isMounted && this.props?.user) {
             if (!this.props?.chats) {
                 this.props.chats = [];
+            }
+
+            if (isMobile()) {
+                this.componentWillUnmount();
             }
 
             this.state.domElements.inputValue =
@@ -419,7 +421,7 @@ export class SmartChatList extends Component<Props, State> {
     }
 
     componentDidMount() {
-        if (!this.state.isSubscribed) {
+        if (!this.state.isMounted) {
             this.unsubscribe = store.subscribe(
                 this.constructor.name,
                 (props: Props) => {
@@ -429,8 +431,8 @@ export class SmartChatList extends Component<Props, State> {
                 }
             );
 
-            if (this.state.isSubscribed === false) {
-                this.state.isSubscribed = true;
+            if (this.state.isMounted === false) {
+                this.state.isMounted = true;
             }
 
             store.dispatch(createGetChatsAction());
@@ -438,7 +440,7 @@ export class SmartChatList extends Component<Props, State> {
     }
 
     componentWillUnmount() {
-        if (this.state.isSubscribed) {
+        if (this.state.isMounted) {
             store.dispatch(createDeleteSearchedChatsAction());
 
             this.state.domElements.items?.forEach((item) => {
@@ -452,7 +454,7 @@ export class SmartChatList extends Component<Props, State> {
             this.state.domElements.list = null;
 
             this.unsubscribe();
-            this.state.isSubscribed = false;
+            this.state.isMounted = false;
         }
     }
 

@@ -7,7 +7,7 @@ import { constantsOfActions } from '@config/actions';
  * @param {Action} action - Экшен
  * @return {object} Обновленное состояние
  */
-export const reduceIsNotRendered = (state: State, action: Action) => {
+export const reduceIsNotRendered = (state: StoreState, action: Action) => {
     switch (action.type) {
         case constantsOfActions.isNotRendered:
             return {
@@ -31,7 +31,7 @@ export const reduceIsNotRendered = (state: State, action: Action) => {
  * @param {Action} action - Экшен
  * @return {object} Обновленное состояние после добавления нового чата
  */
-export const reduceAddChat = (state: State, action: Action) => {
+export const reduceAddChat = (state: StoreState, action: Action) => {
     switch (action.type) {
         case constantsOfActions.addChat:
             const payload = action.payload as Chat;
@@ -59,7 +59,7 @@ export const reduceAddChat = (state: State, action: Action) => {
  * @param {Action} action - Экшен
  * @return {object} Обновленное состояние
  */
-export const reduceSetChats = (state: State, action: Action) => {
+export const reduceSetChats = (state: StoreState, action: Action) => {
     switch (action.type) {
         case constantsOfActions.setChats:
             return {
@@ -80,7 +80,7 @@ export const reduceSetChats = (state: State, action: Action) => {
  * @param {Action} action - Экшен
  * @return {object} Обновленное состояние после открытия нового чата
  */
-export const reduceOpenChat = (state: State, action: Action) => {
+export const reduceOpenChat = (state: StoreState, action: Action) => {
     switch (action.type) {
         case constantsOfActions.openChat:
             if (action.payload) {
@@ -110,7 +110,7 @@ export const reduceOpenChat = (state: State, action: Action) => {
  * @param {Action} action - Экшен
  * @return {object} Обновленное состояние после удаления чата
  */
-export const reduceDeleteChat = (state: State, action: Action) => {
+export const reduceDeleteChat = (state: StoreState, action: Action) => {
     switch (action.type) {
         case constantsOfActions.deleteChat:
             const payload = action.payload as Chat;
@@ -134,7 +134,7 @@ export const reduceDeleteChat = (state: State, action: Action) => {
  * @param {Action} action - Экшен
  * @return {object} Обновленное состояние после редактирования чата
  */
-export const reduceEditChat = (state: State, action: Action) => {
+export const reduceEditChat = (state: StoreState, action: Action) => {
     switch (action.type) {
         case constantsOfActions.editChat:
             const payload = action.payload as Chat;
@@ -165,7 +165,7 @@ export const reduceEditChat = (state: State, action: Action) => {
  * @param {Action} action - Экшен
  * @return {object} Обновленное состояние после удаления чата
  */
-export const reduceSetSearchedChats = (state: State, action: Action) => {
+export const reduceSetSearchedChats = (state: StoreState, action: Action) => {
     switch (action.type) {
         case constantsOfActions.setSearchedChats:
             if (action.payload) {
@@ -188,7 +188,10 @@ export const reduceSetSearchedChats = (state: State, action: Action) => {
  * @param {Action} action - Экшен
  * @return {object} Обновленное состояние после удаления чата
  */
-export const reduceDeleteSearchedChats = (state: State, action: Action) => {
+export const reduceDeleteSearchedChats = (
+    state: StoreState,
+    action: Action
+) => {
     switch (action.type) {
         case constantsOfActions.deleteSearchedChats:
             if (action.payload) {
@@ -211,7 +214,7 @@ export const reduceDeleteSearchedChats = (state: State, action: Action) => {
  * @param {Action} action - Экшен
  * @return {object} Обновленное состояние после удаления чата
  */
-export const reduceAddUserInChat = (state: State, action: Action) => {
+export const reduceAddUserInChat = (state: StoreState, action: Action) => {
     switch (action.type) {
         case constantsOfActions.addUserInChat:
             const payload = action.payload as User;
@@ -274,7 +277,7 @@ export const reduceAddUserInChat = (state: State, action: Action) => {
  * @param {Action} action - Экшен
  * @return {object} Обновленное состояние после удаления чата
  */
-export const reduceDeleteUserInChat = (state: State, action: Action) => {
+export const reduceDeleteUserInChat = (state: StoreState, action: Action) => {
     switch (action.type) {
         case constantsOfActions.deleteUserInChat:
             for (let i = 0; i < (state.openedChat?.members.length ?? 0); ++i) {
