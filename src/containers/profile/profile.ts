@@ -84,7 +84,7 @@ export class SmartProfile extends Component<Props, State> {
             },
         };
 
-        this.node = DYNAMIC;
+        this.node = DYNAMIC();
     }
 
     #image: File | undefined;

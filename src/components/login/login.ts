@@ -30,7 +30,6 @@ export class DumbLogin extends Component<Props, State, HTMLElement> {
         super(props);
 
         if (this.props.parent) {
-            this.props.parent.innerHTML = '';
             this.node = this.render() as HTMLElement; // TODO: async/await
             this.state.isSubscribed = true;
             this.state.parent = this.props.parent;
@@ -48,14 +47,14 @@ export class DumbLogin extends Component<Props, State, HTMLElement> {
             captionStyle: 'login-reg__top_welcome',
             captionBlockStyle: 'login-reg__top',
         });
-        
+
         this.state.form = new Form({
             parent: document.querySelector('.login') as HTMLElement,
             className: 'login__form',
-        })
+        });
 
         this.state.email = new Input({
-            parent: document.querySelector('.login__form') as HTMLElement, 
+            parent: document.querySelector('.login__form') as HTMLElement,
             className: 'input-container',
             placeholder: 'email',
             uniqClassName: 'email',
@@ -82,7 +81,7 @@ export class DumbLogin extends Component<Props, State, HTMLElement> {
             className: 'login-reg-bottom__question login-ques',
             href: '/login',
             text: `Ещё нет аккаунта? Зарегистрироваться`,
-        })
+        });
     }
 
     componentDidMount() {
@@ -106,9 +105,7 @@ export class DumbLogin extends Component<Props, State, HTMLElement> {
     }
 
     private render() {
-        return new DOMParser().parseFromString(
-            template({}),
-        'text/html',
-        ).body.firstChild;
+        return new DOMParser().parseFromString(template({}), 'text/html').body
+            .firstChild;
     }
 }

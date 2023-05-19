@@ -8,7 +8,7 @@ import {
     createMoveToSignUpAction,
     createRenderAction,
 } from '@actions/routeActions';
-import { DYNAMIC, LOGIN, ROOT, SIDEBAR, STATIC } from '@config/config';
+import { LOGIN, ROOT } from '@config/config';
 import { createInvalidEmailAction } from '@/actions/userActions';
 
 interface Props {
@@ -65,7 +65,7 @@ export class SmartLogin extends Component<Props, State> {
             },
         };
 
-        this.node = ROOT; // я бы для ноды вызывал метод render(), типо рендер текущей компоненты
+        this.node = ROOT(); // я бы для ноды вызывал метод render(), типо рендер текущей компоненты
     }
 
     /**
@@ -73,11 +73,9 @@ export class SmartLogin extends Component<Props, State> {
      */
     render() {
         if (this.state.isSubscribed && !LOGIN()) {
-            const LoginUI = new DumbLogin({
-                parent: document.getElementById('root') as HTMLElement,
+            new DumbLogin({
+                parent: ROOT(),
             });
-
-            SIDEBAR.innerHTML = STATIC.innerHTML = DYNAMIC.innerHTML = '';
 
             this.state.domElements.loginButton =
                 document.querySelector('.login__form__btn');

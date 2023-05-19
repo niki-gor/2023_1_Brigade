@@ -51,7 +51,7 @@ export class SmartCreateChannel extends Component<Props, State> {
             },
         };
 
-        this.node = DYNAMIC;
+        this.node = DYNAMIC();
     }
 
     #image: File | undefined;

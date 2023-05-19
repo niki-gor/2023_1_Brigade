@@ -67,7 +67,7 @@ export class SmartChatList extends Component<Props, State> {
             currentChat: 0,
         };
 
-        this.node = STATIC;
+        this.node = STATIC();
     }
 
     render() {

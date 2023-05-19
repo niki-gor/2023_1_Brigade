@@ -2,7 +2,12 @@ import { Component } from '@/framework/component';
 import template from '@components/signUp/signUp.pug';
 import '@components/signUp/signUp.scss';
 import { Input } from '@/uikit/input/input';
-import { emailErrorTypes, passwordErrorTypes, confirmPasswordErrorTypes, nicknameErrorTypes } from '@/config/errors';
+import {
+    emailErrorTypes,
+    passwordErrorTypes,
+    confirmPasswordErrorTypes,
+    nicknameErrorTypes,
+} from '@/config/errors';
 import { Button } from '@uikit/button/button';
 import { Avatar } from '@/uikit/avatar/avatar';
 import { Link } from '@/uikit/link-item/link-item';
@@ -32,7 +37,6 @@ export class DumbSignUp extends Component<Props, State, HTMLElement> {
         super(props);
 
         if (this.props.parent) {
-            this.props.parent.innerHTML = '';
             this.node = this.render() as HTMLElement;
             this.state.isSubscribed = true;
             this.state.parent = this.props.parent;
@@ -51,14 +55,14 @@ export class DumbSignUp extends Component<Props, State, HTMLElement> {
             captionStyle: 'login-reg__top_welcome',
             captionBlockStyle: 'login-reg__top',
         });
-        
+
         this.state.form = new Form({
             parent: document.querySelector('.reg') as HTMLElement,
             className: 'reg__form',
-        })
+        });
 
         this.state.email = new Input({
-            parent: document.querySelector('.reg__form') as HTMLElement, 
+            parent: document.querySelector('.reg__form') as HTMLElement,
             className: 'input-container',
             placeholder: 'email',
             uniqClassName: 'email',
@@ -66,7 +70,7 @@ export class DumbSignUp extends Component<Props, State, HTMLElement> {
         });
 
         this.state.nickname = new Input({
-            parent: document.querySelector('.reg__form') as HTMLElement, 
+            parent: document.querySelector('.reg__form') as HTMLElement,
             className: 'input-container',
             placeholder: 'nickname',
             uniqClassName: 'nickname',
@@ -102,7 +106,7 @@ export class DumbSignUp extends Component<Props, State, HTMLElement> {
             className: 'login-reg-bottom__question reg-ques',
             href: '/login',
             text: `Уже есть аккаунт? Войти`,
-        })
+        });
     }
 
     componentDidMount() {
@@ -126,9 +130,7 @@ export class DumbSignUp extends Component<Props, State, HTMLElement> {
     }
 
     private render() {
-        return new DOMParser().parseFromString(
-            template({}),
-        'text/html',
-        ).body.firstChild;
+        return new DOMParser().parseFromString(template({}), 'text/html').body
+            .firstChild;
     }
 }

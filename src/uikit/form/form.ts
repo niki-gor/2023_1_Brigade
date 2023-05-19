@@ -14,7 +14,7 @@ interface State {}
 export class Form extends Component<Props, State, HTMLFormElement> {
     constructor(props: Props) {
         super(props);
-        
+
         this.node = this.render() as HTMLFormElement;
         this.componentDidMount();
         this.props.parent.appendChild(this.node);
@@ -26,7 +26,7 @@ export class Form extends Component<Props, State, HTMLFormElement> {
         this.node = undefined;
     }
 
-    getNode() : Element | undefined {
+    getNode(): Element | undefined {
         return this?.node;
     }
 

@@ -70,7 +70,7 @@ export class SmartCreateGroup extends Component<Props, State> {
             },
         };
 
-        this.node = DYNAMIC;
+        this.node = DYNAMIC();
     }
 
     /**

@@ -73,7 +73,7 @@ export class SmartChat extends Component<Props, State> {
         };
 
         this.chatId = props.chatId;
-        this.node = DYNAMIC;
+        this.node = DYNAMIC();
     }
 
     /**
@@ -89,7 +89,6 @@ export class SmartChat extends Component<Props, State> {
                     chatAvatar: this.props?.openedChat?.avatar,
                     chatTitle: this.props?.openedChat?.title,
                 });
-
 
                 if (this.node) {
                     this.node.innerHTML = chat.render();

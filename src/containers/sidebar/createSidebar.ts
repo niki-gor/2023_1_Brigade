@@ -6,7 +6,7 @@ const createSidebar = () => {
 
     const create = () => {
         sidebar = new SmartSidebar({
-            parent: SIDEBAR,
+            parent: SIDEBAR(),
         });
     };
 

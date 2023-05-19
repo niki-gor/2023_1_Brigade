@@ -39,7 +39,7 @@ export class SmartAddUserInGroup extends Component<Props, State> {
         };
 
         this.chatId = this.props?.chatId;
-        this.node = DYNAMIC;
+        this.node = DYNAMIC();
     }
 
     #contactClicked = 'rgb(37, 37, 48)';

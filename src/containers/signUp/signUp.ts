@@ -19,7 +19,7 @@ import {
     createMoveToLoginAction,
     createRenderAction,
 } from '@actions/routeActions';
-import { DYNAMIC, ROOT, SIDEBAR, SIGNUP, STATIC } from '@config/config';
+import { ROOT, SIGNUP } from '@config/config';
 import { createOccupiedEmailAction } from '@/actions/userActions';
 
 interface Props {
@@ -85,7 +85,7 @@ export class SmartSignUp extends Component<Props, State> {
             },
         };
 
-        this.node = ROOT;
+        this.node = ROOT();
     }
 
     /**
@@ -93,11 +93,9 @@ export class SmartSignUp extends Component<Props, State> {
      */
     render() {
         if (this.state.isSubscribed && !SIGNUP()) {
-            const SignUpUI = new DumbSignUp({
-                parent: document.getElementById('root') as HTMLElement,
+            new DumbSignUp({
+                parent: ROOT(),
             });
-
-            SIDEBAR.innerHTML = STATIC.innerHTML = DYNAMIC.innerHTML = '';
 
             this.state.domElements.signUpButton =
                 document.querySelector('.reg__form__btn');

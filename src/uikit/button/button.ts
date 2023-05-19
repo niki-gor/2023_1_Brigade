@@ -60,7 +60,6 @@ export class Button extends Component<Props, State, HTMLButtonElement> {
 
         // TODO: icon
 
-
         return new DOMParser().parseFromString(
             template({
                 className,

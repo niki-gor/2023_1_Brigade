@@ -32,7 +32,7 @@ export class SmartContacts extends Component<Props, State> {
             },
         };
 
-        this.node = STATIC;
+        this.node = STATIC();
     }
 
     render() {
