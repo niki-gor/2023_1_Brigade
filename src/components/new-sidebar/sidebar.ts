@@ -5,6 +5,7 @@ import { Button } from '@uikit/button/button';
 import { svgButtonUI } from '../ui/icon/button';
 import { store } from '@store/store';
 import { Img } from '@/uikit/img/img';
+import { List } from '@uikit/list/list';
 
 interface Props {
     parent: HTMLElement;
@@ -20,6 +21,7 @@ interface Props {
 interface State {
     isMounted: boolean;
     avatar: Img;
+    list: List;
     chatsButton: Button;
     contactsButton: Button;
     logoutButton: Button;
@@ -65,16 +67,21 @@ export class DumbSidebar extends Component<Props, State, HTMLElement> {
             return;
         }
 
+        this.state.list = new List({
+            parent: this.node,
+            className: 'sidebar-header__list',
+        })
+
         this.state.avatar = new Img({
+            parent: document.querySelector('.sidebar-header__list') as HTMLElement,
             src: this.props.avatar,
             size: 'S',
             alt: 'nickname',
             onClick: this.props.avatarOnClick,
-            parent: this.node,
         });
 
         this.state.chatsButton = new Button({
-            parent: this.node,
+            parent: document.querySelector('.sidebar-header__list') as HTMLElement,
             className: 'sidebar-header__chats-btn',
             icon: svgButtonUI.renderTemplate({
                 svgClassName: 'sidebar__chats-icon' ?? '',
@@ -83,7 +90,7 @@ export class DumbSidebar extends Component<Props, State, HTMLElement> {
         });
 
         this.state.contactsButton = new Button({
-            parent: this.node,
+            parent: document.querySelector('.sidebar-header__list') as HTMLElement,
             className: 'sidebar-header__contacts-btn',
             icon: svgButtonUI.renderTemplate({
                 svgClassName: 'sidebar__contacts-icon' ?? '',

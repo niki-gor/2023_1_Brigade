@@ -1,9 +1,9 @@
 .list {
-    display: flex;
     flex-direction: column;
-    justify-content: start;
-    align-items: start;
-    height: 100%;
-    width: 100%;
-    overflow: auto;
+    align-items: center;
+    justify-content: flex-start;
 }
+
+.sidebar-header__list {
+    
+}   

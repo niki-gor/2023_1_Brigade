@@ -65,7 +65,7 @@ export class SmartLogin extends Component<Props, State> {
             },
         };
 
-        this.node = ROOT(); // я бы для ноды вызывал метод render(), типо рендер текущей компоненты
+        this.node = ROOT();
     }
 
     /**

@@ -1,24 +1,27 @@
-import '@uikit/list/list.scss';
+import { Component } from '@/framework/component';
 import template from '@uikit/list/list.pug';
-import { Component } from '@framework/component';
+import '@uikit/list/list.scss';
+
 
 interface Props {
     className?: string;
+    style?: Record<string, string | number>;
+    onClick?: (e?: Event) => void;
     parent: HTMLElement;
 }
 
 interface State {}
 
-export class List extends Component<Props, State> {
+export class List extends Component<Props, State, HTMLElement> {
     constructor(props: Props) {
         super(props);
 
-        this.node = this.render() as HTMLButtonElement;
+        this.node = this.render() as HTMLElement;
         this.componentDidMount();
         this.props.parent.appendChild(this.node);
     }
 
-    destroy() {
+    destroy() {        
         this.componentWillUnmount();
         this.node?.remove();
         this.node = undefined;
@@ -28,18 +31,30 @@ export class List extends Component<Props, State> {
         return this.node;
     }
 
-    componentDidMount() {}
+    componentDidMount() {
+        if (!this.node) {
+            return;
+        }
 
-    componentWillUnmount() {}
+        if (this.props.onClick) {
+            this.node.addEventListener('click', this.props.onClick);
+        }
+    }
 
-    render() {
-        const className = `${this.props.className ?? ''}`.trim();
+    componentWillUnmount() {
+        if (!this.node) {
+            return;
+        }
 
-        return new DOMParser().parseFromString(
-            template({
-                className,
-            }),
-            'text/html'
-        ).body.firstChild;
+        if (this.props.onClick) {
+            this.node.removeEventListener('click', this.props.onClick);
+        }
+    }
+
+    private render() {
+        return new DOMParser().parseFromString(template({
+            ClassName: this.props.className ?? '',
+            Style: this.props.style ?? '',
+        }), 'text/html').body.firstChild;
     }
 }
