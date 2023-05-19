@@ -16,7 +16,7 @@ interface Props {
 }
 
 interface State {
-    isSubscribed: boolean;
+    isMounted: boolean;
     domElements: {
         email: HTMLInputElement | null;
         password: HTMLInputElement | null;
@@ -46,7 +46,7 @@ export class SmartLogin extends Component<Props, State> {
         super(props);
 
         this.state = {
-            isSubscribed: false,
+            isMounted: false,
             valid: {
                 emailIsValid: false,
                 passwordIsValid: false,
@@ -66,13 +66,23 @@ export class SmartLogin extends Component<Props, State> {
         };
 
         this.node = ROOT(); // я бы для ноды вызывал метод render(), типо рендер текущей компоненты
+
+        this.componentDidMount();
+    }
+
+    destroy() {
+        if (this.state.isMounted) {
+            this.componentWillUnmount();
+        } else {
+            console.error('SmartLogin is not mounted');
+        }
     }
 
     /**
      * Рендерит логин
      */
     render() {
-        if (this.state.isSubscribed && !LOGIN()) {
+        if (this.state.isMounted && !LOGIN()) {
             STATIC().innerHTML = DYNAMIC().innerHTML = SIDEBAR().innerHTML = '';
 
             new DumbLogin({
@@ -122,7 +132,7 @@ export class SmartLogin extends Component<Props, State> {
      * Показывает, что была введа незарегистрированная почта
      */
     invalidEmail() {
-        if (this.state.isSubscribed && this.props?.invalidEmail) {
+        if (this.state.isMounted && this.props?.invalidEmail) {
             this.state.domElements.email?.classList.add(
                 'login-reg__input_error'
             );
@@ -141,7 +151,7 @@ export class SmartLogin extends Component<Props, State> {
      * Навешивает переданные обработчики на валидацию и кнопки
      */
     componentDidMount() {
-        if (this.state.isSubscribed === false) {
+        if (this.state.isMounted === false) {
             this.unsubscribe = store.subscribe(
                 this.constructor.name,
                 (props: Props) => {
@@ -152,7 +162,7 @@ export class SmartLogin extends Component<Props, State> {
                 }
             );
 
-            this.state.isSubscribed = true;
+            this.state.isMounted = true;
 
             store.dispatch(createRenderAction());
         }
@@ -162,9 +172,9 @@ export class SmartLogin extends Component<Props, State> {
      * Удаляет все подписки
      */
     componentWillUnmount() {
-        if (this.state.isSubscribed) {
+        if (this.state.isMounted) {
             this.unsubscribe();
-            this.state.isSubscribed = false;
+            this.state.isMounted = false;
 
             LOGIN().remove();
         }

@@ -30,7 +30,7 @@ interface Props {
 }
 
 interface State {
-    isSubscribed: boolean;
+    isMounted: boolean;
 
     domElements: {
         list: List | null;
@@ -51,7 +51,7 @@ export class SmartChatList extends Component<Props, State> {
         super(props);
 
         this.state = {
-            isSubscribed: false,
+            isMounted: false,
 
             domElements: {
                 list: null,
@@ -70,8 +70,16 @@ export class SmartChatList extends Component<Props, State> {
         this.node = STATIC();
     }
 
+    destroy() {
+        if (this.state.isMounted) {
+            this.componentWillUnmount();
+        } else {
+            console.error('SmartSignUp is not mounted');
+        }
+    }
+
     render() {
-        if (this.state.isSubscribed && this.props?.user) {
+        if (this.state.isMounted && this.props?.user) {
             if (!this.props?.chats) {
                 this.props.chats = [];
             }
@@ -413,7 +421,7 @@ export class SmartChatList extends Component<Props, State> {
     }
 
     componentDidMount() {
-        if (!this.state.isSubscribed) {
+        if (!this.state.isMounted) {
             this.unsubscribe = store.subscribe(
                 this.constructor.name,
                 (props: Props) => {
@@ -423,8 +431,8 @@ export class SmartChatList extends Component<Props, State> {
                 }
             );
 
-            if (this.state.isSubscribed === false) {
-                this.state.isSubscribed = true;
+            if (this.state.isMounted === false) {
+                this.state.isMounted = true;
             }
 
             store.dispatch(createGetChatsAction());
@@ -432,7 +440,7 @@ export class SmartChatList extends Component<Props, State> {
     }
 
     componentWillUnmount() {
-        if (this.state.isSubscribed) {
+        if (this.state.isMounted) {
             store.dispatch(createDeleteSearchedChatsAction());
 
             this.state.domElements.items?.forEach((item) => {
@@ -446,7 +454,7 @@ export class SmartChatList extends Component<Props, State> {
             this.state.domElements.list = null;
 
             this.unsubscribe();
-            this.state.isSubscribed = false;
+            this.state.isMounted = false;
         }
     }
 

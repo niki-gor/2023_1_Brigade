@@ -28,7 +28,7 @@ interface Props {
 }
 
 interface State {
-    isSubscribed: boolean;
+    isMounted: boolean;
     editingMessageId: string | undefined;
     domElements: {
         input: HTMLInputElement | null;
@@ -59,7 +59,7 @@ export class SmartChat extends Component<Props, State> {
         super(props);
 
         this.state = {
-            isSubscribed: false,
+            isMounted: false,
             editingMessageId: undefined,
             domElements: {
                 input: null,
@@ -74,13 +74,23 @@ export class SmartChat extends Component<Props, State> {
 
         this.chatId = props.chatId;
         this.node = DYNAMIC();
+
+        this.componentDidMount();
+    }
+
+    destroy() {
+        if (this.state.isMounted) {
+            this.componentWillUnmount();
+        } else {
+            console.error('SmartSignUp is not mounted');
+        }
     }
 
     /**
      * Рендерит чат
      */
     render() {
-        if (this.state.isSubscribed && this.chatId) {
+        if (this.state.isMounted && this.chatId) {
             if (this.props?.openedChat?.isNotRendered) {
                 const chat = new DumbChat({
                     chatData: this.props.openedChat,
@@ -432,7 +442,7 @@ export class SmartChat extends Component<Props, State> {
     }
 
     componentDidMount() {
-        if (!this.state.isSubscribed) {
+        if (!this.state.isMounted) {
             if (this.chatId) {
                 this.unsubscribeFromWs = getWs().subscribe(
                     this.chatId,
@@ -448,8 +458,8 @@ export class SmartChat extends Component<Props, State> {
                     }
                 );
 
-                if (this.state.isSubscribed === false) {
-                    this.state.isSubscribed = true;
+                if (this.state.isMounted === false) {
+                    this.state.isMounted = true;
                 }
 
                 store.dispatch(createGetOneChatAction({ chatId: this.chatId }));
@@ -466,9 +476,9 @@ export class SmartChat extends Component<Props, State> {
     }
 
     componentWillUnmount() {
-        if (this.state.isSubscribed) {
+        if (this.state.isMounted) {
             this.unsubscribe();
-            this.state.isSubscribed = false;
+            this.state.isMounted = false;
         }
     }
 }

@@ -16,7 +16,7 @@ interface Props {
 }
 
 interface State {
-    isSubscribed: boolean;
+    isMounted: boolean;
 }
 
 export class DumbChat extends Component<Props, State> {
@@ -34,6 +34,8 @@ export class DumbChat extends Component<Props, State> {
         this.subscribeBtnText = '';
         this.leaveGroup = '';
     }
+
+    destroy() {}
 
     componentDidMount(): void {
         //TODO
