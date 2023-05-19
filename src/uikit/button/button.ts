@@ -58,8 +58,6 @@ export class Button extends Component<Props, State, HTMLButtonElement> {
             this.props.size ? 'button-' + this.props.size : ''
         } ${this.props.type ?? ''} ${this.props.icon ?? ''}`.trim(); // TODO: не нравица
 
-        // TODO: icon
-
         return new DOMParser().parseFromString(
             template({
                 className,

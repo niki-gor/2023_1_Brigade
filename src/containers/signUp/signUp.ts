@@ -19,7 +19,7 @@ import {
     createMoveToLoginAction,
     createRenderAction,
 } from '@actions/routeActions';
-import { ROOT, SIGNUP } from '@config/config';
+import { DYNAMIC, ROOT, SIDEBAR, SIGNUP, STATIC } from '@config/config';
 import { createOccupiedEmailAction } from '@/actions/userActions';
 
 interface Props {
@@ -93,6 +93,7 @@ export class SmartSignUp extends Component<Props, State> {
      */
     render() {
         if (this.state.isSubscribed && !SIGNUP()) {
+            STATIC().innerHTML = DYNAMIC().innerHTML = SIDEBAR().innerHTML = '';
             new DumbSignUp({
                 parent: ROOT(),
             });

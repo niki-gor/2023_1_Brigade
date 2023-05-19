@@ -74,6 +74,7 @@ export class DumbSidebar extends Component<Props, State, HTMLElement> {
 
         this.state.avatar = new Img({
             parent: document.querySelector('.sidebar-header__list') as HTMLElement,
+            className: 'sidebar-header__list sidebar-header__list__item',
             src: this.props.avatar,
             size: 'S',
             alt: 'nickname',
@@ -82,7 +83,7 @@ export class DumbSidebar extends Component<Props, State, HTMLElement> {
 
         this.state.chatsButton = new Button({
             parent: document.querySelector('.sidebar-header__list') as HTMLElement,
-            className: 'sidebar-header__chats-btn',
+            className: 'sidebar-header__chats-btn sidebar-header__list__item',
             icon: svgButtonUI.renderTemplate({
                 svgClassName: 'sidebar__chats-icon' ?? '',
             }),
@@ -91,7 +92,7 @@ export class DumbSidebar extends Component<Props, State, HTMLElement> {
 
         this.state.contactsButton = new Button({
             parent: document.querySelector('.sidebar-header__list') as HTMLElement,
-            className: 'sidebar-header__contacts-btn',
+            className: 'sidebar-header__contacts-btn sidebar-header__list__item',
             icon: svgButtonUI.renderTemplate({
                 svgClassName: 'sidebar__contacts-icon' ?? '',
             }),

@@ -6,10 +6,11 @@
     padding: 8px 15px;
     height: 40px;
     background: var(--primary);
-    border-radius: 4px;
+    border-radius: 5%;
     border: none;
     transition-duration: .2s;
     color: #ffffff;
+    // position: relative;
     cursor: pointer;
 
     &:hover {
