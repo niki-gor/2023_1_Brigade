@@ -29,7 +29,7 @@ interface Props {
 }
 
 interface State {
-    isSubscribed: boolean;
+    isMounted: boolean;
     valid: {
         currentPasswordIsValid: boolean;
         newPasswordIsValid: boolean;
@@ -60,7 +60,7 @@ export class SmartProfile extends Component<Props, State> {
         super(props);
 
         this.state = {
-            isSubscribed: false,
+            isMounted: false,
             valid: {
                 currentPasswordIsValid: false,
                 newPasswordIsValid: false,
@@ -85,15 +85,25 @@ export class SmartProfile extends Component<Props, State> {
         };
 
         this.node = DYNAMIC();
+
+        this.componentDidMount();
     }
 
     #image: File | undefined;
+
+    destroy() {
+        if (this.state.isMounted) {
+            this.componentWillUnmount();
+        } else {
+            console.error('SmartProfile is not mounted');
+        }
+    }
 
     /**
      * Рендерит логин
      */
     render() {
-        if (this.state.isSubscribed && this.props?.user) {
+        if (this.state.isMounted && this.props?.user) {
             const ProfileUI = new DumbProfile({
                 user: this.props?.user,
             });
@@ -174,7 +184,7 @@ export class SmartProfile extends Component<Props, State> {
      * Показывает, что был введен занятый username
      */
     occupiedUsername() {
-        if (this.state.isSubscribed && this.props?.occupiedUsername) {
+        if (this.state.isMounted && this.props?.occupiedUsername) {
             this.state.domElements.username?.classList.add('data-input--error');
             addErrorToClass('occupied-username', usernameErrorTypes);
             store.dispatch(createOccupiedUsernameAction(false));
@@ -185,7 +195,7 @@ export class SmartProfile extends Component<Props, State> {
      * Навешивает переданные обработчики на валидацию и кнопки
      */
     componentDidMount() {
-        if (!this.state.isSubscribed) {
+        if (!this.state.isMounted) {
             this.unsubscribe = store.subscribe(
                 this.constructor.name,
                 (props: Props) => {
@@ -201,8 +211,8 @@ export class SmartProfile extends Component<Props, State> {
                 }
             );
 
-            if (this.state.isSubscribed === false) {
-                this.state.isSubscribed = true;
+            if (this.state.isMounted === false) {
+                this.state.isMounted = true;
             }
 
             store.dispatch(createRenderAction());
@@ -213,9 +223,9 @@ export class SmartProfile extends Component<Props, State> {
      * Удаляет все подписки
      */
     componentWillUnmount() {
-        if (this.state.isSubscribed) {
+        if (this.state.isMounted) {
             this.unsubscribe();
-            this.state.isSubscribed = false;
+            this.state.isMounted = false;
         }
     }
 
@@ -299,7 +309,7 @@ export class SmartProfile extends Component<Props, State> {
     }
 
     incorrectPassword() {
-        if (this.state.isSubscribed && this.props?.incorrectPassword) {
+        if (this.state.isMounted && this.props?.incorrectPassword) {
             this.state.domElements.current_password?.classList.add(
                 'data-input--error'
             );

@@ -27,7 +27,7 @@ interface Props {
 }
 
 interface State {
-    isSubscribed: boolean;
+    isMounted: boolean;
     valid: {
         emailIsValid: boolean;
         passwordIsValid: boolean;
@@ -60,7 +60,7 @@ export class SmartSignUp extends Component<Props, State> {
         super(props);
 
         this.state = {
-            isSubscribed: false,
+            isMounted: false,
             valid: {
                 emailIsValid: false,
                 passwordIsValid: false,
@@ -86,13 +86,23 @@ export class SmartSignUp extends Component<Props, State> {
         };
 
         this.node = ROOT();
+
+        this.componentDidMount();
+    }
+
+    destroy() {
+        if (this.state.isMounted) {
+            this.componentWillUnmount();
+        } else {
+            console.error('SmartSignUp is not mounted');
+        }
     }
 
     /**
      * Рендерит логин
      */
     render() {
-        if (this.state.isSubscribed && !SIGNUP()) {
+        if (this.state.isMounted && !SIGNUP()) {
             STATIC().innerHTML = DYNAMIC().innerHTML = SIDEBAR().innerHTML = '';
             new DumbSignUp({
                 parent: ROOT(),
@@ -160,7 +170,7 @@ export class SmartSignUp extends Component<Props, State> {
      * Показывает, что была введа занятая почта
      */
     occupiedEmail() {
-        if (this.state.isSubscribed && this.props?.occupiedEmail) {
+        if (this.state.isMounted && this.props?.occupiedEmail) {
             this.state.domElements.email?.classList.add(
                 'login-reg__input_error'
             );
@@ -173,7 +183,7 @@ export class SmartSignUp extends Component<Props, State> {
      * Навешивает переданные обработчики на валидацию и кнопки
      */
     componentDidMount() {
-        if (!this.state.isSubscribed) {
+        if (!this.state.isMounted) {
             this.unsubscribe = store.subscribe(
                 this.constructor.name,
                 (props: Props) => {
@@ -184,8 +194,8 @@ export class SmartSignUp extends Component<Props, State> {
                 }
             );
 
-            if (this.state.isSubscribed === false) {
-                this.state.isSubscribed = true;
+            if (this.state.isMounted === false) {
+                this.state.isMounted = true;
             }
 
             store.dispatch(createRenderAction());
@@ -196,9 +206,9 @@ export class SmartSignUp extends Component<Props, State> {
      * Удаляет все подписки
      */
     componentWillUnmount() {
-        if (this.state.isSubscribed) {
+        if (this.state.isMounted) {
             this.unsubscribe();
-            this.state.isSubscribed = false;
+            this.state.isMounted = false;
 
             SIGNUP().remove();
         }
