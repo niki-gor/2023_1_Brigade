@@ -1,0 +1,42 @@
+.message-input {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 21px 68px 21px 27px;
+    width: 100%;
+
+    &__text-field {
+        position: relative;
+        min-width: 100%;
+        min-height: 60px;
+
+        &__in {
+            margin: 0px;
+            min-height: 60px;
+            min-width: 100%;
+            max-height: 500px;
+            outline: none;
+            background: #1C1C24;
+            border: 1px solid #1B262C;
+            border-radius: 10px;
+            font-family: 'SF Pro Display';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 17px;
+            color: #78777C;
+            padding: 18px 40px 18px 18px;
+
+            &:focus {
+                color: #ffffff;    
+            }
+        }
+    }
+}
+
+.message-field__svg {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}

@@ -19,7 +19,7 @@ import {
 import { ChatTypes, MessageActionTypes, MessageTypes } from '@config/enum';
 import { DYNAMIC } from '@config/config';
 import { notify } from '@/services/notification';
-import { DumbMessage } from '@/uikit/message/message';
+import { DumbMessage } from '@/components/message/message';
 import {
     createAddMessageAction,
     createDeleteMessageAction,
@@ -107,15 +107,17 @@ export class SmartChat extends Component<Props, State> {
                     chatTitle: this.props?.openedChat?.title,
                     onDeleteMessage: this.handleDeleteMessage.bind(this),
                     onEditMessage: this.handleEditMessage.bind(this),
+                    onSendMessage: this.handleClickSendButton.bind(this),
                 });
 
                 if (this.node) {
                     this.node.innerHTML = this.state.chat.render();
                     this.state.chat.setMessageList();
+                    this.state.chat.setInput();
                 }
 
                 this.state.domElements.input = document.querySelector(
-                    '.input-message__text-field__in'
+                    '.message-input__text-field__in' // '.input-message__text-field__in'
                 ) as HTMLInputElement;
                 this.state.domElements.submitBtn = document.querySelector(
                     '.view-chat__send-message-button'
@@ -291,6 +293,7 @@ export class SmartChat extends Component<Props, State> {
     }
 
     handleClickSendButton() {
+        // TODO: тоже должна проверять кнопка
         const body = this.state.domElements.input?.value.trim();
         if (!body) {
             return;
@@ -326,6 +329,7 @@ export class SmartChat extends Component<Props, State> {
             }
         }
 
+        // TODO: пусть это делает кнопка
         if (this.state.domElements.input) {
             this.state.domElements.input.value = '';
         }
@@ -410,6 +414,7 @@ export class SmartChat extends Component<Props, State> {
     componentWillUnmount() {
         if (this.state.isMounted) {
             this.unsubscribe();
+            this.state.chat?.destroy();
             this.state.isMounted = false;
         }
     }

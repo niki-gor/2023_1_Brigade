@@ -3,9 +3,9 @@ import '@components/chat/chat.scss';
 import { Component } from '@framework/component';
 import { svgButtonUI } from '@/components/ui/icon/button';
 import { chatAvatarUi } from '@components/ui/chatAvatar/chatAvatar';
-import { inputUI } from '@components/ui/input/input';
 import { ChatTypes } from '@config/enum';
-import { DumbMessage } from '@/uikit/message/message';
+import { DumbMessage } from '@components/message/message';
+import { MessageInput } from '../message-input/message-input';
 
 interface Props {
     chatData: OpenedChat;
@@ -15,11 +15,13 @@ interface Props {
     userAvatar: string;
     onDeleteMessage: (message: DumbMessage) => void;
     onEditMessage: (message: DumbMessage) => void;
+    onSendMessage: () => void;
 }
 
 interface State {
     isMounted: boolean;
     messages: DumbMessage[];
+    messageInput: MessageInput | undefined;
 }
 
 export class DumbChat extends Component<Props, State> {
@@ -34,6 +36,7 @@ export class DumbChat extends Component<Props, State> {
         this.state = {
             isMounted: false,
             messages: [],
+            messageInput: undefined,
         };
         this.editBtn = '';
         this.deleteChatBtn = '';
@@ -42,7 +45,11 @@ export class DumbChat extends Component<Props, State> {
         this.leaveGroup = '';
     }
 
-    destroy() {}
+    destroy() {
+        this.state.messages.forEach((message) => message.destroy());
+        this.state.messageInput?.destroy();
+        this.state.isMounted = false;
+    }
 
     componentDidMount(): void {
         //TODO
@@ -113,6 +120,19 @@ export class DumbChat extends Component<Props, State> {
         });
     }
 
+    setInput() {
+        if (this.channelInput !== '') {
+            const parent = document.querySelector(
+                '.view-chat__message-input'
+            ) as HTMLElement;
+
+            this.state.messageInput = new MessageInput({
+                onSend: this.props.onSendMessage,
+                parent,
+            });
+        }
+    }
+
     private checkRights(): boolean {
         if (this.props?.chatData?.master_id === this.props?.userId) {
             return true;
@@ -148,33 +168,24 @@ export class DumbChat extends Component<Props, State> {
         ) {
             this.editBtn = 'edit-chat';
             this.deleteChatBtn = 'delete-btn';
-            this.channelInput = new inputUI({
-                inputClassName: 'view-chat__input-message',
-                sendBtn: svgButtonUI.renderTemplate({
-                    svgClassName: 'view-chat__send-message-button',
-                }),
-                placeholder: 'Type something...',
-            }).render();
+            this.channelInput = 'yes';
         }
 
         if (this.props.chatData.type !== ChatTypes.Channel) {
             if (this.props.chatData.type !== ChatTypes.Group) {
                 this.deleteChatBtn = 'delete-btn';
             }
-            this.channelInput = new inputUI({
-                inputClassName: 'view-chat__input-message',
-                sendBtn: svgButtonUI.renderTemplate({
-                    svgClassName: 'view-chat__send-message-button',
-                }),
-                placeholder: 'Сообщение',
-            }).render();
+            this.channelInput = 'yes';
+
             this.subscribeBtnText = '';
         }
 
         if (this.props.chatData.type === ChatTypes.Group) {
             this.leaveGroup = 'Выйти из группы';
+            this.channelInput = 'yes';
         }
 
+        this.state.isMounted = true;
         return template({
             EditBtn: svgButtonUI.renderTemplate({ svgClassName: this.editBtn }),
             LeaveGroupBtn: this.leaveGroup,
@@ -192,8 +203,7 @@ export class DumbChat extends Component<Props, State> {
                 Online: false,
             }),
             Subscriberes: this.props?.chatData?.members?.length,
-            // MessageList: this.getMessageList(),
-            Input: this.channelInput,
+            // Input: this.channelInput,
             SubsribeBtnText: this.subscribeBtnText,
         });
     }
