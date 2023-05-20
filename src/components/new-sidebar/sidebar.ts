@@ -83,7 +83,7 @@ export class DumbSidebar extends Component<Props, State, HTMLElement> {
 
         this.state.chatsButton = new Button({
             parent: document.querySelector('.sidebar-header__list') as HTMLElement,
-            className: 'sidebar-header__chats-btn sidebar-header__list__item',
+            className: 'sidebar-header__chats-btn sidebar-header__list__item button-transparent',
             icon: svgButtonUI.renderTemplate({
                 svgClassName: 'sidebar__chats-icon' ?? '',
             }),
@@ -92,7 +92,7 @@ export class DumbSidebar extends Component<Props, State, HTMLElement> {
 
         this.state.contactsButton = new Button({
             parent: document.querySelector('.sidebar-header__list') as HTMLElement,
-            className: 'sidebar-header__contacts-btn sidebar-header__list__item',
+            className: 'sidebar-header__contacts-btn sidebar-header__list__item button-transparent',
             icon: svgButtonUI.renderTemplate({
                 svgClassName: 'sidebar__contacts-icon' ?? '',
             }),
@@ -101,7 +101,7 @@ export class DumbSidebar extends Component<Props, State, HTMLElement> {
 
         this.state.logoutButton = new Button({
             parent: this.node,
-            className: 'sidebar-header__logout-btn',
+            className: 'sidebar-header__logout-btn button-transparent',
             icon: svgButtonUI.renderTemplate({
                 svgClassName: 'logout-btn' ?? '',
             }),
@@ -110,7 +110,6 @@ export class DumbSidebar extends Component<Props, State, HTMLElement> {
 
         this.unsubscribe = store.subscribe(this.constructor.name, (state) => {
             const prevProps = this.props;
-
             this.props.avatar = this.props.hookAvatar(state);
 
             if (this.props !== prevProps) {
