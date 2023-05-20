@@ -71,7 +71,7 @@ export class Dropdown extends Component<Props, State> {
             this.node.style.top = this.props.top + 'px';
         }
 
-        document.addEventListener('click', this.destroy.bind(this), {
+        document.addEventListener('mousedown', this.destroy.bind(this), {
             once: true,
         });
 
