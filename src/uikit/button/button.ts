@@ -56,7 +56,7 @@ export class Button extends Component<Props, State, HTMLButtonElement> {
     render() {
         const className = `${this.props.className ?? ''} ${
             this.props.size ? 'button-' + this.props.size : ''
-        } ${this.props.type ?? ''} ${this.props.icon ?? ''}`.trim(); // TODO: не нравица
+        } ${this.props.type ?? ''}`.trim();
 
         return new DOMParser().parseFromString(
             template({

@@ -92,5 +92,10 @@ export class SmartSidebar extends Component<Props, State> {
 
     logoutOnClick() {
         store.dispatch(createLogoutAction());
+        const popUpOpen = () => {
+            document.querySelector('.sidebar-header__logout-btn')?.addEventListener('click', () => {
+                // TODO: popup component
+            })
+        }
     }
 }

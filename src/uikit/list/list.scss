@@ -7,3 +7,13 @@
 .sidebar-header__list {
     
 }
+
+
+.sidebar-header__list__item {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    flex: none;
+    order: 3;
+    flex-grow: 0;
+}
