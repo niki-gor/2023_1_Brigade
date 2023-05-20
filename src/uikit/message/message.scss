@@ -3,13 +3,14 @@
     justify-content: flex-start;
     width: 100%;
     background-color: transparent;
+    margin-bottom: 10px;
 
     &__left {
-        align-self: flex-start;
+        justify-content: flex-start;
     }
 
     &__right {
-        align-self: flex-end;
+        justify-content: flex-end;
     }
 
     &__avatar {
@@ -25,11 +26,12 @@
     }
 
     &__content {
+        max-width: 60%;
         flex-direction: column;
         justify-content: end;
         padding: 10px;
         background: rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
+        border-radius: 15px;
     }
 
     &__body {

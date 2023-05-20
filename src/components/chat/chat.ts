@@ -4,8 +4,8 @@ import { Component } from '@framework/component';
 import { svgButtonUI } from '@/components/ui/icon/button';
 import { chatAvatarUi } from '@components/ui/chatAvatar/chatAvatar';
 import { inputUI } from '@components/ui/input/input';
-import { DumpMessage } from '@components/message/message';
 import { ChatTypes } from '@config/enum';
+import { DumbMessage } from '@/uikit/message/message';
 
 interface Props {
     chatData: OpenedChat;
@@ -13,10 +13,13 @@ interface Props {
     chatTitle: string;
     userId: number;
     userAvatar: string;
+    onDeleteMessage: (message: DumbMessage) => void;
+    onEditMessage: (message: DumbMessage) => void;
 }
 
 interface State {
     isMounted: boolean;
+    messages: DumbMessage[];
 }
 
 export class DumbChat extends Component<Props, State> {
@@ -28,6 +31,10 @@ export class DumbChat extends Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
+        this.state = {
+            isMounted: false,
+            messages: [],
+        };
         this.editBtn = '';
         this.deleteChatBtn = '';
         this.channelInput = '';
@@ -45,50 +52,65 @@ export class DumbChat extends Component<Props, State> {
         //TODO
     }
 
-    #getMessageData(message: { author_id: number }): {
-        messageAvatar: string;
-        messageUsername: string;
-    } {
-        let messageAvatar;
-        let messageUsername;
+    getAuthor(message: Message) {
+        let author: User | undefined = undefined;
+
         for (const member of this.props.chatData.members) {
-            if (member.id === message.author_id) {
-                messageAvatar = member.avatar;
-                messageUsername = member.nickname;
+            if (
+                member.id === message.author_id &&
+                member.id !== this.props.userId
+            ) {
+                author = member;
             }
         }
 
-        return {
-            messageAvatar: messageAvatar ?? '',
-            messageUsername: messageUsername ?? '',
-        };
+        return author;
     }
 
-    getMessageList() {
-        const messages: string[] = [];
+    addMessage(parent: HTMLElement, message: Message) {
+        const messageComponent = new DumbMessage({
+            message,
+            hookMessage: (state) => {
+                let updatedMessage: Message | undefined = undefined;
 
-        if (this.props.chatData?.messages) {
-            for (const message of this.props.chatData.messages) {
-                const messageData: {
-                    messageAvatar: string;
-                    messageUsername: string;
-                } = this.#getMessageData(message);
+                state.openedChat?.messages.forEach((newMessage) => {
+                    if (newMessage.id === message.id) {
+                        updatedMessage = newMessage;
+                    }
+                });
 
-                const mes = new DumpMessage({
-                    messageSide: message.author_id === this.props.userId,
-                    messageAvatar: messageData.messageAvatar,
-                    username: messageData.messageUsername,
-                    messageContent: message.body,
-                    id: message.id,
-                }).render();
+                return updatedMessage;
+            },
+            user:
+                this.props.chatData.type === ChatTypes.Group
+                    ? this.getAuthor(message)
+                    : undefined,
+            place: message.author_id === this.props.userId ? 'right' : 'left',
+            onDelete:
+                message.author_id === this.props.userId
+                    ? this.props.onDeleteMessage
+                    : undefined,
+            onEdit:
+                message.author_id === this.props.userId
+                    ? this.props.onEditMessage
+                    : undefined,
+            parent,
+        });
 
-                if (mes) {
-                    messages.push(mes);
-                }
-            }
+        this.state.messages.push(messageComponent);
+    }
+
+    setMessageList() {
+        const parent = document.querySelector(
+            '.view-chat__messages'
+        ) as HTMLElement;
+        if (!parent) {
+            return;
         }
 
-        return messages.reverse();
+        this.props.chatData?.messages?.forEach((message) => {
+            this.addMessage(parent, message);
+        });
     }
 
     private checkRights(): boolean {
@@ -170,7 +192,7 @@ export class DumbChat extends Component<Props, State> {
                 Online: false,
             }),
             Subscriberes: this.props?.chatData?.members?.length,
-            MessageList: this.getMessageList(),
+            // MessageList: this.getMessageList(),
             Input: this.channelInput,
             SubsribeBtnText: this.subscribeBtnText,
         });
