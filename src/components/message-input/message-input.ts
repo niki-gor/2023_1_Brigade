@@ -83,7 +83,7 @@ export class MessageInput extends Component<Props, State> {
             '.message-input__text-field__in'
         ) as HTMLInputElement;
 
-        document.addEventListener('keydown', this.inputFocus.bind(this));
+        document.addEventListener('keyup', this.inputFocus.bind(this));
 
         this.state.emojiButton = this.node.querySelector(
             '.view-chat__add-emoji-sticker'
