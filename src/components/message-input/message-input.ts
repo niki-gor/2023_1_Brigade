@@ -4,6 +4,7 @@ import { Component } from '@framework/component';
 import { Img } from '@uikit/img/img';
 import { svgButtonUI } from '@components/ui/icon/button';
 import { MessageTypes } from '@config/enum';
+import { Emoji } from '@/config/emoji';
 
 interface Props {
     onSend: (type: MessageTypes, body?: string, image_url?: string) => void;
