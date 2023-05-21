@@ -101,8 +101,8 @@ export class DumbMessage extends Component<Props, State> {
                     borderRadius: '10',
                     size:
                         this.props.message.type === MessageTypes.notSticker
-                            ? 'L'
-                            : 'M',
+                            ? 'XL'
+                            : 'L',
                     alt: '',
                     parent: messageImage,
                 });

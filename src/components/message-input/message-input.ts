@@ -6,6 +6,7 @@ import { svgButtonUI } from '@components/ui/icon/button';
 import { MessageTypes } from '@config/enum';
 import { Emoji, Stickers } from '@/config/emojis-stickers';
 import { Button } from '@uikit/button/button';
+import { sendImage } from '@/utils/api';
 
 interface Props {
     onSend: (message: {
@@ -209,9 +210,19 @@ export class MessageInput extends Component<Props, State> {
             return;
         }
 
+        // ? где и как такое лучше делать
         if (this.state.attachmentFile) {
-            // TODO: запрос
-            imgUrl = '';
+            const { status, body } = await sendImage(this.state.attachmentFile);
+
+            const jsonBody = await body;
+
+            switch (status) {
+                case 201:
+                    imgUrl = jsonBody;
+                    break;
+                default:
+                // TODO: мб отправлять какие-нибудь логи на бэк? ну и мб высветить страничку, мол вообще хз что, попробуй позже
+            }
         }
 
         this.props.onSend({
