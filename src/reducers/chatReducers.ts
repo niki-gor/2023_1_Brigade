@@ -65,7 +65,7 @@ export const reduceSetChats = (state: StoreState, action: Action) => {
             const payload = action.payload as Record<string, Chat[]>;
             return {
                 ...state,
-                chats: payload?.chats as Chat[],
+                chats: payload.chats as Chat[],
             };
         default:
             return {

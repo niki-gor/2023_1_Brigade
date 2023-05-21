@@ -10,10 +10,11 @@ import { constantsOfActions } from '@config/actions';
 export const reduceSetContacts = (state: StoreState, action: Action) => {
     switch (action.type) {
         case constantsOfActions.setContacts:
+            const payload = action.payload as Record<string, User[]>;
             if (action.payload) {
                 return {
                     ...state,
-                    contacts: action.payload as User[],
+                    contacts: payload.contacts as User[],
                 };
             }
         default:
