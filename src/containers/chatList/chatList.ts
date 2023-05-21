@@ -99,38 +99,6 @@ export class SmartChatList extends Component<Props, State> {
             }
 
             this.state.domElements.list?.componentWillUnmount();
-            // const list = new List({
-            //     parent: this.rootNode,
-            // })
-
-            // list.componentDidMount();
-
-            // this.props.chats.forEach((chat: anyObject) => {
-            //     const chatItem = new ChatItem({
-            //         chat,
-            //         onClick: () => { console.log('onClick', chat.title)},
-            //         parent: list.getNode()
-            //     });
-
-            //     chatItem.componentDidMount();
-            // });
-
-            // const uns = this.unsubscribe.pop();
-            // if (uns) {
-            //     uns();
-            // }
-
-            // const findContactsSelector = document.querySelector('.chats__header') as HTMLElement;
-            // const findContactsInput = findContactsSelector?.querySelector('.chats__header__input__search') as HTMLInputElement;
-            // findContactsInput?.addEventListener('input', this.throttle(() => {
-            //     console.log(findContactsInput?.value);
-            // }, 1000))
-
-            // const findChatsSelector = document.querySelector('.chats__header__input flex') as HTMLElement;
-            // const findChatsInput = findChatsSelector.querySelector('.chats__header__input__search') as HTMLInputElement;
-            // findChatsInput?.addEventListener('input', this.throttle(() => {
-            //     console.log(findChatsInput?.value);
-            // }, 1000))
 
             const ChatListUI = new DumbChatList({
                 chats: [],
@@ -147,8 +115,6 @@ export class SmartChatList extends Component<Props, State> {
                 this.state.domElements.input.value =
                     this.state.domElements.inputValue;
             }
-            // this.state.domElements.dropdownToggle = document.querySelector('.dropdown-toggle');
-            // this.state.domElements.dropdownMenu = document.querySelector('.dropdown-menu');
 
             this.state.domElements.input?.addEventListener('input', () => {
                 this.handleSearch();
@@ -161,17 +127,6 @@ export class SmartChatList extends Component<Props, State> {
             this.state.domElements.input?.addEventListener('blur', () => {
                 this.handleInputBlur();
             });
-
-            // this.state.domElements.dropdownToggle?.addEventListener('click', () => {
-            //     this.state.domElements.dropdownMenu?.classList.toggle('show');
-            // });
-
-            // window.addEventListener('click', (event) => {
-            //     if (event.target instanceof Node && !this.state.domElements.dropdownToggle?.contains(event.target)
-            //         && !this.state.domElements.dropdownMenu?.contains(event.target)) {
-            //         this.state.domElements.dropdownMenu?.classList.remove('show');
-            //     }
-            // });
 
             this.state.domElements.chats =
                 document.querySelector('.empty_chats');

@@ -11,6 +11,10 @@
 
     &__right {
         justify-content: flex-end;
+        
+        .message__content {
+            background: #8774E1;
+        }
     }
 
     &__avatar {
@@ -43,7 +47,7 @@
         color: #FFFFFF;
 
 
-        // word-wrap: break-word;
+        word-wrap: break-word;
         word-break: normal;
         white-space: normal;
     }
