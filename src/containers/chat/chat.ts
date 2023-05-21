@@ -117,7 +117,7 @@ export class SmartChat extends Component<Props, State> {
                 }
 
                 this.state.domElements.input = document.querySelector(
-                    '.message-input__text-field__in' // '.input-message__text-field__in'
+                    '.message-input__text-field__in'
                 ) as HTMLInputElement;
                 this.state.domElements.submitBtn = document.querySelector(
                     '.view-chat__send-message-button'
@@ -210,23 +210,23 @@ export class SmartChat extends Component<Props, State> {
                     }
                 );
 
-                this.state.domElements?.input?.addEventListener(
-                    'keydown',
-                    (e) => {
-                        if (e.key === 'Enter' && e.target) {
-                            this.handleClickSendButton();
-                        }
-                    }
-                );
+                // this.state.domElements?.input?.addEventListener(
+                //     'keydown',
+                //     (e) => {
+                //         if (e.key === 'Enter' && e.target) {
+                //             this.handleClickSendButton();
+                //         }
+                //     }
+                // );
 
-                this.state.domElements.submitBtn?.addEventListener(
-                    'click',
-                    (e) => {
-                        e.preventDefault();
+                // this.state.domElements.submitBtn?.addEventListener(
+                //     'click',
+                //     (e) => {
+                //         e.preventDefault();
 
-                        this.handleClickSendButton();
-                    }
-                );
+                //         this.handleClickSendButton();
+                //     }
+                // );
 
                 this.state.domElements.deleteBtn?.addEventListener(
                     'click',
@@ -292,13 +292,11 @@ export class SmartChat extends Component<Props, State> {
         }
     }
 
-    handleClickSendButton() {
-        // TODO: тоже должна проверять кнопка
-        const body = this.state.domElements.input?.value.trim();
-        if (!body) {
-            return;
-        }
-
+    handleClickSendButton(
+        type: MessageTypes,
+        body?: string,
+        image_url?: string
+    ) {
         if (
             this.state.domElements.input?.value &&
             this.chatId &&
@@ -308,9 +306,9 @@ export class SmartChat extends Component<Props, State> {
                 getWs().send({
                     id: this.state.editingMessage?.getMessage().id,
                     action: MessageActionTypes.Edit,
-                    type: this.state.editingMessage?.getMessage().type,
-                    image_url: '',
-                    body: this.state.domElements.input?.value,
+                    type,
+                    image_url: image_url ?? '',
+                    body: body ?? '',
                     author_id: 0,
                     chat_id: this.chatId,
                 });
@@ -320,18 +318,13 @@ export class SmartChat extends Component<Props, State> {
                 getWs().send({
                     id: '',
                     action: MessageActionTypes.Create,
-                    type: MessageTypes.notSticker,
-                    image_url: '',
-                    body: this.state.domElements.input?.value,
+                    type,
+                    image_url: image_url ?? '',
+                    body: body ?? '',
                     author_id: this.props.user.id,
                     chat_id: this.chatId,
                 });
             }
-        }
-
-        // TODO: пусть это делает кнопка
-        if (this.state.domElements.input) {
-            this.state.domElements.input.value = '';
         }
     }
 

@@ -2,10 +2,11 @@ import '@components/message-input/message-input.scss';
 import template from '@components/message-input/message-input.pug';
 import { Component } from '@framework/component';
 import { Img } from '@uikit/img/img';
-import { svgButtonUI } from '../ui/icon/button';
+import { svgButtonUI } from '@components/ui/icon/button';
+import { MessageTypes } from '@config/enum';
 
 interface Props {
-    onSend: () => void;
+    onSend: (type: MessageTypes, body?: string, image_url?: string) => void;
     className?: string;
     style?: Record<string, string | number>;
     parent: HTMLElement;
@@ -14,10 +15,12 @@ interface Props {
 interface State {
     isMounted: boolean;
     icons: string[];
+    input: HTMLInputElement | null;
     sendButton: HTMLElement | null;
     emojiButton: HTMLElement | null;
     attachmentButton: HTMLElement | null;
     attachmentImg?: Img;
+
     attachmentFile?: File;
 }
 
@@ -27,6 +30,7 @@ export class MessageInput extends Component<Props, State> {
 
         this.state = {
             isMounted: false,
+            input: null,
             icons: [],
             sendButton: null,
             emojiButton: null,
@@ -62,27 +66,72 @@ export class MessageInput extends Component<Props, State> {
             return;
         }
 
+        this.state.input = this.node.querySelector(
+            '.message-input__text-field__in'
+        ) as HTMLInputElement;
+        this.state.input?.addEventListener(
+            'keydown',
+            this.inputEnter.bind(this)
+        );
+        document.addEventListener('keydown', this.inputFocus.bind(this));
+
         this.state.emojiButton = this.node.querySelector(
             '.view-chat__add-emoji-sticker'
         );
-        this.state.attachmentButton = this.node.querySelector(
-            '.view-chat__add-attachment-button'
-        );
-        this.state.sendButton = this.node.querySelector(
-            '.view-chat__send-message-button'
-        );
-
         this.state.emojiButton?.addEventListener(
             'click',
             this.onEmoji.bind(this)
+        );
+
+        this.state.attachmentButton = this.node.querySelector(
+            '.view-chat__add-attachment-button'
         );
         this.state.attachmentButton?.addEventListener(
             'click',
             this.onAttachment.bind(this)
         );
-        this.state.sendButton?.addEventListener('click', this.props.onSend);
+
+        this.state.sendButton = this.node.querySelector(
+            '.view-chat__send-message-button'
+        );
+        this.state.sendButton?.addEventListener(
+            'click',
+            this.onSend.bind(this)
+        );
 
         this.state.isMounted = true;
+    }
+
+    inputFocus() {
+        this.state.input?.focus();
+    }
+
+    inputEnter(e: KeyboardEvent) {
+        if (e.key === 'Enter' && e.target) {
+            this.onSend();
+        }
+    }
+
+    async onSend() {
+        const body = this.state.input?.value;
+        let imgUrl = '';
+
+        if (!body?.trim() && !this.state.attachmentFile) {
+            return;
+        }
+
+        if (this.state.attachmentFile) {
+            // TODO: запрос
+            imgUrl = '';
+        }
+
+        this.props.onSend(MessageTypes.notSticker, body, imgUrl);
+
+        if (this.state.input) {
+            this.state.input.value = '';
+            this.state.attachmentFile = undefined;
+            this.state.attachmentImg?.destroy();
+        }
     }
 
     onEmoji() {
@@ -124,6 +173,11 @@ export class MessageInput extends Component<Props, State> {
             return;
         }
 
+        this.state.input?.removeEventListener(
+            'keydown',
+            this.inputEnter.bind(this)
+        );
+        document.removeEventListener('keydown', this.inputFocus.bind(this));
         this.state.emojiButton?.removeEventListener(
             'click',
             this.onEmoji.bind(this)
@@ -132,7 +186,10 @@ export class MessageInput extends Component<Props, State> {
             'click',
             this.onAttachment.bind(this)
         );
-        this.state.sendButton?.removeEventListener('click', this.props.onSend);
+        this.state.sendButton?.removeEventListener(
+            'click',
+            this.onSend.bind(this)
+        );
 
         this.state.attachmentImg?.destroy();
 

@@ -3,7 +3,7 @@ import '@components/chat/chat.scss';
 import { Component } from '@framework/component';
 import { svgButtonUI } from '@/components/ui/icon/button';
 import { chatAvatarUi } from '@components/ui/chatAvatar/chatAvatar';
-import { ChatTypes } from '@config/enum';
+import { ChatTypes, MessageTypes } from '@config/enum';
 import { DumbMessage } from '@components/message/message';
 import { MessageInput } from '../message-input/message-input';
 
@@ -15,7 +15,11 @@ interface Props {
     userAvatar: string;
     onDeleteMessage: (message: DumbMessage) => void;
     onEditMessage: (message: DumbMessage) => void;
-    onSendMessage: () => void;
+    onSendMessage: (
+        type: MessageTypes,
+        body?: string,
+        image_url?: string
+    ) => void;
 }
 
 interface State {
