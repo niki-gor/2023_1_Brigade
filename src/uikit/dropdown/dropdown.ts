@@ -55,7 +55,7 @@ export class Dropdown extends Component<Props, State> {
 
         this.node
             .querySelector('.new-dropdown-toggle')
-            ?.addEventListener('click', this.onClick);
+            ?.addEventListener('click', this.onClick.bind(this));
 
         this.props.elements.forEach((element) => {
             this.node
@@ -73,6 +73,12 @@ export class Dropdown extends Component<Props, State> {
 
         document.addEventListener('click', this.destroy.bind(this), {
             once: true,
+        });
+
+        setTimeout(() => {
+            document.addEventListener('contextmenu', this.destroy.bind(this), {
+                once: true,
+            });
         });
 
         this.state.isMounted = true;

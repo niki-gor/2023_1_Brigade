@@ -109,10 +109,7 @@ export class DumbMessage extends Component<Props, State> {
             }
         }
 
-        if (
-            this.props.place === 'left' ||
-            this.props.message.type === MessageTypes.Sticker
-        ) {
+        if (this.props.place === 'left') {
             return;
         }
 
@@ -135,13 +132,6 @@ export class DumbMessage extends Component<Props, State> {
     }
 
     render() {
-        // const style = {
-        //     'background-color': '',
-        // };
-
-        // if (this.props.message.body === '') {
-        //     style['background-color'] = 'inherit';
-        // }
         const className = `${this.props.className ?? ''} message__${
             this.props.place
         } ${this.props.message.body ? '' : 'message--sticker'}`.trim();
@@ -171,25 +161,33 @@ export class DumbMessage extends Component<Props, State> {
     }
 
     onRightClick(event: MouseEvent) {
-        const dropdown = new Dropdown({
+        new Dropdown({
+            className: 'new-dropdown--show',
             parent: ROOT(),
-            elements: [
-                {
-                    className: 'edit-message',
-                    label: 'Изменить',
-                    onClick: this.onEdit.bind(this),
-                },
-                {
-                    className: 'delete-message',
-                    label: 'Удалить',
-                    onClick: this.onDelete.bind(this),
-                },
-            ],
+            elements:
+                this.props.message.type === MessageTypes.notSticker
+                    ? [
+                          {
+                              className: 'edit-message',
+                              label: 'Изменить',
+                              onClick: this.onEdit.bind(this),
+                          },
+                          {
+                              className: 'delete-message',
+                              label: 'Удалить',
+                              onClick: this.onDelete.bind(this),
+                          },
+                      ]
+                    : [
+                          {
+                              className: 'delete-message',
+                              label: 'Удалить',
+                              onClick: this.onDelete.bind(this),
+                          },
+                      ],
             left: event.pageX,
             top: event.pageY,
         });
-
-        dropdown.onClick();
     }
 
     onDelete() {

@@ -171,7 +171,7 @@ export class MessageInput extends Component<Props, State> {
                         size: 'S',
                         onClick: () => {
                             this.props.onSend({
-                                type: MessageTypes.notSticker,
+                                type: MessageTypes.Sticker,
                                 image_url: sticker,
                             });
                         },
@@ -258,6 +258,10 @@ export class MessageInput extends Component<Props, State> {
                     });
                 };
             }
+
+            this.node
+                ?.querySelector('.message-input__attachment')
+                ?.classList.add('message-input__attachment--show');
         });
 
         input.click();
