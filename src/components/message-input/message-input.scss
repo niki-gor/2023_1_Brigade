@@ -2,7 +2,6 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    // padding: 21px 68px 21px 27px;
     background: #1C1C24;
     border: 1px solid #1B262C;
     border-radius: 10px;
@@ -34,6 +33,31 @@
                 color: #ffffff;    
             }
         }
+    }
+
+    &__emoji-stickers {
+        display: none;
+        max-height: 30vh;
+        overflow: auto;
+
+        &--show {
+            display: block; 
+        }
+    }
+
+    &__emoji {
+        width: 30%;
+        height: 100%;
+        flex-wrap: wrap;
+        padding: 18px 18px 18px 18px;
+        border-right: #1B262C;
+    }
+
+    &__stickers {
+        width: 70%;
+        height: 100%;
+        flex-wrap: wrap;
+        padding: 18px 18px 18px 18px;
     }
 }
 

@@ -5,6 +5,7 @@ import { Img } from '@uikit/img/img';
 import { svgButtonUI } from '@components/ui/icon/button';
 import { MessageTypes } from '@config/enum';
 import { Emoji } from '@/config/emoji';
+import { Button } from '@uikit/button/button';
 
 interface Props {
     onSend: (type: MessageTypes, body?: string, image_url?: string) => void;
@@ -16,10 +17,13 @@ interface Props {
 interface State {
     isMounted: boolean;
     icons: string[];
+    emojis: Button[];
+    stickers: Img[];
     input: HTMLInputElement | null;
     sendButton: HTMLElement | null;
     emojiButton: HTMLElement | null;
     attachmentButton: HTMLElement | null;
+    lastInputPosition: number;
     attachmentImg?: Img;
 
     attachmentFile?: File;
@@ -33,9 +37,12 @@ export class MessageInput extends Component<Props, State> {
             isMounted: false,
             input: null,
             icons: [],
+            emojis: [],
+            stickers: [],
             sendButton: null,
             emojiButton: null,
             attachmentButton: null,
+            lastInputPosition: 0,
         };
 
         this.node = this.render() as HTMLElement;
@@ -70,10 +77,7 @@ export class MessageInput extends Component<Props, State> {
         this.state.input = this.node.querySelector(
             '.message-input__text-field__in'
         ) as HTMLInputElement;
-        this.state.input?.addEventListener(
-            'keydown',
-            this.inputEnter.bind(this)
-        );
+
         document.addEventListener('keydown', this.inputFocus.bind(this));
 
         this.state.emojiButton = this.node.querySelector(
@@ -100,17 +104,68 @@ export class MessageInput extends Component<Props, State> {
             this.onSend.bind(this)
         );
 
+        const emojiContainer = this.node.querySelector(
+            '.message-input__emoji'
+        ) as HTMLElement;
+
+        if (emojiContainer) {
+            const style = {
+                background: 'none',
+                border: 'none',
+                color: 'inherit',
+                font: 'inherit',
+                'line-height': 'normal',
+                overflow: 'visible',
+                padding: 0,
+                'text-align': 'inherit',
+                'font-size': '1.6rem',
+                'margin-bottom': 0,
+            };
+
+            Emoji.forEach((emoji) => {
+                this.state.emojis.push(
+                    new Button({
+                        label: emoji,
+                        onClick: () => {
+                            const cursor = this.state.input?.selectionStart;
+
+                            if (this.state.input && (cursor || cursor === 0)) {
+                                this.state.input.value =
+                                    this.state.input.value.slice(0, cursor) +
+                                    emoji +
+                                    this.state.input.value.slice(cursor);
+
+                                this.state.input?.focus();
+                                this.state.input?.setSelectionRange(
+                                    cursor + emoji.length,
+                                    cursor + emoji.length
+                                );
+                            }
+                        },
+                        parent: emojiContainer,
+                        style,
+                    })
+                );
+            });
+        }
+
         this.state.isMounted = true;
     }
 
-    inputFocus() {
-        this.state.input?.focus();
-    }
-
-    inputEnter(e: KeyboardEvent) {
-        if (e.key === 'Enter' && e.target) {
+    inputFocus(e: KeyboardEvent) {
+        if (e.key === 'Enter') {
             this.onSend();
         }
+
+        if (document.activeElement === this.state.input) {
+            return;
+        }
+
+        this.state.input?.focus();
+        this.state.input?.setSelectionRange(
+            this.state.input.value.length,
+            this.state.input.value.length
+        );
     }
 
     async onSend() {
@@ -136,7 +191,9 @@ export class MessageInput extends Component<Props, State> {
     }
 
     onEmoji() {
-        // TODO
+        this.node
+            ?.querySelector('.message-input__emoji-stickers')
+            ?.classList.toggle('message-input__emoji-stickers--show');
     }
 
     onAttachment() {
@@ -174,10 +231,6 @@ export class MessageInput extends Component<Props, State> {
             return;
         }
 
-        this.state.input?.removeEventListener(
-            'keydown',
-            this.inputEnter.bind(this)
-        );
         document.removeEventListener('keydown', this.inputFocus.bind(this));
         this.state.emojiButton?.removeEventListener(
             'click',
@@ -191,6 +244,7 @@ export class MessageInput extends Component<Props, State> {
             'click',
             this.onSend.bind(this)
         );
+        this.state.emojis.forEach((emoji) => emoji.destroy());
 
         this.state.attachmentImg?.destroy();
 
