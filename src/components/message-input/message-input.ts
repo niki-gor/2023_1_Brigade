@@ -4,11 +4,15 @@ import { Component } from '@framework/component';
 import { Img } from '@uikit/img/img';
 import { svgButtonUI } from '@components/ui/icon/button';
 import { MessageTypes } from '@config/enum';
-import { Emoji } from '@/config/emoji';
+import { Emoji, Stickers } from '@/config/emojis-stickers';
 import { Button } from '@uikit/button/button';
 
 interface Props {
-    onSend: (type: MessageTypes, body?: string, image_url?: string) => void;
+    onSend: (message: {
+        type: MessageTypes;
+        body?: string | undefined;
+        image_url?: string | undefined;
+    }) => void;
     className?: string;
     style?: Record<string, string | number>;
     parent: HTMLElement;
@@ -149,6 +153,35 @@ export class MessageInput extends Component<Props, State> {
             });
         }
 
+        const stickersContainer = this.node.querySelector(
+            '.message-input__stickers'
+        ) as HTMLElement;
+
+        if (stickersContainer) {
+            const style = {
+                'margin-bottom': '10px',
+                'margin-right': '10px',
+            };
+
+            Stickers.forEach((sticker) => {
+                this.state.stickers.push(
+                    new Img({
+                        src: sticker,
+                        borderRadius: '10',
+                        size: 'S',
+                        onClick: () => {
+                            this.props.onSend({
+                                type: MessageTypes.notSticker,
+                                image_url: sticker,
+                            });
+                        },
+                        parent: stickersContainer,
+                        style,
+                    })
+                );
+            });
+        }
+
         this.state.isMounted = true;
     }
 
@@ -181,7 +214,11 @@ export class MessageInput extends Component<Props, State> {
             imgUrl = '';
         }
 
-        this.props.onSend(MessageTypes.notSticker, body, imgUrl);
+        this.props.onSend({
+            type: MessageTypes.notSticker,
+            body,
+            image_url: imgUrl,
+        });
 
         if (this.state.input) {
             this.state.input.value = '';
@@ -244,8 +281,9 @@ export class MessageInput extends Component<Props, State> {
             'click',
             this.onSend.bind(this)
         );
-        this.state.emojis.forEach((emoji) => emoji.destroy());
 
+        this.state.emojis.forEach((emoji) => emoji.destroy());
+        this.state.stickers.forEach((sticker) => sticker.destroy());
         this.state.attachmentImg?.destroy();
 
         this.state.isMounted = false;

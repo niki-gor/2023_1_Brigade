@@ -15,11 +15,11 @@ interface Props {
     userAvatar: string;
     onDeleteMessage: (message: DumbMessage) => void;
     onEditMessage: (message: DumbMessage) => void;
-    onSendMessage: (
-        type: MessageTypes,
-        body?: string,
-        image_url?: string
-    ) => void;
+    onSendMessage: (message: {
+        type: MessageTypes;
+        body?: string | undefined;
+        image_url?: string | undefined;
+    }) => void;
 }
 
 interface State {

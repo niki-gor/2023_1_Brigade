@@ -109,7 +109,10 @@ export class DumbMessage extends Component<Props, State> {
             }
         }
 
-        if (this.props.place === 'left') {
+        if (
+            this.props.place === 'left' ||
+            this.props.message.type === MessageTypes.Sticker
+        ) {
             return;
         }
 
@@ -132,9 +135,16 @@ export class DumbMessage extends Component<Props, State> {
     }
 
     render() {
+        // const style = {
+        //     'background-color': '',
+        // };
+
+        // if (this.props.message.body === '') {
+        //     style['background-color'] = 'inherit';
+        // }
         const className = `${this.props.className ?? ''} message__${
             this.props.place
-        }`.trim();
+        } ${this.props.message.body ? '' : 'message--sticker'}`.trim();
 
         return new DOMParser().parseFromString(
             template({

@@ -292,23 +292,22 @@ export class SmartChat extends Component<Props, State> {
         }
     }
 
-    handleClickSendButton(
-        type: MessageTypes,
-        body?: string,
-        image_url?: string
-    ) {
-        if (
-            this.state.domElements.input?.value &&
-            this.chatId &&
-            this.props.user?.id
-        ) {
-            if (this.state.editingMessage) {
+    handleClickSendButton(message: {
+        type: MessageTypes;
+        body?: string;
+        image_url?: string;
+    }) {
+        if (this.chatId && this.props.user?.id) {
+            if (
+                this.state.editingMessage &&
+                message.type !== MessageTypes.Sticker
+            ) {
                 getWs().send({
                     id: this.state.editingMessage?.getMessage().id,
                     action: MessageActionTypes.Edit,
-                    type,
-                    image_url: image_url ?? '',
-                    body: body ?? '',
+                    type: message.type,
+                    image_url: message.image_url ?? '',
+                    body: message.body ?? '',
                     author_id: 0,
                     chat_id: this.chatId,
                 });
@@ -318,9 +317,9 @@ export class SmartChat extends Component<Props, State> {
                 getWs().send({
                     id: '',
                     action: MessageActionTypes.Create,
-                    type,
-                    image_url: image_url ?? '',
-                    body: body ?? '',
+                    type: message.type,
+                    image_url: message.image_url ?? '',
+                    body: message.body ?? '',
                     author_id: this.props.user.id,
                     chat_id: this.chatId,
                 });

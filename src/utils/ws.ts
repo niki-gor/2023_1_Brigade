@@ -5,25 +5,29 @@ const createWs = () => {
     const create = () => {
         ws = new WebSocket('wss://technogramm.ru/api/v1/message/');
 
-        ws.onopen = () => {};
-
-        // Обработчик события получения сообщения от сервера
-        ws.onmessage = (event) => {
-            const e = JSON.parse(event.data);
-            const cb = subscribers.get(e.chat_id);
-            if (cb) {
-                cb(e);
+        ws.onopen = () => {
+            if (!ws) {
+                return;
             }
-        };
 
-        // Обработчик события закрытия соединения
-        ws.onclose = () => {
-            ws = undefined;
-        };
+            // Обработчик события получения сообщения от сервера
+            ws.onmessage = (event) => {
+                const e = JSON.parse(event.data);
+                const cb = subscribers.get(e.chat_id);
+                if (cb) {
+                    cb(e);
+                }
+            };
 
-        // Обработчик события ошибки соединения
-        ws.onerror = () => {
-            ws = undefined;
+            // Обработчик события закрытия соединения
+            ws.onclose = () => {
+                ws = undefined;
+            };
+
+            // Обработчик события ошибки соединения
+            ws.onerror = () => {
+                ws = undefined;
+            };
         };
     };
 

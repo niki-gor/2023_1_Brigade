@@ -70,7 +70,9 @@ export class Img extends Component<Props, State, HTMLElement> {
             this.props.borderRadius
                 ? 'image-border-radius-' + this.props.borderRadius
                 : ''
-        } ${this.props.size ? 'image-' + this.props.size : ''}`.trim();
+        } ${this.props.size ? 'image-' + this.props.size : ''} ${
+            this.props.onClick ? 'image--pointer' : ''
+        }`.trim();
 
         const CaptionBlockStyle = `${this.props.captionBlockStyle} ${
             this.props.figureFlexDirection
@@ -86,6 +88,7 @@ export class Img extends Component<Props, State, HTMLElement> {
                 Caption: this.props.caption ?? '',
                 CaptionStyle: this.props.captionStyle ?? '',
                 CaptionBlockStyle,
+                style: this.props.style,
             }),
             'text/html'
         ).body.firstChild;

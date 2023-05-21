@@ -29,6 +29,12 @@
         margin-bottom: 10px;
     }
 
+    &--sticker {
+        .message__content {
+            background-color: inherit;
+        }
+    }
+
     &__content {
         max-width: 60%;
         flex-direction: column;
@@ -45,7 +51,7 @@
         font-size: 1.2em;
         line-height: 19px;
         color: #FFFFFF;
-        
+
         max-width: 100%;
         word-wrap: break-word;
         word-break: normal;
