@@ -65,6 +65,8 @@ const createNotificationWs = (url: string) => {
                 return;
             }
 
+            ws.send('Hello, world!');
+
             // Обработчик события получения сообщения от сервера
             ws.onmessage = (event) => {
                 const e = JSON.parse(event.data);
