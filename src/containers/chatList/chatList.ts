@@ -116,8 +116,8 @@ export class SmartChatList extends Component<Props, State> {
                     this.state.domElements.inputValue;
             }
 
-            this.state.domElements.input?.addEventListener('input', () => {
-                this.handleSearch();
+            this.state.domElements.input?.addEventListener('keyup', (e) => {
+                this.handleSearch(e);
             });
 
             this.state.domElements.input?.addEventListener('focus', () => {
@@ -332,16 +332,6 @@ export class SmartChatList extends Component<Props, State> {
                 }
             }
 
-            // this.state.domElements.chats?.addEventListener('click', (e) => {
-            //     let chat = e?.target as HTMLElement | null | undefined;
-            //     chat = chat?.closest('.chat-card');
-
-            //     if (chat) {
-            //         this.handleClickOpenChat(chat);
-            //         e.preventDefault();
-            //     }
-            // });
-
             const group = window.document.querySelector(
                 '.dropdown-menu__item-group'
             );
@@ -363,7 +353,9 @@ export class SmartChatList extends Component<Props, State> {
 
     handleInputBlur() {}
 
-    handleSearch() {
+    handleSearch(e: KeyboardEvent) {
+        e.stopPropagation();
+
         if (this.state.domElements.input?.value.trim()) {
             store.dispatch(
                 createSearchChatsAction(

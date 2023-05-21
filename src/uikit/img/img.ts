@@ -5,8 +5,8 @@ import { Component } from '@framework/component';
 interface Props {
     src: string;
     className?: string;
-    borderRadius?: '50' | '25' | '10';
-    size?: 'S' | 'M' | 'L';
+    borderRadius?: '50' | '25' | '10' | '5';
+    size?: 'S' | 'M' | 'L' | 'XL';
     alt?: string;
     caption?: string;
     captionStyle?: string;
