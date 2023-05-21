@@ -62,9 +62,10 @@ export const reduceAddChat = (state: StoreState, action: Action) => {
 export const reduceSetChats = (state: StoreState, action: Action) => {
     switch (action.type) {
         case constantsOfActions.setChats:
+            const payload = action.payload as Record<string, Chat[]>;
             return {
                 ...state,
-                chats: action.payload as Chat[],
+                chats: payload?.chats as Chat[],
             };
         default:
             return {
