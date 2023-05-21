@@ -279,6 +279,8 @@ export class MessageInput extends Component<Props, State> {
         });
 
         input.click();
+
+        this.state.input?.focus();
     }
 
     componentWillUnmount() {
