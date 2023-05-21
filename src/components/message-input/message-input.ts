@@ -168,7 +168,7 @@ export class MessageInput extends Component<Props, State> {
                 this.state.stickers.push(
                     new Img({
                         src: sticker,
-                        borderRadius: '10',
+                        borderRadius: '5',
                         size: 'S',
                         onClick: () => {
                             this.props.onSend({
@@ -200,6 +200,8 @@ export class MessageInput extends Component<Props, State> {
             this.state.input.value.length,
             this.state.input.value.length
         );
+
+        if (this.state.input) this.state.input.value += e.key;
     }
 
     async onSend() {
@@ -266,7 +268,7 @@ export class MessageInput extends Component<Props, State> {
                     this.state.attachmentImg?.destroy();
                     this.state.attachmentImg = new Img({
                         src: imageUrl as string,
-                        borderRadius: '10',
+                        borderRadius: '5',
                         size: 'L',
                         parent,
                     });
@@ -279,6 +281,8 @@ export class MessageInput extends Component<Props, State> {
         });
 
         input.click();
+
+        this.state.input?.focus();
     }
 
     componentWillUnmount() {
