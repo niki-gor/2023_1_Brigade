@@ -20,7 +20,6 @@ import {
     createRenderAction,
 } from '@actions/routeActions';
 import { DYNAMIC, ROOT, SIDEBAR, SIGNUP, STATIC } from '@config/config';
-import { DYNAMIC, ROOT, SIDEBAR, SIGNUP, STATIC } from '@config/config';
 import { createOccupiedEmailAction } from '@/actions/userActions';
 
 interface Props {
