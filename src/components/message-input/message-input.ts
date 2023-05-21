@@ -73,6 +73,18 @@ export class MessageInput extends Component<Props, State> {
 
         this.state.icons.push(
             svgButtonUI.renderTemplate({
+                svgClassName: 'view-chat__add-emoji-sticker',
+            })
+        );
+
+        this.state.icons.push(
+            svgButtonUI.renderTemplate({
+                svgClassName: 'view-chat__add-attachment-button',
+            })
+        );
+
+        this.state.icons.push(
+            svgButtonUI.renderTemplate({
                 svgClassName: 'view-chat__send-message-button',
             })
         );
