@@ -18,13 +18,13 @@ interface Props {
 }
 
 interface State {
-    parent?: HTMLElement;
-    node: HTMLElement | undefined;
+    isMounted: boolean;
 }
 
 export class Img extends Component<Props, State, HTMLElement> {
     constructor(props: Props) {
         super(props);
+        this.state.isMounted = false;
 
         this.node = this.render() as HTMLElement;
         this.componentDidMount();
@@ -32,9 +32,13 @@ export class Img extends Component<Props, State, HTMLElement> {
     }
 
     destroy() {
-        this.componentWillUnmount();
-        this.node?.remove();
-        this.node = undefined;
+        if (this.state.isMounted) {
+            this.componentWillUnmount();
+            this.node?.remove();
+            this.node = undefined;
+        } else {
+            console.error('uikit Img is not mounted');
+        }
     }
 
     componentDidMount() {
@@ -45,6 +49,8 @@ export class Img extends Component<Props, State, HTMLElement> {
         if (this.props.onClick) {
             this.node.addEventListener('click', this.props.onClick);
         }
+
+        this.state.isMounted = true;
     }
 
     componentWillUnmount() {
@@ -55,6 +61,8 @@ export class Img extends Component<Props, State, HTMLElement> {
         if (this.props.onClick) {
             this.node.removeEventListener('click', this.props.onClick);
         }
+
+        this.state.isMounted = false;
     }
 
     render() {
@@ -62,7 +70,9 @@ export class Img extends Component<Props, State, HTMLElement> {
             this.props.borderRadius
                 ? 'image-border-radius-' + this.props.borderRadius
                 : ''
-        } ${this.props.size ? 'image-' + this.props.size : ''}`.trim();
+        } ${this.props.size ? 'image-' + this.props.size : ''} ${
+            this.props.onClick ? 'image--pointer' : ''
+        }`.trim();
 
         const CaptionBlockStyle = `${this.props.captionBlockStyle} ${
             this.props.figureFlexDirection
@@ -78,6 +88,7 @@ export class Img extends Component<Props, State, HTMLElement> {
                 Caption: this.props.caption ?? '',
                 CaptionStyle: this.props.captionStyle ?? '',
                 CaptionBlockStyle,
+                style: this.props.style,
             }),
             'text/html'
         ).body.firstChild;

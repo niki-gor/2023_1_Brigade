@@ -30,7 +30,7 @@ interface Props {
 }
 
 interface State {
-    isSubscribed: boolean;
+    isMounted: boolean;
 
     domElements: {
         list: List | null;
@@ -51,7 +51,7 @@ export class SmartChatList extends Component<Props, State> {
         super(props);
 
         this.state = {
-            isSubscribed: false,
+            isMounted: false,
 
             domElements: {
                 list: null,
@@ -70,8 +70,16 @@ export class SmartChatList extends Component<Props, State> {
         this.node = STATIC();
     }
 
+    destroy() {
+        if (this.state.isMounted) {
+            this.componentWillUnmount();
+        } else {
+            console.error('SmartSignUp is not mounted');
+        }
+    }
+
     render() {
-        if (this.state.isSubscribed && this.props?.user) {
+        if (this.state.isMounted && this.props?.user) {
             if (!this.props?.chats) {
                 this.props.chats = [];
             }
@@ -91,38 +99,6 @@ export class SmartChatList extends Component<Props, State> {
             }
 
             this.state.domElements.list?.componentWillUnmount();
-            // const list = new List({
-            //     parent: this.rootNode,
-            // })
-
-            // list.componentDidMount();
-
-            // this.props.chats.forEach((chat: anyObject) => {
-            //     const chatItem = new ChatItem({
-            //         chat,
-            //         onClick: () => { console.log('onClick', chat.title)},
-            //         parent: list.getNode()
-            //     });
-
-            //     chatItem.componentDidMount();
-            // });
-
-            // const uns = this.unsubscribe.pop();
-            // if (uns) {
-            //     uns();
-            // }
-
-            // const findContactsSelector = document.querySelector('.chats__header') as HTMLElement;
-            // const findContactsInput = findContactsSelector?.querySelector('.chats__header__input__search') as HTMLInputElement;
-            // findContactsInput?.addEventListener('input', this.throttle(() => {
-            //     console.log(findContactsInput?.value);
-            // }, 1000))
-
-            // const findChatsSelector = document.querySelector('.chats__header__input flex') as HTMLElement;
-            // const findChatsInput = findChatsSelector.querySelector('.chats__header__input__search') as HTMLInputElement;
-            // findChatsInput?.addEventListener('input', this.throttle(() => {
-            //     console.log(findChatsInput?.value);
-            // }, 1000))
 
             const ChatListUI = new DumbChatList({
                 chats: [],
@@ -139,8 +115,6 @@ export class SmartChatList extends Component<Props, State> {
                 this.state.domElements.input.value =
                     this.state.domElements.inputValue;
             }
-            // this.state.domElements.dropdownToggle = document.querySelector('.dropdown-toggle');
-            // this.state.domElements.dropdownMenu = document.querySelector('.dropdown-menu');
 
             this.state.domElements.input?.addEventListener('input', () => {
                 this.handleSearch();
@@ -153,17 +127,6 @@ export class SmartChatList extends Component<Props, State> {
             this.state.domElements.input?.addEventListener('blur', () => {
                 this.handleInputBlur();
             });
-
-            // this.state.domElements.dropdownToggle?.addEventListener('click', () => {
-            //     this.state.domElements.dropdownMenu?.classList.toggle('show');
-            // });
-
-            // window.addEventListener('click', (event) => {
-            //     if (event.target instanceof Node && !this.state.domElements.dropdownToggle?.contains(event.target)
-            //         && !this.state.domElements.dropdownMenu?.contains(event.target)) {
-            //         this.state.domElements.dropdownMenu?.classList.remove('show');
-            //     }
-            // });
 
             this.state.domElements.chats =
                 document.querySelector('.empty_chats');
@@ -413,7 +376,7 @@ export class SmartChatList extends Component<Props, State> {
     }
 
     componentDidMount() {
-        if (!this.state.isSubscribed) {
+        if (!this.state.isMounted) {
             this.unsubscribe = store.subscribe(
                 this.constructor.name,
                 (props: Props) => {
@@ -423,8 +386,8 @@ export class SmartChatList extends Component<Props, State> {
                 }
             );
 
-            if (this.state.isSubscribed === false) {
-                this.state.isSubscribed = true;
+            if (this.state.isMounted === false) {
+                this.state.isMounted = true;
             }
 
             store.dispatch(createGetChatsAction());
@@ -432,7 +395,7 @@ export class SmartChatList extends Component<Props, State> {
     }
 
     componentWillUnmount() {
-        if (this.state.isSubscribed) {
+        if (this.state.isMounted) {
             store.dispatch(createDeleteSearchedChatsAction());
 
             this.state.domElements.items?.forEach((item) => {
@@ -446,7 +409,7 @@ export class SmartChatList extends Component<Props, State> {
             this.state.domElements.list = null;
 
             this.unsubscribe();
-            this.state.isSubscribed = false;
+            this.state.isMounted = false;
         }
     }
 

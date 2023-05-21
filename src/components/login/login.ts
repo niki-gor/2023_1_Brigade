@@ -15,7 +15,7 @@ interface Props {
 }
 
 interface State {
-    isSubscribed: boolean;
+    isMounted: boolean;
     parent?: HTMLElement | undefined;
     avatar: Avatar;
     email: Input;
@@ -31,7 +31,7 @@ export class DumbLogin extends Component<Props, State, HTMLElement> {
 
         if (this.props.parent) {
             this.node = this.render() as HTMLElement; // TODO: async/await
-            this.state.isSubscribed = true;
+            this.state.isMounted = true;
             this.state.parent = this.props.parent;
             this.componentDidMount();
             this.props.parent.appendChild(this.node);
@@ -81,6 +81,14 @@ export class DumbLogin extends Component<Props, State, HTMLElement> {
             href: '/login',
             text: `Ещё нет аккаунта? Зарегистрироваться`,
         });
+    }
+
+    destroy() {
+        if (this.state.isMounted) {
+            this.componentWillUnmount();
+        } else {
+            console.error('SmartSignUp is not mounted');
+        }
     }
 
     componentDidMount() {

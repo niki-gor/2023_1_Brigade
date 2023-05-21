@@ -21,6 +21,10 @@
     background: #112235;
     cursor: pointer;
 
+    &--pointer {
+        cursor: pointer;
+    }
+
     &-border-radius {
         &-50 {
             border-radius: 50%;

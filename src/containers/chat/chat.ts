@@ -1,7 +1,6 @@
 import { Component } from '@framework/component';
 import { store } from '@store/store';
 import { DumbChat } from '@components/chat/chat';
-import { DumpMessage } from '@components/message/message';
 import {
     createAddUserInChat,
     createDeleteChatAction,
@@ -20,6 +19,12 @@ import {
 import { ChatTypes, MessageActionTypes, MessageTypes } from '@config/enum';
 import { DYNAMIC } from '@config/config';
 import { notify } from '@/services/notification';
+import { DumbMessage } from '@/components/message/message';
+import {
+    createAddMessageAction,
+    createDeleteMessageAction,
+    createEditMessageAction,
+} from '@/actions/messageActions';
 
 interface Props {
     chatId?: number;
@@ -28,8 +33,9 @@ interface Props {
 }
 
 interface State {
-    isSubscribed: boolean;
-    editingMessageId: string | undefined;
+    chat: DumbChat | undefined;
+    isMounted: boolean;
+    editingMessage: DumbMessage | undefined;
     domElements: {
         input: HTMLInputElement | null;
         submitBtn: HTMLElement | null;
@@ -59,8 +65,9 @@ export class SmartChat extends Component<Props, State> {
         super(props);
 
         this.state = {
-            isSubscribed: false,
-            editingMessageId: undefined,
+            chat: undefined,
+            isMounted: false,
+            editingMessage: undefined,
             domElements: {
                 input: null,
                 submitBtn: null,
@@ -74,28 +81,43 @@ export class SmartChat extends Component<Props, State> {
 
         this.chatId = props.chatId;
         this.node = DYNAMIC();
+
+        this.componentDidMount();
+    }
+
+    destroy() {
+        if (this.state.isMounted) {
+            this.componentWillUnmount();
+        } else {
+            console.error('SmartChat is not mounted');
+        }
     }
 
     /**
      * Рендерит чат
      */
     render() {
-        if (this.state.isSubscribed && this.chatId) {
+        if (this.state.isMounted && this.chatId) {
             if (this.props?.openedChat?.isNotRendered) {
-                const chat = new DumbChat({
+                this.state.chat = new DumbChat({
                     chatData: this.props.openedChat,
                     userId: this.props?.user?.id ?? 0,
                     userAvatar: this.props?.user?.avatar ?? '',
                     chatAvatar: this.props?.openedChat?.avatar,
                     chatTitle: this.props?.openedChat?.title,
+                    onDeleteMessage: this.handleDeleteMessage.bind(this),
+                    onEditMessage: this.handleEditMessage.bind(this),
+                    onSendMessage: this.handleClickSendButton.bind(this),
                 });
 
                 if (this.node) {
-                    this.node.innerHTML = chat.render();
+                    this.node.innerHTML = this.state.chat.render();
+                    this.state.chat.setMessageList();
+                    this.state.chat.setInput();
                 }
 
                 this.state.domElements.input = document.querySelector(
-                    '.input-message__text-field__in'
+                    '.message-input__text-field__in'
                 ) as HTMLInputElement;
                 this.state.domElements.submitBtn = document.querySelector(
                     '.view-chat__send-message-button'
@@ -188,45 +210,23 @@ export class SmartChat extends Component<Props, State> {
                     }
                 );
 
-                const messages = document.querySelector('.view-chat__messages');
+                // this.state.domElements?.input?.addEventListener(
+                //     'keydown',
+                //     (e) => {
+                //         if (e.key === 'Enter' && e.target) {
+                //             this.handleClickSendButton();
+                //         }
+                //     }
+                // );
 
-                messages?.addEventListener('click', (e) => {
-                    const message = e?.target as HTMLElement | null | undefined;
+                // this.state.domElements.submitBtn?.addEventListener(
+                //     'click',
+                //     (e) => {
+                //         e.preventDefault();
 
-                    const messageEdit = message?.closest(
-                        '.edit-message'
-                    ) as HTMLElement;
-                    if (messageEdit) {
-                        this.handleEditMessage(messageEdit);
-                        e.preventDefault();
-                    }
-
-                    const messageDelete = message?.closest(
-                        '.delete-message'
-                    ) as HTMLElement;
-                    if (messageDelete) {
-                        this.handleDeleteMessage(messageDelete);
-                        e.preventDefault();
-                    }
-                });
-
-                this.state.domElements?.input?.addEventListener(
-                    'keydown',
-                    (e) => {
-                        if (e.key === 'Enter' && e.target) {
-                            this.handleClickSendButton();
-                        }
-                    }
-                );
-
-                this.state.domElements.submitBtn?.addEventListener(
-                    'click',
-                    (e) => {
-                        e.preventDefault();
-
-                        this.handleClickSendButton();
-                    }
-                );
+                //         this.handleClickSendButton();
+                //     }
+                // );
 
                 this.state.domElements.deleteBtn?.addEventListener(
                     'click',
@@ -261,129 +261,80 @@ export class SmartChat extends Component<Props, State> {
     }
 
     renderIncomingMessage(message: Message) {
-        if (message.action === MessageActionTypes.Edit) {
-            document
-                .querySelectorAll('.message__right-side__text-content-text')
-                .forEach((mes) => {
-                    if (mes.getAttribute('name') === message.id) {
-                        if (mes.textContent) {
-                            mes.textContent = message.body;
+        switch (message.action) {
+            case MessageActionTypes.Edit:
+                store.dispatch(createEditMessageAction(message));
+                break;
+            case MessageActionTypes.Delete:
+                store.dispatch(createDeleteMessageAction(message));
+                break;
+            case MessageActionTypes.Create:
+                store.dispatch(createAddMessageAction(message));
+
+                this.state.chat?.addMessage(
+                    document.querySelector(
+                        '.view-chat__messages'
+                    ) as HTMLElement,
+                    message
+                );
+
+                if (message.author_id !== this.props.user?.id) {
+                    this.props.openedChat?.members.forEach((member) => {
+                        if (member.id === message.author_id) {
+                            notify(
+                                member.nickname,
+                                message.body,
+                                this.props.openedChat?.avatar ?? ''
+                            );
                         }
-                    }
-                });
-
-            return;
-        }
-
-        if (message.action === MessageActionTypes.Delete) {
-            document.querySelectorAll('.messages__message').forEach((mes) => {
-                if (mes.getAttribute('name') === message.id) {
-                    mes.remove();
+                    });
                 }
-            });
-
-            return;
-        }
-
-        let newMessage;
-
-        if (message.author_id === this.props.user?.id) {
-            const newMes = new DumpMessage({
-                messageSide: true,
-                messageAvatar: this.props.user.avatar,
-                messageContent: message.body,
-                username: this.props.user.nickname,
-                id: message.id,
-            }).render();
-
-            if (newMes) {
-                newMessage = new DOMParser().parseFromString(
-                    newMes,
-                    'text/html'
-                ).body.firstChild as ChildNode;
-            }
-        } else {
-            this.props.openedChat?.members.forEach((member) => {
-                if (member.id === message.author_id) {
-                    const newMes = new DumpMessage({
-                        messageSide: false,
-                        messageAvatar: member.avatar,
-                        messageContent: message.body,
-                        username: member.nickname,
-                        id: message.id,
-                    }).render();
-
-                    if (newMes) {
-                        newMessage = new DOMParser().parseFromString(
-                            newMes,
-                            'text/html'
-                        ).body.firstChild as ChildNode;
-
-                        notify(
-                            member.nickname,
-                            message.body,
-                            this.props.openedChat?.avatar ?? ''
-                        );
-                    }
-                }
-            });
-        }
-
-        if (newMessage) {
-            const parent = document.querySelector('.view-chat__messages');
-            parent?.insertBefore(newMessage, parent.firstChild);
         }
     }
 
-    handleClickSendButton() {
-        const body = this.state.domElements.input?.value.trim();
-        if (!body) {
-            return;
-        }
-
-        if (
-            this.state.domElements.input?.value &&
-            this.chatId &&
-            this.props.user?.id
-        ) {
-            if (this.state.editingMessageId) {
+    handleClickSendButton(message: {
+        type: MessageTypes;
+        body?: string;
+        image_url?: string;
+    }) {
+        if (this.chatId && this.props.user?.id) {
+            if (
+                this.state.editingMessage &&
+                message.type !== MessageTypes.Sticker
+            ) {
                 getWs().send({
-                    id: this.state.editingMessageId,
+                    id: this.state.editingMessage?.getMessage().id,
                     action: MessageActionTypes.Edit,
-                    type: MessageTypes.notSticker,
-                    image_url: '',
-                    body: this.state.domElements.input?.value,
+                    type: message.type,
+                    image_url: message.image_url ?? '',
+                    body: message.body ?? '',
                     author_id: 0,
                     chat_id: this.chatId,
                 });
 
-                this.state.editingMessageId = undefined;
+                this.state.editingMessage = undefined;
             } else {
                 getWs().send({
                     id: '',
                     action: MessageActionTypes.Create,
-                    type: MessageTypes.notSticker,
-                    image_url: '',
-                    body: this.state.domElements.input?.value,
+                    type: message.type,
+                    image_url: message.image_url ?? '',
+                    body: message.body ?? '',
                     author_id: this.props.user.id,
                     chat_id: this.chatId,
                 });
             }
         }
-
-        if (this.state.domElements.input) {
-            this.state.domElements.input.value = '';
-        }
     }
 
-    handleDeleteMessage(e: HTMLElement) {
-        const id = e.getAttribute('name');
-        if (!id || !this.chatId) {
+    handleDeleteMessage(message: DumbMessage) {
+        if (!this.chatId) {
+            console.error('undefined chatId');
             return;
         }
 
         getWs().send({
-            id,
+            id: message.getMessage().id,
             action: MessageActionTypes.Delete,
             type: MessageTypes.notSticker,
             image_url: '',
@@ -393,31 +344,14 @@ export class SmartChat extends Component<Props, State> {
         });
     }
 
-    handleEditMessage(e: HTMLElement) {
-        const id = e.getAttribute('name');
-        if (!id) {
-            return;
-        }
-
-        this.state.editingMessageId = id;
+    handleEditMessage(message: DumbMessage) {
+        this.state.editingMessage = message;
 
         if (!this.state.domElements.input) {
             return;
         }
 
-        document
-            .querySelectorAll('.message__right-side__text-content-text')
-            .forEach((message) => {
-                if (
-                    message.getAttribute('name') == this.state.editingMessageId
-                ) {
-                    if (message.textContent && this.state.domElements.input) {
-                        this.state.domElements.input.value =
-                            message.textContent;
-                    }
-                }
-            });
-
+        this.state.domElements.input.value = message.getMessage().body;
         this.state.domElements.input.focus();
     }
 
@@ -432,7 +366,7 @@ export class SmartChat extends Component<Props, State> {
     }
 
     componentDidMount() {
-        if (!this.state.isSubscribed) {
+        if (!this.state.isMounted) {
             if (this.chatId) {
                 this.unsubscribeFromWs = getWs().subscribe(
                     this.chatId,
@@ -448,8 +382,8 @@ export class SmartChat extends Component<Props, State> {
                     }
                 );
 
-                if (this.state.isSubscribed === false) {
-                    this.state.isSubscribed = true;
+                if (this.state.isMounted === false) {
+                    this.state.isMounted = true;
                 }
 
                 store.dispatch(createGetOneChatAction({ chatId: this.chatId }));
@@ -461,14 +395,19 @@ export class SmartChat extends Component<Props, State> {
                 if (this.node) {
                     this.node.innerHTML = emptyUI.render();
                 }
+
+                if (this.state.isMounted === false) {
+                    this.state.isMounted = true;
+                }
             }
         }
     }
 
     componentWillUnmount() {
-        if (this.state.isSubscribed) {
+        if (this.state.isMounted) {
             this.unsubscribe();
-            this.state.isSubscribed = false;
+            this.state.chat?.destroy();
+            this.state.isMounted = false;
         }
     }
 }
