@@ -17,7 +17,6 @@ interface Action {
         | Chat[]
         | OpenedChat
         | Message
-        | Record<string, boolean>
         | null
         | undefined
         | {
@@ -26,7 +25,17 @@ interface Action {
               title: string;
               members: (number | undefined)[];
           }
-        | Record<string, unknown>;
+        | Record<
+              string,
+              | User
+              | User[]
+              | Chat
+              | Chat[]
+              | OpenedChat
+              | Message
+              | boolean
+              | unknown
+          >;
 }
 
 interface AsyncAction {
