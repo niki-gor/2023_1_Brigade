@@ -20,6 +20,10 @@
     border-radius: 50%;
     background: #112235;
 
+    &--pointer {
+        cursor: pointer;
+    }
+
     &-border-radius {
         &-50 {
             border-radius: 50%;

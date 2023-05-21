@@ -27,9 +27,14 @@ export const createAuthAction = (): AsyncAction => {
 
                 getWs();
 
-                getSidebar();
-                Chats.componentDidMount();
-                DYNAMIC().classList.add('flex-grow-1');
+                if (
+                    window.location.pathname !== '/signup' &&
+                    window.location.pathname !== '/login'
+                ) {
+                    getSidebar();
+                    Chats.componentDidMount();
+                    DYNAMIC().classList.add('flex-grow-1');
+                }
 
                 router.route(window.location.pathname);
 
