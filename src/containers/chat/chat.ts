@@ -266,17 +266,17 @@ export class SmartChat extends Component<Props, State> {
                     message
                 );
 
-                if (message.author_id !== this.props.user?.id) {
-                    this.props.openedChat?.members.forEach((member) => {
-                        if (member.id === message.author_id) {
-                            notify(
-                                member.nickname,
-                                message.body,
-                                this.props.openedChat?.avatar ?? ''
-                            );
-                        }
-                    });
-                }
+            // if (message.author_id !== this.props.user?.id) {
+            //     this.props.openedChat?.members.forEach((member) => {
+            //         if (member.id === message.author_id) {
+            //             notify(
+            //                 member.nickname,
+            //                 message.body,
+            //                 this.props.openedChat?.avatar ?? ''
+            //             );
+            //         }
+            //     });
+            // }
         }
     }
 
