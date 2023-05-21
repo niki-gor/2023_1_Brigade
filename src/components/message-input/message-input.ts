@@ -12,9 +12,13 @@ interface Props {
 }
 
 interface State {
+    isMounted: boolean;
     icons: string[];
     sendButton: HTMLElement | null;
-    img?: Img;
+    emojiButton: HTMLElement | null;
+    attachmentButton: HTMLElement | null;
+    attachmentImg?: Img;
+    attachmentFile?: File;
 }
 
 export class MessageInput extends Component<Props, State> {
@@ -22,8 +26,11 @@ export class MessageInput extends Component<Props, State> {
         super(props);
 
         this.state = {
+            isMounted: false,
             icons: [],
             sendButton: null,
+            emojiButton: null,
+            attachmentButton: null,
         };
 
         this.node = this.render() as HTMLElement;
@@ -41,9 +48,13 @@ export class MessageInput extends Component<Props, State> {
     }
 
     destroy() {
-        this.componentWillUnmount();
-        this.node?.remove();
-        this.node = undefined;
+        if (this.state.isMounted) {
+            this.componentWillUnmount();
+            this.node?.remove();
+            this.node = undefined;
+        } else {
+            console.error('MessageInput is not mounted');
+        }
     }
 
     componentDidMount() {
@@ -51,11 +62,61 @@ export class MessageInput extends Component<Props, State> {
             return;
         }
 
+        this.state.emojiButton = this.node.querySelector(
+            '.view-chat__add-emoji-sticker'
+        );
+        this.state.attachmentButton = this.node.querySelector(
+            '.view-chat__add-attachment-button'
+        );
         this.state.sendButton = this.node.querySelector(
             '.view-chat__send-message-button'
         );
 
+        this.state.emojiButton?.addEventListener(
+            'click',
+            this.onEmoji.bind(this)
+        );
+        this.state.attachmentButton?.addEventListener(
+            'click',
+            this.onAttachment.bind(this)
+        );
         this.state.sendButton?.addEventListener('click', this.props.onSend);
+
+        this.state.isMounted = true;
+    }
+
+    onEmoji() {
+        // TODO
+    }
+
+    onAttachment() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.jpg';
+
+        input.addEventListener('change', () => {
+            this.state.attachmentFile = input?.files?.[0];
+            if (this.state.attachmentFile) {
+                const reader = new FileReader();
+                reader.readAsDataURL(this.state.attachmentFile);
+                reader.onload = () => {
+                    const imageUrl = reader.result;
+                    const parent = document.querySelector(
+                        '.message-input__attachment'
+                    ) as HTMLImageElement;
+
+                    this.state.attachmentImg?.destroy();
+                    this.state.attachmentImg = new Img({
+                        src: imageUrl as string,
+                        borderRadius: '10',
+                        size: 'L',
+                        parent,
+                    });
+                };
+            }
+        });
+
+        input.click();
     }
 
     componentWillUnmount() {
@@ -63,9 +124,19 @@ export class MessageInput extends Component<Props, State> {
             return;
         }
 
+        this.state.emojiButton?.removeEventListener(
+            'click',
+            this.onEmoji.bind(this)
+        );
+        this.state.attachmentButton?.removeEventListener(
+            'click',
+            this.onAttachment.bind(this)
+        );
         this.state.sendButton?.removeEventListener('click', this.props.onSend);
 
-        this.state.img?.destroy();
+        this.state.attachmentImg?.destroy();
+
+        this.state.isMounted = false;
     }
 
     render() {
