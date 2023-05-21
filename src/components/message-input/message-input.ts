@@ -235,6 +235,9 @@ export class MessageInput extends Component<Props, State> {
             this.state.input.value = '';
             this.state.attachmentFile = undefined;
             this.state.attachmentImg?.destroy();
+            this.node
+                ?.querySelector('.message-input__attachment')
+                ?.classList.remove('message-input__attachment--show');
         }
     }
 
