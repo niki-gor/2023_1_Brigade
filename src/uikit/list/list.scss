@@ -4,11 +4,6 @@
     justify-content: flex-start;
 }
 
-.sidebar-header__list {
-    
-}
-
-
 .sidebar-header__list__item {
     background-color: (0, 0, 0, 0.3);
     width: 60px;
@@ -17,4 +12,13 @@
     flex: none;
     order: 3;
     flex-grow: 0;
+}
+
+
+.popup__btn-list {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    overflow: hidden;
 }

@@ -3,9 +3,14 @@ import { store } from '@/store/store';
 import template from '@components/popup/popup.pug';
 import '@components/popup/popup.scss';
 import { Button } from '@uikit/button/button';
+import { List } from '@uikit/list/list';
 
 interface Props {
     parent: HTMLElement;
+    title?: string;
+    className?: string;
+    confirmBtnText?: string;
+    cancelBtnText?: string;
     style?: Record<string, string | number>;
     confirmLogoutOnClick: (e?: Event) => void;
     cancelLogoutOnClick: (e?: Event) => void;
@@ -13,6 +18,7 @@ interface Props {
 
 interface State {
     isMounted: boolean;
+    btnList: List;
     confirmBtn: Button;
     cancelBtn: Button;
 }
@@ -57,15 +63,22 @@ export class Popup extends Component<Props, State, HTMLElement> {
             return;
         }
 
+        this.state.btnList = new List({
+            parent: document.querySelector('.popup__content') as HTMLElement,
+            className: 'popup__btn-list',
+        })
+
         this.state.confirmBtn = new Button({
-            parent: this.node,
-            className: 'sidebar-header__chats-btn sidebar-header__list__item',
+            parent: document.querySelector('.popup__btn-list') as HTMLElement,
+            className: 'popup__btn confirm__btn button-S',
+            label: this.props.confirmBtnText,
             onClick: this.props.confirmLogoutOnClick,
         });
 
         this.state.cancelBtn = new Button({
-            parent: this.node,
-            className: 'sidebar-header__contacts-btn sidebar-header__list__item',
+            parent: document.querySelector('.popup__btn-list') as HTMLElement,
+            className: 'popup__btn cancel__btn button-S',
+            label: this.props.cancelBtnText,
             onClick: this.props.cancelLogoutOnClick,
         });
 
@@ -87,12 +100,17 @@ export class Popup extends Component<Props, State, HTMLElement> {
 
         this.state.confirmBtn.destroy();
         this.state.cancelBtn.destroy();
+        this.state.btnList.destroy();
 
         this.state.isMounted = false;
     }
 
     private render() {
-        return new DOMParser().parseFromString(template({}), 'text/html').body
+        return new DOMParser().parseFromString(template({
+            ClassName: this.props.className,
+            Title: this.props.title,
+            Content: '',
+        }), 'text/html').body
             .firstChild;
     }
 }
