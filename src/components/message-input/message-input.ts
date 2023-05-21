@@ -200,6 +200,8 @@ export class MessageInput extends Component<Props, State> {
             this.state.input.value.length,
             this.state.input.value.length
         );
+
+        if (this.state.input) this.state.input.value += e.key;
     }
 
     async onSend() {
