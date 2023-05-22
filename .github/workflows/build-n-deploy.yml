@@ -1,4 +1,4 @@
-name: CI/CD
+name: build-n-deploy
 
 on:
   push:
@@ -7,16 +7,16 @@ on:
       - dev
 
 jobs:
-  build-and-deploy:
+  build-n-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
       
-      - name: Use Node.js v9.x
+      - name: Use Node.js v9.4.0
         uses: actions/setup-node@v2
         with:
-          node-version: 9.x
+          node-version: '9.4.0'
         
       - name: Install Dependencies
         run: |
