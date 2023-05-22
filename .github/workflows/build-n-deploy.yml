@@ -13,10 +13,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       
-      - name: Use Node.js v9.4.0
+      - name: Use Node.js v19.6.0
         uses: actions/setup-node@v2
         with:
-          node-version: '9.4.0'
+          node-version: '19.6.0'
         
       - name: Install Dependencies
         run: |
