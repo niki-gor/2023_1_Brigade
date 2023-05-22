@@ -28,6 +28,7 @@ interface Props {
 
 interface State {
     isMounted: boolean;
+
     node?: DumbProfile;
 }
 
@@ -41,6 +42,7 @@ export class SmartProfile extends Component<Props, State> {
      * @param {Object} props - параметры компонента
      */
     constructor(props: Props) {
+        DYNAMIC().innerHTML = '';
         super(props);
         this.state.isMounted = false;
         this.profile = null;
@@ -53,15 +55,16 @@ export class SmartProfile extends Component<Props, State> {
 
     private profile: DumbProfile | null;
     private image: File | undefined;
-
     destroy() {
         if (this.state.isMounted) {
             this.componentWillUnmount();
-            // this.node?.remove();
-            // this.node = undefined;
         } else {
             console.error('SmartProfile is not mounted');
         }
+    }
+
+    hookUser(state: StoreState) : User | undefined {
+        return state.user ?? undefined;
     }
 
     render() {
@@ -78,6 +81,8 @@ export class SmartProfile extends Component<Props, State> {
 
         this.state.node = new DumbProfile({
             parent: this.node,
+            user: this.hookUser(store.getState()),
+            hookUser: this?.hookUser,
         });
     }
 

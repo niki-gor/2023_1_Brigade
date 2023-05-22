@@ -28,9 +28,12 @@ interface State {
 }
 
 export class DumbSidebar extends Component<Props, State, HTMLElement> {
+    private prevProps: any;
+
     constructor(props: Props) {
         super(props);
         this.state.isMounted = false;
+        this.prevProps = null;
 
         this.node = this.render() as HTMLElement;
         this.props.parent.appendChild(this.node);
@@ -109,10 +112,10 @@ export class DumbSidebar extends Component<Props, State, HTMLElement> {
         });
 
         this.unsubscribe = store.subscribe(this.constructor.name, (state) => {
-            const prevProps = this.props;
+            this.prevProps = this.props;
             this.props.avatar = this.props.hookAvatar(state);
 
-            if (this.props !== prevProps) {
+            if (this.props !== this.prevProps) {
                 this.update();
             }
         });

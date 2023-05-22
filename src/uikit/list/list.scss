@@ -17,8 +17,13 @@
 
 .popup__btn-list {
     flex-direction: row;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
     z-index: 1;
     overflow: hidden;
+}
+
+.profile__form__list {
+    flex-direction: row;
+    justify-content: space-between;
 }

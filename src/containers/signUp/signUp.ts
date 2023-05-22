@@ -102,7 +102,7 @@ export class SmartSignUp extends Component<Props, State> {
      * Рендерит логин
      */
     render() {
-        if (this.state.isSubscribed && !SIGNUP()) {
+        if (this.state.isMounted && !SIGNUP()) {
             STATIC().innerHTML = DYNAMIC().innerHTML = SIDEBAR().innerHTML = '';
             new DumbSignUp({
                 parent: ROOT(),
