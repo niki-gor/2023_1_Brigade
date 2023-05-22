@@ -1,0 +1,36 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Use Node.js v9.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 9.x
+        
+      - name: Install Dependencies
+        run: |
+          npm install
+
+      - name: Build
+        run: |
+          npm run build
+
+      - name: Copy dist folder to server
+        uses: easingthemes/ssh-copy-action@v2.1.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          username: ${{ secrets.USERNAME }}
+          host: ${{ secrets.HOST }}
+          source: dist/
+          target: ${{ secrets.TARGET }}
