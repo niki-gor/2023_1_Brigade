@@ -3,4 +3,4 @@
 repo="$(git rev-parse --show-toplevel)"
 rm -rf "$repo"/.git/hooks/{pre-commit,pre-push}
 
-echo Hooks removed: {pre-commit,pre-push}
+echo Hooks removed: {pre-commit,pre-push} 
