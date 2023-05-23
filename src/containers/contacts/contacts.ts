@@ -3,7 +3,6 @@ import { store } from '@store/store';
 import { createGetContactsAction } from '@actions/contactsActions';
 import { DumbContacts } from '@components/contacts/contacts';
 import { createCreateDialogAction } from '@actions/chatActions';
-import { createMoveToChatsAction } from '@actions/routeActions';
 import { STATIC } from '@config/config';
 
 interface Props {
